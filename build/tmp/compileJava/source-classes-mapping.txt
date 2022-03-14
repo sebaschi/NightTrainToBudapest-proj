@@ -1,8 +1,0 @@
-ch/unibas/dmi/dbis/cs108/example/gui/javafx/GUI.java
- ch.unibas.dmi.dbis.cs108.example.gui.javafx.GUI
-ch/unibas/dmi/dbis/cs108/example/HelloWorld.java
- ch.unibas.dmi.dbis.cs108.example.HelloWorld
-ch/unibas/dmi/dbis/cs108/example/gui/swing/SwingGUI.java
- ch.unibas.dmi.dbis.cs108.example.gui.swing.SwingGUI
-ch/unibas/dmi/dbis/cs108/example/gui/javafx/Main.java
- ch.unibas.dmi.dbis.cs108.example.gui.javafx.Main
