@@ -1,3 +1,5 @@
+package ch.unibas.dmi.dbis.cs108.BudaClientServerStuff;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;

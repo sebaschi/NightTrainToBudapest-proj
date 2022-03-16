@@ -1,4 +1,4 @@
-
+package ch.unibas.dmi.dbis.cs108.BudaClientServerStuff;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -13,8 +13,7 @@ public class BudaServer {
     public static void main(String[] args) {
         ServerConnector ServC = new ServerConnector();
         Thread ServCThread = new Thread(ServC);
-        ServCThread.start();
-        System.out.println("Server has entered its main loop");
+        ServCThread.start();            //the ServCThread listens for new connections so the server can do other things
         while (!quit) {
             //Main server stuff goes here
         }
