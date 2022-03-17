@@ -13,7 +13,7 @@ public class GhostNPC extends Ghost{
         this.position = position;
         this.sock = null;
         isGhost = true;
-        isPlayerCharacter = false;
+        isPlayer = false;
         kickedOff = false;
         if (name == null) {
             this.name = "Robot Nr. " + position;

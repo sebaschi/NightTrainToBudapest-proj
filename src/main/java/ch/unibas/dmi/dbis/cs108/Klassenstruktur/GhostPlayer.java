@@ -16,10 +16,14 @@ public class GhostPlayer extends Ghost{
         this.sock = sock;
         this.isOG = isOG;
         isGhost = true;
-        isPlayerCharacter = true;
+        isPlayer = true;
         kickedOff = false;
         if (name == null) {
             this.name = "Human Nr. " + position;
         } else this.name = name;
+    }
+
+    public void send(String msg) {
+        //todo: pass message along to client.
     }
 }
