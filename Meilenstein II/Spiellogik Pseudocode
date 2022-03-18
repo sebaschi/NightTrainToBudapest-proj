@@ -1,0 +1,32 @@
+PreGame:
+int spielerzahl = 6; //Default setting
+
+
+Fill train -> Randomize
+    String[] fillTrain(int spielerzahl, String... usernames) //... arbitrary amount of usernames, gives Array I think^^
+        if spielerzahl < #usernames
+            throw some sort of exception
+
+        String[] userTrain = new Strin[spielerzahl];
+        for (int i = 0; i < spielerzahl; i++)
+            Randomliy choose one username
+                ->Maybe: Random nr. 0-spielerzahl
+                if randomnr hasnt been used before
+                    userTrain[i] = usernames[randomnr]
+
+        return userTrain
+
+
+
+
+
+
+
+Gostyfy
+
+Throw out
+
+Vote
+
+Ghost vote needs validation (only humans can be chosen)
+
