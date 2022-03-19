@@ -3,23 +3,24 @@ int spielerzahl = 6; //Default setting
 
 
 Fill train -> Randomize
-    String[] fillTrain(int spielerzahl, String... usernames) //... arbitrary amount of usernames, gives Array I think^^
-        if spielerzahl < #usernames
+/**
+Creats an array of random numbers 1 - spielerzahl
+**/
+    int[] fillTrain(int spielerzahl) //... arbitrary amount of users, gives Array I think^^
+        if spielerzahl < #users
             throw some sort of exception
 
-        String[] userTrain = new Strin[spielerzahl];
-        for (int i = 0; i < spielerzahl; i++)
-            Randomliy choose one username
-                ->Maybe: Random nr. 0-spielerzahl
+        int[] userTrain = new int[spielerzahl];
+        for (int i = 0; i < spielerzahl; i++) //
+                Random nr. 1-6
                 if randomnr hasnt been used before
-                    userTrain[i] = usernames[randomnr]
+                    userTrain[i] = randomnr.
+                else ? //find a way either increase number or whatever to handle this case
 
         return userTrain
 
-
-
-
-
+Create Passengers -> use fillTrain array to position one after another
+        Start with clients till we run out, then create npc'
 
 
 Gostyfy
