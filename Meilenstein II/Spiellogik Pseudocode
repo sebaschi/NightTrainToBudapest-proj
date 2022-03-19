@@ -1,4 +1,5 @@
-PreGame:
+PRE GAME:
+----------------------------------------------------
 int spielerzahl = 6; //Default setting
 
 
@@ -21,13 +22,31 @@ Creats an array of random numbers 1 - spielerzahl
 
 Create Passengers -> use fillTrain array to position one after another
         Start with clients till we run out, then create npc'
+        Save Passengers in an array (Positions corresponding to index+1)
 
 
-Gostyfy
+Gostyfy first time, create first ghost
 
-Throw out
+IN GAME
+----------------------------------------
+Night:
+Vote Ghosts (can only vote for non-Ghosts os needs to be verified)
+-> Timer!
+-> last Human? -> End of the Game (break out of a loop?) "Ghosts win"
+Ghostyfycation
+Send Messages ("You have been ghostyfied", "You heard something suspicious")
 
-Vote
+Day:
+Vote Humans (Ghost votes don't count)
+->Timer!
+-> OG Ghost? -> End of the Game "Humans Win"
+Evtl. kickoff (non OG-Ghosts)
+Send Messages ("X Has been kicked off", "Not a Ghost")
 
-Ghost vote needs validation (only humans can be chosen)
+repeat
+
+
+How do we handle the End of the Game?
+
+
 
