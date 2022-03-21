@@ -1,12 +1,8 @@
 package ch.unibas.dmi.dbis.cs108.Multiplayer.Server;
 
-import ch.unibas.dmi.dbis.cs108.Multiplayer.Client.Client;
-
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.HashMap;
-import java.util.HashSet;
 
 public class Server {
 
@@ -21,12 +17,13 @@ public class Server {
         try {
 
 
-            while (true) {
+            while (!serverSocket.isClosed()) {
                 Socket socket = serverSocket.accept();
                 System.out.println("Port 42069 open on ");
                 ClientHandler nextClient = new ClientHandler(socket);
 
                 Thread th = new Thread(nextClient);
+                th.start();
             }
         } catch (IOException e) {
             e.printStackTrace();
