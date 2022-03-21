@@ -40,6 +40,7 @@ public class Passenger {
         return position;
     }
 
+
     public String getName() {
         return name;
     }
