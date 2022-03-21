@@ -1,27 +1,61 @@
 package ch.unibas.dmi.dbis.cs108.Multiplayer.Server;
 
-import java.io.IOException;
+import ch.unibas.dmi.dbis.cs108.Multiplayer.Client.Client;
+
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class Server {
 
     private static final int gamePort = 42069;
-    private static int clientIndex = 0;
-    private HashMap<String, Integer> nameToIndex = new HashMap<>();
-    private HashMap<Integer, ClientHandler> indexToHandler = new HashMap<>();
+    private ServerSocket serverSocket;
 
-    public static void main(String[] args) {
+    public Server(ServerSocket serverSocket) {
+        this.serverSocket = serverSocket;
+    }
 
+    public void startServer() {
         try {
-            ServerSocket gameServer = new ServerSocket(gamePort);
-            System.out.println("Waiting for a connection on Port 42069");
-            while(true) {
-                Socket client = gameServer.accept();
+
+
+            while (true) {
+                Socket socket = serverSocket.accept();
+                System.out.println("Port 42069 open on ");
+                ClientHandler nextClient = new ClientHandler(socket);
+
+                Thread th = new Thread(nextClient);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+    }
+
+    public void closeServerSocket() {
+        try {
+            if (serverSocket != null){
+                serverSocket.close();
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void main(String[] args) {
+        ServerSocket serverSocket = null;
+        try {
+            serverSocket = new ServerSocket(gamePort);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Server server = new Server(serverSocket);
+        server.startServer();
+    }
+
+    public static void broadcast(String msg){
+        //TODO
     }
 }
