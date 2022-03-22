@@ -43,6 +43,10 @@ public class ClientHandler implements Runnable{
         }
     }
 
+    public String getClientUserName() {
+        return clientUserName;
+    }
+
     public void broadcastMessage(String msg) {
         for (ClientHandler client : clientHandlers) {
             try {
