@@ -1,5 +1,7 @@
 package ch.unibas.dmi.dbis.cs108.Klassenstruktur;
 
+import ch.unibas.dmi.dbis.cs108.Multiplayer.Server.ClientHandler;
+
 import java.net.Socket;
 
 public class Passenger {
@@ -8,9 +10,7 @@ public class Passenger {
     protected Boolean isGhost;            //boolean regarding if the player is a ghost. Could probably be removed since ghost is a subclass but I'm keeping it in.
     protected Boolean isPlayer;           //same here
     protected Boolean kickedOff;          //true if the player has been voted off.
-    protected Socket sock;                //the socket for the client associated with this Passenger, for NPCs, this can be null.
-    //todo: maybe this should be a thread or some class instead of a socket? depends on client-server structure...
-
+    protected ClientHandler clientHandler;                //the socket for the client associated with this Passenger, for NPCs, this can be null.
 
     /**
      * Sends a protocol message to the respective player.
@@ -55,5 +55,9 @@ public class Passenger {
 
     public Boolean getIsPlayer() {
         return isPlayer;
+    }
+
+    public ClientHandler getClientHandler() {
+        return clientHandler;
     }
 }
