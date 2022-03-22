@@ -11,7 +11,7 @@ public class GhostNPC extends Ghost{
     public GhostNPC(int position, String name, boolean isOG) {
         this.isOG = isOG;
         this.position = position;
-        this.sock = null;
+        this.clientHandler = null;
         isGhost = true;
         isPlayer = false;
         kickedOff = false;

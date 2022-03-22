@@ -9,7 +9,7 @@ public class HumanNPC extends Human {
      */
     public HumanNPC(int position, String name) {
         this.position = position;
-        this.sock = null;
+        this.clientHandler = null;
         isGhost = false;
         isPlayer = false;
         kickedOff = false;
