@@ -33,7 +33,11 @@ public class ClientHandler implements Runnable{
 
         while(socket.isConnected()) {
             try {
+
                 msg = in.readLine();
+                if( msg.equals("QUIT")){
+                    broadcastMessage("Client: " + clientUserName + " has left the Server");
+                }
                 broadcastMessage(msg);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -51,7 +55,7 @@ public class ClientHandler implements Runnable{
                     client.out.newLine();
                     client.out.flush();
                 } else {
-                    client.out.write("Message +" + msg + "* sent!");
+                    client.out.write("Message: **" + msg + "** sent!");
                     client.out.newLine();
                     client.out.flush();
                 }

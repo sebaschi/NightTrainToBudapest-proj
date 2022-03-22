@@ -3,11 +3,13 @@ package ch.unibas.dmi.dbis.cs108.Multiplayer.Server;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class Server {
 
     private static final int gamePort = 42069;
     private ServerSocket serverSocket;
+    Scanner sc = new Scanner(System.in);
 
     public Server(ServerSocket serverSocket) {
         this.serverSocket = serverSocket;
@@ -15,15 +17,16 @@ public class Server {
 
     public void startServer() {
         try {
-
-
+            System.out.println("Port 42069 open on ");
             while (!serverSocket.isClosed()) {
+                if(sc.next().equalsIgnoreCase("quit")) {
+                    this.closeServerSocket();
+                }
                 Socket socket = serverSocket.accept();
-                System.out.println("Port 42069 open on ");
                 ClientHandler nextClient = new ClientHandler(socket);
-
                 Thread th = new Thread(nextClient);
                 th.start();
+
             }
         } catch (IOException e) {
             e.printStackTrace();
