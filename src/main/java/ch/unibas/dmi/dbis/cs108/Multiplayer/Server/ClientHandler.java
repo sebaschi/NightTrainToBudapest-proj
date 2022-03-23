@@ -5,13 +5,15 @@ import java.net.Socket;
 import java.util.HashSet;
 import java.util.Scanner;
 
-public class ClientHandler implements Runnable{
+public class ClientHandler implements Runnable  {
     private String clientUserName;
     private BufferedWriter out;
     private BufferedReader in;
     private Socket socket;
     Scanner sc;
     public static HashSet<ClientHandler> clientHandlers = new HashSet<>();
+    public static HashSet<ClientHandler> inGameClients = new HashSet<>();
+    public static HashSet<ClientHandler> ghostClients = new HashSet<>();
 
     public ClientHandler(Socket socket) {
         try {
@@ -35,8 +37,9 @@ public class ClientHandler implements Runnable{
             try {
 
                 msg = in.readLine();
-                if( msg.equals("QUIT")){
+                if( msg.equalsIgnoreCase("QUIT")){
                     broadcastMessage("Client: " + clientUserName + " has left the Server");
+                    removeClientHandler();
                 }
                 broadcastMessage(msg);
             } catch (IOException e) {
@@ -90,5 +93,9 @@ public class ClientHandler implements Runnable{
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void decodeMsg(String msg){
+
     }
 }

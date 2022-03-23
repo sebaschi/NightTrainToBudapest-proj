@@ -8,7 +8,7 @@ public class Client {
 
     private Socket socket;
     private BufferedReader in;
-    private  BufferedWriter out;
+    private BufferedWriter out;
     public String userName;
 
     public Client(Socket socket, String userName) {
@@ -25,14 +25,10 @@ public class Client {
 
     public void sendMessage() {
         try {
-            out.write(userName);
-            out.newLine();
-            out.flush();
-
             Scanner sc = new Scanner(System.in);
             while (socket.isConnected()) {
                 String msg = sc.nextLine();
-                out.write(userName + ": " + msg);
+                out.write(userName + "says: " + msg);
                 out.newLine();
                 out.flush();
             }
