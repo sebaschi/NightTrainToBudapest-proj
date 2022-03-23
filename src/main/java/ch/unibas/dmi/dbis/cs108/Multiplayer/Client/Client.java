@@ -8,7 +8,7 @@ public class Client {
 
     private Socket socket;
     private BufferedReader in;
-    private  BufferedWriter out;
+    private BufferedWriter out;
     public String userName;
 
     public Client(Socket socket, String userName) {
