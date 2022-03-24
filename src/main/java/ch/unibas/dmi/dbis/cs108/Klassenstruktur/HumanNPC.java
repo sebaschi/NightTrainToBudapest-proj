@@ -2,7 +2,7 @@ package ch.unibas.dmi.dbis.cs108.Klassenstruktur;
 
 public class HumanNPC extends Human {
     /**
-     * Creates a new GhostNPC. Should be used at game start or if a HumanNPC is turned into a ghost.
+     * Creates a new HumanNPC.
      * @param position position on the train
      * @param name player name. if null, then a default name is used.
      *
