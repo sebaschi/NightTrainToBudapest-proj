@@ -19,7 +19,7 @@ public class Server {
 
     public void startServer() {
         try {
-            System.out.println("Port 42069 open on ");
+            System.out.println("Port 42069 is open on " + this.serverSocket.getInetAddress());
             while (!serverSocket.isClosed()) {
                 Socket socket = serverSocket.accept();
                 ClientHandler nextClient = new ClientHandler(socket);
