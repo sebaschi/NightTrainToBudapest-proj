@@ -105,3 +105,55 @@ Zusammenfassung:
 - Netzwerktopologie für das Spiel: Stern
 
 
+
+24.03.2022 -alle Gruppenmitglieder
+
+Stand:
+Client und Server Skelette stehen, und ein Broadcast von Chatnachrichten ist möglich.
+Allerdings werden die Nachrichten noch als einfacher String übermittelt und noch nicht im richtigen Protokollformat
+(d.h. nur chatten ist möglich, es gibt noch keine Befehle). 
+
+Wer macht Was?
+
+Seraina: bis 25.4 Abends
+• QA-Concept 
+• Fortfahren mit Spiellogik
+
+
+Sebastian: bis 25.4 Abends
+Protocol 
+• Formatter /Parser(Namingconvention überlegen)
+	o Format: COMND$parameter(i.e. Name)$parameter(i.e. msg)
+	
+• Chat	
+• Encoding
+• Enum: All Legal Protocol Commands
+
+
+Jonas: bis 25.4 Abends
+• PingPong-Funktionalität 
+	o PingPong handler
+	o Every two seconds (what is the standard?)
+	o Listening for Answer
+	o Separate threads?
+	o What do you do when nothing comes back? (Log off? Wait? Ping again?)
+
+•Erweiterung von Localhost auf IP für Hamachi 
+	o assign Ip (maybe port) method ?
+
+
+Alexandr: bis 26.4 Abends
+• Automatic username assignment
+• Username duplicate handler
+	o Login -> username? -> check -> username01
+
+• Client logout handling
+	o Meaningful handling
+
+
+
+Rule: Alles was geht in eigene Klassen Methoden schreiben. Soviel wie möglich commiten mit Aufschlussreichen messages.
+
+Nächste Absprache Fr 25.4 Abends
+
+
