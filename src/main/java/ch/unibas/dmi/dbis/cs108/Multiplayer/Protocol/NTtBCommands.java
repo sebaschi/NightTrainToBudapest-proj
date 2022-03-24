@@ -15,5 +15,5 @@ public enum NTtBCommands {
      * QUITS: quit server/ leave servr
      * LISTP: list players/clients in session with the Server
      */
-    CRTGM, CHATA, CHATW, CHATG, LEAVG, JOING, VOTEG, QUITS, LISTP
+    CRTGM, CHATA, CHATW, CHATG, LEAVG, JOING, VOTEG, QUITS, LISTP, CUSRN
 }

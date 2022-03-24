@@ -28,7 +28,8 @@ public class Client {
             Scanner sc = new Scanner(System.in);
             while (socket.isConnected()) {
                 String msg = sc.nextLine();
-                out.write(userName + "says: " + msg);
+                String encodedMsg = encodeMessage(msg);
+                out.write(encodedMsg);
                 out.newLine();
                 out.flush();
             }
@@ -36,6 +37,18 @@ public class Client {
             e.printStackTrace();
             closeEverything(socket, in, out);
         }
+    }
+
+    /**
+     * Uses <code>NTtBProtocolParser</code> to turn Client
+     * input into the NTtB Protocol format.
+     * Must be called before a client input is sent to the server.
+     * @param msg the msg to be encoded.
+     * @return Message encoded adhering to the NTtB Protocoll.
+     */
+    private String encodeMessage(String msg) {
+        NTtBProtocolParser pp = new NTtBProtocolParser(this);
+        return pp.parseMsg(msg);
     }
 
     public void chatListener() {
@@ -88,5 +101,9 @@ public class Client {
             e.printStackTrace();
         }
 
+    }
+
+    public String getUsername() {
+        return userName;
     }
 }
