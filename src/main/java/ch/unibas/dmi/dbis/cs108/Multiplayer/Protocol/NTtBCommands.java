@@ -1,6 +1,7 @@
 package ch.unibas.dmi.dbis.cs108.Multiplayer.Protocol;
 
 
+import java.util.HashMap;
 
 public enum NTtBCommands {
     /**
@@ -26,5 +27,18 @@ public enum NTtBCommands {
      * MSGRS: "Message recieved": Paramaters: a string detailing to the client that and what the server recieved as command.
      */
     //Server Responses
-    MSGRS,
+    MSGRS;
+
+    //Allowes to associate strings with the enum objects. the enum fields are easier for switch statements.
+    private HashMap<String,NTtBCommands> stringNTtBCommandsHashMap = new HashMap<>();
+
+    private NTtBCommands(){
+        for(NTtBCommands cmd : NTtBCommands.values()){
+            stringNTtBCommandsHashMap.put(cmd.name(), cmd);
+        }
+    }
+
+    public boolean isLegal(String s){
+        return false;
+    }
 }
