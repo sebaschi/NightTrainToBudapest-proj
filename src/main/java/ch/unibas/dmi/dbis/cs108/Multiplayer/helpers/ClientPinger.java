@@ -30,9 +30,21 @@ public class ClientPinger implements Runnable{
     public void run() {
         try {
             while (socket.isConnected()) {
+                gotPingBack = false;
                 out.write("CPING");
+                out.newLine();
+                out.flush();
                 Thread.sleep(2000);
-                if (!gotPingBack) isConnected = false;
+                if (gotPingBack) {
+                    if (!isConnected) {         //if !isConnected, then the connection had been lost before.
+                        isConnected = true;
+                        System.out.println("Connection regained!");
+                    }
+                } else {
+                    isConnected = false;
+                    System.out.println("Lost connection. Waiting to reconnect...");
+                }
+
             }
             isConnected = false;                 //in case the socket accidentally disconnects (can this happen?)
         } catch (InterruptedException e) {
