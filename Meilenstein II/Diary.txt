@@ -164,3 +164,8 @@ Zuhause pingpong & IP-auswahl implementiert.
 Für PingPong brauche ich noch Hilfe von Sebastian bzgl. Protocol-Parser
 
 
+25.03.2022 -Seraina
+Das QA-Konzept steht muss aber noch von allen Akzeptiert werden. 
+Ebenfalls ist hierzu wohl bald ein Treffen nötig, bei welchem ich alle mit den notwenigen Tools vertraut machen kann.
+
+
