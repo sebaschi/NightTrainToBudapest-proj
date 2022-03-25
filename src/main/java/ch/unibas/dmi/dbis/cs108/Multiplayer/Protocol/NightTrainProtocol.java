@@ -11,16 +11,56 @@ for this purpose.
  */
 
 public class NightTrainProtocol {
-    public static HashMap<String, NTtBCommands> stringNTtBCommandsHashMap = new HashMap<>();
-    public static ProtocolValidator protocolValidator;
-    public static HashSet<String> legalStrings;
+    //TODO: initialite the fields
+
+    private static HashMap<String, NTtBCommands> stringNTtBCommandsHashMap = initializeMapping();
+    private static ProtocolValidator protocolValidator;
+    private static HashSet<String> legalStrings = new HashSet<>(stringNTtBCommandsHashMap.keySet());
+
     public enum NTtBCommands {
         //Client Commands
         CRTGM, CHATA, CHATW, CHATG, LEAVG, JOING, VOTEG, QUITS, LISTP, CUSRN,
         //Server Responses
-        MSGRS;
+        MSGRS, SEROR;
+    }
 
-        //Allowes to associate strings with the enum objects. the enum fields are easier for switch statements.
+    private static HashMap<String, NTtBCommands> initializeMapping(){
+        HashMap<String, NTtBCommands> map = new HashMap<>();
+        for(NTtBCommands cmd: NTtBCommands.values()) {
+            map.put(cmd.toString(), cmd);
+        }
+        return map;
+    }
+
+    //getters & setters
+
+    public static HashMap<String, NTtBCommands> getStringNTtBCommandsHashMap() {
+        return stringNTtBCommandsHashMap;
+    }
+
+    public static HashSet<String> getLegalStrings() {
+        return legalStrings;
+    }
+
+    //Utility Methods:
+    /**
+     * Validates a given string is a valid representation
+     * of a protocol command
+     * @param cmd, the string command to be validated
+     * @return true if <code>cmd</code> is a valid command
+     */
+    public boolean isLegalCmdString(String cmd) {
+        return legalStrings.contains(cmd);
+    }
+
+    public NTtBCommands getCmdEnumObject(String cmd) throws NoLegalProtocolCommandStringFoundException {
+        if(isLegalCmdString(cmd)){
+            return stringNTtBCommandsHashMap.get(cmd);
+        } else {
+            throw new NoLegalProtocolCommandStringFoundException();
+        }
 
     }
+
+    //TODO analyize what methods are needed
 }

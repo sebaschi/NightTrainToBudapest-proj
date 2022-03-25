@@ -46,7 +46,7 @@ public class ClientHandler implements Runnable  {
             try {
 
                 msg = in.readLine();
-                response = clientMsgDecoder.decodeMsg(msg); //The response of the server to the clients message
+                response = clientMsgDecoder.decodeMsg(msg).getMessage(); //The response of the server to the clients message
                 out.write(response);
                 out.newLine();
                 out.flush();

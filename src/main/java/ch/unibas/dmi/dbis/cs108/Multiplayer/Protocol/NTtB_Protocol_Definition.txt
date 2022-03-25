@@ -14,4 +14,5 @@
  /**
  Server Commands:
  * MSGRS: "Message recieved": Paramaters: a string detailing to the client that and what the server recieved as command.
+ * SEROR: Server had an error. (used for debugging)
  */

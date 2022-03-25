@@ -1,8 +1,5 @@
 package ch.unibas.dmi.dbis.cs108.Multiplayer.Client;
 
-import ch.unibas.dmi.dbis.cs108.Multiplayer.Protocol.NTtBFormatMsg;
-import ch.unibas.dmi.dbis.cs108.Multiplayer.Protocol.ProtocolMessage;
-
 public interface ProtocolParser {
     /**
      * Takes a String from client input and parses into
