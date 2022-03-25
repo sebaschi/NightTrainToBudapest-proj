@@ -157,3 +157,10 @@ Rule: Alles was geht in eigene Klassen Methoden schreiben. Soviel wie möglich c
 Nächste Absprache Fr 25.4 Abends
 
 
+
+
+24 & 25.03.2022 -Jonas
+Zuhause pingpong & IP-auswahl implementiert. 
+Für PingPong brauche ich noch Hilfe von Sebastian bzgl. Protocol-Parser
+
+
