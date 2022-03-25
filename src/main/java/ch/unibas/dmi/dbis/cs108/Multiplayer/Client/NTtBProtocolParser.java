@@ -1,11 +1,6 @@
 package ch.unibas.dmi.dbis.cs108.Multiplayer.Client;
 
-import ch.unibas.dmi.dbis.cs108.Multiplayer.Protocol.NTtBCommands;
-import ch.unibas.dmi.dbis.cs108.Multiplayer.Protocol.NTtBFormatMsg;
-
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Locale;
 import java.util.Scanner;
 
 /**
