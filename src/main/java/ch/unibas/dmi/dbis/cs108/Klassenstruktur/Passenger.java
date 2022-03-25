@@ -5,7 +5,7 @@ import ch.unibas.dmi.dbis.cs108.Multiplayer.Server.ClientHandler;
 import java.net.Socket;
 
 public class Passenger {
-    protected int position;               //the player's Cabin number (1 to 6)
+    protected int position;               //the player's Cabin number (0 to 5)
     protected String name;                //the player's Name
     protected Boolean isGhost;            //boolean regarding if the player is a ghost. Could probably be removed since ghost is a subclass but I'm keeping it in.
     protected Boolean isPlayer;           //same here
@@ -18,6 +18,14 @@ public class Passenger {
     **/
     public void send(String msg) {
         //todo: send protocol message to the respective client OR process messages for NPCS
+    }
+
+    /**
+     * sets the Position of this passenger
+     * @param position the position of this passenger
+     */
+    public void setPosition(int position) {
+        this.position = position;
     }
 
     /**

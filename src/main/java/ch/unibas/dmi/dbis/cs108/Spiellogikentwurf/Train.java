@@ -6,9 +6,11 @@ import java.util.Arrays;
 
 public class Train {
     int[] orderOfTrain; //gives the random order in which the passengers enter the train
+    int positionOfGhost;
 
     /**
-     * Constructs a Train with orderOfTrain of the size nrOfPlayers, filled with a Random order of the numbers 0-5
+     * Constructs a Train with orderOfTrain of the size nrOfPlayers, filled with a Random order of the numbers 0-5.
+     * Puts the ghost approx in the middle of this order.
      * @param nrOfPlayers sets how many Players fit in the Train
      * @param nrOfUsers sets how many of the Players are Users (vs NPC's)
      * @throws TrainOverflow if you want to play with to many users (Train is to small)
@@ -39,6 +41,7 @@ public class Train {
 
         }
         this.orderOfTrain = userTrain;
+        this.positionOfGhost = (int) (nrOfPlayers/2);
     }
 
     /**
@@ -64,6 +67,11 @@ public class Train {
         //Test
         try {
             Train t = new Train(6,1);
+            for(int i = 0; i < 6; i++) {
+                System.out.print("|" + t.orderOfTrain[i] + "|");
+            }
+            System.out.println("     Ghost:" + t.positionOfGhost);
+
         } catch (TrainOverflow e) {
             System.out.println(e.getMessage());
         }
