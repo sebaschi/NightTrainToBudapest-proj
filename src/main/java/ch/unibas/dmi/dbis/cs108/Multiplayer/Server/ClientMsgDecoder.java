@@ -6,11 +6,21 @@ import java.util.List;
 import java.util.Scanner;
 
 public class ClientMsgDecoder implements ProtocolDecoder {
-    Scanner sc = new Scanner();
+
 
     @Override
     public String decodeMsg(String msg) {
-        List<String> msgTokens = tokenizeMsg(msg);
+        List<String> msgTokens = tokenizeMsg(msg);  //List where we'll put the string tokens seperated by $.
+        String cmd; //The command token
+        try{
+            cmd = getCommand(msgTokens);
+        } catch (NoCommandTokenException e) {
+            //TODO: decide what to do here. How can we catch this smartly and where do we send it?
+            System.out.println(("ClientMsgDecoder cannot find a command token"));
+            e.printStackTrace(System.out);
+            return"ERROR$command token not found"; //TODO This is a very unelegant solution.
+        }
+
         return null;
     }
 

@@ -4,6 +4,7 @@ package ch.unibas.dmi.dbis.cs108.Multiplayer.Protocol;
 
 public enum NTtBCommands {
     /**
+     * Client commands:
      * CRTGM: Create a new game
      * CHATA: chat to all
      * CHATW: whisper chat
@@ -15,5 +16,15 @@ public enum NTtBCommands {
      * QUITS: quit server/ leave servr
      * LISTP: list players/clients in session with the Server
      */
-    CRTGM, CHATA, CHATW, CHATG, LEAVG, JOING, VOTEG, QUITS, LISTP, CUSRN
+
+
+
+    //Client Commands
+    CRTGM, CHATA, CHATW, CHATG, LEAVG, JOING, VOTEG, QUITS, LISTP, CUSRN,
+
+    /**
+     * MSGRS: "Message recieved": Paramaters: a string detailing to the client that and what the server recieved as command.
+     */
+    //Server Responses
+    MSGRS,
 }
