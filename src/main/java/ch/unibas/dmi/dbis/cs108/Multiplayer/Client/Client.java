@@ -18,6 +18,7 @@ public class Client {
             this.in = new BufferedReader((new InputStreamReader((socket.getInputStream()))));
 
             //TODO add the system based generated username here.
+            //TODO hide connecting logik(next 4 lines)
             this.userName = userName;
             this.out.write(getUsername());
             this.out.newLine();

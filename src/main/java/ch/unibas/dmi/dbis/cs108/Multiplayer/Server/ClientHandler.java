@@ -15,6 +15,11 @@ public class ClientHandler implements Runnable  {
     public static HashSet<ClientHandler> inGameClients = new HashSet<>();
     public static HashSet<ClientHandler> ghostClients = new HashSet<>();
 
+    /**
+     * Implements the connecting logik in client-server
+     * architecture.
+     * @param socket
+     */
     public ClientHandler(Socket socket) {
         try {
             this.socket = socket;
