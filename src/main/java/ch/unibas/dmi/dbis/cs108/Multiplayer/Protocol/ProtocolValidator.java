@@ -7,11 +7,11 @@ import java.util.HashSet;
 public class ProtocolValidator {
 
     //TODO String or NTtBCommands HashSet?
-    public static HashSet<NTtBCommands> legalCommands = initializeLegalCommands();
+    public static HashSet<NightTrainProtocol.NTtBCommands> legalCommands = initializeLegalCommands();
 
     //Initialize the legalCommands set with the protocol values.
-    private static HashSet<NTtBCommands> initializeLegalCommands(){
-        EnumSet<NTtBCommands> enumVals = EnumSet.allOf(NTtBCommands.class);
+    private static HashSet<NightTrainProtocol.NTtBCommands> initializeLegalCommands(){
+        EnumSet<NightTrainProtocol.NTtBCommands> enumVals = EnumSet.allOf(NightTrainProtocol.NTtBCommands.class);
         return new HashSet<>(enumVals);
     }
 

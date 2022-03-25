@@ -1,13 +1,12 @@
 package ch.unibas.dmi.dbis.cs108.Multiplayer.Server;
 
-import ch.unibas.dmi.dbis.cs108.Multiplayer.Protocol.NTtBCommands;
+import ch.unibas.dmi.dbis.cs108.Multiplayer.Protocol.NightTrainProtocol;
 import ch.unibas.dmi.dbis.cs108.Multiplayer.Protocol.ProtocolDecoder;
 
 import java.util.List;
-import java.util.Scanner;
 
 public class ClientMsgDecoder implements ProtocolDecoder {
-    private NTtBCommands protocol;
+    private NightTrainProtocol.NTtBCommands protocol;
 
     @Override
     public String decodeMsg(String msg) {
