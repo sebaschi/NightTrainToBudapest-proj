@@ -14,6 +14,7 @@ public class ClientHandler implements Runnable  {
     public static HashSet<ClientHandler> connectedClients = new HashSet<>();
     public static HashSet<ClientHandler> inGameClients = new HashSet<>();
     public static HashSet<ClientHandler> ghostClients = new HashSet<>();
+    private ClientMsgDecoder clientMsgDecoder = new ClientMsgDecoder();
 
     /**
      * Implements the connecting logik in client-server
@@ -35,18 +36,21 @@ public class ClientHandler implements Runnable  {
     }
 
     @Override
+    /**
+     * point of contact for client and server.
+     */
     public void run() {
         String msg;
-
+        String response;
         while(socket.isConnected()) {
             try {
 
                 msg = in.readLine();
-                if( msg.equalsIgnoreCase("QUIT")){
-                    broadcastMessage("Client: " + clientUserName + " has left the Server");
-                    removeClientHandler();
-                }
-                broadcastMessage(msg);
+                response = clientMsgDecoder.decodeMsg(msg); //The response of the server to the clients message
+                out.write(response);
+                out.newLine();
+                out.flush();
+                //TODO if merely an acknowledgement is sent back to the client, how does the client recieve game updates?
             } catch (IOException e) {
                 e.printStackTrace();
                 closeEverything(socket, in, out);

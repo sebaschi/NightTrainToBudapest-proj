@@ -21,7 +21,6 @@ public class NTtBProtocolParser implements ProtocolParser {
 
     public NTtBProtocolParser(Client caller) {
         this.caller = caller;
-        //TODO by far not done!
     }
     @Override
     public String parseMsg(String msg) {
@@ -38,7 +37,7 @@ public class NTtBProtocolParser implements ProtocolParser {
              parsedMsg = buildProtocolMsg(input);
         } catch (EmptyClientInputException e) {
             return e.getExceptionMsg();
-            //TODO Where to we log this?
+            //TODO Where do we log this?
         }
 
         return parsedMsg;
@@ -56,7 +55,7 @@ public class NTtBProtocolParser implements ProtocolParser {
             int size = input.size();
             for(int i = 1; i < size; i++) {
                 s.append("$");
-                s.append(input.get(i).toLowerCase());
+                s.append(input.get(i).toLowerCase()); //parameters are always lower case (is that good?)
             }
         }
         return s.toString();
