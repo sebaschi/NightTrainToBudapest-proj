@@ -1,46 +1,44 @@
 package ch.unibas.dmi.dbis.cs108.Spiellogikentwurf;
 
-import ch.unibas.dmi.dbis.cs108.Klassenstruktur.Passenger;
-
-import java.lang.reflect.Constructor;
-
 public class Game {
-    /**Can be extended for optional Game-settings**/
-    protected int nrOfPlayers; //sets the length of the train
-    protected int nrOfGhosts; // sets how many Ghosts we start witch
-    protected int nrOfUsers; // safes how many clients are active in this Game
-    protected GameFunctions gameFunctions;
+
+  /**
+   * Can be extended for optional Game-settings
+   **/
+  protected int nrOfPlayers; //sets the length of the train
+  protected int nrOfGhosts; // sets how many Ghosts we start witch
+  protected int nrOfUsers; // safes how many clients are active in this Game
+  protected GameFunctions gameFunctions;
 
 
-    /**
-     * Constructs a Game instance where:
-     * @param nrOfPlayers is the length of the Train
-     * @param nrOfGhosts is the number of OG Ghosts you want to start with  and
-     * @param nrOfUsers is the number of active users at the time (non NPC's)
-     */
-   Game (int nrOfPlayers, int nrOfGhosts, int nrOfUsers) throws TrainOverflow { //ToDo: Who handles Exception how and where
-       this.nrOfPlayers = nrOfPlayers;
-       this.nrOfGhosts = nrOfGhosts;
-       this.nrOfUsers = nrOfUsers;
-       this.gameFunctions = new GameFunctions(nrOfPlayers,nrOfGhosts,nrOfUsers);
-   }
+  /**
+   * Constructs a Game instance where:
+   *
+   * @param nrOfPlayers is the length of the Train
+   * @param nrOfGhosts  is the number of OG Ghosts you want to start with  and
+   * @param nrOfUsers   is the number of active users at the time (non NPCs)
+   */
+  Game(int nrOfPlayers, int nrOfGhosts, int nrOfUsers)
+      throws TrainOverflow { //ToDo: Who handles Exception how and where
+    this.nrOfPlayers = nrOfPlayers;
+    this.nrOfGhosts = nrOfGhosts;
+    this.nrOfUsers = nrOfUsers;
+    this.gameFunctions = new GameFunctions(nrOfPlayers, nrOfGhosts, nrOfUsers);
+  }
 
 
-    public static void main(String[] args) {
-        try{
-            Game game1 = new Game(6,1,1);
-            for(int j = 0; j< game1.nrOfPlayers; j++) {
-                System.out.println(game1.gameFunctions.passengerTrain[j].getPosition());
-            }
+  public static void main(String[] args) {
+    try {
+      Game game1 = new Game(6, 1, 1);
+      for (int j = 0; j < game1.nrOfPlayers; j++) {
+        System.out.println(game1.gameFunctions.passengerTrain[j].getPosition());
+      }
 
-        } catch (TrainOverflow e) {
-            System.out.println(e.getMessage());
-        }
-
+    } catch (TrainOverflow e) {
+      System.out.println(e.getMessage());
     }
 
-
-
+  }
 
 
 }

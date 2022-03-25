@@ -5,7 +5,7 @@ int spielerzahl = 6; //Default setting
 
 Fill train -> Randomize
 /**
-Creats an array of random numbers 1 - spielerzahl
+Creates an array of random numbers 1 - spielerzahl
 **/
     int[] fillTrain(int spielerzahl) //... arbitrary amount of users, gives Array I think^^
         if spielerzahl < #users
