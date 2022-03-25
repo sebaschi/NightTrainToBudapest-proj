@@ -2,6 +2,7 @@ package ch.unibas.dmi.dbis.cs108.Multiplayer.Client;
 
 import java.net.Socket;
 import java.io.*;
+import java.net.UnknownHostException;
 import java.util.Scanner;
 
 public class Client {
@@ -104,14 +105,24 @@ public class Client {
 
     public static  void  main(String[] args) {
         Scanner sc = new Scanner(System.in);
+        String hostname;
+        int port = 42069;               //can be set via argument later if needed.
+        if (args.length < 1) {
+            System.out.println("Enter the host's IP address (or type localhost)");
+            hostname = sc.next();
+        } else {
+            hostname = args[0];
+        }
         System.out.println("Choose a nickname: ");
         String username = sc.next();
         Socket socket;
         try {
-            socket = new Socket("localhost", 42069);
+            socket = new Socket(hostname, 42069);
             Client client = new Client(socket, username);
             client.chatListener();
             client.sendMessage();
+        }  catch (UnknownHostException e) {
+            System.out.println("Invalid host IP");
         } catch (IOException e) {
             e.printStackTrace();
         }
