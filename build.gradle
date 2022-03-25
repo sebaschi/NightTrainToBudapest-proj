@@ -2,6 +2,7 @@ plugins {
     id 'java-library'
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.10'
+    id 'jacoco'
 }
 
 javafx {
@@ -39,14 +40,14 @@ dependencies {
     /*
     This is another example - it imports the javafx-controls dependency
      */
-    implementation 'org.openjfx:javafx-controls:11.0.2'
+    implementation 'org.openjfx:javafx-controls:17.0.2'
 
     // JUNIT
     /*
     The following dependency is required to perform JUnit tests, as for example HelloWorldTest.
     Since it is a `testCompile` dependency, it will not be part of the final product, only during testing.
      */
-    testImplementation("org.junit.jupiter:junit-jupiter:5.+")
+    testImplementation('org.junit.jupiter:junit-jupiter:5.8.2')
 }
 
 test {
