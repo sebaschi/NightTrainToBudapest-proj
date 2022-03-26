@@ -8,12 +8,22 @@ import ch.unibas.dmi.dbis.cs108.multiplayer.protocol.ProtocolDecoder;
 import java.util.LinkedList;
 import java.util.Queue;
 
+/**
+ * Decodes the correctly formatted String
+ * containing command and parameters.
+ * For reasons of seperation of work
+ * this class only tokenizes the string
+ * and acknowledges to the client that smth was recieved.
+ * Actual method calls, change of state, method calles etc.
+ * are delegated to{@link ch.unibas.dmi.dbis.cs108.multiplayer.server.cmd.methods.CommandExecuter}
+ * from within {@link ClientHandler}.
+ */
+
 public class ClientMsgDecoder implements ProtocolDecoder {
 
   private NightTrainProtocol protocol;
 
   @Override
-  //TODO this method IS NOT FINNISHED. @return is not correct as of now!
   public NTtBFormatMsg decodeMsg(String msg) {
     //Declare needed variables
     String[] msgTokens;  //List where we'll put the string tokens seperated by $.
@@ -67,13 +77,5 @@ public class ClientMsgDecoder implements ProtocolDecoder {
   //TODO what side effects could be here?
   private String[] tokenizeMsg(String msg) {
     return msg.split("$");
-  }
-
-  /*
-   * This method should implement the initiation
-   * of server agency according to client msg
-   */
-  private Queue<String> serverActionBuilder() {
-    return new LinkedList<String>();
   }
 }
