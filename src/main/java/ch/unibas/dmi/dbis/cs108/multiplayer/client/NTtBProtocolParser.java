@@ -1,5 +1,7 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.client;
 
+import ch.unibas.dmi.dbis.cs108.multiplayer.protocol.NoLegalProtocolCommandStringFoundException;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -18,34 +20,26 @@ public class NTtBProtocolParser implements ProtocolParser {
         this.caller = caller;
     }
     @Override
-    public String parseMsg(String msg) {
+    public String parseMsg(String msg) throws NoLegalProtocolCommandStringFoundException, EmptyClientInputException{
         Scanner sc = new Scanner(msg);
-        String parsedMsg;
-
         ArrayList<String> input = new ArrayList<>();
+        String parsedMsg = buildProtocolMsg(input);
 
         while(sc.hasNext()){
             input.add(sc.next());
-        }
-
-        try {
-             parsedMsg = buildProtocolMsg(input);
-        } catch (EmptyClientInputException e) {
-            return e.getExceptionMsg();
-            //TODO Where do we log this?
         }
 
         return parsedMsg;
     }
 
 
-    private String buildProtocolMsg(ArrayList<String> input) throws EmptyClientInputException{
+    private String buildProtocolMsg(ArrayList<String> input) throws EmptyClientInputException, NoLegalProtocolCommandStringFoundException {
         //TODO
         if(emptyClientInput(input)){
             throw new EmptyClientInputException(caller);
         }
         StringBuilder s = new StringBuilder(); //friendly little helper
-        s.append(legalCommands.get(input.get(0)));
+        s.append(legalCommands.encode(input.get(0)));
         if (containsParameters(input)) {
             int size = input.size();
             for(int i = 1; i < size; i++) {
