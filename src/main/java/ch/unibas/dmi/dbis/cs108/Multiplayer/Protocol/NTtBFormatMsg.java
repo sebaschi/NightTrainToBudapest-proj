@@ -6,7 +6,7 @@ import java.util.Queue;
 /**
  * This class defines what type the ClientMsgDecoder returns after decoding the message.
  * This is done so the output can be split into a response to the client and action
- * in the game logik.
+ * in to the game logik.
  * commands should map to methods(maybe classes)
  * parameters map to method parameters
  *
