@@ -21,7 +21,7 @@ public class NightTrainProtocol {
         //Client Commands
         CRTGM, CHATA, CHATW, CHATG, LEAVG, JOING, VOTEG, QUITS, LISTP, CUSRN,CPING,
         //Server Responses
-        MSGRS, SEROR, SPING;
+        MSGRS, SEROR, SPING, NOCMD
     }
 
     private static HashMap<String, NTtBCommands> initializeMapping(){
