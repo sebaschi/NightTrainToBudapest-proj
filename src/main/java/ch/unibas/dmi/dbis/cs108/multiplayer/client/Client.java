@@ -1,5 +1,7 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.client;
 
+import ch.unibas.dmi.dbis.cs108.multiplayer.protocol.NoLegalProtocolCommandStringFoundException;
+
 import java.net.Socket;
 import java.io.*;
 import java.net.UnknownHostException;
@@ -35,10 +37,21 @@ public class Client {
             Scanner sc = new Scanner(System.in);
             while (socket.isConnected()) {
                 String msg = sc.nextLine();
-                String encodedMsg = encodeMessage(msg);
-                out.write(encodedMsg);
-                out.newLine();
-                out.flush();
+                String encodedMsg = "";
+                try {
+                    encodedMsg = encodeMessage(msg);
+                } catch (NoLegalProtocolCommandStringFoundException e) {
+                    System.out.println("ERROR: no legal command found");
+                    encodedMsg = "";
+                } catch (EmptyClientInputException e) {
+                    //Maybe this exception shouldn't do anything.
+                } finally {
+                    out.write(encodedMsg);
+                    out.newLine();
+                    out.flush();
+                }
+
+
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -53,7 +66,7 @@ public class Client {
      * @param msg the msg to be encoded.
      * @return Message encoded adhering to the NTtB Protocoll.
      */
-    private String encodeMessage(String msg) {
+    private String encodeMessage(String msg) throws NoLegalProtocolCommandStringFoundException, EmptyClientInputException {
         NTtBProtocolParser pp = new NTtBProtocolParser(this);
         return pp.parseMsg(msg);
     }

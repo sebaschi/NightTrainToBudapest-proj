@@ -7,5 +7,5 @@ public interface ProtocolParser {
      * @param msg the message to be parsed
      * @return a String message formatted for the specific protocol
      */
-    String parseMsg(String msg);
+    String parseMsg(String msg) throws Exception;
 }
