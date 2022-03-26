@@ -7,12 +7,12 @@
  * LEAVG: leave a game
  * JOING: join a game
  * VOTEG: ghost voting who to infect
- * VOTEH: humans voting whos the ghost
- * QUITS: quit server/ leave servr
+ * VOTEH: humans voting who is the ghost
+ * QUITS: quit server/ leave server
  * LISTP: list players/clients in session with the Server
  */
  /**
  Server Commands:
- * MSGRS: "Message recieved": Paramaters: a string detailing to the client that and what the server recieved as command.
+ * MSGRS: "Message received": Paramaters: a string detailing to the client that and what the server received as command.
  * SEROR: Server had an error. (used for debugging)
  */
