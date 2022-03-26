@@ -1,8 +1,6 @@
 package ch.unibas.dmi.dbis.cs108.Klassenstruktur;
 
-import ch.unibas.dmi.dbis.cs108.Multiplayer.Server.ClientHandler;
-
-import java.net.Socket;
+import ch.unibas.dmi.dbis.cs108.multiplayer.server.ClientHandler;
 
 public class HumanPlayer extends Human{
     /**

@@ -1,9 +1,9 @@
-package ch.unibas.dmi.dbis.cs108.Multiplayer.Server;
+package ch.unibas.dmi.dbis.cs108.multiplayer.server;
 
-import ch.unibas.dmi.dbis.cs108.Multiplayer.Protocol.NTtBFormatMsg;
-import ch.unibas.dmi.dbis.cs108.Multiplayer.Protocol.NightTrainProtocol;
-import ch.unibas.dmi.dbis.cs108.Multiplayer.Protocol.NoLegalProtocolCommandStringFoundException;
-import ch.unibas.dmi.dbis.cs108.Multiplayer.Protocol.ProtocolDecoder;
+import ch.unibas.dmi.dbis.cs108.multiplayer.protocol.NTtBFormatMsg;
+import ch.unibas.dmi.dbis.cs108.multiplayer.protocol.NightTrainProtocol;
+import ch.unibas.dmi.dbis.cs108.multiplayer.protocol.NoLegalProtocolCommandStringFoundException;
+import ch.unibas.dmi.dbis.cs108.multiplayer.protocol.ProtocolDecoder;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -43,10 +43,10 @@ public class ClientMsgDecoder implements ProtocolDecoder {
         StringBuilder sb = new StringBuilder();
         //assumes not empty list!
         NightTrainProtocol.NTtBCommands cmd = getCommandConstant(msgTokens.get(0));
-        sb.append("Server msg: ");
-        sb.append("Command *" + cmd.toString() + "* recieved");
+        sb.append("SERVER: ");
+        sb.append("Command *" + cmd.toString() + "* recieved!");
 
-        return null;
+        return sb.toString();
     }
 
     //Uses the NightTrainProtocol classes utility method

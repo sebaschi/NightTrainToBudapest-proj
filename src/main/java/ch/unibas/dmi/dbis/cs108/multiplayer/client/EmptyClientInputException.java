@@ -1,4 +1,4 @@
-package ch.unibas.dmi.dbis.cs108.Multiplayer.Client;
+package ch.unibas.dmi.dbis.cs108.multiplayer.client;
 
 public class EmptyClientInputException extends Exception {
     String exceptionMsg;

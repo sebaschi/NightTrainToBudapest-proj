@@ -1,4 +1,4 @@
-package ch.unibas.dmi.dbis.cs108.Multiplayer.helpers;
+package ch.unibas.dmi.dbis.cs108.multiplayer.helpers;
 
 import java.io.BufferedWriter;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package ch.unibas.dmi.dbis.cs108.Multiplayer.Client;
+package ch.unibas.dmi.dbis.cs108.multiplayer.client;
 
 import java.net.Socket;
 import java.io.*;
