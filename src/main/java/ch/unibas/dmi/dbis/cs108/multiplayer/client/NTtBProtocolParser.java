@@ -25,13 +25,12 @@ public class NTtBProtocolParser implements ProtocolParser {
       throws NoLegalProtocolCommandStringFoundException, EmptyClientInputException {
     Scanner sc = new Scanner(msg);
     ArrayList<String> input = new ArrayList<>();
-    String parsedMsg = buildProtocolMsg(input);
+    String parsedMsg;
 
     while (sc.hasNext()) {
       input.add(sc.next());
     }
-
-    return parsedMsg;
+    return buildProtocolMsg(input);
   }
 
 
@@ -42,7 +41,7 @@ public class NTtBProtocolParser implements ProtocolParser {
       throw new EmptyClientInputException(caller);
     }
     StringBuilder s = new StringBuilder(); //friendly little helper
-    s.append(legalCommands.encode(input.get(0)));
+    s.append(InputToProtocolMap.encode(input.get(0)));
     if (containsParameters(input)) {
       int size = input.size();
       for (int i = 1; i < size; i++) {

@@ -17,8 +17,6 @@ import ch.unibas.dmi.dbis.cs108.multiplayer.protocol.ProtocolDecoder;
 
 public class ClientMsgDecoder implements ProtocolDecoder {
 
-  private NightTrainProtocol protocol;
-
   /**
    * The point of contact for the ClientHandler who calls this method to convert a String in to
    * usable, tokanized format defined by {@link NTtBFormatMsg}.
@@ -78,7 +76,7 @@ public class ClientMsgDecoder implements ProtocolDecoder {
    */
   private NightTrainProtocol.NTtBCommands getCommandConstant(String stringToken) {
     try {
-      return protocol.getCmdEnumObject(stringToken);
+      return NightTrainProtocol.getCmdEnumObject(stringToken);
     } catch (NoLegalProtocolCommandStringFoundException e) {
       return NightTrainProtocol.NTtBCommands.SEROR;
     }

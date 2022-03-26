@@ -18,9 +18,9 @@ public class ClientHandler implements Runnable  {
     private ClientMsgDecoder clientMsgDecoder = new ClientMsgDecoder();
 
     /**
-     * Implements the connecting logik in client-server
+     * Implements the login logik in client-server
      * architecture.
-     * @param socket
+     * @param socket the socket on which to make the connection.
      */
     public ClientHandler(Socket socket) {
         try {
@@ -66,7 +66,9 @@ public class ClientHandler implements Runnable  {
 
     @Override
     /**
-     * point of contact for client and server.
+     * The main logik of the client handler.
+     * Since every client is put on a string this is where
+     * most interactions between client and server are held..
      */
     public void run() {
         String msg;

@@ -49,11 +49,11 @@ public class NightTrainProtocol {
      * @param cmd, the string command to be validated
      * @return true if <code>cmd</code> is a valid command
      */
-    public boolean isLegalCmdString(String cmd) {
+    public static boolean isLegalCmdString(String cmd) {
         return legalStrings.contains(cmd);
     }
 
-    public NTtBCommands getCmdEnumObject(String cmd) throws NoLegalProtocolCommandStringFoundException {
+    public static NTtBCommands getCmdEnumObject(String cmd) throws NoLegalProtocolCommandStringFoundException {
         if(isLegalCmdString(cmd)){
             return stringNTtBCommandsHashMap.get(cmd);
         } else {
