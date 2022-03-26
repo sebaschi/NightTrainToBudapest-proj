@@ -1,6 +1,7 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.client;
 
 import ch.unibas.dmi.dbis.cs108.multiplayer.protocol.NoLegalProtocolCommandStringFoundException;
+import ch.unibas.dmi.dbis.cs108.multiplayer.server.NameGenerator;
 
 import java.net.Socket;
 import java.io.*;
@@ -20,7 +21,6 @@ public class Client {
       this.out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
       this.in = new BufferedReader((new InputStreamReader((socket.getInputStream()))));
 
-      String randomUserName = NameGenerator.randomName();
       //TODO hide connecting logik(next 4 lines)
       this.userName = userName;
       this.out.write(getUsername());
@@ -147,4 +147,6 @@ public class Client {
   public String getUsername() {
     return userName;
   }
+
 }
+

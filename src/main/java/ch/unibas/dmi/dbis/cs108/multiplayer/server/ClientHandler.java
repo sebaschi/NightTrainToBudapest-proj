@@ -28,6 +28,14 @@ public class ClientHandler implements Runnable  {
             this.out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             this.in = new BufferedReader((new InputStreamReader((socket.getInputStream()))));
             this.clientUserName = in.readLine();
+
+            // duplicate handling: if username already taken, assign random name to client
+            if (AllClientNames.allNames("").contains(clientUserName)) {
+                clientUserName = NameGenerator.randomName();
+            }
+            // add username to list of all client names for future duplicate checking
+            AllClientNames.allNames(clientUserName);
+
             connectedClients.add(this);
             broadcastMessage("SERVER: " + clientUserName + " has joined the Server");
         } catch (IOException e) {
