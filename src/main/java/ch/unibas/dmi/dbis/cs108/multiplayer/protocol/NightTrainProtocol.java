@@ -19,9 +19,9 @@ public class NightTrainProtocol {
 
     public enum NTtBCommands {
         //Client Commands
-        CRTGM, CHATA, CHATW, CHATG, LEAVG, JOING, VOTEG, QUITS, LISTP, CUSRN,
+        CRTGM, CHATA, CHATW, CHATG, LEAVG, JOING, VOTEG, QUITS, LISTP, CUSRN,CPING,
         //Server Responses
-        MSGRS, SEROR;
+        MSGRS, SEROR, SPING;
     }
 
     private static HashMap<String, NTtBCommands> initializeMapping(){

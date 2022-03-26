@@ -1,5 +1,6 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.server;
 
+import ch.unibas.dmi.dbis.cs108.multiplayer.protocol.NTtBFormatMsg;
 import java.io.*;
 import java.net.Socket;
 import java.util.HashSet;
@@ -12,7 +13,7 @@ public class ClientHandler implements Runnable  {
     private Socket socket;
     Scanner sc;
     public static HashSet<ClientHandler> connectedClients = new HashSet<>();
-    public static HashSet<ClientHandler> inGameClients = new HashSet<>();
+    public static HashSet<ClientHandler> lobby = new HashSet<>();
     public static HashSet<ClientHandler> ghostClients = new HashSet<>();
     private ClientMsgDecoder clientMsgDecoder = new ClientMsgDecoder();
 
@@ -35,19 +36,47 @@ public class ClientHandler implements Runnable  {
         }
     }
 
+    //Getters:
+    public BufferedWriter getOut() {
+        return out;
+    }
+
+    public BufferedReader getIn() {
+        return in;
+    }
+
+    public static HashSet<ClientHandler> getConnectedClients() {
+        return connectedClients;
+    }
+
+    public static HashSet<ClientHandler> getLobby() {
+        return lobby;
+    }
+
+    public static HashSet<ClientHandler> getGhostClients() {
+        return ghostClients;
+    }
+
+    public ClientMsgDecoder getClientMsgDecoder() {
+        return clientMsgDecoder;
+    }
+
+    //Setters
+
+
     @Override
     /**
      * point of contact for client and server.
      */
     public void run() {
         String msg;
-        String response;
+        NTtBFormatMsg response;
         while(socket.isConnected()) {
             try {
 
                 msg = in.readLine();
-                response = clientMsgDecoder.decodeMsg(msg).getMessage(); //The response of the server to the clients message
-                out.write(response);
+                response = clientMsgDecoder.decodeMsg(msg); //The response of the server to the clients message
+                out.write(response.getMessage());
                 out.newLine();
                 out.flush();
                 //TODO if merely an acknowledgement is sent back to the client, how does the client recieve game updates?

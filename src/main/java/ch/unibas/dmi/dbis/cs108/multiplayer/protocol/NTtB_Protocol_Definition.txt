@@ -10,9 +10,11 @@
  * VOTEH: humans voting whos the ghost
  * QUITS: quit server/ leave servr
  * LISTP: list players/clients in session with the Server
+ * CPING: Ping from client to server.
  */
  /**
  Server Commands:
  * MSGRS: "Message recieved": Paramaters: a string detailing to the client that and what the server recieved as command.
  * SEROR: Server had an error. (used for debugging)
+ * SPING: Ping from server to client;
  */
