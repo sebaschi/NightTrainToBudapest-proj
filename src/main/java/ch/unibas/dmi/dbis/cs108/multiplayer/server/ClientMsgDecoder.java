@@ -2,27 +2,30 @@ package ch.unibas.dmi.dbis.cs108.multiplayer.server;
 
 import ch.unibas.dmi.dbis.cs108.multiplayer.protocol.NTtBFormatMsg;
 import ch.unibas.dmi.dbis.cs108.multiplayer.protocol.NightTrainProtocol;
+import ch.unibas.dmi.dbis.cs108.multiplayer.protocol.NightTrainProtocol.NTtBCommands;
 import ch.unibas.dmi.dbis.cs108.multiplayer.protocol.NoLegalProtocolCommandStringFoundException;
 import ch.unibas.dmi.dbis.cs108.multiplayer.protocol.ProtocolDecoder;
 
-import java.util.LinkedList;
-import java.util.Queue;
 
 /**
- * Decodes the correctly formatted String
- * containing command and parameters.
- * For reasons of seperation of work
- * this class only tokenizes the string
- * and acknowledges to the client that smth was recieved.
- * Actual method calls, change of state, method calles etc.
- * are delegated to{@link ch.unibas.dmi.dbis.cs108.multiplayer.server.cmd.methods.CommandExecuter}
- * from within {@link ClientHandler}.
+ * Decodes the correctly formatted String containing command and parameters. For reasons of
+ * seperation of work this class only tokenizes the string and acknowledges to the client that smth
+ * was recieved. Actual method calls, change of state, method calles etc. are delegated to{@link
+ * ch.unibas.dmi.dbis.cs108.multiplayer.server.cmd.methods.CommandExecuter} from within {@link
+ * ClientHandler}.
  */
 
 public class ClientMsgDecoder implements ProtocolDecoder {
 
   private NightTrainProtocol protocol;
 
+  /**
+   * The point of contact for the ClientHandler who calls this method to convert a String in to
+   * usable, tokanized format defined by {@link NTtBFormatMsg}.
+   *
+   * @param msg coming from the client handlers input reader.
+   * @return {@link NTtBFormatMsg}
+   */
   @Override
   public NTtBFormatMsg decodeMsg(String msg) {
     //Declare needed variables
@@ -33,48 +36,62 @@ public class ClientMsgDecoder implements ProtocolDecoder {
     //Initalize fields for return object
     msgTokens = tokenizeMsg(msg);
     ackMsg = serverResponseBuilder(msgTokens);
-    parameters = new String[msgTokens.length-1];
+    parameters = new String[msgTokens.length - 1];
     cmdObject = getCommandConstant(msgTokens[0]);
     return new NTtBFormatMsg(ackMsg, cmdObject, parameters);
   }
 
-  /*
-   * Builds the servers response message
-   * to client
+  /**
+   * Constructs the server acknowledgement response witch is instantly sent back to the client. The
+   * response is merely that a command was recieved and which one.
+   * <p>
+   * If garbage was recieved a SEROR will be appended. It is assumed that the msgTokens array is not
+   * empty.
+   *
+   * @param msgTokens an array containing the command String
+   * @return a String containing the immediate response of the server to the client.
    */
   private String serverResponseBuilder(String[] msgTokens) {
     StringBuilder sb = new StringBuilder();
-    //assumes not empty list!
-    NightTrainProtocol.NTtBCommands cmd = getCommandConstant(msgTokens[0]);
+    //assumes non-empty array!
     sb.append("SERVER: ");
-    sb.append("Command *" + cmd.toString() + "* recieved!");
+    NightTrainProtocol.NTtBCommands cmd = getCommandConstant(msgTokens[0]);
+
+    if (cmd.equals(NTtBCommands.SEROR)) {
+      return cmd + "invalid input";
+    }
+
+    sb.append("Command *").append(cmd).append("* recieved!");
 
     return sb.toString();
   }
 
-  //Uses the NightTrainProtocol classes utility method
-  private boolean isLegalCmdString(String cmd) {
-    return protocol.isLegalCmdString(cmd);
-  }
 
-  private String getCommandStringToken(String[] msgTokens) throws NoCommandTokenException {
-    return msgTokens[0];
-  }
-
+  /**
+   * Turns the string into a command object. If no matching protocol command was found, it returns
+   * an SEROR type.
+   *
+   * @param stringToken String that should match the String representation of a NTtBCommands,java
+   *                    field.
+   * @return type {@link ch.unibas.dmi.dbis.cs108.multiplayer.protocol.NightTrainProtocol.NTtBCommands}
+   * object
+   */
   private NightTrainProtocol.NTtBCommands getCommandConstant(String stringToken) {
     try {
       return protocol.getCmdEnumObject(stringToken);
     } catch (NoLegalProtocolCommandStringFoundException e) {
-      e.printStackTrace();
-      e.getMessage();
-    } finally {
       return NightTrainProtocol.NTtBCommands.SEROR;
     }
-
   }
 
-  //Creates tokens from the clientMsg and puts them in a list
-  //TODO what side effects could be here?
+  //TODO What happens if there is no delimeter?
+
+  /**
+   * Splits the input string along the delimiter "$".
+   *
+   * @param msg Clients input
+   * @return an array of String objects containing the command and parameters of the message.
+   */
   private String[] tokenizeMsg(String msg) {
     return msg.split("$");
   }
