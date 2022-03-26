@@ -20,7 +20,7 @@ public class Client {
       this.out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
       this.in = new BufferedReader((new InputStreamReader((socket.getInputStream()))));
 
-      //TODO add the system based generated username here.
+      String randomUserName = NameGenerator.randomName();
       //TODO hide connecting logik(next 4 lines)
       this.userName = userName;
       this.out.write(getUsername());
