@@ -2,12 +2,12 @@ package ch.unibas.dmi.dbis.cs108.multiplayer.client;
 
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.ClientPinger;
 
-import ch.unibas.dmi.dbis.cs108.multiplayer.server.MessageFormatter;
+
 import java.net.Socket;
 import java.io.*;
 import java.net.UnknownHostException;
 import java.util.Scanner;
-import org.apache.logging.log4j.message.Message;
+
 
 public class Client {
 
@@ -23,7 +23,7 @@ public class Client {
       this.out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
       this.in = new BufferedReader((new InputStreamReader((socket.getInputStream()))));
 
-      //TODO add the system based generated username here.
+      String randomUserName = NameGenerator.randomName();
       //TODO hide connecting logik(next 4 lines)
       this.userName = userName;
       this.out.write(getUsername());
@@ -35,6 +35,10 @@ public class Client {
       closeEverything(socket, in, out);
     }
   }
+
+  /**
+   *
+   */
 
   public void sendMessage() {
     try {
