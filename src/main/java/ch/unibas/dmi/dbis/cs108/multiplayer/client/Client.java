@@ -134,7 +134,8 @@ public class Client {
     } else {
       hostname = args[0];
     }
-    System.out.println("Choose a nickname: ");
+    String systemName = System.getProperty("user.name");
+    System.out.println("Choose a nickname (Suggestion: " + systemName + "): ");
     String username = sc.next();
     Socket socket;
     try {
