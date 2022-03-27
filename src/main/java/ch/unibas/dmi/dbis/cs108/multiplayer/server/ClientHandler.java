@@ -98,6 +98,10 @@ public class ClientHandler implements Runnable {
     return clientUserName;
   }
 
+  /**
+   * Lets the client change their respective username, if the username is already taken, a similar option is chosen
+   * @param newName The desired new name to replace the old one with.
+   */
   public void changeUsername(String newName) {
     if (AllClientNames.allNames("").contains(newName)) {
       newName = NameGenerator.randomName(newName);
@@ -108,11 +112,22 @@ public class ClientHandler implements Runnable {
     broadcastMessage(h +" have changed their nickname to " + clientUserName);
   }
 
+  /**
+   * Broadcasts a Message to all active clients in the form "Username: msg"
+   * @param msg the Message to be broadcasted
+   */
+
   public void broadcastMessage(String msg) {
     for (ClientHandler client : connectedClients) {
       client.sendMsgToClient("CHATM:" + clientUserName + ": \"" + msg + "\"");
     }
   }
+
+  //TODO: Documentation
+  /**
+   *
+   * @param msg
+   */
 
   public void sendMsgToClient(String msg) {
     try {

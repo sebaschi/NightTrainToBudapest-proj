@@ -2,9 +2,14 @@ package ch.unibas.dmi.dbis.cs108.multiplayer.server;
 
 import java.util.Random;
 
-// Creates a String beginning with "player_" followed by 4 random letters
 
 public class NameGenerator {
+
+    /**
+     * Creates a random alteration of a Name by adding 4 numbers at the end of the Name that shall be alterd
+     * @param username the to be altered username
+     * @return username + four numbers
+     */
     static String randomName(String username) {
         StringBuilder name;
         while (true) {
