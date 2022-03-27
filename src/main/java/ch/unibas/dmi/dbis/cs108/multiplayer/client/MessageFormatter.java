@@ -1,6 +1,4 @@
-package ch.unibas.dmi.dbis.cs108.multiplayer.server;
-
-import java.io.StringBufferInputStream;
+package ch.unibas.dmi.dbis.cs108.multiplayer.client;
 
 public class MessageFormatter {
 
@@ -9,7 +7,7 @@ public class MessageFormatter {
    * handle it. May need to be redesigned one the games uses a GUI
    *
    * @param msg the Messaged to be reformatted
-   * @return the reformatted message
+   * @return the reformatted message in the form HEADR$msg
    */
 
   public static String formatMsg(String msg) {
@@ -23,15 +21,17 @@ public class MessageFormatter {
     }
     switch (header) {
       case "/c":
-        stringBuilder.append("CHATA");
-        s = msg.substring(2);
+        stringBuilder.append("CHATA$");
+        s = msg.substring(3);
         break;
       case "/q":
-        stringBuilder.append("QUITS");
-        s = msg.substring(2);
+        stringBuilder.append("QUITS$");
+        s = msg.substring(3);
         break;
       case "/n":
-        stringBuilder.append("NAMEC");
+        stringBuilder.append("NAMEC$");
+        s = msg.substring(3);
+        break;
       default:
         s = msg;
     }

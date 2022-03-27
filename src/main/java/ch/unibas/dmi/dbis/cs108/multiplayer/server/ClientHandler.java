@@ -29,6 +29,12 @@ public class ClientHandler implements Runnable {
       this.out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
       this.in = new BufferedReader((new InputStreamReader((socket.getInputStream()))));
       this.clientUserName = in.readLine();
+      // duplicate handling: if username already taken, assign random name to client
+      if (AllClientNames.allNames("").contains(clientUserName)) {
+        clientUserName = NameGenerator.randomName(clientUserName);
+      }
+      // add username to list of all client names for future duplicate checking
+      AllClientNames.allNames(clientUserName);
       connectedClients.add(this);
       serverPinger = new ServerPinger(out, socket);
       Thread sP = new Thread(serverPinger);
@@ -73,7 +79,7 @@ public class ClientHandler implements Runnable {
    * The main logic of the client handler.
    * Since every client is put on a string this is where
    * most interactions between client and server are held
-   */
+   **/
   public void run() {
     String msg;
     while (socket.isConnected()) {
@@ -90,6 +96,16 @@ public class ClientHandler implements Runnable {
 
   public String getClientUserName() {
     return clientUserName;
+  }
+
+  public void changeUsername(String newName) {
+    if (AllClientNames.allNames("").contains(newName)) {
+      newName = NameGenerator.randomName(newName);
+    }
+    String h = this.clientUserName; //just a friendly little helper
+    this.clientUserName = newName;
+    AllClientNames.allNames(newName);
+    broadcastMessage(h +" have changed their nickname to " + clientUserName);
   }
 
   public void broadcastMessage(String msg) {

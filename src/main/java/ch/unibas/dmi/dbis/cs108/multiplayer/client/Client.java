@@ -2,12 +2,11 @@ package ch.unibas.dmi.dbis.cs108.multiplayer.client;
 
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.ClientPinger;
 
-import ch.unibas.dmi.dbis.cs108.multiplayer.server.MessageFormatter;
 import java.net.Socket;
 import java.io.*;
 import java.net.UnknownHostException;
 import java.util.Scanner;
-//import org.apache.logging.log4j.message.Message;
+
 
 public class Client {
 
@@ -23,8 +22,7 @@ public class Client {
       this.out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
       this.in = new BufferedReader((new InputStreamReader((socket.getInputStream()))));
 
-      //TODO: add the system based generated username here.
-      //TODO: hide connecting logic (next 4 lines)
+      //TODO hide connecting logik(next 4 lines)
       this.userName = userName;
       this.out.write(getUsername());
       this.out.newLine();
@@ -35,6 +33,10 @@ public class Client {
       closeEverything(socket, in, out);
     }
   }
+
+  /**
+   *
+   */
 
   public void sendMessage() {
     try {
@@ -59,7 +61,7 @@ public class Client {
    */
   public void chatListener() {
         /*TODO: what type of decoding has to be done
-          TODO: how shall input be logged?
+          TODO how shall input be logged?
          */
     new Thread(new Runnable() {
       @Override
@@ -105,8 +107,8 @@ public class Client {
   }
 
   public void closeEverything(Socket socket, BufferedReader in, BufferedWriter out) {
-    //TODO: Correctly closing a clients connection
-    //TODO: the server should be notified in a way so it can handle it cleanly
+    //TODO Correctly closing a clients connection
+    //TODO the server should be notified in a way so he can handle it cleanly
     try {
       if (in != null) {
         in.close();
@@ -132,7 +134,8 @@ public class Client {
     } else {
       hostname = args[0];
     }
-    System.out.println("Choose a nickname: ");
+    String systemName = System.getProperty("user.name");
+    System.out.println("Choose a nickname (Suggestion: " + systemName + "): ");
     String username = sc.next();
     Socket socket;
     try {
