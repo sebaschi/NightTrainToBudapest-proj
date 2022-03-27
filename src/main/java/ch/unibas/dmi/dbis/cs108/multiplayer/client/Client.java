@@ -102,7 +102,8 @@ public class Client {
 
   public void closeEverything(Socket socket, BufferedReader in, BufferedWriter out) {
     //TODO Correctly closing a clients connection
-    //TODO the server should be notified in a way so he can handle it cleanly
+
+    // Is this not already correct?
     try {
       if (in != null) {
         in.close();

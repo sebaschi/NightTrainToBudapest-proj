@@ -27,6 +27,12 @@ public class Server {
         connectedClients.add(nextClient);
         th.start();
 
+        // close socket + remove client if client is disconnected
+        if (socket.getInputStream().read() == -1) {
+          System.out.println("client disconnected. closing socket");
+          socket.close();
+          connectedClients.remove(nextClient);
+        }
       }
     } catch (IOException e) {
       e.printStackTrace();
