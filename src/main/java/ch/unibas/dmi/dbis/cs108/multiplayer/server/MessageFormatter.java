@@ -30,6 +30,8 @@ public class MessageFormatter {
         stringBuilder.append("QUITS");
         s = msg.substring(2);
         break;
+      case "/n":
+        stringBuilder.append("NAMEC");
       default:
         s = msg;
     }

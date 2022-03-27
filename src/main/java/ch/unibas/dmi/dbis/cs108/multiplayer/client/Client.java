@@ -2,10 +2,12 @@ package ch.unibas.dmi.dbis.cs108.multiplayer.client;
 
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.ClientPinger;
 
+import ch.unibas.dmi.dbis.cs108.multiplayer.server.MessageFormatter;
 import java.net.Socket;
 import java.io.*;
 import java.net.UnknownHostException;
 import java.util.Scanner;
+import org.apache.logging.log4j.message.Message;
 
 public class Client {
 
@@ -39,7 +41,8 @@ public class Client {
       Scanner sc = new Scanner(System.in);
       while (socket.isConnected()) {
         String msg = sc.nextLine();
-        out.write(msg);
+        String formattedMSG = MessageFormatter.formatMsg(msg);
+        out.write(formattedMSG);
         out.newLine();
         out.flush();
       }
