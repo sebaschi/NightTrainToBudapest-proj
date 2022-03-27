@@ -1,17 +1,16 @@
-package ch.unibas.dmi.dbis.cs108.multiplayer.server;
+package ch.unibas.dmi.dbis.cs108.multiplayer.client;
 
-import ch.unibas.dmi.dbis.cs108.jonasStuff.ServerProtocol;
+import ch.unibas.dmi.dbis.cs108.multiplayer.server.ClientHandler;
 
-
-public class JServerProtocolParser {
+public class JClientProtocolParser {
 
   /**
-   * Used by the server (i.e. ClientHandler) to parse an incoming protocol message.
+   * Used by the client to parse an incoming protocol message.
    * @param msg the encoded message that needs to be parsed
-   * @param h this ClientHandler (required so this method can access the ClientHandler's methods)
+   * @param c this Client(required so this method can access the Client's methods)
    */
-  public static void parse(String msg, ClientHandler h) {
-    String header = "";             //"header" is the first 5 characters.
+  public static void parse(String msg, Client c) {
+    String header = "";                   //"header" is the first 5 characters.
     try {
       header = msg.substring(0, 5);
     } catch (IndexOutOfBoundsException e) {
@@ -19,9 +18,7 @@ public class JServerProtocolParser {
     }
     System.out.println(header);
     switch (header) {
-      case "CHATA":
-        h.broadcastMessage(msg.substring(6));
-        return;
+
       case "CPING":
         h.sendMsgToClient("PINGB");
         System.out.println("got ping!");   //todo:delete
@@ -37,4 +34,7 @@ public class JServerProtocolParser {
         System.out.println("Received unknown command");
     }
   }
+}
+
+
 }
