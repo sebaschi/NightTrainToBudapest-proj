@@ -36,9 +36,8 @@ public class Client {
   }
 
   /**
-   *
+   * Sends a message to the Server in a formatted way COMND$msg
    */
-
   public void sendMessage() {
     try {
       Scanner sc = new Scanner(System.in);
@@ -54,7 +53,6 @@ public class Client {
       closeEverything(socket, in, out);
     }
   }
-
 
 
   /**
@@ -86,6 +84,7 @@ public class Client {
 
   /**
    * Sends a message to the server, as is.
+   *
    * @param msg the message sent. Should already be protocol-formatted.
    */
   public void sendMsgToServer(String msg) {
@@ -101,6 +100,7 @@ public class Client {
 
   /**
    * parses a received message according to the client protocol.
+   *
    * @param msg the message to be parsed.
    */
   public void parse(String msg) {
@@ -137,7 +137,8 @@ public class Client {
       hostname = args[0];
     }
     String systemName = System.getProperty("user.name");
-    System.out.println("Choose a nickname (Suggestion: " + systemName + "): ");
+    System.out.println("Choose a nickname (Suggestion: " + systemName
+        + "): "); //Suggests a name based on System username
     String username = sc.next();
     Socket socket;
     try {

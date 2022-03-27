@@ -19,6 +19,7 @@ public class ClientPinger implements Runnable {
   /**
    * @param socket the socket the Client is connected to which is used to end the thread if the
    *               connection is lost.
+   *
    * @param out    the output through which the pings are sent.
    */
   public ClientPinger(BufferedWriter out, Socket socket) {

@@ -99,7 +99,9 @@ public class ClientHandler implements Runnable {
   }
 
   /**
-   * Lets the client change their respective username, if the username is already taken, a similar option is chosen
+   * Lets the client change their respective username, if the username is already taken, a similar
+   * option is chosen.
+   *
    * @param newName The desired new name to replace the old one with.
    */
   public void changeUsername(String newName) {
@@ -109,11 +111,12 @@ public class ClientHandler implements Runnable {
     String h = this.clientUserName; //just a friendly little helper
     this.clientUserName = newName;
     AllClientNames.allNames(newName);
-    broadcastMessage(h +" have changed their nickname to " + clientUserName);
+    broadcastMessage(h + " have changed their nickname to " + clientUserName);
   }
 
   /**
    * Broadcasts a Message to all active clients in the form "Username: msg"
+   *
    * @param msg the Message to be broadcasted
    */
 
@@ -124,9 +127,10 @@ public class ClientHandler implements Runnable {
   }
 
   //TODO: Documentation
-  /**
+
+  /** Sends a given message to client
    *
-   * @param msg
+   * @param msg the given message
    */
 
   public void sendMsgToClient(String msg) {
@@ -139,11 +143,21 @@ public class ClientHandler implements Runnable {
     }
   }
 
+  /**
+   * Does what it sounds like
+   */
   public void removeClientHandler() {
     connectedClients.remove(this);
     broadcastMessage("SERVER: " + clientUserName + " has left the server");
   }
 
+  /**
+   * Does exactly what it says on the tin, closes all connections of Client to Server.
+   *
+   * @param socket the socket to be closed
+   * @param in the in-Stream reader to be closed
+   * @param out the out-Stream Write to be closed
+   */
   public void closeEverything(Socket socket, BufferedReader in, BufferedWriter out) {
     removeClientHandler();
     try {

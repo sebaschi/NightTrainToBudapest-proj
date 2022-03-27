@@ -6,8 +6,9 @@ public class JClientProtocolParser {
 
   /**
    * Used by the client to parse an incoming protocol message.
+   *
    * @param msg the encoded message that needs to be parsed
-   * @param c this Client(required so this method can access the Client's methods)
+   * @param c   this Client(required so this method can access the Client's methods)
    */
   public static void parse(String msg, Client c) {
     String header = "";             //"header" is the first 5 characters, i.e. the protocol part

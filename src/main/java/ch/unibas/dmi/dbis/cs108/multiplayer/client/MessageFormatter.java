@@ -4,7 +4,7 @@ public class MessageFormatter {
 
   /**
    * Takes a given Message and reformats it to where the JServerProtocolParser.parse() method can
-   * handle it. May need to be redesigned one the games uses a GUI
+   * handle it (see Protocol.txt). May need to be redesigned once the games uses a GUI
    *
    * @param msg the Messaged to be reformatted
    * @return the reformatted message in the form HEADR$msg

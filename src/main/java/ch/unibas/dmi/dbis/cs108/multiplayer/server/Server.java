@@ -17,6 +17,9 @@ public class Server {
     this.serverSocket = serverSocket;
   }
 
+  /**
+   * Starts up a Server that opens Port 42069 either located wia IP address or localhost
+   */
   public void startServer() {
     try {
       System.out.println("Port 42069 is open on " + this.serverSocket.getInetAddress());

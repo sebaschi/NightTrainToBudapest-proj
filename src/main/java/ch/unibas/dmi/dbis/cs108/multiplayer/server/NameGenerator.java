@@ -6,7 +6,8 @@ import java.util.Random;
 public class NameGenerator {
 
     /**
-     * Creates a random alteration of a Name by adding 4 numbers at the end of the Name that shall be alterd
+     * Creates a random alteration of a Name by adding 4 numbers at the end of the Name that shall be altered
+     *
      * @param username the to be altered username
      * @return username + four numbers
      */
