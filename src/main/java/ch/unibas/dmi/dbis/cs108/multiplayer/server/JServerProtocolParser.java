@@ -21,6 +21,9 @@ public class JServerProtocolParser {
       case "CHATA":
         h.broadcastMessage(msg.substring(6));
         break;
+      case "NAMEC":
+        h.changeUsername(msg.substring(6));
+        break;
       case "CPING":
         h.sendMsgToClient("PINGB");
         break;

@@ -79,7 +79,7 @@ public class ClientHandler implements Runnable {
    * The main logic of the client handler.
    * Since every client is put on a string this is where
    * most interactions between client and server are held
-   */
+   **/
   public void run() {
     String msg;
     while (socket.isConnected()) {
@@ -96,6 +96,13 @@ public class ClientHandler implements Runnable {
 
   public String getClientUserName() {
     return clientUserName;
+  }
+
+  public void changeUsername(String newName) {
+
+    String h = this.clientUserName; //just a friendly little helper
+    this.clientUserName = newName;
+    broadcastMessage(h +" have changed their nickname to " + clientUserName);
   }
 
   public void broadcastMessage(String msg) {
