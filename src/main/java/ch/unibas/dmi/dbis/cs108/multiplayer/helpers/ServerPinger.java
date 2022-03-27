@@ -31,26 +31,27 @@ public class ServerPinger implements Runnable {
   @Override
   public void run() {
     try {
+      Thread.sleep(2000);
       while (socket.isConnected()) {
         gotPingBack = false;
         out.write("SPING");
         out.newLine();
         out.flush();
-        Thread.sleep(2000);
+        Thread.sleep(4000);
         if (gotPingBack) {
           if (!isConnected) {         //if !isConnected, then the connection had been lost before.
             isConnected = true;
             System.out.println("Connection regained!");
           }
         } else {
-          isConnected = false;
-          System.out.println("Lost connection. Waiting to reconnect...");
+          if (isConnected) {
+            isConnected = false;
+            System.out.println("Lost connection. Waiting to reconnect...");
+          }
         }
       }
       isConnected = false;        //in case the socket accidentally disconnects (can this happen?)
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    } catch (IOException e) {
+    } catch (InterruptedException | IOException e) {
       e.printStackTrace();
     }
   }
