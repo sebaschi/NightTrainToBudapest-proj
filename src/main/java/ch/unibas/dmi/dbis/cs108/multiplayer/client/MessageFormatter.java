@@ -7,7 +7,7 @@ public class MessageFormatter {
    * handle it. May need to be redesigned one the games uses a GUI
    *
    * @param msg the Messaged to be reformatted
-   * @return the reformatted message
+   * @return the reformatted message in the form HEADR$msg
    */
 
   public static String formatMsg(String msg) {

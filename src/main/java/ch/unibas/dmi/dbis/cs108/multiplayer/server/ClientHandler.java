@@ -99,9 +99,12 @@ public class ClientHandler implements Runnable {
   }
 
   public void changeUsername(String newName) {
-
+    if (AllClientNames.allNames("").contains(newName)) {
+      newName = NameGenerator.randomName(newName);
+    }
     String h = this.clientUserName; //just a friendly little helper
     this.clientUserName = newName;
+    AllClientNames.allNames(newName);
     broadcastMessage(h +" have changed their nickname to " + clientUserName);
   }
 
