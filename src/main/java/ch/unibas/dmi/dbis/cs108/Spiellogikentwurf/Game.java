@@ -1,5 +1,8 @@
 package ch.unibas.dmi.dbis.cs108.Spiellogikentwurf;
 
+
+import org.apache.logging.log4j.*;
+
 public class Game {
 
   /**
@@ -9,8 +12,6 @@ public class Game {
   protected int nrOfGhosts; // sets how many Ghosts we start witch
   protected int nrOfUsers; // safes how many clients are active in this Game
   protected GameFunctions gameFunctions;
-
-
   /**
    * Constructs a Game instance where:
    *
@@ -24,15 +25,14 @@ public class Game {
     this.nrOfGhosts = nrOfGhosts;
     this.nrOfUsers = nrOfUsers;
     this.gameFunctions = new GameFunctions(nrOfPlayers, nrOfGhosts, nrOfUsers);
-  }
+    }
 
 
   public static void main(String[] args) {
+
     try {
+
       Game game1 = new Game(6, 1, 1);
-      for (int j = 0; j < game1.nrOfPlayers; j++) {
-        System.out.println(game1.gameFunctions.passengerTrain[j].getPosition());
-      }
 
     } catch (TrainOverflow e) {
       System.out.println(e.getMessage());
