@@ -1,14 +1,13 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.server;
 
-import ch.unibas.dmi.dbis.cs108.jonasStuff.ServerProtocol;
-
 
 public class JServerProtocolParser {
 
   /**
    * Used by the server (i.e. ClientHandler) to parse an incoming protocol message.
+   *
    * @param msg the encoded message that needs to be parsed
-   * @param h this ClientHandler (required so this method can access the ClientHandler's methods)
+   * @param h   this ClientHandler (required so this method can access the ClientHandler's methods)
    */
   public static void parse(String msg, ClientHandler h) {
     String header = "";             //"header" is the first 5 characters, i.e. the protocol part

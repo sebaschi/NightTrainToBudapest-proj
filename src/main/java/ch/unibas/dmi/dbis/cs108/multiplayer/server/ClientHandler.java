@@ -1,7 +1,6 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.server;
 
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.ServerPinger;
-import ch.unibas.dmi.dbis.cs108.multiplayer.protocol.NTtBFormatMsg;
 import java.io.*;
 import java.net.Socket;
 import java.util.HashSet;
@@ -18,7 +17,6 @@ public class ClientHandler implements Runnable {
   public static HashSet<ClientHandler> connectedClients = new HashSet<>();
   public static HashSet<ClientHandler> lobby = new HashSet<>();
   public static HashSet<ClientHandler> ghostClients = new HashSet<>();
-  private ClientMsgDecoder clientMsgDecoder = new ClientMsgDecoder();
 
   /**
    * Implements the login logic in client-server architecture.
@@ -65,10 +63,6 @@ public class ClientHandler implements Runnable {
 
   public static HashSet<ClientHandler> getGhostClients() {
     return ghostClients;
-  }
-
-  public ClientMsgDecoder getClientMsgDecoder() {
-    return clientMsgDecoder;
   }
 
   //Setters

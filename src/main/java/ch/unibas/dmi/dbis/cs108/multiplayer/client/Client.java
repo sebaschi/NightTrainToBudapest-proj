@@ -1,7 +1,6 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.client;
 
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.ClientPinger;
-import ch.unibas.dmi.dbis.cs108.multiplayer.protocol.NoLegalProtocolCommandStringFoundException;
 
 import java.net.Socket;
 import java.io.*;
@@ -50,23 +49,10 @@ public class Client {
     }
   }
 
-  /**
-   * Uses <code>NTtBProtocolParser</code> to turn Client input into the NTtB Protocol format. Must
-   * be called before a client input is sent to the server.
-   *
-   * @param msg the msg to be encoded.
-   * @return Message encoded adhering to the NTtB Protocoll.
-   */
-  private String encodeMessage(String msg)
-      throws NoLegalProtocolCommandStringFoundException, EmptyClientInputException {
-    NTtBProtocolParser pp = new NTtBProtocolParser(this);
-    return pp.parseMsg(msg);
-  }
-  //TODO implement decoding of server input
-  private String decodeServerMsg(String msg){return null;}
+
 
   /**
-   * Listens for incoming messages
+   * Starts a thread which listens for incoming messages
    */
   public void chatListener() {
         /*TODO: what type of decoding has to be done
@@ -92,6 +78,10 @@ public class Client {
     }).start();
   }
 
+  /**
+   * Sends a message to the server, as is.
+   * @param msg the message sent. Should already be protocol-formatted.
+   */
   public void sendMsgToServer(String msg) {
     try {
       out.write(msg);
@@ -103,6 +93,10 @@ public class Client {
 
   }
 
+  /**
+   * parses a received message according to the client protocol.
+   * @param msg the message to be parsed.
+   */
   public void parse(String msg) {
     JClientProtocolParser.parse(msg, this);
   }
