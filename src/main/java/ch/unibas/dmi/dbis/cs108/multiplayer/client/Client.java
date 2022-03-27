@@ -1,5 +1,6 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.client;
 
+import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.ClientPinger;
 import ch.unibas.dmi.dbis.cs108.multiplayer.protocol.NoLegalProtocolCommandStringFoundException;
 
 import java.net.Socket;
@@ -13,6 +14,7 @@ public class Client {
   private BufferedReader in;
   private BufferedWriter out;
   public String userName;
+  public ClientPinger clientPinger;
 
   public Client(Socket socket, String userName) {
     try {
@@ -26,6 +28,7 @@ public class Client {
       this.out.write(getUsername());
       this.out.newLine();
       this.out.flush();
+      clientPinger = new ClientPinger(this.out, this.socket);
     } catch (IOException e) {
       e.printStackTrace();
       closeEverything(socket, in, out);
@@ -72,12 +75,13 @@ public class Client {
     new Thread(new Runnable() {
       @Override
       public void run() {
+
         String chatMsg;
 
         while (socket.isConnected()) {
           try {
             chatMsg = in.readLine();
-            System.out.println(chatMsg);
+            parse(chatMsg);
           } catch (IOException e) {
             e.printStackTrace();
             closeEverything(socket, in, out);
@@ -86,6 +90,21 @@ public class Client {
         }
       }
     }).start();
+  }
+
+  public void sendMsgToServer(String msg) {
+    try {
+      out.write(msg);
+      out.newLine();
+      out.flush();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+  }
+
+  public void parse(String msg) {
+    JClientProtocolParser.parse(msg, this);
   }
 
   public void closeEverything(Socket socket, BufferedReader in, BufferedWriter out) {
@@ -124,6 +143,9 @@ public class Client {
       Client client = new Client(socket, username);
       client.chatListener();
       client.sendMessage();
+      Thread cP = new Thread(client.clientPinger);
+      System.out.println("im here");
+      cP.start();
     } catch (UnknownHostException e) {
       System.out.println("Invalid host IP");
     } catch (IOException e) {

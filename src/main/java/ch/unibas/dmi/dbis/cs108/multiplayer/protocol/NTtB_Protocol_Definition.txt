@@ -18,4 +18,5 @@
  * SEROR: Server had an error. (used for debugging)
  * SPING: Ping from server to client;
  * NOCMD: Co command found.
+ * CHATM: Incoming Chat message.
  */

@@ -21,18 +21,18 @@ public class JServerProtocolParser {
     switch (header) {
       case "CHATA":
         h.broadcastMessage(msg.substring(6));
-        return;
+        break;
       case "CPING":
         h.sendMsgToClient("PINGB");
         System.out.println("got ping!");   //todo:delete
-        return;
+        break;
       case "PINGB":
         h.serverPinger.setGotPingBack(true);
         System.out.println("got pingback!");    //todo: delete
-        return;
+        break;
       case "QUITS":
         h.closeEverything(h.getSocket(), h.getIn(), h.getOut());
-        return;
+        break;
       default:
         System.out.println("Received unknown command");
     }

@@ -43,8 +43,10 @@ public class ServerPinger implements Runnable {
             System.out.println("Connection regained!");
           }
         } else {
-          isConnected = false;
-          System.out.println("Lost connection. Waiting to reconnect...");
+          if (isConnected) {
+            isConnected = false;
+            System.out.println("Lost connection. Waiting to reconnect...");
+          }
         }
       }
       isConnected = false;        //in case the socket accidentally disconnects (can this happen?)

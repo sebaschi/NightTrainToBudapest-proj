@@ -18,23 +18,16 @@ public class JClientProtocolParser {
     }
     System.out.println(header);
     switch (header) {
-
-      case "CPING":
-        h.sendMsgToClient("PINGB");
+      case "SPING":
+        c.sendMsgToServer("PINGB");
         System.out.println("got ping!");   //todo:delete
-        return;
+        break;
       case "PINGB":
-        h.serverPinger.setGotPingBack(true);
+        c.clientPinger.setGotPingBack(true);
         System.out.println("got pingback!");    //todo: delete
-        return;
-      case "QUITS":
-        h.closeEverything(h.getSocket(), h.getIn(), h.getOut());
-        return;
+        break;
       default:
         System.out.println("Received unknown command");
     }
   }
-}
-
-
 }
