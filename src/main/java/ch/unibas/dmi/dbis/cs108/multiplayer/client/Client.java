@@ -2,7 +2,6 @@ package ch.unibas.dmi.dbis.cs108.multiplayer.client;
 
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.ClientPinger;
 
-
 import java.net.Socket;
 import java.io.*;
 import java.net.UnknownHostException;

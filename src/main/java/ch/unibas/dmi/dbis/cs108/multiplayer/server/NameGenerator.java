@@ -1,4 +1,4 @@
-package ch.unibas.dmi.dbis.cs108.multiplayer.client;
+package ch.unibas.dmi.dbis.cs108.multiplayer.server;
 
 import java.util.Random;
 
