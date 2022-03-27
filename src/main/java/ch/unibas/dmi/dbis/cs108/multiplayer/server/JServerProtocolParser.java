@@ -16,7 +16,7 @@ public class JServerProtocolParser {
     } catch (IndexOutOfBoundsException e) {
       System.out.println("Received unknown command");
     }
-    //System.out.println(header); helpful for debugging
+    //System.out.println(header);     //helpful for debugging
     switch (header) {
       case "CHATA":
         h.broadcastMessage(msg.substring(6));

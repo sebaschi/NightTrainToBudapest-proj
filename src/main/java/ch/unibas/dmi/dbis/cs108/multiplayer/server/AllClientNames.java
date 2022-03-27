@@ -12,12 +12,12 @@ public class AllClientNames {
   static StringBuilder names = new StringBuilder();
 
   /**
-   * Safes a new name to the List of all Names
+   * Saves a new name to the List of all Names
    *
    * @param currentName the new name to be added
    * @return All names adding the new currentName
    */
   public static String allNames(String currentName) {
-    return names.append(currentName).toString();
+    return names.append(currentName).toString();        //todo: might use a String<> instead.
   }
 }
