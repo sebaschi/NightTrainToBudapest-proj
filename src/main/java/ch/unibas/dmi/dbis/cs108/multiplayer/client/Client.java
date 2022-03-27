@@ -1,12 +1,12 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.client;
 
-import ch.unibas.dmi.dbis.cs108.multiplayer.protocol.NoLegalProtocolCommandStringFoundException;
-import ch.unibas.dmi.dbis.cs108.multiplayer.server.NameGenerator;
+import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.ClientPinger;
 
 import java.net.Socket;
 import java.io.*;
 import java.net.UnknownHostException;
 import java.util.Scanner;
+
 
 public class Client {
 
@@ -14,6 +14,7 @@ public class Client {
   private BufferedReader in;
   private BufferedWriter out;
   public String userName;
+  public ClientPinger clientPinger;
 
   public Client(Socket socket, String userName) {
     try {
@@ -21,37 +22,32 @@ public class Client {
       this.out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
       this.in = new BufferedReader((new InputStreamReader((socket.getInputStream()))));
 
+      //TODO add the system based generated username here.
       //TODO hide connecting logik(next 4 lines)
       this.userName = userName;
       this.out.write(getUsername());
       this.out.newLine();
       this.out.flush();
+      clientPinger = new ClientPinger(this.out, this.socket);
     } catch (IOException e) {
       e.printStackTrace();
       closeEverything(socket, in, out);
     }
   }
 
+  /**
+   *
+   */
+
   public void sendMessage() {
     try {
       Scanner sc = new Scanner(System.in);
       while (socket.isConnected()) {
         String msg = sc.nextLine();
-        String encodedMsg = "";
-        try {
-          encodedMsg = encodeMessage(msg);
-        } catch (NoLegalProtocolCommandStringFoundException e) {
-          System.out.println("ERROR: no legal command found");
-          encodedMsg = "";
-        } catch (EmptyClientInputException e) {
-          //Maybe this exception shouldn't do anything.
-        } finally {
-          out.write(encodedMsg);
-          out.newLine();
-          out.flush();
-        }
-
-
+        String formattedMSG = MessageFormatter.formatMsg(msg);
+        out.write(formattedMSG);
+        out.newLine();
+        out.flush();
       }
     } catch (IOException e) {
       e.printStackTrace();
@@ -59,23 +55,10 @@ public class Client {
     }
   }
 
-  /**
-   * Uses <code>NTtBProtocolParser</code> to turn Client input into the NTtB Protocol format. Must
-   * be called before a client input is sent to the server.
-   *
-   * @param msg the msg to be encoded.
-   * @return Message encoded adhering to the NTtB Protocoll.
-   */
-  private String encodeMessage(String msg)
-      throws NoLegalProtocolCommandStringFoundException, EmptyClientInputException {
-    NTtBProtocolParser pp = new NTtBProtocolParser(this);
-    return pp.parseMsg(msg);
-  }
-  //TODO implement decoding of server input
-  private String decodeServerMsg(String msg){return null;}
+
 
   /**
-   * Listens for incoming messages
+   * Starts a thread which listens for incoming messages
    */
   public void chatListener() {
         /*TODO: what type of decoding has to be done
@@ -84,12 +67,13 @@ public class Client {
     new Thread(new Runnable() {
       @Override
       public void run() {
+
         String chatMsg;
 
         while (socket.isConnected()) {
           try {
             chatMsg = in.readLine();
-            System.out.println(chatMsg);
+            parse(chatMsg);
           } catch (IOException e) {
             e.printStackTrace();
             closeEverything(socket, in, out);
@@ -98,6 +82,29 @@ public class Client {
         }
       }
     }).start();
+  }
+
+  /**
+   * Sends a message to the server, as is.
+   * @param msg the message sent. Should already be protocol-formatted.
+   */
+  public void sendMsgToServer(String msg) {
+    try {
+      out.write(msg);
+      out.newLine();
+      out.flush();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+  }
+
+  /**
+   * parses a received message according to the client protocol.
+   * @param msg the message to be parsed.
+   */
+  public void parse(String msg) {
+    JClientProtocolParser.parse(msg, this);
   }
 
   public void closeEverything(Socket socket, BufferedReader in, BufferedWriter out) {
@@ -129,14 +136,17 @@ public class Client {
     } else {
       hostname = args[0];
     }
-    System.out.println("Choose a nickname: ");
+    String systemName = System.getProperty("user.name");
+    System.out.println("Choose a nickname (Suggestion: " + systemName + "): ");
     String username = sc.next();
     Socket socket;
     try {
       socket = new Socket(hostname, 42069);
       Client client = new Client(socket, username);
       client.chatListener();
-      client.sendMessage();
+      Thread cP = new Thread(client.clientPinger);
+      cP.start();
+      client.sendMessage();     //this one blocks.
     } catch (UnknownHostException e) {
       System.out.println("Invalid host IP");
     } catch (IOException e) {
@@ -148,6 +158,4 @@ public class Client {
   public String getUsername() {
     return userName;
   }
-
 }
-
