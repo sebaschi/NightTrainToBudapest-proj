@@ -11,13 +11,13 @@ public class JServerProtocolParser {
    * @param h this ClientHandler (required so this method can access the ClientHandler's methods)
    */
   public static void parse(String msg, ClientHandler h) {
-    String header = "";             //"header" is the first 5 characters.
+    String header = "";             //"header" is the first 5 characters, i.e. the protocol part
     try {
       header = msg.substring(0, 5);
     } catch (IndexOutOfBoundsException e) {
       e.printStackTrace();
     }
-    System.out.println(header);
+    //System.out.println(header); helpful for debugging
     switch (header) {
       case "CHATA":
         h.broadcastMessage(msg.substring(6));

@@ -102,9 +102,9 @@ public class ClientHandler implements Runnable {
     for (ClientHandler client : connectedClients) {
       try {
         if (!client.clientUserName.equals((clientUserName))) {
-          client.out.write(msg);
+          client.out.write("CHATM:" + msg);
         } else {
-          client.out.write("Message: **" + msg + "** sent!");
+          client.out.write("CHATM:Message: **" + msg + "** sent!");
         }
         client.out.newLine();
         client.out.flush();

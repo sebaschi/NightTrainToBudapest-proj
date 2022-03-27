@@ -10,19 +10,22 @@ public class JClientProtocolParser {
    * @param c this Client(required so this method can access the Client's methods)
    */
   public static void parse(String msg, Client c) {
-    String header = "";                   //"header" is the first 5 characters.
+    String header = "";             //"header" is the first 5 characters, i.e. the protocol part
     try {
       header = msg.substring(0, 5);
     } catch (IndexOutOfBoundsException e) {
       e.printStackTrace();
     }
-    System.out.println(header);
+    //System.out.println(header);     helpful for debugging
     switch (header) {
       case "SPING":
         c.sendMsgToServer("PINGB");
         break;
       case "PINGB":
         c.clientPinger.setGotPingBack(true);
+        break;
+      case "CHATM":
+        System.out.println(msg.substring(6));
         break;
       default:
         System.out.println("Received unknown command");
