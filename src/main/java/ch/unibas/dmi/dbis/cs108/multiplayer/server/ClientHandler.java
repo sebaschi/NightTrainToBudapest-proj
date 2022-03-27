@@ -94,18 +94,7 @@ public class ClientHandler implements Runnable {
 
   public void broadcastMessage(String msg) {
     for (ClientHandler client : connectedClients) {
-      try {
-        if (!client.clientUserName.equals((clientUserName))) {
-          client.out.write("CHATM:" + msg);
-        } else {
-          client.out.write("CHATM:Message: **" + msg + "** sent!");
-        }
-        client.out.newLine();
-        client.out.flush();
-      } catch (IOException e) {
-        e.printStackTrace();
-        closeEverything(socket, in, out);
-      }
+      client.sendMsgToClient("CHATM:" + clientUserName + ": \"" + msg + "\"");
     }
   }
 

@@ -14,7 +14,7 @@ public class JServerProtocolParser {
     try {
       header = msg.substring(0, 5);
     } catch (IndexOutOfBoundsException e) {
-      e.printStackTrace();
+      System.out.println("Received unknown command");
     }
     //System.out.println(header); helpful for debugging
     switch (header) {

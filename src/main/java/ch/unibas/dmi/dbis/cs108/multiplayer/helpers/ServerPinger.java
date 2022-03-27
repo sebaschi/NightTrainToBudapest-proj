@@ -50,9 +50,7 @@ public class ServerPinger implements Runnable {
         }
       }
       isConnected = false;        //in case the socket accidentally disconnects (can this happen?)
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    } catch (IOException e) {
+    } catch (InterruptedException | IOException e) {
       e.printStackTrace();
     }
   }
