@@ -14,7 +14,7 @@
  */
  /**
  Server Commands:
- * MSGRS: "Message received": Paramaters: a string detailing to the client that and what the server received as command.
+ * MSGRS: "Message received": Parameters: a string detailing to the client that and what the server received as command.
  * SEROR: Server had an error. (used for debugging)
  * SPING: Ping from server to client;
  * NOCMD: Co command found.

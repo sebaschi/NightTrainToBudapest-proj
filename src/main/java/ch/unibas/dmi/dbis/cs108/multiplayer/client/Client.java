@@ -37,21 +37,9 @@ public class Client {
       Scanner sc = new Scanner(System.in);
       while (socket.isConnected()) {
         String msg = sc.nextLine();
-        String encodedMsg = "";
-        try {
-          encodedMsg = encodeMessage(msg);
-        } catch (NoLegalProtocolCommandStringFoundException e) {
-          System.out.println("ERROR: no legal command found");
-          encodedMsg = "";
-        } catch (EmptyClientInputException e) {
-          //Maybe this exception shouldn't do anything.
-        } finally {
-          out.write(encodedMsg);
-          out.newLine();
-          out.flush();
-        }
-
-
+        out.write(msg);
+        out.newLine();
+        out.flush();
       }
     } catch (IOException e) {
       e.printStackTrace();

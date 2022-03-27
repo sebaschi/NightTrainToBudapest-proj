@@ -66,22 +66,16 @@ public class ClientHandler implements Runnable  {
 
     @Override
     /**
-     * The main logik of the client handler.
+     * The main logic of the client handler.
      * Since every client is put on a string this is where
-     * most interactions between client and server are held..
+     * most interactions between client and server are held
      */
     public void run() {
         String msg;
-        NTtBFormatMsg response;
         while(socket.isConnected()) {
             try {
-
                 msg = in.readLine();
-                response = clientMsgDecoder.decodeMsg(msg); //The response of the server to the clients message
-                out.write(response.getMessage());
-                out.newLine();
-                out.flush();
-                //TODO if merely an acknowledgement is sent back to the client, how does the client recieve game updates?
+                JServerProtocolParser.parse(msg, this);
             } catch (IOException e) {
                 e.printStackTrace();
                 closeEverything(socket, in, out);
