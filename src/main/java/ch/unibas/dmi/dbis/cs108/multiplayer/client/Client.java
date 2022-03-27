@@ -142,10 +142,9 @@ public class Client {
       socket = new Socket(hostname, 42069);
       Client client = new Client(socket, username);
       client.chatListener();
-      client.sendMessage();
       Thread cP = new Thread(client.clientPinger);
-      System.out.println("im here");
       cP.start();
+      client.sendMessage();     //this one blocks.
     } catch (UnknownHostException e) {
       System.out.println("Invalid host IP");
     } catch (IOException e) {

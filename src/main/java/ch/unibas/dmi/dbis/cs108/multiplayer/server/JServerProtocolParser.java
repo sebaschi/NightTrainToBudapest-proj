@@ -24,11 +24,9 @@ public class JServerProtocolParser {
         break;
       case "CPING":
         h.sendMsgToClient("PINGB");
-        System.out.println("got ping!");   //todo:delete
         break;
       case "PINGB":
         h.serverPinger.setGotPingBack(true);
-        System.out.println("got pingback!");    //todo: delete
         break;
       case "QUITS":
         h.closeEverything(h.getSocket(), h.getIn(), h.getOut());

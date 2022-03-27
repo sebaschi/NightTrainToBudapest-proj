@@ -20,11 +20,9 @@ public class JClientProtocolParser {
     switch (header) {
       case "SPING":
         c.sendMsgToServer("PINGB");
-        System.out.println("got ping!");   //todo:delete
         break;
       case "PINGB":
         c.clientPinger.setGotPingBack(true);
-        System.out.println("got pingback!");    //todo: delete
         break;
       default:
         System.out.println("Received unknown command");
