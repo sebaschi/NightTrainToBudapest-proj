@@ -152,7 +152,8 @@ Alexandr: bis 26.4 Abends
 
 
 
-Rule: Alles was geht in eigene Klassen Methoden schreiben. Soviel wie möglich commiten mit Aufschlussreichen messages.
+Rule: Alles was geht in eigene Klassen Methoden schreiben.
+Soviel wie möglich commiten mit Aufschlussreichen messages.
 
 Nächste Absprache Fr 25.4 Abends
 
@@ -164,8 +165,19 @@ Zuhause pingpong & IP-auswahl implementiert.
 Für PingPong brauche ich noch Hilfe von Sebastian bzgl. Protocol-Parser
 
 
-25.03.2022 -Seraina
-Das QA-Konzept steht muss aber noch von allen Akzeptiert werden. 
-Ebenfalls ist hierzu wohl bald ein Treffen nötig, bei welchem ich alle mit den notwenigen Tools vertraut machen kann.
+25.03.2022 - Seraina
+Das QA-Konzept steht, muss aber noch von allen Akzeptiert werden.
+Ebenfalls ist hierzu wohl bald ein Treffen nötig, bei welchem ich alle mit den notwenigen Tools
+vertraut machen kann.
 
 
+27.03.2022 - Seraina
+Kommunikationsschwierigkeiten haben zu einem hektischen letzten Entwicklungstag geführt.
+Wir mussten einiges nochmal komplett neu Aufbauen und einige Gruppenmietglieder waren kaum erreichbar.
+Fazit daraus für Meilenstein III:
+   o Wir brauchen fixe Besprechungstermine (-> QA-Konzept) um uns gegenseitig auf dem Laufenden
+     zu halten und um sicherzustellen, dass alle den Code der anderen zumindest grundlegend verstehen,
+     sodass nichts logistisch notwendig an einer Person hängen bleibt.
+   o Wir brauchen fixe deadlines die wir wohl am besten mittels treffen und Buddy-System umsetzten können.
+   o Wir müssen noch mehr Puffer enplanen und uns auch daran halten den Puffer nicht einfach als
+     mögliches Verschieben einer deadline zu betrachten.
