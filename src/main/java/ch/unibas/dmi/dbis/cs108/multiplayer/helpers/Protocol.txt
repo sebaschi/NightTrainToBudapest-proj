@@ -1,0 +1,31 @@
+Client commands:
+
+Implemented:
+ * CHATA:$message     Send chat message to all
+ * QUITS              quit server/ leave server
+ * CPING              Ping from client to server.
+ * PINGB              Pingback from client to server.
+ * NAMEC:$name        Change name to whatever is specified
+
+Future / planned:
+ * CRTGM              Create a new game
+ * CHATW              whisper chat
+ * CHATG              ghost chat
+ * LEAVG              leave a game
+ * JOING              join a game
+ * VOTEG              ghost voting who to infect
+ * VOTEH              humans voting who is the ghost
+ * LISTP              list players/clients in session with the Server
+
+Server Commands:
+
+Implemented:
+ * SPING              Ping from server to client
+ * PINGB              Pingback from client to server.
+
+Future / planned:
+ * MSGRS: "Message received": Paramaters: a string detailing to the client that and what the server received as command.
+ * SEROR: Server had an error. (used for debugging)
+ * NOCMD: Co command found.
+
+
