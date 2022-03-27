@@ -31,7 +31,7 @@ public class ClientHandler implements Runnable {
       this.clientUserName = in.readLine();
       // duplicate handling: if username already taken, assign random name to client
       if (AllClientNames.allNames("").contains(clientUserName)) {
-        clientUserName = NameGenerator.randomName();
+        clientUserName = NameGenerator.randomName(clientUserName);
       }
       // add username to list of all client names for future duplicate checking
       AllClientNames.allNames(clientUserName);
