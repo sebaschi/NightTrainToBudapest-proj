@@ -31,12 +31,13 @@ public class ServerPinger implements Runnable {
   @Override
   public void run() {
     try {
+      Thread.sleep(2000);
       while (socket.isConnected()) {
         gotPingBack = false;
         out.write("SPING");
         out.newLine();
         out.flush();
-        Thread.sleep(5000);
+        Thread.sleep(4000);
         if (gotPingBack) {
           if (!isConnected) {         //if !isConnected, then the connection had been lost before.
             isConnected = true;
