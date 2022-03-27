@@ -14,8 +14,13 @@ Votes are held in the night for the ghosts to decide who will be next and during
 
 ## Features
 * 1 - 6 Players
-* In Game Chat
+* In-Game Chat
 * ...
+
+## Console Commands
+* /c "message" - sends a chat message to all connected players
+* /n "name" - changes player name
+* /q - quit
 
 ## Installation
 ...
