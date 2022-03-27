@@ -11,15 +11,16 @@ public class JServerProtocolParser {
    */
   public static void parse(String msg, ClientHandler h) {
     String header = "";             //"header" is the first 5 characters, i.e. the protocol part
+    String formattedMSG = MessageFormatter.formatMsg(msg);
     try {
-      header = msg.substring(0, 5);
+      header = formattedMSG.substring(0, 5);
     } catch (IndexOutOfBoundsException e) {
       System.out.println("Received unknown command");
     }
     //System.out.println(header); helpful for debugging
     switch (header) {
       case "CHATA":
-        h.broadcastMessage(msg.substring(6));
+        h.broadcastMessage(formattedMSG.substring(6));
         break;
       case "CPING":
         h.sendMsgToClient("PINGB");
