@@ -1,11 +1,11 @@
 Client commands:
 
 Implemented:
- * CHATA:$message     Send chat message to all
+ * CHATA$message      Send chat message to all
  * QUITS              quit server/ leave server
  * CPING              Ping from client to server.
  * PINGB              Pingback from client to server.
- * NAMEC:$name        Change name to whatever is specified
+ * NAMEC$name         Change name to whatever is specified
 
 Future / planned:
  * CRTGM              Create a new game
@@ -24,8 +24,8 @@ Implemented:
  * PINGB              Pingback from client to server.
 
 Future / planned:
- * MSGRS: "Message received": Paramaters: a string detailing to the client that and what the server received as command.
- * SEROR: Server had an error. (used for debugging)
- * NOCMD: Co command found.
+ * MSGRS              "Message received": Paramaters: a string detailing to the client that and what the server received as command.
+ * SEROR              Server had an error. (used for debugging)
+ * NOCMD              No command found.
 
 
