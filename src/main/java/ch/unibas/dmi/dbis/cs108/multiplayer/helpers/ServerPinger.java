@@ -36,7 +36,7 @@ public class ServerPinger implements Runnable {
         out.write("SPING");
         out.newLine();
         out.flush();
-        Thread.sleep(2000);
+        Thread.sleep(5000);
         if (gotPingBack) {
           if (!isConnected) {         //if !isConnected, then the connection had been lost before.
             isConnected = true;
