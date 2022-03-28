@@ -181,3 +181,10 @@ Fazit daraus für Meilenstein III:
    o Wir brauchen fixe deadlines die wir wohl am besten mittels treffen und Buddy-System umsetzten können.
    o Wir müssen noch mehr Puffer enplanen und uns auch daran halten den Puffer nicht einfach als
      mögliches Verschieben einer deadline zu betrachten.
+
+
+26-28.03.2022 - Alex
+- Implementierung eines random-name-Generators
+- Behandlung von Duplikaten bei Auswahl des Spielernamens
+- Wiederholter Versuch, Logout Handler zu implementieren, jedoch erfolglos
+	- Problem: broken pipe exceptions und stream closed exceptions beim Logout eines Clients
