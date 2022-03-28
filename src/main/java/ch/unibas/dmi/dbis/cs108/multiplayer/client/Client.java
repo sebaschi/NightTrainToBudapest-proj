@@ -110,7 +110,6 @@ public class Client {
   public void closeEverything(Socket socket, BufferedReader in, BufferedWriter out) {
     //TODO Correctly closing a clients connection
 
-    // Is this not already correct?
     try {
       if (in != null) {
         in.close();

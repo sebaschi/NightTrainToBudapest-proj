@@ -126,8 +126,6 @@ public class ClientHandler implements Runnable {
     }
   }
 
-  //TODO: Documentation
-
   /** Sends a given message to client
    *
    * @param msg the given message
