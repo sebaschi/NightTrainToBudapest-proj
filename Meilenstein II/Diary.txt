@@ -188,3 +188,24 @@ Fazit daraus für Meilenstein III:
 - Behandlung von Duplikaten bei Auswahl des Spielernamens
 - Wiederholter Versuch, Logout Handler zu implementieren, jedoch erfolglos
 	- Problem: broken pipe exceptions und stream closed exceptions beim Logout eines Clients
+
+31.03.2022 - alle Gruppenmitglieder
+- Fortschrittsbesprechung, Reflexion auf Meilenstein 2
+	- Was wurde erreicht, was nicht? Wenn nicht, warum nicht?
+		- Nicht erreicht: Ping-Pong-Funktionalität, Logout-Handling
+			- Unerwarteter Fehler bei Ping-Pong (beim Client-Logout)
+	- Diskussion über Kommunikationsschwierigkeiten: In Zukunft bessere Code-Dokumentation nötig, damit 		Gruppenmitglieder eigenen Code nachvollziehen können. 
+		- Auch: 1-2 Mal pro Woche Meeting zur Fortschrittsbesprechung (Do, Fr), zusätzlich während der 				Übungsstunde.
+		- Einführung eines Buddy-Systems: Zwei 2er-Gruppen (Seraina + Sebastian, Jonas + Alex, Teamswitch 			möglich), gegenseitige Unterstützung/Überprüfung beim Coden, Orientierung an QA-Konzept
+		- Logger-Implementierung
+	- Wer macht was für Meilenstein 3?
+		1a. Client/Server (Beheben bisheriger Probleme (Ping-Pong, Logout)) (Sebastian, Jonas)
+			Chat + Lobby
+		1b. Spiellogik (Seraina, Alex)
+			Verbindung 1a-1b: Wie werden Informationen gesammelt und verbreitet?
+		- Wichtig: Klare Arbeitsteilung innerhalb einer Gruppe
+			- Client/Server
+				- PingPong, Logout, Socket Handling, evtl. Protokoll in Enum übertragen, evtl. name 						suggestion verbressern (Jonas)
+				- Lobbies, evtl. Chat-GUI (Sebastian)
+			- Repo-Cleanup (Seraina, bis Mo)
+			- Spiellogik v.a. Sa, So
