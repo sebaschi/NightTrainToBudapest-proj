@@ -1,4 +1,4 @@
-package ch.unibas.dmi.dbis.cs108.Klassenstruktur;
+package ch.unibas.dmi.dbis.cs108.klassenstruktur;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.multiplayer.server.ClientHandler;
