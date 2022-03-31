@@ -1,4 +1,4 @@
-package ch.unibas.dmi.dbis.cs108.Spiellogikentwurf;
+package ch.unibas.dmi.dbis.cs108.spiellogikentwurf;
 
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
