@@ -1,8 +1,13 @@
 package ch.unibas.dmi.dbis.cs108.Klassenstruktur;
 
+import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.multiplayer.server.ClientHandler;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Passenger {
+  public static final Logger LOGGER = LogManager.getLogger();
+  public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   protected int position;               //the player's Cabin number (0 to 5)
   protected String name;                //the player's Name

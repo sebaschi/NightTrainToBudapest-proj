@@ -1,8 +1,11 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.helpers;
 
+import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.net.Socket;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Sends a ping to the client ("SPING") every 2 seconds and checks if it has gotten a pingback. The
@@ -10,6 +13,8 @@ import java.net.Socket;
  * how the server receives and parses messages.
  */
 public class ServerPinger implements Runnable {
+  public static final Logger LOGGER = LogManager.getLogger();
+  public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   private boolean gotPingBack;    //should be set to true (via setGotPingBack) as soon as the server gets a pingback.
   private boolean isConnected;    //set to true unless the ServerPinger detects a connection loss.

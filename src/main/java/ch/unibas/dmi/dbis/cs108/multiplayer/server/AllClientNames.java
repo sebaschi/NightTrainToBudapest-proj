@@ -1,5 +1,9 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.server;
 
+import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * This class is built to contain the usernames of all players in a single string. This allows a
  * duplicate check (ClientHandler) when a new player chooses a name: does the string with all
@@ -8,6 +12,8 @@ package ch.unibas.dmi.dbis.cs108.multiplayer.server;
  */
 
 public class AllClientNames {
+  public static final Logger LOGGER = LogManager.getLogger();
+  public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   static StringBuilder names = new StringBuilder();
 

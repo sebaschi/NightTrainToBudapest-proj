@@ -1,8 +1,13 @@
 package ch.unibas.dmi.dbis.cs108.Klassenstruktur;
 
+import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.multiplayer.server.ClientHandler;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class GhostPlayer extends Ghost {
+  public static final Logger LOGGER = LogManager.getLogger();
+  public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   /**
    * Creates a new GhostPlayer. Should be used at game start or if a HumanPlayer is turned into a

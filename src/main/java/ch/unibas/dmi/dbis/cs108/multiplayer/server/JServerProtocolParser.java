@@ -1,7 +1,13 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.server;
 
 
+import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class JServerProtocolParser {
+  public static final Logger LOGGER = LogManager.getLogger();
+  public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   /**
    * Used by the server (i.e. ClientHandler) to parse an incoming protocol message.

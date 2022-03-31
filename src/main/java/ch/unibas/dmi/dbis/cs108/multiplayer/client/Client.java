@@ -1,14 +1,20 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.client;
 
+import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.ClientPinger;
+
 
 import java.net.Socket;
 import java.io.*;
 import java.net.UnknownHostException;
 import java.util.Scanner;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 public class Client {
+  public static final Logger LOGGER = LogManager.getLogger();
+  public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   private Socket socket;
   private BufferedReader in;

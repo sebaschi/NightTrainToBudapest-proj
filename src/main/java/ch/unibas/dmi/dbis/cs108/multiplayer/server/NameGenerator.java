@@ -1,9 +1,14 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.server;
 
+import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import java.util.Random;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 public class NameGenerator {
+  public static final Logger LOGGER = LogManager.getLogger();
+  public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   /**
    * Creates a random alteration of a Name by adding 4 numbers at the end of the Name that shall be

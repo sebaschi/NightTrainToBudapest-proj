@@ -1,9 +1,12 @@
 package ch.unibas.dmi.dbis.cs108.Spiellogikentwurf;
 
 
+import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import org.apache.logging.log4j.*;
 
 public class Game {
+  public static final Logger LOGGER = LogManager.getLogger();
+  public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   /**
    * Can be extended for optional Game-settings

@@ -1,12 +1,17 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.server;
 
+import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashSet;
 import java.util.Scanner;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Server {
+  public static final Logger LOGGER = LogManager.getLogger();
+  public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   private static final int gamePort = 42069;
   private HashSet<ClientHandler> connectedClients = new HashSet<>();

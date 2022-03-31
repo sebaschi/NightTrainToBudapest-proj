@@ -1,6 +1,12 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.client;
 
+import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class MessageFormatter {
+  public static final Logger LOGGER = LogManager.getLogger();
+  public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   /**
    * Takes a given Message and reformats it to where the JServerProtocolParser.parse() method can
