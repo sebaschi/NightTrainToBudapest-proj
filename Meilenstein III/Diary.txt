@@ -1,0 +1,211 @@
+NOTE: Dies ist die .txt-Version des Diary, die .docx-Version ist im Ordner "documentation", allerdings unter dem namen "Protokoll" (Name hier geändert um Verwechslung mit client-server-Protokoll zu vermeiden).
+
+
+
+
+02.03.2022 – alle Gruppenmitglieder
+
+- Einrichtung Git und IntelliJ
+
+- Spielidee: Jonas: Werwolf-Spiel
+
+	6 Spieler, rundenbasiert
+
+	Grobe Idee: Es gibt einen Geist und 5 Personen, die in einem Nachtzug in benachbarten Kabinen fahren. Ein Geist kann in der Nacht einen anderen „gesunden“ Spieler (Person) infizieren. Dabei läuft der Geist neben anderen Personen und sie „hören“ den Geist (Benachrichtigung). Wenn die Nacht vorbei ist, müssen sich alle Spieler entscheiden, ob sie sagen, sie hätten etwas gehört oder nicht (mit Chat). Dann gibt es am Tag eine Abstimmung, wer der Geist ist (Stimme der Geister zählt nicht). Der Spieler mit den meisten Stimmen wird aus dem Spiel geworfen. In der nächsten Nacht stimmen die verbliebenen Geister ab, wen sie infizieren wollen. Anschliessend beginnt die Infektionsphase erneut.
+
+	Das Spiel ist vorbei, wenn nur Geister oder nur Personen übrig sind.
+	Schräge/isometrische Grafik, prerendered
+
+
+
+
+
+08.03.2022 – alle Gruppenmitglieder
+
+- Ziele für heute: Spieldesign/Spielregeln, Analyse, Projektplanung
+
+- Spieldesign: 
+
+- Mindestens 6 Spieler (bei weniger als 6 human players wird der Rest mit NPCs aufgefüllt)
+
+	- Zwei Arten/Rollen von Spielern: ghosts, humans
+
+	- Server kommuniziert Spielern, ob sie humans oder ghosts sind
+
+- Spieler, der neues Spiel kreiert, ist Admin (darf neues Spiel z.B. auch nur mit NPCs anfangen)
+
+- ghosts vs. humans: Geister können Menschen infizieren und zu Geistern machen. Sind nur Geister im Spiel übrig, haben Geister gewonnen. Haben die Menschen den ursprünglichen Geist aus dem Spiel geworfen, haben sie gewonnen.
+
+(- Versucht ein Geist, einen Menschen zu infizieren, ist nicht sicher, ob er es schafft)
+
+- Eine Runde = ein Tag-Nacht-Zyklus
+
+- Geister haben separaten Chat, in dem sie entscheiden können, wen sie in der nächsten Nacht infizieren
+	- Nacht: Geister aktiv, infizieren Menschen
+		- Infizierte wissen, wer sie infiziert hat
+		- Läuft der Geist neben Menschen, ohne sie zu infizieren, werden diese benachrichtigt
+	- Tag: anonyme Abstimmung, wer aus Spiel herausgekickt werden soll
+
+- time limit: Wenn man in einer bestimmten Zeit nicht abgestimmt hat, kriegt man eine Stimme für sich selbst
+
+- Spieler dürfen vor der Abstimmung sagen, ob sie einen Geist gehört haben oder nicht (Geister können Menschen dabei täuschen)
+
+		- Stimmen der Geistern zählen nicht
+
+		- Rausgeworfene Spieler werden Zuschauer
+
+- Nach Abstimmung wissen alle, wer ausgewählt worden ist, und ob der Spieler Geist war.
+
+
+Zusammenfassung: 
+
+- Spielbeginn: 6 Spielfelder. Erste Runde beginnt. Es ist Nacht, es gibt einen Geist. Geist stimmt für einen Menschen, den er infizieren will (Abstimmung mit time-limit; in möglichen späteren Runden stimmen mehrere Geister über zu infizierenden Menschen). Er infiziert diesen Menschen.
+
+- Infizierter wird benachrichtigt, dass er nun Geist ist; zudem Benachrichtigungen über Bewegung des Geistes
+
+- Es wird Tag: Menschen stimmen ab (mit Chat für Menschen, mit time limit), Geister-Stimmen zählen nicht. Wenn ein Geist die meisten Stimmen erhalten hat, wird er zum Zuschauer. Wenn Menschen für einen Menschen stimmen, werden sie benachrichtigt, dass er kein Geist ist (er wird nicht rausgeworfen) und das Spiel geht mit ihm weiter.
+
+- Spielende: entweder es gibt nur Geister (Geister gewonnen) oder erster Geist durch Menschen-Abstimmung aus dem Spiel geworfen (Menschen gewonnen). 
+
+- Spieltitel: “Night train to Budapest”
+
+- Durchspielen auf Papier
+
+- Softwareanforderungen:
+	- 2D-Grafik
+	- Event-Handler (kümmert sich um Input/Output)
+
+- Zustandsspeicherung/Zustandsverwaltung (ist Tag / Nacht / Abstimmungszeit / Infektionszeit?)
+
+- Client/Server-Kommunikation
+
+- Separate Chatfunktion
+
+
+- Grundlagen der Projektplanung
+	- Netzwerkprotokoll
+ 	- Client/-Serverstruktur
+	- Chatfunktion
+	- Spiellogik (Speicherung, Methoden für Veränderung)
+	- GUI
+	- Klassenstruktur (Datenstrukturen, Client/Server greifen darauf zu)
+
+
+
+
+
+11.03.2022 – alle Gruppenmitglieder
+
+- Einrichtung, Synchronisation GanttProject
+
+- Projektplanung: Anfang (parallelisierbar): Klassenstruktur (Human, Ghost, …), Spiellogik (Spielzustand, Voting), Client/Server (rundenbasiert), später: GUI (2D-Engine, Animation), Chat (mit speziellem Ghost-Modus)
+
+- Aufgabenaufteilung Meilenstein 1: Vorbereitung Präsentation (Jonas), Übersicht Netzwerk (Sebastian), Softwareanforderungen (Alex), detaillierter Projektplan (Seraina)
+
+- Netzwerktopologie für das Spiel: Stern
+
+
+
+24.03.2022 -alle Gruppenmitglieder
+
+Stand:
+Client und Server Skelette stehen, und ein Broadcast von Chatnachrichten ist möglich.
+Allerdings werden die Nachrichten noch als einfacher String übermittelt und noch nicht im richtigen Protokollformat
+(d.h. nur chatten ist möglich, es gibt noch keine Befehle). 
+
+Wer macht Was?
+
+Seraina: bis 25.4 Abends
+• QA-Concept 
+• Fortfahren mit Spiellogik
+
+
+Sebastian: bis 25.4 Abends
+Protocol 
+• Formatter /Parser(Namingconvention überlegen)
+	o Format: COMND$parameter(i.e. Name)$parameter(i.e. msg)
+	
+• Chat	
+• Encoding
+• Enum: All Legal Protocol Commands
+
+
+Jonas: bis 25.4 Abends
+• PingPong-Funktionalität 
+	o PingPong handler
+	o Every two seconds (what is the standard?)
+	o Listening for Answer
+	o Separate threads?
+	o What do you do when nothing comes back? (Log off? Wait? Ping again?)
+
+•Erweiterung von Localhost auf IP für Hamachi 
+	o assign Ip (maybe port) method ?
+
+
+Alexandr: bis 26.4 Abends
+• Automatic username assignment
+• Username duplicate handler
+	o Login -> username? -> check -> username01
+
+• Client logout handling
+	o Meaningful handling
+
+
+
+Rule: Alles was geht in eigene Klassen Methoden schreiben.
+Soviel wie möglich commiten mit Aufschlussreichen messages.
+
+Nächste Absprache Fr 25.4 Abends
+
+
+
+
+24 & 25.03.2022 -Jonas
+Zuhause pingpong & IP-auswahl implementiert. 
+Für PingPong brauche ich noch Hilfe von Sebastian bzgl. Protocol-Parser
+
+
+25.03.2022 - Seraina
+Das QA-Konzept steht, muss aber noch von allen Akzeptiert werden.
+Ebenfalls ist hierzu wohl bald ein Treffen nötig, bei welchem ich alle mit den notwenigen Tools
+vertraut machen kann.
+
+
+27.03.2022 - Seraina
+Kommunikationsschwierigkeiten haben zu einem hektischen letzten Entwicklungstag geführt.
+Wir mussten einiges nochmal komplett neu Aufbauen und einige Gruppenmietglieder waren kaum erreichbar.
+Fazit daraus für Meilenstein III:
+   o Wir brauchen fixe Besprechungstermine (-> QA-Konzept) um uns gegenseitig auf dem Laufenden
+     zu halten und um sicherzustellen, dass alle den Code der anderen zumindest grundlegend verstehen,
+     sodass nichts logistisch notwendig an einer Person hängen bleibt.
+   o Wir brauchen fixe deadlines die wir wohl am besten mittels treffen und Buddy-System umsetzten können.
+   o Wir müssen noch mehr Puffer enplanen und uns auch daran halten den Puffer nicht einfach als
+     mögliches Verschieben einer deadline zu betrachten.
+
+
+26-28.03.2022 - Alex
+- Implementierung eines random-name-Generators
+- Behandlung von Duplikaten bei Auswahl des Spielernamens
+- Wiederholter Versuch, Logout Handler zu implementieren, jedoch erfolglos
+	- Problem: broken pipe exceptions und stream closed exceptions beim Logout eines Clients
+
+31.03.2022 - alle Gruppenmitglieder
+- Fortschrittsbesprechung, Reflexion auf Meilenstein 2
+	- Was wurde erreicht, was nicht? Wenn nicht, warum nicht?
+		- Nicht erreicht: Ping-Pong-Funktionalität, Logout-Handling
+			- Unerwarteter Fehler bei Ping-Pong (beim Client-Logout)
+	- Diskussion über Kommunikationsschwierigkeiten: In Zukunft bessere Code-Dokumentation nötig, damit 		Gruppenmitglieder eigenen Code nachvollziehen können. 
+		- Auch: 1-2 Mal pro Woche Meeting zur Fortschrittsbesprechung (Do, Fr), zusätzlich während der 				Übungsstunde.
+		- Einführung eines Buddy-Systems: Zwei 2er-Gruppen (Seraina + Sebastian, Jonas + Alex, Teamswitch 			möglich), gegenseitige Unterstützung/Überprüfung beim Coden, Orientierung an QA-Konzept
+		- Logger-Implementierung
+	- Wer macht was für Meilenstein 3?
+		1a. Client/Server (Beheben bisheriger Probleme (Ping-Pong, Logout)) (Sebastian, Jonas)
+			Chat + Lobby
+		1b. Spiellogik (Seraina, Alex)
+			Verbindung 1a-1b: Wie werden Informationen gesammelt und verbreitet?
+		- Wichtig: Klare Arbeitsteilung innerhalb einer Gruppe
+			- Client/Server
+				- PingPong, Logout, Socket Handling, evtl. Protokoll in Enum übertragen, evtl. name 						suggestion verbressern (Jonas)
+				- Lobbies, evtl. Chat-GUI (Sebastian)
+			- Repo-Cleanup (Seraina, bis Mo)
+			- Spiellogik v.a. Sa, So
