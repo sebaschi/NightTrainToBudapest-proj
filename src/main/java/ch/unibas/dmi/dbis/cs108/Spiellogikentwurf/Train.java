@@ -1,6 +1,11 @@
 package ch.unibas.dmi.dbis.cs108.Spiellogikentwurf;
+import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Train {
+  public static final Logger LOGGER = LogManager.getLogger();
+  public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   int[] orderOfTrain; //gives the random order in which the passengers enter the train
   int positionOfGhost;
@@ -38,6 +43,7 @@ public class Train {
       }
 
     }
+    LOGGER.debug("A bug");
     this.orderOfTrain = userTrain;
     this.positionOfGhost = nrOfPlayers / 2;
   }
@@ -57,6 +63,7 @@ public class Train {
       }
       i++;
     }
+    LOGGER.info("An information");
     return false;
   }
 
