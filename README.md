@@ -26,5 +26,12 @@ Votes are held in the night for the ghosts to decide who will be next and during
 ...
 
 ## Contributing
-...
+
+Sebastian Lenzlinger
+
+Jonas Biedermann
+
+Alexandr Sazonov
+
+Seraina Schöb
 
