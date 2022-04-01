@@ -52,6 +52,11 @@ public class Passenger {
     this.kickedOff = kickedOff;
   }
 
+  public void setGhost() {
+    // changes this passenger's status from human to ghost
+    isGhost = true;
+  }
+
   public int getPosition() {
     return position;
   }
