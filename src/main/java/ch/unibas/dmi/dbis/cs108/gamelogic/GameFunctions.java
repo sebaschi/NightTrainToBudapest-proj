@@ -1,4 +1,4 @@
-package ch.unibas.dmi.dbis.cs108.spiellogikentwurf;
+package ch.unibas.dmi.dbis.cs108.gamelogic;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.klassenstruktur.Human;
