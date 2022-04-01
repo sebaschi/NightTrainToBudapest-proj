@@ -1,5 +1,6 @@
 package ch.unibas.dmi.dbis.cs108.gamelogic;
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
+import java.util.Arrays;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -43,7 +44,7 @@ public class Train {
       }
 
     }
-    LOGGER.debug("A bug");
+    LOGGER.info("The userTrain order is: " + Arrays.toString(userTrain));
     this.orderOfTrain = userTrain;
     this.positionOfGhost = nrOfPlayers / 2;
   }
@@ -63,23 +64,14 @@ public class Train {
       }
       i++;
     }
-    LOGGER.info("An information");
     return false;
   }
 
   public static void main(String[] args) {
-    int[] a = {1, 2, 3, 4, 5};
-    System.out.println(isInArray(a, 0));
-    //Test
     try {
       Train t = new Train(6, 1);
-      for (int i = 0; i < 6; i++) {
-        System.out.print("|" + t.orderOfTrain[i] + "|");
-      }
-      System.out.println("     Ghost:" + t.positionOfGhost);
-
     } catch (TrainOverflow e) {
-      System.out.println(e.getMessage());
+      LOGGER.error(e.getMessage());
     }
 
   }

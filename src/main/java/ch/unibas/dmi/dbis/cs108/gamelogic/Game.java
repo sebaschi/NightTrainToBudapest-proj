@@ -15,6 +15,7 @@ public class Game {
   protected int nrOfGhosts; // sets how many Ghosts we start witch
   protected int nrOfUsers; // safes how many clients are active in this Game
   protected GameFunctions gameFunctions;
+  //TODO: Figure out where Day/Night game state is saved maybe think about a game state class or smt.
   /**
    * Constructs a Game instance where:
    *
