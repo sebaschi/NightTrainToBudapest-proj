@@ -32,7 +32,7 @@ public class MessageFormatter {
         break;
       case "/q":
         stringBuilder.append("QUITS$");
-        s = msg.substring(3);
+        s = "";
         break;
       case "/n":
         stringBuilder.append("NAMEC$");

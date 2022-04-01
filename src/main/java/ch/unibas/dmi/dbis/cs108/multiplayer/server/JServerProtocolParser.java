@@ -10,6 +10,11 @@ public class JServerProtocolParser {
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   /**
+   * jsdcjkhcsdjksdacjkn
+   */
+  public static final String CHATA = "CHATA";
+
+  /**
    * Used by the server (i.e. ClientHandler) to parse an incoming protocol message.
    *
    * @param msg the encoded message that needs to be parsed
@@ -23,7 +28,7 @@ public class JServerProtocolParser {
       System.out.println("Received unknown command");
     }
     switch (header) {
-      case "CHATA":
+      case CHATA:
         //sends chat message to all connected clients
         h.broadcastMessage(msg.substring(6));
         break;

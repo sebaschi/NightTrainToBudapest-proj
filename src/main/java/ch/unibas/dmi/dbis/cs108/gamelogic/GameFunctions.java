@@ -1,8 +1,8 @@
 package ch.unibas.dmi.dbis.cs108.gamelogic;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
-import ch.unibas.dmi.dbis.cs108.klassenstruktur.Human;
-import ch.unibas.dmi.dbis.cs108.klassenstruktur.Passenger;
+import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Human;
+import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Passenger;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

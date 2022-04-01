@@ -89,7 +89,7 @@ public class ClientHandler implements Runnable {
     String msg;
     while (socket.isConnected()) {
       try {
-        msg = in.readLine();
+        msg = in.readLine();      //todo: here is where the server throws an exception when the client quits
         JServerProtocolParser.parse(msg, this);
       } catch (IOException e) {
         e.printStackTrace();
@@ -132,7 +132,7 @@ public class ClientHandler implements Runnable {
   }
 
   /** Sends a given message to client
-   *
+   * todo: check for exception if out is closed.
    * @param msg the given message
    */
 
