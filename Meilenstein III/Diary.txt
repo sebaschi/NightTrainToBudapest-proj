@@ -209,3 +209,16 @@ Fazit daraus für Meilenstein III:
 				- Lobbies, evtl. Chat-GUI (Sebastian)
 			- Repo-Cleanup (Seraina, bis Mo)
 			- Spiellogik v.a. Sa, So
+
+01.04.2022 - Seraina, Jonas, Alex
+- Projektplan: Übertragung von TeamGantt (Web-Version) zu GanttProject
+- Spiellogik: Brainstorming - wie implementiert man Spiellogik in Java-Code?
+	- GhostifyHandler: Mensch-Spieler wird zu Geist
+	- Einteilung: Pre-Game, (night-day-Zyklus (GameStates day, night) bis Spielende)
+	- ServerGameInfoHandler: Server schickt GameStateInformation an Clients
+	- ClientGameInfoHandler: Clients senden Event results an Server
+	- NoiseHandler: Information an Menschen, an denen Geist(er) vorbeilief(en)
+--> Erstellen von Klassenskeletten basierend auf Brainstorming
+- Aufgabenverteilung:
+	- Seraina: ServerGameInfoHandler, ClientGameInfoHandler (auch: QA)
+	- Alex: VoteHandler, NoiseHandler, evtl. Erweiterung GhostifyHandler (auch: Manual)
