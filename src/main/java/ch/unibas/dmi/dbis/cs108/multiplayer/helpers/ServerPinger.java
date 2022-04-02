@@ -38,9 +38,9 @@ public class ServerPinger implements Runnable {
   public void run() {
     try {
       Thread.sleep(2000);
-      while (socket.isConnected()) {
+      while (socket.isConnected() && !socket.isClosed()) {
         gotPingBack = false;
-        out.write("SPING");
+        out.write("SPING");     //todo: throws exception when client disconnects.
         out.newLine();
         out.flush();
         Thread.sleep(4000);

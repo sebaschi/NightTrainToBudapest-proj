@@ -2,7 +2,10 @@ Client commands:
 
 Implemented:
  * CHATA$message      Send chat message to all
- * QUITS              quit server/ leave server
+ * QUITS              request to quit server/ leave server. The server should then remove the
+                      relevant ClientHandler and close the sockets, but before doing so, it sends
+                      "QUITC" to the client to confirm the quitting. The client doesn't close any
+                      sockets until receiving "QUITC"
  * CPING              Ping from client to server.
  * PINGB              Pingback from client to server.
  * NAMEC$name         Change name to whatever is specified
@@ -22,6 +25,7 @@ Server Commands:
 Implemented:
  * SPING              Ping from server to client
  * PINGB              Pingback from client to server.
+ * QUITC              Confirms to the client that they are being disconnected from the server.
 
 Future / planned:
  * MSGRS              "Message received": Paramaters: a string detailing to the client that and what the server received as command.

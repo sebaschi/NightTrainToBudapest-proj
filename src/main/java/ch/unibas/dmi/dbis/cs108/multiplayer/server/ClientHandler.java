@@ -17,6 +17,7 @@ public class ClientHandler implements Runnable {
   private BufferedWriter out;
   private BufferedReader in;
   private Socket socket;
+  private
   Scanner sc;
   public ServerPinger serverPinger;
   public static HashSet<ClientHandler> connectedClients = new HashSet<>();
@@ -44,10 +45,9 @@ public class ClientHandler implements Runnable {
       serverPinger = new ServerPinger(out, socket);
       Thread sP = new Thread(serverPinger);
       sP.start();
-      broadcastMessage("SERVER: " + clientUserName + " has joined the Server");
+      broadcastChatMessage("SERVER: " + clientUserName + " has joined the Server");
     } catch (IOException e) {
       e.printStackTrace();
-      closeEverything(socket, in, out);
     }
   }
 
@@ -87,13 +87,12 @@ public class ClientHandler implements Runnable {
    **/
   public void run() {
     String msg;
-    while (socket.isConnected()) {
+    while (socket.isConnected() && !socket.isClosed()) {
       try {
         msg = in.readLine();      //todo: here is where the server throws an exception when the client quits
         JServerProtocolParser.parse(msg, this);
       } catch (IOException e) {
         e.printStackTrace();
-        closeEverything(socket, in, out);
         break;
       }
     }
@@ -116,7 +115,7 @@ public class ClientHandler implements Runnable {
     String h = this.clientUserName; //just a friendly little helper
     this.clientUserName = newName;
     AllClientNames.allNames(newName);
-    broadcastMessage(h + " have changed their nickname to " + clientUserName);
+    broadcastChatMessage(h + " have changed their nickname to " + clientUserName);
   }
 
   /**
@@ -124,10 +123,9 @@ public class ClientHandler implements Runnable {
    *
    * @param msg the Message to be broadcasted
    */
-
-  public void broadcastMessage(String msg) {
+  public void broadcastChatMessage(String msg) {
     for (ClientHandler client : connectedClients) {
-      client.sendMsgToClient("CHATM:" + clientUserName + ": \"" + msg + "\"");
+      client.sendMsgToClient("CHATM$" + clientUserName + ": \"" + msg + "\"");
     }
   }
 
@@ -135,9 +133,9 @@ public class ClientHandler implements Runnable {
    * todo: check for exception if out is closed.
    * @param msg the given message
    */
-
   public void sendMsgToClient(String msg) {
     try {
+      //todo: socket closed handling
       out.write(msg);
       out.newLine();
       out.flush();
@@ -150,8 +148,8 @@ public class ClientHandler implements Runnable {
    * Does what it sounds like
    */
   public void removeClientHandler() {
+    broadcastChatMessage("SERVER: " + clientUserName + " has left the server");
     connectedClients.remove(this);
-    broadcastMessage("SERVER: " + clientUserName + " has left the server");
   }
 
   /**
@@ -161,9 +159,14 @@ public class ClientHandler implements Runnable {
    * @param in the in-Stream reader to be closed
    * @param out the out-Stream Write to be closed
    */
-  public void closeEverything(Socket socket, BufferedReader in, BufferedWriter out) {
+  public void disconnectClient() {
+    sendMsgToClient("QUITC");
     removeClientHandler();
+    socket = this.getSocket();
+    in = this.getIn();
+    out = this.getOut();
     try {
+      Thread.sleep(100);
       if (in != null) {
         in.close();
       }
@@ -173,12 +176,10 @@ public class ClientHandler implements Runnable {
       if (socket != null) {
         socket.close();
       }
-    } catch (IOException e) {
+    } catch (IOException | InterruptedException e) {
       e.printStackTrace();
     }
   }
 
-  public void decodeMsg(String msg) {
 
-  }
 }

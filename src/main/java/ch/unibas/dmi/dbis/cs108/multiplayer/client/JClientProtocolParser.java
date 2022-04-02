@@ -38,6 +38,9 @@ public class JClientProtocolParser {
          */
         System.out.println(msg.substring(6));
         break;
+      case "QUITC":
+        //c.closeEverything(); todo: this line.
+        System.out.println("bye!");
       default:
         System.out.println("Received unknown command");
     }

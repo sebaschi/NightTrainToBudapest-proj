@@ -19,16 +19,20 @@ public class MessageFormatter {
   public static String formatMsg(String msg) {
     String header = ""; //header is first two characters
     StringBuilder stringBuilder = new StringBuilder();
-    String s; // just a friendly helper to save message in
+    String s = ""; // just a friendly helper to save message in
     try {
       header = msg.substring(0, 2);
     } catch (IndexOutOfBoundsException e) {
-      e.printStackTrace();
+      header = "";
     }
     switch (header) {
       case "/c":
         stringBuilder.append("CHATA$");
-        s = msg.substring(3);
+        try {
+          s = msg.substring(3);
+        } catch (Exception e) {
+          System.out.println("You didn't even write a chat line, you silly billy!");
+        }
         break;
       case "/q":
         stringBuilder.append("QUITS$");
@@ -36,7 +40,11 @@ public class MessageFormatter {
         break;
       case "/n":
         stringBuilder.append("NAMEC$");
-        s = msg.substring(3);
+        try {
+          s = msg.substring(3);
+        } catch (Exception e) {
+          System.out.println("Well what do you want your name to be?");
+        }
         break;
       default:
         s = msg;

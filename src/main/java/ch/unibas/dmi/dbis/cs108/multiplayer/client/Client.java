@@ -6,6 +6,7 @@ import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.ClientPinger;
 
 import java.net.Socket;
 import java.io.*;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 import org.apache.logging.log4j.LogManager;
@@ -27,14 +28,9 @@ public class Client {
       this.socket = socket;
       this.out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
       this.in = new BufferedReader((new InputStreamReader((socket.getInputStream()))));
-
-      //TODO add the system based generated username here.
-      //TODO hide connecting logik(next 4 lines)
       this.userName = userName;
-      this.out.write(getUsername());
-      this.out.newLine();
-      this.out.flush();
-      clientPinger = new ClientPinger(this.out, this.socket);
+      sendMsgToServer(getUsername());
+      clientPinger = new ClientPinger(this, this.socket);
     } catch (IOException e) {
       e.printStackTrace();
       closeEverything(socket, in, out);
@@ -44,20 +40,19 @@ public class Client {
   /**
    * Sends a message to the Server in a formatted way COMND$msg
    */
-  public void sendMessage() {
-    try {
-      Scanner sc = new Scanner(System.in);
-      while (socket.isConnected()) {
-        String msg = sc.nextLine();
-        String formattedMSG = MessageFormatter.formatMsg(msg);
-        out.write(formattedMSG);
-        out.newLine();
-        out.flush();
+  public void userInputListener() {
+    new Thread(new Runnable() {
+      @Override
+      public void run() {
+        Scanner sc = new Scanner(System.in);
+        while (socket.isConnected() && !socket.isClosed()) {
+          String msg = sc.nextLine();
+          String formattedMSG = MessageFormatter.formatMsg(msg);
+          sendMsgToServer(formattedMSG);
+        }
+        LOGGER.debug("userInputListener is done");
       }
-    } catch (IOException e) {
-      e.printStackTrace();
-      closeEverything(socket, in, out);
-    }
+    }).start();
   }
 
 
@@ -74,16 +69,19 @@ public class Client {
 
         String chatMsg;
 
-        while (socket.isConnected()) {
+        while (socket.isConnected() && !socket.isClosed()) {
           try {
             chatMsg = in.readLine();
-            parse(chatMsg);
+            if (chatMsg != null) {
+              parse(chatMsg);           //todo: i think this trows an error BC chatMsg is null if client disconnects
+            }
           } catch (IOException e) {
             e.printStackTrace();
             closeEverything(socket, in, out);
           }
 
         }
+        LOGGER.debug("chatListener is done");
       }
     }).start();
   }
@@ -152,7 +150,7 @@ public class Client {
       client.chatListener();
       Thread cP = new Thread(client.clientPinger);
       cP.start();
-      client.sendMessage();     //this one blocks.
+      client.userInputListener();     //this one blocks.
     } catch (UnknownHostException e) {
       System.out.println("Invalid host IP");
     } catch (IOException e) {

@@ -30,7 +30,7 @@ public class JServerProtocolParser {
     switch (header) {
       case CHATA:
         //sends chat message to all connected clients
-        h.broadcastMessage(msg.substring(6));
+        h.broadcastChatMessage(msg.substring(6));
         break;
       case "NAMEC":
         //changes name to whatever follows NAMEC$. If the new name is already in use, it will append
@@ -47,7 +47,7 @@ public class JServerProtocolParser {
         break;
       case "QUITS":
         //safely disconnects the user
-        h.closeEverything(h.getSocket(), h.getIn(), h.getOut());
+        h.disconnectClient();
         break;
       default:
         System.out.println("Received unknown command");
