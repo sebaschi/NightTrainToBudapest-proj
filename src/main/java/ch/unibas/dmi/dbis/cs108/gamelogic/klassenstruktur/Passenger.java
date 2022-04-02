@@ -15,6 +15,7 @@ public class Passenger {
   protected Boolean isPlayer;           //same here
   protected Boolean kickedOff;          //true if the player has been voted off.
   protected ClientHandler clientHandler;                //the socket for the client associated with this Passenger, for NPCs, this can be null.
+  protected boolean hasVoted;           //true if the player gave his vote during voting time
 
   /**
    * Sends a protocol message to the respective player.
@@ -56,6 +57,10 @@ public class Passenger {
     // changes this passenger's status from human to ghost
     isGhost = true;
   }
+  public void setHasVoted() {
+    // used to signal that this passenger voted during a voting
+    hasVoted = true;
+  }
 
   public int getPosition() {
     return position;
@@ -77,6 +82,8 @@ public class Passenger {
   public Boolean getIsPlayer() {
     return isPlayer;
   }
+
+  public boolean getHasVoted() { return hasVoted; };
 
   public ClientHandler getClientHandler() {
     return clientHandler;
