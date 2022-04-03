@@ -13,4 +13,6 @@ public class Ghost extends Passenger {
   public boolean getIsOG() {
     return isOG;
   }
+
+  public void setIsOG(boolean og) { isOG = og; };
 }

@@ -14,8 +14,9 @@ public class Passenger {
   protected Boolean isGhost;            //boolean regarding if the player is a ghost. Could probably be removed since ghost is a subclass but I'm keeping it in.
   protected Boolean isPlayer;           //same here
   protected Boolean kickedOff;          //true if the player has been voted off.
-  protected ClientHandler clientHandler;                //the socket for the client associated with this Passenger, for NPCs, this can be null.
+  protected ClientHandler clientHandler;//the socket for the client associated with this Passenger, for NPCs, this can be null.
   protected boolean hasVoted;           //true if the player gave his vote during voting time
+  protected int vote;                   //saves the number of the player this passenger voted for during voting (0-5)
 
   /**
    * Sends a protocol message to the respective player.
@@ -83,7 +84,9 @@ public class Passenger {
     return isPlayer;
   }
 
-  public boolean getHasVoted() { return hasVoted; };
+  public boolean getHasVoted() { return hasVoted; }; // returns true if player already voted during a voting
+
+  public int getVote() { return vote; }
 
   public ClientHandler getClientHandler() {
     return clientHandler;
