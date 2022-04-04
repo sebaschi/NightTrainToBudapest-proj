@@ -29,11 +29,10 @@ public class Client {
       this.out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
       this.in = new BufferedReader((new InputStreamReader((socket.getInputStream()))));
       this.userName = userName;
-      sendMsgToServer(getUsername());
+      sendMsgToServer(getUsername());     //todo: dont just send username directly pls
       clientPinger = new ClientPinger(this, this.socket);
     } catch (IOException e) {
       e.printStackTrace();
-      closeEverything(socket, in, out);
     }
   }
 
@@ -44,13 +43,24 @@ public class Client {
     new Thread(new Runnable() {
       @Override
       public void run() {
-        Scanner sc = new Scanner(System.in);
+        //Scanner sc = new Scanner(System.in);
+        BufferedReader bfr = new BufferedReader(new InputStreamReader(System.in));
         while (socket.isConnected() && !socket.isClosed()) {
-          String msg = sc.nextLine();
-          String formattedMSG = MessageFormatter.formatMsg(msg);
-          sendMsgToServer(formattedMSG);
+          try {
+            if (bfr.ready()) {
+              String msg = bfr.readLine();
+              String formattedMSG = MessageFormatter.formatMsg(msg);
+              sendMsgToServer(formattedMSG);
+            }
+            Thread.sleep(20);
+          } catch (IOException e) {
+            e.printStackTrace();
+          } catch (InterruptedException e) {
+            e.printStackTrace();
+          }
+          //LOGGER.debug("just checked next line");
         }
-        LOGGER.debug("userInputListener is done");
+        //LOGGER.debug("userInputListener is done");
       }
     }).start();
   }
@@ -71,17 +81,16 @@ public class Client {
 
         while (socket.isConnected() && !socket.isClosed()) {
           try {
-            chatMsg = in.readLine();
+            chatMsg = in.readLine();     //todo: maybe if
             if (chatMsg != null) {
               parse(chatMsg);           //todo: i think this trows an error BC chatMsg is null if client disconnects
             }
           } catch (IOException e) {
             e.printStackTrace();
-            closeEverything(socket, in, out);
           }
 
         }
-        LOGGER.debug("chatListener is done");
+        //LOGGER.debug("chatListener is done");
       }
     }).start();
   }
@@ -111,9 +120,8 @@ public class Client {
     JClientProtocolParser.parse(msg, this);
   }
 
-  public void closeEverything(Socket socket, BufferedReader in, BufferedWriter out) {
+  public void closeEverything() {
     //TODO Correctly closing a clients connection
-
     try {
       if (in != null) {
         in.close();
@@ -123,7 +131,9 @@ public class Client {
       }
       if (socket != null) {
         socket.close();
+        //LOGGER.debug("closed the socket!");
       }
+      System.out.println("Disconnected from server.");
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -161,5 +171,17 @@ public class Client {
 
   public String getUsername() {
     return userName;
+  }
+
+  public Socket getSocket() {
+    return socket;
+  }
+
+  public BufferedReader getIn() {
+    return in;
+  }
+
+  public BufferedWriter getOut() {
+    return out;
   }
 }

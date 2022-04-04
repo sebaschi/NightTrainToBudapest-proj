@@ -103,7 +103,7 @@ public class ClientHandler implements Runnable {
   }
 
   /**
-   * Lets the client change their respective username, if the username is already taken, a similar
+   * Lets the client change their username, if the username is already taken, a similar
    * option is chosen.
    *
    * @param newName The desired new name to replace the old one with.
@@ -155,9 +155,6 @@ public class ClientHandler implements Runnable {
   /**
    * Does exactly what it says on the tin, closes all connections of Client to Server.
    *
-   * @param socket the socket to be closed
-   * @param in the in-Stream reader to be closed
-   * @param out the out-Stream Write to be closed
    */
   public void disconnectClient() {
     sendMsgToClient("QUITC");
