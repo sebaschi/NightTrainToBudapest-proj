@@ -25,5 +25,5 @@ public class CentralServerData {
 
   private Map<Client, Socket> clientSocketMap;
   private Map<Socket, Client> socketClientMap;
-  private Map<Game,Client> gameClientMap;
+  private Map<Game, Client> gameClientMap;
 }
