@@ -4,6 +4,8 @@ import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Ghost;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.GhostPlayer;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Passenger;
 import ch.unibas.dmi.dbis.cs108.multiplayer.server.ClientHandler;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Handles the event of voting for humans and ghosts. Differentiates between day and night (human
@@ -17,6 +19,8 @@ import ch.unibas.dmi.dbis.cs108.multiplayer.server.ClientHandler;
  * <p>TODO: Think about if the timer needs to be implemented here or in the Game class
  */
 public class VoteHandler {
+  public static final Logger LOGGER = LogManager.getLogger();
+  public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   /**
    * TODO(Alex): Documentation
@@ -24,17 +28,19 @@ public class VoteHandler {
    */
   public void ghostVote(Passenger[] passengers) {
 
-    // array to collect votes for all players during voting, i.e. votes for player 1 are saved in
+    // array to collect votes for all players during voting, i.e. votes for player 1 (passengers[0]) are saved in
     // votesForPlayers[0]
     int[] votesForPlayers = new int[6];
 
     // Walk through entire train, ask ghosts to ghostify and humans to wait
-    // TODO: Messages in for-loop should probably be handled by ServerGameInfoHandler
+    // TODO(Seraina): Messages in for-loop should probably be handled by ServerGameInfoHandler
     for (Passenger passenger : passengers) {
       if (passenger.getIsGhost()) {
+        LOGGER.info("Send msg to Ghost in Position: " + passenger);
         passenger.send("Vote on who to ghostify!");
       } else {
-        passenger.send("Please wait, ghosts are active");
+        passenger.send("Please wait, ghosts are active"); //TODO(Seraina): make sure whatever clients send in this time, except chat is ignored
+        LOGGER.info("Send msg to Human in Position: " + passenger);
       }
     }
 
@@ -60,10 +66,12 @@ public class VoteHandler {
         currentMax = votesForPlayers[i];
       }
     }
+    LOGGER.info("Most votes" + currentMax);
 
     // ghostify the player with most votes
     for (int i = 0; i < votesForPlayers.length; i++) {
       if (votesForPlayers[i] == currentMax) { // if player has most votes
+        LOGGER.info("Most votes for Passenger" + i);
         GhostifyHandler gh = new GhostifyHandler();
         Ghost g = gh.ghost(passengers[i]);
         passengers[i].send(
