@@ -16,6 +16,11 @@ import ch.unibas.dmi.dbis.cs108.multiplayer.server.ClientHandler;
  * <p>TODO: Think about if the timer needs to be implemented here or in the Game class
  */
 public class VoteHandler {
+
+  /**
+   * TODO(Alex): Documentation
+   * @param passengers
+   */
   public void ghostVote(Passenger[] passengers) {
 
     // array to collect votes for all players during voting, i.e. votes for player 1 are saved in
@@ -66,6 +71,10 @@ public class VoteHandler {
     }
   }
 
+  /**
+   * TODO(Alex): Documentation
+   * @param passengers
+   */
   public void humanVote(Passenger[] passengers) {
     // very similar to ghostVote, differs mostly in the way votes are handled
 
