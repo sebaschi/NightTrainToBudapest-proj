@@ -1,5 +1,6 @@
 package ch.unibas.dmi.dbis.cs108.gamelogic;
 
+import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Ghost;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.GhostPlayer;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Passenger;
 import ch.unibas.dmi.dbis.cs108.multiplayer.server.ClientHandler;
@@ -64,7 +65,7 @@ public class VoteHandler {
     for (int i = 0; i < votesForPlayers.length; i++) {
       if (votesForPlayers[i] == currentMax) { // if player has most votes
         GhostifyHandler gh = new GhostifyHandler();
-        gh.ghostify(passengers[i]);
+        Ghost g = gh.ghost(passengers[i]);
         passengers[i].send(
             "You are now a ghost!"); // TODO: ServerGameInfoHandler might deal with this one
       }
@@ -122,11 +123,7 @@ public class VoteHandler {
           }
         }
         if (passengers[i].getIsGhost()) { // if player is a ghost
-          // Now the case "ghost is og" and the case "ghost is not og" need to be handled
-          /* TODO: I don't know how to get the information about a ghost being the OG because I'm accessing the players
-              via the Passenger class which can't use the getIsOG method from the Ghost class. I (Alex) will try to
-              solve this issue but if anyone can help please do!
-          */
+          if (
         }
       }
     }
