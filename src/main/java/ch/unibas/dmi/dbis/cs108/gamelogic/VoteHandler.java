@@ -1,5 +1,6 @@
 package ch.unibas.dmi.dbis.cs108.gamelogic;
 
+import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Ghost;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.GhostPlayer;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Passenger;
@@ -22,11 +23,13 @@ public class VoteHandler {
   public static final Logger LOGGER = LogManager.getLogger();
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
+
   /**
    * TODO(Alex): Documentation
    * @param passengers
    */
-  public void ghostVote(Passenger[] passengers) {
+  public void ghostVote(Passenger[] passengers, Game game) {
+
 
     // array to collect votes for all players during voting, i.e. votes for player 1 (passengers[0]) are saved in
     // votesForPlayers[0]
@@ -69,15 +72,19 @@ public class VoteHandler {
     LOGGER.info("Most votes" + currentMax);
 
     // ghostify the player with most votes
+    int ghostPosition = 0;
     for (int i = 0; i < votesForPlayers.length; i++) {
       if (votesForPlayers[i] == currentMax) { // if player has most votes
+        ghostPosition = i;
         LOGGER.info("Most votes for Passenger" + i);
-        GhostifyHandler gh = new GhostifyHandler();
-        Ghost g = gh.ghost(passengers[i]);
-        passengers[i].send(
-            "You are now a ghost!"); // TODO: ServerGameInfoHandler might deal with this one
+
       }
     }
+    GhostifyHandler gh = new GhostifyHandler();
+    Ghost g = gh.ghost(passengers[ghostPosition],game);
+    passengers[ghostPosition] = g;
+    passengers[ghostPosition].send(
+        "You are now a ghost!"); // TODO: ServerGameInfoHandler might deal with this one
   }
 
   /**
@@ -122,18 +129,21 @@ public class VoteHandler {
       }
     }
     // deal with voting results
+    int voteIndex = 0;
     for (int i = 0; i < votesForPlayers.length; i++) {
       if (votesForPlayers[i] == currentMax) { // if player has most votes
-        if (!passengers[i].getIsGhost()) { // if player with most votes is human, notify everyone about it
-          for (Passenger passenger : passengers) {
-            passenger.send(
-                    "You voted for a human!"); // TODO: ServerGameInfoHandler might be better to use here
-          }
-        }
-        if (passengers[i].getIsGhost()) { // if player is a ghost
-          if (
-        }
+        voteIndex = i;
+
       }
+    }
+    if (!passengers[voteIndex].getIsGhost()) { // if player with most votes is human, notify everyone about it
+      for (Passenger passenger : passengers) {
+        passenger.send(
+            "You voted for a human!"); // TODO: ServerGameInfoHandler might be better to use here
+      }
+    }
+    if (passengers[voteIndex].getIsGhost()) { // if player is a ghost
+      if (passengers[voteIndex].i
     }
   }
 }

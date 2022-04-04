@@ -12,15 +12,16 @@ public class GhostifyHandler {
    */
   private static int ghostifyCallCounter = -1;
 
-  public GhostPlayer ghost(Passenger p) {
+  public GhostPlayer ghost(Passenger p, Game game) {
     p.setGhost();
+    GhostPlayer g;
     ghostifyCallCounter++;
     if (ghostifyCallCounter == 0) {
-      GhostPlayer g = new GhostPlayer(p.getPosition(), p.getName(), p.getClientHandler(), true);
-      return g;
+      g = new GhostPlayer(p.getPosition(), p.getName(), p.getClientHandler(), true);
     } else {
-      GhostPlayer g = new GhostPlayer(p.getPosition(), p.getName(), p.getClientHandler(), false);
-      return g;
+      g = new GhostPlayer(p.getPosition(), p.getName(), p.getClientHandler(), false);
     }
+    game.gameFunctions.passengerTrain[g.getPosition()] = g;
+    return g;
   }
 }
