@@ -17,7 +17,7 @@ public class GameFunctions {
   int nrOfGhosts; // sets how many Ghosts we start witch
   int nrOfUsers; // safes how many clients are active in this Game
   Train train; // safes who sits where
-  Passenger[] passengerTrain;
+  public Passenger[] passengerTrain;
 
   /**
    * Constructs a GameFunctions instance where nrOfPlayers >= nrOfUsers. Fills passengerTrain with

@@ -1,8 +1,12 @@
 package ch.unibas.dmi.dbis.cs108.gamelogic;
 
+import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
+import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Ghost;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.GhostPlayer;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Passenger;
 import ch.unibas.dmi.dbis.cs108.multiplayer.server.ClientHandler;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Handles the event of voting for humans and ghosts. Differentiates between day and night (human
@@ -16,19 +20,30 @@ import ch.unibas.dmi.dbis.cs108.multiplayer.server.ClientHandler;
  * <p>TODO: Think about if the timer needs to be implemented here or in the Game class
  */
 public class VoteHandler {
-  public void ghostVote(Passenger[] passengers) {
+  public static final Logger LOGGER = LogManager.getLogger();
+  public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
-    // array to collect votes for all players during voting, i.e. votes for player 1 are saved in
+
+  /**
+   * TODO(Alex): Documentation
+   * @param passengers
+   */
+  public void ghostVote(Passenger[] passengers, Game game) {
+
+
+    // array to collect votes for all players during voting, i.e. votes for player 1 (passengers[0]) are saved in
     // votesForPlayers[0]
     int[] votesForPlayers = new int[6];
 
     // Walk through entire train, ask ghosts to ghostify and humans to wait
-    // TODO: Messages in for-loop should probably be handled by ServerGameInfoHandler
+    // TODO(Seraina): Messages in for-loop should probably be handled by ServerGameInfoHandler
     for (Passenger passenger : passengers) {
       if (passenger.getIsGhost()) {
+        LOGGER.info("Send msg to Ghost in Position: " + passenger);
         passenger.send("Vote on who to ghostify!");
       } else {
-        passenger.send("Please wait, ghosts are active");
+        passenger.send("Please wait, ghosts are active"); //TODO(Seraina): make sure whatever clients send in this time, except chat is ignored
+        LOGGER.info("Send msg to Human in Position: " + passenger);
       }
     }
 
@@ -54,18 +69,28 @@ public class VoteHandler {
         currentMax = votesForPlayers[i];
       }
     }
+    LOGGER.info("Most votes" + currentMax);
 
     // ghostify the player with most votes
+    int ghostPosition = 0;
     for (int i = 0; i < votesForPlayers.length; i++) {
       if (votesForPlayers[i] == currentMax) { // if player has most votes
-        GhostifyHandler gh = new GhostifyHandler();
-        gh.ghostify(passengers[i]);
-        passengers[i].send(
-            "You are now a ghost!"); // TODO: ServerGameInfoHandler might deal with this one
+        ghostPosition = i;
+        LOGGER.info("Most votes for Passenger" + i);
+
       }
     }
+    GhostifyHandler gh = new GhostifyHandler();
+    Ghost g = gh.ghost(passengers[ghostPosition],game);
+    passengers[ghostPosition] = g;
+    passengers[ghostPosition].send(
+        "You are now a ghost!"); // TODO: ServerGameInfoHandler might deal with this one
   }
 
+  /**
+   * TODO(Alex): Documentation
+   * @param passengers
+   */
   public void humanVote(Passenger[] passengers) {
     // very similar to ghostVote, differs mostly in the way votes are handled
 
@@ -104,22 +129,21 @@ public class VoteHandler {
       }
     }
     // deal with voting results
+    int voteIndex = 0;
     for (int i = 0; i < votesForPlayers.length; i++) {
       if (votesForPlayers[i] == currentMax) { // if player has most votes
-        if (!passengers[i].getIsGhost()) { // if player with most votes is human, notify everyone about it
-          for (Passenger passenger : passengers) {
-            passenger.send(
-                    "You voted for a human!"); // TODO: ServerGameInfoHandler might be better to use here
-          }
-        }
-        if (passengers[i].getIsGhost()) { // if player is a ghost
-          // Now the case "ghost is og" and the case "ghost is not og" need to be handled
-          /* TODO: I don't know how to get the information about a ghost being the OG because I'm accessing the players
-              via the Passenger class which can't use the getIsOG method from the Ghost class. I (Alex) will try to
-              solve this issue but if anyone can help please do!
-          */
-        }
+        voteIndex = i;
+
       }
+    }
+    if (!passengers[voteIndex].getIsGhost()) { // if player with most votes is human, notify everyone about it
+      for (Passenger passenger : passengers) {
+        passenger.send(
+            "You voted for a human!"); // TODO: ServerGameInfoHandler might be better to use here
+      }
+    }
+    if (passengers[voteIndex].getIsGhost()) { // if player is a ghost
+      if (passengers[voteIndex].i
     }
   }
 }

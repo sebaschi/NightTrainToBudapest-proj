@@ -24,7 +24,9 @@ public class Passenger {
    * @param msg the message that is sent to this player.
    **/
   public void send(String msg) {
-    //todo: send protocol message to the respective client OR process messages for NPCS
+    //todo(Seraina): send protocol message to the respective client OR process messages for NPCS
+    int voteRandmom = (int) (Math.random() * 6);
+    this.vote = voteRandmom;
   }
 
   /**
