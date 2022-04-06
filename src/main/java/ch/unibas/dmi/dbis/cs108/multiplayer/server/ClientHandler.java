@@ -111,13 +111,9 @@ public class ClientHandler implements Runnable {
    * @param newName The desired new name to replace the old one with.
    */
   public void changeUsername(String newName) {
-    if (AllClientNames.allNames("").contains(newName)) {    //todo: more elegant solution
-      newName = NameGenerator.randomName(newName);
-    }
-    String h = this.clientUserName; //just a friendly little helper
-    this.clientUserName = newName;
-    AllClientNames.allNames(newName);
-    broadcastAnnouncement(h + " has changed their nickname to " + clientUserName);
+    String helper = this.getClientUserName();
+    this.clientUserName = nameDuplicateChecker.singularName(newName);
+    broadcastAnnouncement(helper + " has changed their nickname to " + clientUserName);
   }
 
   /**
@@ -128,10 +124,8 @@ public class ClientHandler implements Runnable {
    * @param name The desired name.
    */
   public void setUsernameOnLogin(String name) {
-    //todo: duplicate checking
-    this.clientUserName = name;
+    this.clientUserName = nameDuplicateChecker.singularName(name);
     broadcastAnnouncement(  clientUserName + " has joined the Server");
-    //todo: add this name to namelist
   }
 
   /**
@@ -185,7 +179,6 @@ public class ClientHandler implements Runnable {
 
   /**
    * Does exactly what it says on the tin, closes all connections of Client to Server.
-   *
    */
   public void disconnectClient() {
     sendMsgToClient("QUITC");

@@ -8,6 +8,7 @@ import java.net.Socket;
 import java.io.*;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.Objects;
 import java.util.Scanner;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -150,7 +151,7 @@ public class Client {
     if (args.length < 1) {
       System.out.println("Enter the host's IP address (or type l for localhost)");
       hostname = sc.next();
-      if (hostname == "l") {
+      if (Objects.equals(hostname, "l")) {
         hostname = "localhost";
       }
     } else {
