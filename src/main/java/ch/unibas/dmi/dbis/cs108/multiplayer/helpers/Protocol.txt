@@ -1,6 +1,7 @@
-Client commands:
+Client to server commands:
 
 Implemented:
+ * LOGON$name         Log on, with the name set to whatever follow $.
  * CHATA$message      Send chat message to all
  * QUITS              request to quit server/ leave server. The server should then remove the
                       relevant ClientHandler and close the sockets, but before doing so, it sends
@@ -20,7 +21,7 @@ Future / planned:
  * VOTEH              humans voting who is the ghost
  * LISTP              list players/clients in session with the Server
 
-Server Commands:
+Server to client Commands:
 
 Implemented:
  * SPING              Ping from server to client

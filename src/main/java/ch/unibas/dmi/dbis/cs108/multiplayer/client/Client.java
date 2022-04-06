@@ -20,16 +20,24 @@ public class Client {
   private Socket socket;
   private BufferedReader in;
   private BufferedWriter out;
-  public String userName;
   public ClientPinger clientPinger;
 
-  public Client(Socket socket, String userName) {
+  public Client(Socket socket) {
     try {
       this.socket = socket;
       this.out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
       this.in = new BufferedReader((new InputStreamReader((socket.getInputStream()))));
-      this.userName = userName;
-      sendMsgToServer(getUsername());     //todo: dont just send username directly pls
+
+      //sending the initial name to server.
+      String systemName;
+      try {
+        systemName = System.getProperty("user.name");
+      } catch (Exception e) {
+        systemName = "Unknown User";
+      }
+      if (systemName == null) systemName = "Unknown User";
+      sendMsgToServer("LOGON$" + systemName);
+
       clientPinger = new ClientPinger(this, this.socket);
     } catch (IOException e) {
       e.printStackTrace();
@@ -53,9 +61,7 @@ public class Client {
               sendMsgToServer(formattedMSG);
             }
             Thread.sleep(20);
-          } catch (IOException e) {
-            e.printStackTrace();
-          } catch (InterruptedException e) {
+          } catch (IOException | InterruptedException e) {
             e.printStackTrace();
           }
           //LOGGER.debug("just checked next line");
@@ -67,12 +73,10 @@ public class Client {
 
 
   /**
-   * Starts a thread which listens for incoming messages
+   * Starts a thread which listens for incoming chat messages / other messages that the user
+   * has to see
    */
   public void chatListener() {
-        /*TODO: what type of decoding has to be done
-          TODO how shall input be logged?
-         */
     new Thread(new Runnable() {
       @Override
       public void run() {
@@ -144,19 +148,18 @@ public class Client {
     String hostname;
     int port = 42069;               //can be set via argument later if needed.
     if (args.length < 1) {
-      System.out.println("Enter the host's IP address (or type localhost)");
+      System.out.println("Enter the host's IP address (or type l for localhost)");
       hostname = sc.next();
+      if (hostname == "l") {
+        hostname = "localhost";
+      }
     } else {
       hostname = args[0];
     }
-    String systemName = System.getProperty("user.name");
-    System.out.println("Choose a nickname (Suggestion: " + systemName
-        + "): "); //Suggests a name based on System username
-    String username = sc.next();
     Socket socket;
     try {
       socket = new Socket(hostname, 42069);
-      Client client = new Client(socket, username);
+      Client client = new Client(socket);
       client.chatListener();
       Thread cP = new Thread(client.clientPinger);
       cP.start();
@@ -167,10 +170,6 @@ public class Client {
       e.printStackTrace();
     }
 
-  }
-
-  public String getUsername() {
-    return userName;
   }
 
   public Socket getSocket() {

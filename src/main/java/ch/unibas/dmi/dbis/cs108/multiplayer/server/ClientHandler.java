@@ -33,19 +33,21 @@ public class ClientHandler implements Runnable {
     try {
       this.socket = socket;
       this.out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-      this.in = new BufferedReader((new InputStreamReader((socket.getInputStream()))));
-      this.clientUserName = in.readLine();
-      // duplicate handling: if username already taken, assign random name to client
+      this.in = new BufferedReader(new InputStreamReader((socket.getInputStream())));
+      this.clientUserName = "Mysterious Passenger";    //todo: duplicate handling for this
+      /*
+      // todo: duplicate handling more elegantly
       if (AllClientNames.allNames("").contains(clientUserName)) {
         clientUserName = NameGenerator.randomName(clientUserName);
       }
       // add username to list of all client names for future duplicate checking
       AllClientNames.allNames(clientUserName);
+
+       */
       connectedClients.add(this);
       serverPinger = new ServerPinger(out, socket);
       Thread sP = new Thread(serverPinger);
       sP.start();
-      broadcastChatMessage("SERVER: " + clientUserName + " has joined the Server");
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -109,23 +111,52 @@ public class ClientHandler implements Runnable {
    * @param newName The desired new name to replace the old one with.
    */
   public void changeUsername(String newName) {
-    if (AllClientNames.allNames("").contains(newName)) {
+    if (AllClientNames.allNames("").contains(newName)) {    //todo: more elegant solution
       newName = NameGenerator.randomName(newName);
     }
     String h = this.clientUserName; //just a friendly little helper
     this.clientUserName = newName;
     AllClientNames.allNames(newName);
-    broadcastChatMessage(h + " have changed their nickname to " + clientUserName);
+    broadcastAnnouncement(h + " has changed their nickname to " + clientUserName);
   }
 
   /**
-   * Broadcasts a Message to all active clients in the form "Username: msg"
+   * Sets the client's username on login, if the username is already taken, a similar
+   * option is chosen. Functionally, the only difference between this method and changeUsername
+   * is that it doesn't print out the name change.
    *
-   * @param msg the Message to be broadcasted
+   * @param name The desired name.
+   */
+  public void setUsernameOnLogin(String name) {
+    //todo: duplicate checking
+    this.clientUserName = name;
+    broadcastAnnouncement(  clientUserName + " has joined the Server");
+    //todo: add this name to namelist
+  }
+
+  /**
+   * Broadcasts a Message to all active clients in the form "Username: @msg"
+   *
+   * @param msg the Message to be broadcast
    */
   public void broadcastChatMessage(String msg) {
     for (ClientHandler client : connectedClients) {
-      client.sendMsgToClient("CHATM$" + clientUserName + ": \"" + msg + "\"");
+      client.sendMsgToClient("CHATM$" + clientUserName + ": " + msg);
+    }
+  }
+
+  /**
+   * Broadcasts a non-chat Message to all active clients. This can be used for server
+   * messages / announcements rather than chat messages. The message will be printed to the user ex-
+   * actly as it is given to this method. Unlike broadcastChatMessage, it will also be printed onto
+   * the server console.
+   *
+   * @param msg the Message to be broadcast
+   */
+  public void broadcastAnnouncement(String msg) {
+    System.out.println(msg);
+    for (ClientHandler client : connectedClients) {
+      client.sendMsgToClient("CHATM$" + msg);
     }
   }
 

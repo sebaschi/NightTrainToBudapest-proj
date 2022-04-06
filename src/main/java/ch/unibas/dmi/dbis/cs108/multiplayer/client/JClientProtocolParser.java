@@ -16,11 +16,13 @@ public class JClientProtocolParser {
    * @param c   this Client(required so this method can access the Client's methods)
    */
   public static void parse(String msg, Client c) {
+    //LOGGER.debug("got message: " + msg + ".");
     String header = "";             //"header" is the first 5 characters, i.e. the protocol part
     try {
       header = msg.substring(0, 5);
     } catch (IndexOutOfBoundsException e) {
       System.out.println("Received unknown command");
+      e.printStackTrace();
     }
     switch (header) {
       case "SPING":
@@ -40,7 +42,7 @@ public class JClientProtocolParser {
         break;
       case "QUITC":
         c.closeEverything();
-        System.out.println("bye!");
+        break;
       default:
         System.out.println("Received unknown command");
     }

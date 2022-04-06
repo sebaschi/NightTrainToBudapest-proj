@@ -21,6 +21,7 @@ public class JServerProtocolParser {
    * @param h   this ClientHandler (required so this method can access the ClientHandler's methods)
    */
   public static void parse(String msg, ClientHandler h) {
+    //LOGGER.debug("got message: " + msg + ".");
     String header = "";             //"header" is the first 5 characters, i.e. the protocol part
         try {
       header = msg.substring(0, 5);
@@ -31,6 +32,14 @@ public class JServerProtocolParser {
       case CHATA:
         //sends chat message to all connected clients
         h.broadcastChatMessage(msg.substring(6));
+        break;
+      case "LOGON":
+        //sets name to whatever follows LOGON$
+        try {
+          h.setUsernameOnLogin(msg.substring(6));
+        } catch (Exception e) {
+          h.setUsernameOnLogin("A Mysterious Passenger");
+        }
         break;
       case "NAMEC":
         //changes name to whatever follows NAMEC$. If the new name is already in use, it will append
@@ -47,6 +56,7 @@ public class JServerProtocolParser {
         break;
       case "QUITS":
         //safely disconnects the user
+        h.broadcastAnnouncement(h.getClientUserName() + " has left the server.");
         h.disconnectClient();
         break;
       default:

@@ -36,7 +36,7 @@ public class ClientPinger implements Runnable {
   @Override
   public void run() {
     try {
-      Thread.sleep(2000);
+      Thread.sleep(20000);
       while (socket.isConnected() && !socket.isClosed()) {
         gotPingBack = false;
         client.sendMsgToServer("CPING");

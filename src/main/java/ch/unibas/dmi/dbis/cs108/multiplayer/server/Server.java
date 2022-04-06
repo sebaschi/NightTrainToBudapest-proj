@@ -34,15 +34,6 @@ public class Server {
         Thread th = new Thread(nextClient);
         connectedClients.add(nextClient);
         th.start();
-        // close socket + remove client if client is disconnected
-        /* TODO: Modify or remove this disconnection handling - right now, it is not functioning
-            (when disconnecting there are "broken pipe" exceptions on client side and "stream closed"
-            exceptions on the server side).
-         */
-        if (nextClient.getSocket().getInputStream().read() == -1) {
-          System.out.println("client disconnected. closing socket");
-          socket.close();
-        }
       }
     } catch (IOException e) {
       e.printStackTrace();
