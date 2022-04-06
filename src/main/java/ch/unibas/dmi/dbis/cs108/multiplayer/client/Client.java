@@ -34,9 +34,9 @@ public class Client {
       try {
         systemName = System.getProperty("user.name");
       } catch (Exception e) {
-        systemName = "Unknown User";
+        systemName = "U.N. Owen";
       }
-      if (systemName == null) systemName = "Unknown User";
+      if (systemName == null) systemName = "U.N. Owen";
       sendMsgToServer("LOGON$" + systemName);
 
       clientPinger = new ClientPinger(this, this.socket);
