@@ -1,7 +1,6 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.client;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
-import ch.unibas.dmi.dbis.cs108.multiplayer.server.ClientHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -41,7 +40,7 @@ public class JClientProtocolParser {
         System.out.println(msg.substring(6));
         break;
       case "QUITC":
-        c.closeEverything();
+        c.disconnectFromServer();
         break;
       default:
         System.out.println("Received unknown command");

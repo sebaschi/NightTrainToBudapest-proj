@@ -56,7 +56,7 @@ public class JServerProtocolParser {
         break;
       case "QUITS":
         //safely disconnects the user
-        h.disconnectClient();
+        h.removeClientOnLogout();
         break;
       default:
         System.out.println("Received unknown command");

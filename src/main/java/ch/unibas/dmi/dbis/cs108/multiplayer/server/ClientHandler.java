@@ -3,6 +3,7 @@ package ch.unibas.dmi.dbis.cs108.multiplayer.server;
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.ServerPinger;
 import java.io.*;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.util.HashSet;
 import java.util.Scanner;
@@ -17,20 +18,23 @@ public class ClientHandler implements Runnable {
   private BufferedWriter out;
   private BufferedReader in;
   private Socket socket;
+  private InetAddress ip;
   private
   Scanner sc;
   public ServerPinger serverPinger;
   public static HashSet<ClientHandler> connectedClients = new HashSet<>();
+  public static HashSet<ClientHandler> disconnectedClients = new HashSet<>(); //todo: implement re-connection
   public static HashSet<ClientHandler> lobby = new HashSet<>();
   public static HashSet<ClientHandler> ghostClients = new HashSet<>();
 
   /**
    * Implements the login logic in client-server architecture.
-   *
+   * @param ip the ip of the client, used for re-connection.
    * @param socket the socket on which to make the connection.
    */
-  public ClientHandler(Socket socket) {
+  public ClientHandler(Socket socket, InetAddress ip) {
     try {
+      this.ip = ip;
       this.socket = socket;
       this.out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
       this.in = new BufferedReader(new InputStreamReader((socket.getInputStream())));
@@ -87,6 +91,7 @@ public class ClientHandler implements Runnable {
       } catch (IOException e) {
         //e.printStackTrace();
         LOGGER.debug("Exception while trying to read message");
+        removeClientOnConnectionLoss();
         break;
       }
     }
@@ -146,9 +151,10 @@ public class ClientHandler implements Runnable {
     }
   }
 
-  /** Sends a given message to client
+  /** Sends a given message to client. The message has to already be protocol-formatted. ALL
+   * communication with the client has to happen via this method!
    * todo: check for exception if out is closed.
-   * @param msg the given message
+   * @param msg the given message. Should already be protocol-formatted.
    */
   public void sendMsgToClient(String msg) {
     try {
@@ -159,17 +165,39 @@ public class ClientHandler implements Runnable {
     } catch (IOException e) {
       //e.printStackTrace();
       LOGGER.debug("unable to send msg: " + msg);
+      removeClientOnConnectionLoss();
     }
   }
 
+  /**
+   * Removes & disconnects the client. To be used if a severe connection loss is detected (i.e. if trying to
+   * send / receive a message throws an exception, not just if ping-pong detects a connection loss).
+   * This is very similar to removeClientOnLogout(), however removeClientOnLogout() should only be used for
+   * regular quitting, since removeClientOnLogout() cannot handle a client with connection loss.
+   */
+  public void removeClientOnConnectionLoss() {
+    connectedClients.remove(this);
+    disconnectClient();
+    broadcastAnnouncement(getClientUserName() + " has left the server due to a connection loss.");
+    disconnectedClients.add(this);
+  }
 
   /**
-   * Does exactly what it says on the tin, closes all connections of Client to Server.
+   * Does exactly what it says on the tin, closes all connections of Client to Server and removes
+   * the client. To be used if the client requests logout or in other "regular" situations. Use
+   * removeClientOnConnectionLoss() if the client has to be removed due to a connection loss.
    */
-  public void disconnectClient() {
+  public void removeClientOnLogout() {
     broadcastAnnouncement(getClientUserName() + " has left the server.");
     sendMsgToClient("QUITC");
     connectedClients.remove(this);
+    disconnectClient();
+  }
+
+  /**
+   * Closes the client's socket, in, and out.
+   */
+  public void disconnectClient() {
     socket = this.getSocket();
     in = this.getIn();
     out = this.getOut();

@@ -27,10 +27,10 @@ public class Server {
    */
   public void startServer() {
     try {
-      System.out.println("Port 42069 is open on " + this.serverSocket.getInetAddress());    //TODO: this is always 0.0.0.0
+      System.out.println("Port 42069 is open.");
       while (!serverSocket.isClosed()) {
         Socket socket = serverSocket.accept();
-        ClientHandler nextClient = new ClientHandler(socket);
+        ClientHandler nextClient = new ClientHandler(socket, socket.getInetAddress());
         Thread th = new Thread(nextClient);
         connectedClients.add(nextClient);
         th.start();

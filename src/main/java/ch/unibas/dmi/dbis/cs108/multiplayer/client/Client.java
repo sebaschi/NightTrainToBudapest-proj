@@ -6,7 +6,6 @@ import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.ClientPinger;
 
 import java.net.Socket;
 import java.io.*;
-import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Objects;
 import java.util.Scanner;
@@ -88,11 +87,12 @@ public class Client {
           try {
             chatMsg = in.readLine();     //todo: maybe if
             if (chatMsg != null) {
-              parse(chatMsg);           //todo: i think this trows an error BC chatMsg is null if client disconnects
-            }
+              parse(chatMsg);
+            } else { System.out.println("chatMsg is null");}
           } catch (IOException e) {
             //e.printStackTrace();
             LOGGER.debug("Exception while trying to read message");
+            disconnectFromServer();
           }
 
         }
@@ -102,7 +102,8 @@ public class Client {
   }
 
   /**
-   * Sends a message to the server, as is.
+   * Sends a message to the server, as is. The message has to already be protocol-formatted. ALL
+   * communication with the server has to happen via this method!
    *
    * @param msg the message sent. Should already be protocol-formatted.
    */
@@ -114,20 +115,20 @@ public class Client {
     } catch (IOException e) {
       //e.printStackTrace();
       LOGGER.debug("unable to send msg: " + msg);
+      disconnectFromServer();
     }
 
   }
 
   /**
    * parses a received message according to the client protocol.
-   *
    * @param msg the message to be parsed.
    */
   public void parse(String msg) {
     JClientProtocolParser.parse(msg, this);
   }
 
-  public void closeEverything() {
+  public void disconnectFromServer() {
     try {
       if (in != null) {
         in.close();
