@@ -8,11 +8,9 @@ public class Ghost extends Passenger {
   public static final Logger LOGGER = LogManager.getLogger();
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
-  protected boolean isOG = false;             //true if the Ghost is the original ghost false by default.
-
   public boolean getIsOG() {
     return isOG;
   }
 
-  public void setIsOG(boolean og) { isOG = og; };
+  public void setIsOG(boolean og) { isOG = og; }
 }
