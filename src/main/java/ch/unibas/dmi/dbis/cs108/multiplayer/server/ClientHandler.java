@@ -38,7 +38,7 @@ public class ClientHandler implements Runnable {
       this.socket = socket;
       this.out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
       this.in = new BufferedReader(new InputStreamReader((socket.getInputStream())));
-      this.clientUserName = nameDuplicateChecker.singularName("U.N. Owen");
+      this.clientUserName = nameDuplicateChecker.checkName("U.N. Owen");
       connectedClients.add(this);
       serverPinger = new ServerPinger(socket, this);
       Thread sP = new Thread(serverPinger);
@@ -77,11 +77,6 @@ public class ClientHandler implements Runnable {
 
 
   @Override
-  /**
-   * The main logic of the client handler.
-   * Since every client is put on a string this is where
-   * most interactions between client and server are held
-   **/
   public void run() {
     String msg;
     while (socket.isConnected() && !socket.isClosed()) {
@@ -109,7 +104,7 @@ public class ClientHandler implements Runnable {
    */
   public void changeUsername(String newName) {
     String helper = this.getClientUserName();
-    this.clientUserName = nameDuplicateChecker.singularName(newName);
+    this.clientUserName = nameDuplicateChecker.checkName(newName);
     broadcastAnnouncement(helper + " has changed their nickname to " + clientUserName);
   }
 
@@ -121,7 +116,7 @@ public class ClientHandler implements Runnable {
    * @param name The desired name.
    */
   public void setUsernameOnLogin(String name) {
-    this.clientUserName = nameDuplicateChecker.singularName(name);
+    this.clientUserName = nameDuplicateChecker.checkName(name);
     broadcastAnnouncement(  clientUserName + " has joined the Server");
   }
 

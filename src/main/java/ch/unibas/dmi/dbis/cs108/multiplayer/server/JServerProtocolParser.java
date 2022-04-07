@@ -38,7 +38,7 @@ public class JServerProtocolParser {
         try {
           h.setUsernameOnLogin(msg.substring(6));
         } catch (Exception e) {
-          h.setUsernameOnLogin("A Mysterious Passenger");
+          h.setUsernameOnLogin("U.N. Owen");
         }
         break;
       case "NAMEC":
