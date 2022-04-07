@@ -11,9 +11,10 @@ public class Passenger {
 
   protected int position;               //the player's Cabin number (0 to 5)
   protected String name;                //the player's Name
-  protected Boolean isGhost;            //boolean regarding if the player is a ghost. Could probably be removed since ghost is a subclass but I'm keeping it in.
-  protected Boolean isPlayer;           //same here
-  protected Boolean kickedOff;          //true if the player has been voted off.
+  protected boolean isGhost;            //boolean regarding if the player is a ghost. Could probably be removed since ghost is a subclass but I'm keeping it in.
+  protected boolean isOG = false;       //true if the player is the original ghost, false by default.
+  protected boolean isPlayer;           //same here
+  protected boolean kickedOff;          //true if the player has been voted off.
   protected ClientHandler clientHandler;//the socket for the client associated with this Passenger, for NPCs, this can be null.
   protected boolean hasVoted;           //true if the player gave his vote during voting time
   protected int vote;                   //saves the number of the player this passenger voted for during voting (0-5)
@@ -25,8 +26,7 @@ public class Passenger {
    **/
   public void send(String msg) {
     //todo(Seraina): send protocol message to the respective client OR process messages for NPCS
-    int voteRandmom = (int) (Math.random() * 6);
-    this.vote = voteRandmom;
+    this.vote = (int) (Math.random() * 6);
   }
 
   /**
@@ -74,21 +74,23 @@ public class Passenger {
     return name;
   }
 
-  public Boolean getIsGhost() {
+  public boolean getIsGhost() {
     return isGhost;
   }
 
-  public Boolean getKickedOff() {
+  public boolean getIsOG() { return isOG; }
+
+  public boolean getKickedOff() {
     return kickedOff;
   }
 
-  public Boolean getIsPlayer() {
+  public boolean getIsPlayer() {
     return isPlayer;
   }
 
-  public boolean getHasVoted() { return hasVoted; }; // returns true if player already voted during a voting
+  public boolean getHasVoted() { return hasVoted; } // returns true if player already voted during a voting
 
-  public int getVote() { return vote; }
+  public int getVote() { return vote; } // returns who this passenger voted for during a voting
 
   public ClientHandler getClientHandler() {
     return clientHandler;
