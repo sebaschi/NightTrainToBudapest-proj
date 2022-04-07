@@ -48,12 +48,17 @@ public class nameDuplicateChecker {
   }
 
   /**
-   * Returns the name as a String, if that name is already used by some other ClientHandler,
-   * it returns the name with some suffix.
+   * Adjusts the name to avoid conflicts and returns it as a String. Namely:
+   * If that name is already used by some other ClientHandler, it returns the name with some suffix.
+   * Also, any ":" or "$" are removed, so they can be used for whisper chat.
+   * Also, if the name is empty, it assigns a default value ("U.N. Owen").
    */
-  public static String singularName(String name) {
+  public static String checkName(String name) {
     String rtrn = name;                 //if this line is used, only duplicate names get a suffix.
     //String rtrn = extendName(name);     //if this line is used, all clients get a suffix
+    rtrn = rtrn.replace("$","");
+    rtrn = rtrn.replace(":","");
+    if (rtrn.equalsIgnoreCase("")) {rtrn = "U.N. Owen";}
     while (isTaken(rtrn)) {        //todo: handle the (very unlikely) case that all names are taken.
       rtrn = extendName(name);
     }
