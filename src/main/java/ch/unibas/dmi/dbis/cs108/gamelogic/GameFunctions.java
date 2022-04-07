@@ -54,13 +54,6 @@ public class GameFunctions {
     return nrOfUsers;
   }
 
-  public void ghostyfy(int position) {
-
-  }
-
-  public Passenger voteEval() {
-    return new Passenger();
-  }
 
 
 }

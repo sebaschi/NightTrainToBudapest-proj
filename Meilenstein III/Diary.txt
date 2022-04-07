@@ -222,3 +222,18 @@ Fazit daraus für Meilenstein III:
 - Aufgabenverteilung:
 	- Seraina: ServerGameInfoHandler, ClientGameInfoHandler (auch: QA)
 	- Alex: VoteHandler, NoiseHandler, evtl. Erweiterung GhostifyHandler (auch: Manual)
+
+
+07.04.2022 - Seraina, Jonas, Alex
+Stand:
+	Server - Client: Quit funktioniert, Name Suggestion ist sinnvoller umgesetzt, Namen Duplikate werden thematisch verändert, Disconection Bug 					 am Anfang ist geflickt.
+	Lobby:			 ?
+	Spiellogik: 	 VoteHandler; GhostVote und HumanVote sind implementiert. GhostyfyHandler ist implementiert.
+
+
+ToDo:
+	Server - Client: Conection loss handling; wenn der Client keine Verbuindung merh hat, muss Server irgendwann Sockets schliessen, Server 						 verliert verbindung. Lösung evtl mit quit?
+	Lobby:			 ?
+	Spiellogik:		 Ende des Spiels implementieren, NoiseHandling, Server/ClientGameInfoHandler, Testen ob bisherige implementationen tun was 						 sie sollen.
+					 Ziel: SAMSTAG Abend
+
