@@ -27,7 +27,7 @@ public class Server {
    */
   public void startServer() {
     try {
-      System.out.println("Port 42069 is open on " + this.serverSocket.getInetAddress());
+      System.out.println("Port 42069 is open on " + this.serverSocket.getInetAddress());    //TODO: this is always 0.0.0.0
       while (!serverSocket.isClosed()) {
         Socket socket = serverSocket.accept();
         ClientHandler nextClient = new ClientHandler(socket);
@@ -62,7 +62,4 @@ public class Server {
     server.startServer();
   }
 
-  public static void broadcast(String msg) {
-    //TODO
-  }
 }

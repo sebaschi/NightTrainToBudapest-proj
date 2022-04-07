@@ -34,18 +34,9 @@ public class ClientHandler implements Runnable {
       this.socket = socket;
       this.out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
       this.in = new BufferedReader(new InputStreamReader((socket.getInputStream())));
-      this.clientUserName = "Mysterious Passenger";    //todo: duplicate handling for this
-      /*
-      // todo: duplicate handling more elegantly
-      if (AllClientNames.allNames("").contains(clientUserName)) {
-        clientUserName = NameGenerator.randomName(clientUserName);
-      }
-      // add username to list of all client names for future duplicate checking
-      AllClientNames.allNames(clientUserName);
-
-       */
+      this.clientUserName = nameDuplicateChecker.singularName("U.N. Owen");
       connectedClients.add(this);
-      serverPinger = new ServerPinger(out, socket);
+      serverPinger = new ServerPinger(socket, this);
       Thread sP = new Thread(serverPinger);
       sP.start();
     } catch (IOException e) {
@@ -94,7 +85,8 @@ public class ClientHandler implements Runnable {
         msg = in.readLine();      //todo: here is where the server throws an exception when the client quits
         JServerProtocolParser.parse(msg, this);
       } catch (IOException e) {
-        e.printStackTrace();
+        //e.printStackTrace();
+        LOGGER.debug("Exception while trying to read message");
         break;
       }
     }
@@ -129,7 +121,7 @@ public class ClientHandler implements Runnable {
   }
 
   /**
-   * Broadcasts a Message to all active clients in the form "Username: @msg"
+   * Broadcasts a chat Message to all active clients in the form "Username: @msg"
    *
    * @param msg the Message to be broadcast
    */
@@ -141,9 +133,9 @@ public class ClientHandler implements Runnable {
 
   /**
    * Broadcasts a non-chat Message to all active clients. This can be used for server
-   * messages / announcements rather than chat messages. The message will be printed to the user ex-
-   * actly as it is given to this method. Unlike broadcastChatMessage, it will also be printed onto
-   * the server console.
+   * messages / announcements rather than chat messages. The message will be printed to the user
+   * exactly as it is given to this method. Unlike broadcastChatMessage, it will also be printed
+   * onto the server console.
    *
    * @param msg the Message to be broadcast
    */
@@ -165,24 +157,19 @@ public class ClientHandler implements Runnable {
       out.newLine();
       out.flush();
     } catch (IOException e) {
-      e.printStackTrace();
+      //e.printStackTrace();
+      LOGGER.debug("unable to send msg: " + msg);
     }
   }
 
-  /**
-   * Does what it sounds like
-   */
-  public void removeClientHandler() {
-    broadcastChatMessage("SERVER: " + clientUserName + " has left the server");
-    connectedClients.remove(this);
-  }
 
   /**
    * Does exactly what it says on the tin, closes all connections of Client to Server.
    */
   public void disconnectClient() {
+    broadcastAnnouncement(getClientUserName() + " has left the server.");
     sendMsgToClient("QUITC");
-    removeClientHandler();
+    connectedClients.remove(this);
     socket = this.getSocket();
     in = this.getIn();
     out = this.getOut();

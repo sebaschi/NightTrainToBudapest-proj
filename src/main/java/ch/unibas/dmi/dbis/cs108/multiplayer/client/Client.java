@@ -61,7 +61,7 @@ public class Client {
               String formattedMSG = MessageFormatter.formatMsg(msg);
               sendMsgToServer(formattedMSG);
             }
-            Thread.sleep(20);
+            Thread.sleep(5);
           } catch (IOException | InterruptedException e) {
             e.printStackTrace();
           }
@@ -91,7 +91,8 @@ public class Client {
               parse(chatMsg);           //todo: i think this trows an error BC chatMsg is null if client disconnects
             }
           } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            LOGGER.debug("Exception while trying to read message");
           }
 
         }
@@ -111,7 +112,8 @@ public class Client {
       out.newLine();
       out.flush();
     } catch (IOException e) {
-      e.printStackTrace();
+      //e.printStackTrace();
+      LOGGER.debug("unable to send msg: " + msg);
     }
 
   }
@@ -126,7 +128,6 @@ public class Client {
   }
 
   public void closeEverything() {
-    //TODO Correctly closing a clients connection
     try {
       if (in != null) {
         in.close();

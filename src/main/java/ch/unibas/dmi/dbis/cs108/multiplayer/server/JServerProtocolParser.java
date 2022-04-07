@@ -56,7 +56,6 @@ public class JServerProtocolParser {
         break;
       case "QUITS":
         //safely disconnects the user
-        h.broadcastAnnouncement(h.getClientUserName() + " has left the server.");
         h.disconnectClient();
         break;
       default:

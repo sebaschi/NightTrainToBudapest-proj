@@ -54,7 +54,7 @@ public class nameDuplicateChecker {
   public static String singularName(String name) {
     String rtrn = name;                 //if this line is used, only duplicate names get a suffix.
     //String rtrn = extendName(name);     //if this line is used, all clients get a suffix
-    while (isTaken(rtrn)) {
+    while (isTaken(rtrn)) {        //todo: handle the (very unlikely) case that all names are taken.
       rtrn = extendName(name);
     }
     return rtrn;
