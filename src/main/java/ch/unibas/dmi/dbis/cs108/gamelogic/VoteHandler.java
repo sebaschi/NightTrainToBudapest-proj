@@ -23,6 +23,7 @@ public class VoteHandler {
   public static final Logger LOGGER = LogManager.getLogger();
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
+
   /**
    * Handles the ghost vote during nighttime: passengers who are ghosts are being asked on who to
    * ghostify, others are waiting. Results are being collected and the player with most votes is

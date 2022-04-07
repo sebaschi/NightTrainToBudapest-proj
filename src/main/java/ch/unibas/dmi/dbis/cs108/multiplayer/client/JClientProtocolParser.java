@@ -9,6 +9,15 @@ public class JClientProtocolParser {
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   /**
+   * Got a request from the Server to vote which human to infect.
+   */
+  public static final String GVOTR = "GVOTR";
+  /**
+   * Got a request from Server to vote which player to throw of the train
+   */
+  public static final String HVOTR = "HVOTR";
+
+  /**
    * Used by the client to parse an incoming protocol message.
    *
    * @param msg the encoded message that needs to be parsed
@@ -41,6 +50,14 @@ public class JClientProtocolParser {
         break;
       case "QUITC":
         c.disconnectFromServer();
+        break;
+      case GVOTR:
+        System.out.println("Ghost received Vote request");
+        //TODO(Seraina): How can be enforced, that clients won't vote otherwise? Trigger a methode here that listens to input
+        break;
+      case HVOTR:
+        System.out.println("Human received Vote request");
+        //TODO(Seraina): How can be enforced, that clients won't vote otherwise? Trigger a methode here that listens to input
         break;
       default:
         System.out.println("Received unknown command");

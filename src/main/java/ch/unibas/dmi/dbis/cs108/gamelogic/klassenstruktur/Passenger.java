@@ -1,6 +1,7 @@
 package ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
+import ch.unibas.dmi.dbis.cs108.gamelogic.ServerGameInfoHandler;
 import ch.unibas.dmi.dbis.cs108.multiplayer.server.ClientHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,13 +21,16 @@ public class Passenger {
   protected int vote;                   //saves the number of the player this passenger voted for during voting (0-5)
 
   /**
-   * Sends a protocol message to the respective player.
-   *
+   * Sends a protocol message to the respective player or NPC.
    * @param msg the message that is sent to this player.
    **/
   public void send(String msg) {
-    //todo(Seraina): send protocol message to the respective client OR process messages for NPCS
-    this.vote = (int) (Math.random() * 6);
+    if (isPlayer) {
+      //TODO: maybe put a formatter here, so protocol msg are only send between sever-client
+      clientHandler.sendMsgToClient(msg); //ToDO(Seraina): Make sure only the right kind of messages are sent
+    } else {
+            //TODO: call a method that identifies message for NPC and calls respective methode NPCParser
+    }
   }
 
   /**

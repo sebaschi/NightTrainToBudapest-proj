@@ -22,10 +22,13 @@ Server Commands:
 Implemented:
  * SPING              Ping from server to client
  * PINGB              Pingback from client to server.
+ * GVOTR              Ghosts: Please vote now
+ * HVOTR              Humans: Please vote now
 
 Future / planned:
  * MSGRS              "Message received": Paramaters: a string detailing to the client that and what the server received as command.
  * SEROR              Server had an error. (used for debugging)
  * NOCMD              No command found.
+
 
 

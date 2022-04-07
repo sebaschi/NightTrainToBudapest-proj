@@ -14,6 +14,7 @@ public class JServerProtocolParser {
    */
   public static final String CHATA = "CHATA";
 
+
   /**
    * Used by the server (i.e. ClientHandler) to parse an incoming protocol message.
    *
