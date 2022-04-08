@@ -75,14 +75,14 @@ public class VoteHandler {
         currentMax = votesForPlayer;
       }
     }
-    LOGGER.info("Most votes" + currentMax);
+    LOGGER.info("Most votes: " + currentMax + " vote");
 
     // ghostify the player with most votes
     int ghostPosition = 0;
     for (int i = 0; i < votesForPlayers.length; i++) {
       if (votesForPlayers[i] == currentMax) { // if player at position i has most votes
         ghostPosition = i;
-        LOGGER.info("Most votes for Passenger" + i);
+        LOGGER.info("Most votes for Passenger " + i);
       }
     }
     GhostifyHandler gh = new GhostifyHandler();
@@ -148,7 +148,7 @@ public class VoteHandler {
     for (int i = 0; i < votesForPlayers.length; i++) {
       if (votesForPlayers[i] == currentMax) { // if player has most votes
         voteIndex = i;
-        LOGGER.info("Player " + voteIndex + "has the most votes");
+        LOGGER.info("Player " + voteIndex + " has the most votes");
       }
     }
     if (!passengers[voteIndex]
@@ -178,11 +178,11 @@ public class VoteHandler {
         // kick this ghost off
         passengers[voteIndex].setKickedOff(true);
         for (Passenger passenger : passengers) {
-          passenger.send("Player " + voteIndex + "has been kicked off!");
+          passenger.send("Player " + voteIndex + " has been kicked off!");
         }
       }
     }
-    // set hasVoted to false for all passengers for future votings
+    // set hasVoted to false for all passengers for future voting
     for (Passenger passenger : passengers) {
       passenger.setHasVoted(false);
     }
@@ -221,7 +221,7 @@ public class VoteHandler {
       print(testArray);
 
       LOGGER.info("Day");
-      humanVote(testArray);
+      humanVote(testArray, game);
       print(testArray);
 
     } catch (TrainOverflow e) {
