@@ -1,8 +1,6 @@
 package ch.unibas.dmi.dbis.cs108.sebaschi;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
-import ch.unibas.dmi.dbis.cs108.gamelogic.Game;
-import ch.unibas.dmi.dbis.cs108.multiplayer.client.Client;
 import ch.unibas.dmi.dbis.cs108.multiplayer.server.ClientHandler;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -25,7 +23,6 @@ public class CentralServerData {
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   private Set<ClientHandler> clientsOnServer;
-
   private List<Lobby> allLobbies;
   private Map<Integer, Lobby> lobbyIDMap;
 
@@ -49,11 +46,11 @@ public class CentralServerData {
    * Used to add the client to the set of all clients on server.
    * @param client
    */
-  public void addClientToSetOfAllClients(ClientHandler client) {
+  public synchronized void addClientToSetOfAllClients(ClientHandler client) {
     this.getClientsOnServer().add(client);
   }
 
-  public void removeClientFromSetOfAllClients(){
+  public synchronized void removeClientFromSetOfAllClients(){
     //TODO implement or make sure something equivalent is implemented somewhere else
   }
 
@@ -63,6 +60,10 @@ public class CentralServerData {
    */
   public List<Lobby> getAllLobbies() {
     return allLobbies;
+  }
+
+  public synchronized void addLobbyToListOfAllLobbies(Lobby lobby) {
+    allLobbies.add(lobby);
   }
 
   /**

@@ -3,6 +3,7 @@ package ch.unibas.dmi.dbis.cs108.multiplayer.server;
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.ServerPinger;
+import ch.unibas.dmi.dbis.cs108.sebaschi.CentralServerData;
 import ch.unibas.dmi.dbis.cs108.sebaschi.Lobby;
 import java.io.*;
 import java.net.InetAddress;
@@ -15,6 +16,8 @@ import org.apache.logging.log4j.Logger;
 public class ClientHandler implements Runnable {
   public static final Logger LOGGER = LogManager.getLogger();
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
+
+  CentralServerData serverData;
 
   private String clientUserName;
   private BufferedWriter out;
@@ -41,8 +44,9 @@ public class ClientHandler implements Runnable {
    * @param ip the ip of the client, used for re-connection.
    * @param socket the socket on which to make the connection.
    */
-  public ClientHandler(Socket socket, InetAddress ip) {
+  public ClientHandler(Socket socket, InetAddress ip, CentralServerData serverData) {
     try {
+      this.serverData = serverData;
       this.ip = ip;
       this.socket = socket;
       this.out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
