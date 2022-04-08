@@ -104,10 +104,11 @@ public class VoteHandler {
    * ghosts are waiting. Votes are being collected, vote results are being handled in three possible
    * ways: if passenger who was voted for is a human, continue with next ghost vote; if it's a
    * normal ghost, kick him off; if it's the OG ghost, end game, humans win.
-   *
+   * @return Returns an empty String by default, returns a complex string when game is over:
+   * "Game over: ghosts win!" or "Game over: humans win!"
    * @param passengers: train passengers
    */
-  public void humanVote(Passenger[] passengers, Game game) {
+  public String humanVote(Passenger[] passengers, Game game) {
 
 
     // array to collect votes for all players during voting, i.e. votes for player 1 are saved in
@@ -163,6 +164,7 @@ public class VoteHandler {
     if (passengers[voteIndex].getIsGhost()) { // if player is a ghost
       if (passengers[voteIndex].getIsOG()) { // if ghost is OG --> end game, humans win
         System.out.println("Game over: humans win!"); // TODO: correctly handle end of game
+        return "Game over: humans win!";
       } else {
         /* Special case: if ghost is not OG and if only one human is left (--> last human didn't vote for OG ghost),
         ghosts win.
@@ -175,6 +177,7 @@ public class VoteHandler {
         }
         if (humans == 1) {
           System.out.println("Game over: ghosts win!");
+          return "Game over: ghosts win!";
         }
         // Usual case: there is more than one human left and a normal ghost has been voted for -->
         // kick this ghost off
@@ -188,6 +191,7 @@ public class VoteHandler {
     for (Passenger passenger : passengers) {
       passenger.setHasVoted(false);
     }
+    return "";
   }
 
   /**
