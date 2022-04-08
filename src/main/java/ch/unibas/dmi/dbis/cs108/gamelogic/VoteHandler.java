@@ -31,7 +31,7 @@ public class VoteHandler {
    *
    * @param passengers: passengers on the train
    */
-  public static void ghostVote(Passenger[] passengers, Game game) {
+  public void ghostVote(Passenger[] passengers, Game game) {
 
     // array to collect votes for all players during voting, i.e. votes for player 1 (passengers[0])
     // are saved in
@@ -107,7 +107,7 @@ public class VoteHandler {
    *
    * @param passengers: train passengers
    */
-  public static void humanVote(Passenger[] passengers, Game game) {
+  public void humanVote(Passenger[] passengers, Game game) {
 
 
     // array to collect votes for all players during voting, i.e. votes for player 1 are saved in
@@ -215,6 +215,7 @@ public class VoteHandler {
   public static void main(String[] args) {
     try {
       Game game = new Game(6,1, 6);
+      VoteHandler voteHandler = new VoteHandler();
 
       Passenger[] testArray = game.gameFunctions.passengerTrain;
       Passenger ghost = new Ghost();
@@ -224,19 +225,19 @@ public class VoteHandler {
       testArray[3].setPosition(3);
       print(testArray);
       LOGGER.info("NIGHT");
-      ghostVote(testArray,game);
+      voteHandler.ghostVote(testArray,game);
       print(testArray);
 
       LOGGER.info("Day");
-      humanVote(testArray, game);
+      voteHandler.humanVote(testArray, game);
       print(testArray);
 
       LOGGER.info("NIGHT");
-      ghostVote(testArray,game);
+      voteHandler.ghostVote(testArray,game);
       print(testArray);
 
       LOGGER.info("Day");
-      humanVote(testArray, game);
+      voteHandler.humanVote(testArray, game);
       print(testArray);
     } catch (TrainOverflow e) {
       LOGGER.warn(e.getMessage());
