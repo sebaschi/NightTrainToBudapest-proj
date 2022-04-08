@@ -83,8 +83,10 @@ public class VoteHandler {
       if (votesForPlayers[i] == currentMax) { // if player at position i has most votes
         ghostPosition = i;
         LOGGER.info("Most votes for Passenger " + i);
+
       }
     }
+    LOGGER.debug("ghostPosition: " + ghostPosition);
     GhostifyHandler gh = new GhostifyHandler();
     Ghost g = gh.ghost(passengers[ghostPosition], game);
     passengers[ghostPosition] = g;
@@ -170,9 +172,9 @@ public class VoteHandler {
           if (!passenger.getIsGhost()) {
             humans++;
           }
-          if (humans == 1) {
-            System.out.println("Game over: ghosts win!");
-          }
+        }
+        if (humans == 1) {
+          System.out.println("Game over: ghosts win!");
         }
         // Usual case: there is more than one human left and a normal ghost has been voted for -->
         // kick this ghost off
@@ -192,10 +194,14 @@ public class VoteHandler {
     System.out.println();
     String[] print = new String[6];
     for (int i = 0; i < array.length; i++) {
-      if(array[i].getIsGhost()) {
-        print[i] = "| ghost |";
+      if (array[i].getKickedOff()) {
+        print[i] = "| kicked off " + array[i].getPosition() + "|";
       } else {
-        print[i] = "| human |";
+        if (array[i].getIsGhost()) {
+          print[i] = "| ghost " + array[i].getPosition() + "|";
+        } else {
+          print[i] = "| human " + array[i].getPosition() + "|";
+        }
       }
     }
 
@@ -215,6 +221,7 @@ public class VoteHandler {
       testArray[3] = ghost;
       testArray[3].setGhost();
       testArray[3].setIsOg();
+      testArray[3].setPosition(3);
       print(testArray);
       LOGGER.info("NIGHT");
       ghostVote(testArray,game);
@@ -224,6 +231,13 @@ public class VoteHandler {
       humanVote(testArray, game);
       print(testArray);
 
+      LOGGER.info("NIGHT");
+      ghostVote(testArray,game);
+      print(testArray);
+
+      LOGGER.info("Day");
+      humanVote(testArray, game);
+      print(testArray);
     } catch (TrainOverflow e) {
       LOGGER.warn(e.getMessage());
     }

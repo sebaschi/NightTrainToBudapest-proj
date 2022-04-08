@@ -19,17 +19,23 @@ public class Passenger {
   protected ClientHandler clientHandler;//the socket for the client associated with this Passenger, for NPCs, this can be null.
   protected boolean hasVoted;           //true if the player gave his vote during voting time
   protected int vote;                   //saves the number of the player this passenger voted for during voting (0-5)
-
+  int sendcounter = 0;
   /**
    * Sends a protocol message to the respective player or NPC.
    * @param msg the message that is sent to this player.
    **/
   public void send(String msg) {
-    if (msg.equals("Vote on who to ghostify!") || msg.equals("Vote for a ghost to kick off!")) {
-      vote = 1;
+    sendcounter++;
+    if (msg.equals("Vote on who to ghostify!")) {
+      vote = 1*sendcounter;
+      hasVoted = true; // for testing, when is it set to false again?
+      LOGGER.info("Voted for Position " + vote);
+    } else if(msg.equals("Vote for a ghost to kick off!")) {
+      vote = (int) (0.5*sendcounter);
       hasVoted = true; // for testing, when is it set to false again?
       LOGGER.info("Voted for Position " + vote);
     } else {
+
       LOGGER.debug(msg);
     }
     /*if (isPlayer) {

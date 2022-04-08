@@ -38,7 +38,7 @@ public class GameFunctions {
     for (int i = 0; i < nrOfPlayers; i++) {
       Human h = new Human();
       h.setPosition(train.orderOfTrain[i]);
-      passengerTrain[i] = h;
+      passengerTrain[train.orderOfTrain[i]] = h;
     }
     this.passengerTrain = passengerTrain;
   }
