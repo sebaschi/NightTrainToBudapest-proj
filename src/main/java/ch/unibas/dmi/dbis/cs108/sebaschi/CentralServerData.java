@@ -5,6 +5,10 @@ import ch.unibas.dmi.dbis.cs108.gamelogic.Game;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.Client;
 import ch.unibas.dmi.dbis.cs108.multiplayer.server.ClientHandler;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.apache.logging.log4j.LogManager;
@@ -21,10 +25,52 @@ public class CentralServerData {
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   private Set<ClientHandler> clientsOnServer;
-  private Set<Game> activeGames;
-  private Set<Game> gamesOpenToJoin;
 
-  private Map<ClientHandler, Socket> clientSocketMap;
-  private Map<Socket, ClientHandler> socketClientMap;
-  private Map<Game, ClientHandler> gameClientMap;
+  private List<Lobby> allLobbies;
+  private Map<Integer, Lobby> lobbyIDMap;
+
+  public CentralServerData() {
+    clientsOnServer = new HashSet<>();
+    allLobbies = new ArrayList<>();
+    lobbyIDMap = new HashMap<>();
+  }
+
+  //Getters
+
+  /**
+   * Getter for set of all clients.
+   * @return the set of all clients.
+   */
+  public Set<ClientHandler> getClientsOnServer() {
+    return clientsOnServer;
+  }
+
+  /**
+   * Used to add the client to the set of all clients on server.
+   * @param client
+   */
+  public void addClientToSetOfAllClients(ClientHandler client) {
+    this.getClientsOnServer().add(client);
+  }
+
+  public void removeClientFromSetOfAllClients(){
+    //TODO implement or make sure something equivalent is implemented somewhere else
+  }
+
+  /**
+   * Getter for List of all lobbies.
+   * @return a list of all lobbies
+   */
+  public List<Lobby> getAllLobbies() {
+    return allLobbies;
+  }
+
+  /**
+   * Mapping from an Integer that repesents a LobbyID to the lobby
+   * should be set in {@link Lobby} and is then used by clients to join a lobby.
+   * @return a mapping from Integer to Lobby.
+   */
+  public Map<Integer, Lobby> getLobbyIDMap() {
+    return lobbyIDMap;
+  }
 }

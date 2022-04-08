@@ -3,6 +3,7 @@ package ch.unibas.dmi.dbis.cs108.multiplayer.server;
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.ServerPinger;
+import ch.unibas.dmi.dbis.cs108.sebaschi.Lobby;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -203,6 +204,10 @@ public class ClientHandler implements Runnable {
     sendMsgToClient(Protocol.serverConfirmQuit); //todo: protocol
     connectedClients.remove(this);
     disconnectClient();
+  }
+
+  public void createNewLobby() {
+    Lobby newGame = new Lobby(this);
   }
 
   /**
