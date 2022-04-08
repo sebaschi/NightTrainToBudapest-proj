@@ -64,6 +64,14 @@ public class CentralServerData {
     LOGGER.debug(client.getClientUserName() + " removed from CentralServerData list of clients.");
   }
 
+  public synchronized void removeClientFromLobby(ClientHandler client) {
+    boolean foundAndRemoved = false;
+    for (Lobby l : allLobbies) {
+      foundAndRemoved = l.getPlayers().remove(client);
+    }
+    LOGGER.debug("foundAndRemoved value: " + foundAndRemoved);
+  }
+
   /**
    * Getter for List of all lobbies.
    *

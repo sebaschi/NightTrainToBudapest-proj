@@ -72,17 +72,28 @@ public class Lobby {
 
   /**
    * getter for the lobby ID
+   *
    * @return lobbyID as set in constructor based on number of lobbies.
    */
-  public int getLobbyID(){
+  public int getLobbyID() {
     return this.lobbyID;
   }
 
   /**
+   * Returns the list containing players currently in the lobby
+   *
+   * @return list of players
+   */
+  public List<ClientHandler> getPlayers() {
+    return this.players;
+  }
+
+  /**
    * Builds a message for the LISTL command.
+   *
    * @return a string formatted for the clients convenients.
    */
-  public String getIdAndAdminForList(){
+  public String getIdAndAdminForList() {
     StringBuilder response = new StringBuilder();
     response.append("Lobby ID: ");
     response.append(this.lobbyID);
@@ -95,19 +106,20 @@ public class Lobby {
 
   /**
    * Adds a player to the lobby.
-   * TODO: ad an appropriate response. Currently hardcoded.
-   * TODO: Does this method need to implemented somewhere else, e.g. in the ClientHandler?
+   * TODO: add an appropriate response. Currently hardcoded.
+   * TODO: Does this method need to be implemented somewhere else, e.g. in the ClientHandler?
+   *
    * @param player who wants to join the lobby.
    */
   public synchronized void addPlayer(ClientHandler player) {
-    if (players.size()  <= MAX_NO_OF_CLIENTS) {
+    if (players.size() <= MAX_NO_OF_CLIENTS) {
       players.add(player);
       numberOfPlayersInLobby++;
       LOGGER.debug(player.getClientUserName() + " has been added to Lobby with ID: " + lobbyID
           + ". Current number of players in this lobby: " + players.size());
     } else {
       LOGGER.debug(
-          player.getClientUserName() + " could not be added to lobby. No. of players in lobby: "
+          player.getClientUserName() + " could not be added to lobby. Number of players in lobby: "
               + numberOfPlayersInLobby);
       //TODO: does this have to be formatted in any way to conform to protocol?
       player.sendMsgToClient(Protocol.printToClientConsole +

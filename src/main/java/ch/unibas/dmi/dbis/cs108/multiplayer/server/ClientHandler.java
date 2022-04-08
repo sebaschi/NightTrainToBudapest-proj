@@ -225,7 +225,8 @@ public class ClientHandler implements Runnable {
     LOGGER.debug(
         this.getClientUserName() + " created a new lobby with ID: " + newGame.getLobbyID());
     //TODO add server response. Here a possibility:
-    sendMsgToClient(Protocol.printToClientConsole + "$New lobby with ID: " + newGame.getLobbyID() + " created.");
+    sendMsgToClient(Protocol.printToClientConsole + "$New lobby with ID: " + newGame.getLobbyID()
+        + " created.");
   }
 
   /**
@@ -258,6 +259,7 @@ public class ClientHandler implements Runnable {
     in = this.getIn();
     out = this.getOut();
     serverData.removeClientFromSetOfAllClients(this);
+    serverData.removeClientFromLobby(this);
     try {
       Thread.sleep(100);
       if (in != null) {
