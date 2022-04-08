@@ -28,7 +28,7 @@ public class Passenger {
    **/
   public void send(String msg, Game game) {
     if (isPlayer) {
-      String formattedMsg = ServerGameInfoHandler.format(msg);
+      String formattedMsg = ServerGameInfoHandler.format(msg,game);
       clientHandler.sendMsgToClient(formattedMsg);
     }
     LOGGER.warn("This object should not just be a passenger. Position:" + position);
