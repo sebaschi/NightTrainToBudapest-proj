@@ -74,10 +74,11 @@ public class Lobby {
   /**
    * Adds a player to the lobby.
    * TODO: ad an appropriate response. Currently hardcoded.
+   * TODO: Does this method need to implemented somewhere else, e.g. in the ClientHandler?
    * @param player who wants to join the lobby.
    */
   public void addPlayer(ClientHandler player) {
-    if (players.size() != 6) {
+    if (players.size()  <= MAX_NO_OF_CLIENTS) {
       players.add(player);
       numberOfPlayersInLobby++;
       LOGGER.debug(player.getClientUserName() + " has been added to Lobby with ID: " + lobbyID
