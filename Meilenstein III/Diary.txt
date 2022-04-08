@@ -241,5 +241,11 @@ ToDo:
 Stand:
 	Server - Client: Connection loss handling funktioniert nun.
 	Lobby: ?
-	Spiellogik:
+	Spiellogik: 	 VoteHandler wurde getestet und tut weitestgehenst was er soll
+
+ToDo:
+	Spiellogik:		 - Send() methode von Passenger mit Client-Server verknüpfen(Seraina)
+					 - NoiseHandler (Alex)
+					 - Game Zyklus implementieren (Seraina)
+
 

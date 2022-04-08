@@ -1,6 +1,7 @@
 package ch.unibas.dmi.dbis.cs108.gamelogic;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
+import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Ghost;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.GhostPlayer;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Passenger;
 import org.apache.logging.log4j.LogManager;
@@ -16,10 +17,13 @@ public class GhostifyHandler {
    * @param p Passenger to be ghostified
    */
 
-  public GhostPlayer ghost(Passenger p, Game game) {
+  public Ghost ghost(Passenger p, Game game) { //TODO: Adjust for not only players but also npcs
+    LOGGER.debug("Passenger Position " + p.getPosition());
     p.setGhost();
-    GhostPlayer g;
-    g = new GhostPlayer(p.getPosition(), p.getName(), p.getClientHandler(), false);
+    Ghost g;
+    g = new Ghost();
+    g.setGhost();
+    g.setPosition(p.getPosition());
     game.gameFunctions.passengerTrain[g.getPosition()] = g;
     LOGGER.info("Passenger at position " + p.getPosition() + "has been ghostified");
     return g;

@@ -31,7 +31,7 @@ public class VoteHandler {
    *
    * @param passengers: passengers on the train
    */
-  public static void ghostVote(Passenger[] passengers, Game game) {
+  public void ghostVote(Passenger[] passengers, Game game) {
 
     // array to collect votes for all players during voting, i.e. votes for player 1 (passengers[0])
     // are saved in
@@ -83,8 +83,10 @@ public class VoteHandler {
       if (votesForPlayers[i] == currentMax) { // if player at position i has most votes
         ghostPosition = i;
         LOGGER.info("Most votes for Passenger " + i);
+
       }
     }
+    LOGGER.debug("ghostPosition: " + ghostPosition);
     GhostifyHandler gh = new GhostifyHandler();
     Ghost g = gh.ghost(passengers[ghostPosition], game);
     passengers[ghostPosition] = g;
@@ -105,7 +107,7 @@ public class VoteHandler {
    *
    * @param passengers: train passengers
    */
-  public static void humanVote(Passenger[] passengers, Game game) {
+  public void humanVote(Passenger[] passengers, Game game) {
 
 
     // array to collect votes for all players during voting, i.e. votes for player 1 are saved in
@@ -170,9 +172,9 @@ public class VoteHandler {
           if (!passenger.getIsGhost()) {
             humans++;
           }
-          if (humans == 1) {
-            System.out.println("Game over: ghosts win!");
-          }
+        }
+        if (humans == 1) {
+          System.out.println("Game over: ghosts win!");
         }
         // Usual case: there is more than one human left and a normal ghost has been voted for -->
         // kick this ghost off
@@ -188,14 +190,22 @@ public class VoteHandler {
     }
   }
 
+  /**
+   * Just a print Method for testing the VoteHandler
+   * @param array the Passenger array to be visualized
+   */
   static void print(Passenger[] array) {
     System.out.println();
     String[] print = new String[6];
     for (int i = 0; i < array.length; i++) {
-      if(array[i].getIsGhost()) {
-        print[i] = "| ghost |";
+      if (array[i].getKickedOff()) {
+        print[i] = "| kicked off " + array[i].getPosition() + "|";
       } else {
-        print[i] = "| human |";
+        if (array[i].getIsGhost()) {
+          print[i] = "| ghost " + array[i].getPosition() + "|";
+        } else {
+          print[i] = "| human " + array[i].getPosition() + "|";
+        }
       }
     }
 
@@ -209,21 +219,30 @@ public class VoteHandler {
   public static void main(String[] args) {
     try {
       Game game = new Game(6,1, 6);
+      VoteHandler voteHandler = new VoteHandler();
 
       Passenger[] testArray = game.gameFunctions.passengerTrain;
       Passenger ghost = new Ghost();
       testArray[3] = ghost;
       testArray[3].setGhost();
       testArray[3].setIsOg();
+      testArray[3].setPosition(3);
       print(testArray);
       LOGGER.info("NIGHT");
-      ghostVote(testArray,game);
+      voteHandler.ghostVote(testArray,game);
       print(testArray);
 
       LOGGER.info("Day");
-      humanVote(testArray, game);
+      voteHandler.humanVote(testArray, game);
       print(testArray);
 
+      LOGGER.info("NIGHT");
+      voteHandler.ghostVote(testArray,game);
+      print(testArray);
+
+      LOGGER.info("Day");
+      voteHandler.humanVote(testArray, game);
+      print(testArray);
     } catch (TrainOverflow e) {
       LOGGER.warn(e.getMessage());
     }
