@@ -8,8 +8,7 @@ import org.apache.logging.log4j.core.config.Configuration;
 import org.apache.logging.log4j.core.config.LoggerConfig;
 
 /**
- * CAN CURRENTLY BE IGNORED: NOT SURE IF NEEDED YET.
- * TODO: Decide weather we need this.
+ *
  */
 public class BudaLogConfig {
 
