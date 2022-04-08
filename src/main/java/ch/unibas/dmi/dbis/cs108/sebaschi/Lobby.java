@@ -1,13 +1,19 @@
 package ch.unibas.dmi.dbis.cs108.sebaschi;
 
+import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.multiplayer.server.ClientHandler;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * The Lobby one is in after a client sends the CRTGM command. THe Server
  */
 public class Lobby {
+
+  public static final Logger LOGGER = LogManager.getLogger();
+  public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   private static final int MAX_NO_OF_CLIENTS = 6;
   private static int lobbies;
@@ -44,6 +50,8 @@ public class Lobby {
     this.players.add(admin);
     this.numberOfPlayersInLobby = 1;
     lobbies++;
+    LOGGER.debug("New Lobby created by " + admin.getClientUserName() + ". This lobby's ID:  "
+        + this.lobbyID);
   }
 
   /**
@@ -61,7 +69,14 @@ public class Lobby {
    * @param player who wants to join the lobby.
    */
   public void addPlayer(ClientHandler player) {
-    players.add(player);
+    if (players.size() != 6) {
+      players.add(player);
+      numberOfPlayersInLobby++;
+      LOGGER.debug(player.getClientUserName() + " has been added to Lobby with ID: " + lobbyID
+          + ". Current number of players in this lobby: " + players.size());
+    } else {
+
+    }
   }
 
 }
