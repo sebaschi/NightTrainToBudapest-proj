@@ -247,6 +247,12 @@ Stand:
 Stand Mittag:
   Lobby: Es gibt eine Lobby Class. Sie verwaltet: LobbyID basierend darauf wieviele Lobbys/Spiele laufen;
   Wieviele Spieler in der Lobby sind; Wer in der Lobby ist.
+Stand 15:00 Uhr:
+  Folgende Protocol Commands wurden hinzugefügt: LISTL, CRTGM(wurde implementiert, fürt aber noch nichts aus).
+  Testing: Wenn ich mich mit telnet auf einen Server der auf localhost läuft verbinde,
+  scheint der Server zu ignorieren, dass er keine Pings bekommt.
+  TODO: mit LISTL und CRTGM soll wirklich etwas getan werden. JOING muss noch implementiert werden.
+  Frage: Was ist mit einer Login Sequenz?
 
 ToDo:
 	Spiellogik:		 - Send() methode von Passenger mit Client-Server verknüpfen(Seraina)
