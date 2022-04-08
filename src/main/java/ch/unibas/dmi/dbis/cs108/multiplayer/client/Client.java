@@ -89,10 +89,10 @@ public class Client {
             chatMsg = in.readLine();     //todo: maybe if
             if (chatMsg != null) {
               parse(chatMsg);
-            } else { System.out.println("chatMsg is null");}
+            } else { System.out.println("chatMsg is null"); throw new IOException();}
           } catch (IOException e) {
             //e.printStackTrace();
-            LOGGER.debug("Exception while trying to read message");
+            LOGGER.debug("Exception while trying to read message: " + e.getMessage());
             disconnectFromServer();
           }
 
