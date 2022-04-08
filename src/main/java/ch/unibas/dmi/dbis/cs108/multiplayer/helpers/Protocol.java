@@ -92,6 +92,11 @@ public class Protocol {
    */
   public static final String listLobbies = "LISTL";
 
+  /**
+   * A Client decides to start the game
+   */
+  public static final String startANewGame = "STGAM";
+
 
   //SERVER TO CLIENT COMMANDS
 

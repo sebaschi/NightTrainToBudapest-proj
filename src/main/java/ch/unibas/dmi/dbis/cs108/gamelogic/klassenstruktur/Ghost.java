@@ -9,9 +9,7 @@ public class Ghost extends Passenger {
   public static final Logger LOGGER = LogManager.getLogger();
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
-  public Ghost(Game game) {
-    super(game);
-  }
+
 
   public boolean getIsOG() {
     return isOG;

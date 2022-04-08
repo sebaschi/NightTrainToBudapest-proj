@@ -17,7 +17,6 @@ public class HumanNPC extends Human {
    * @param name     player name. if null, then a default name is used.
    */
   public HumanNPC(int position, String name, Game game) {
-    super(game);
     this.position = position;
     this.clientHandler = null;
     isGhost = false;
@@ -31,7 +30,7 @@ public class HumanNPC extends Human {
   }
 
   @Override
-  public void send(String msg) {
+  public void send(String msg, Game game) {
     ServerGameInfoHandler.humanNpcParser(this, msg, game);
   }
 

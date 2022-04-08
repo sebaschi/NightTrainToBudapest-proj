@@ -2,6 +2,7 @@ package ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.gamelogic.Game;
+import ch.unibas.dmi.dbis.cs108.gamelogic.GameState;
 import ch.unibas.dmi.dbis.cs108.gamelogic.ServerGameInfoHandler;
 import ch.unibas.dmi.dbis.cs108.gamelogic.TrainOverflow;
 import org.apache.logging.log4j.LogManager;
@@ -19,7 +20,6 @@ public class GhostNPC extends Ghost {
    * @param isOG     true if the ghost is the original ghost.
    */
   public GhostNPC(int position, String name, boolean isOG, Game game) {
-    super(game);
     this.isOG = isOG;
     this.position = position;
     this.clientHandler = null;
@@ -34,7 +34,7 @@ public class GhostNPC extends Ghost {
   }
 
   @Override
-  public void send(String msg) {
+  public void send(String msg, Game game) {
     ServerGameInfoHandler.ghostNpcParser(this, msg, game);
   }
 
@@ -44,7 +44,7 @@ public class GhostNPC extends Ghost {
    */
   public void vote(Game game){
     int ghostCounter = 0;
-    Passenger[] train = game.getGameFunctions().getPassengerTrain();
+    Passenger[] train = game.getGameState().getPassengerTrain();
     for(Passenger passenger : train) {
       if(passenger.isGhost) {
         ghostCounter++;
@@ -72,7 +72,7 @@ public class GhostNPC extends Ghost {
 
     try {
       Game game = new Game(6,1,1);
-      Passenger p = new Passenger(game);
+      Passenger p = new Passenger();
       GhostNPC ghostNPC = new GhostNPC(2,"peter", false, game);
       p = ghostNPC;
       ghostNPC.vote(game);

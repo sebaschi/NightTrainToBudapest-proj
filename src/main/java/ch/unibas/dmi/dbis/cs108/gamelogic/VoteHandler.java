@@ -43,10 +43,10 @@ public class VoteHandler {
     for (Passenger passenger : passengers) {
       if (passenger.getIsGhost()) {
 
-        passenger.send("Vote on who to ghostify!");
+        passenger.send("Vote on who to ghostify!", game);
       } else {
         passenger.send(
-            "Please wait, ghosts are active"); // TODO(Seraina): make sure whatever clients send in
+            "Please wait, ghosts are active", game); // TODO(Seraina): make sure whatever clients send in
                                                // this time, except chat is ignored
 
       }
@@ -91,7 +91,7 @@ public class VoteHandler {
     Ghost g = gh.ghost(passengers[ghostPosition], game);
     passengers[ghostPosition] = g;
     passengers[ghostPosition].send(
-        "You are now a ghost!"); // TODO: ServerGameInfoHandler might deal with this one
+        "You are now a ghost!", game); // TODO: ServerGameInfoHandler might deal with this one
 
     // set hasVoted to false for all passengers for future votings
     for (Passenger passenger : passengers) {
@@ -119,9 +119,9 @@ public class VoteHandler {
     // TODO: Messages in for-loop should probably be handled by ServerGameInfoHandler
     for (Passenger passenger : passengers) {
       if (passenger.getIsGhost()) {
-        passenger.send("Please wait, humans are active");
+        passenger.send("Please wait, humans are active", game);
       } else {
-        passenger.send("Vote for a ghost to kick off!");
+        passenger.send("Vote for a ghost to kick off!", game);
       }
     }
 
@@ -158,7 +158,7 @@ public class VoteHandler {
         .getIsGhost()) { // if player with most votes is human, notify everyone about it
       for (Passenger passenger : passengers) {
         passenger.send(
-            "You voted for a human!"); // TODO: ServerGameInfoHandler might be better to use here
+            "You voted for a human!", game); // TODO: ServerGameInfoHandler might be better to use here
       }
     }
     if (passengers[voteIndex].getIsGhost()) { // if player is a ghost
@@ -183,7 +183,7 @@ public class VoteHandler {
         // kick this ghost off
         passengers[voteIndex].setKickedOff(true);
         for (Passenger passenger : passengers) {
-          passenger.send("Player " + voteIndex + " has been kicked off!");
+          passenger.send("Player " + voteIndex + " has been kicked off!", game);
         }
       }
     }
@@ -225,8 +225,8 @@ public class VoteHandler {
       Game game = new Game(6,1, 6);
       VoteHandler voteHandler = new VoteHandler();
 
-      Passenger[] testArray = game.gameFunctions.passengerTrain;
-      Passenger ghost = new Ghost(game);
+      Passenger[] testArray = game.gameState.getPassengerTrain();
+      Passenger ghost = new Ghost();
       testArray[3] = ghost;
       testArray[3].setGhost();
       testArray[3].setIsOg();

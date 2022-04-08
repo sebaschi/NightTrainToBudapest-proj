@@ -9,8 +9,5 @@ public class Human extends Passenger {
   public static final Logger LOGGER = LogManager.getLogger();
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
-  public Human(Game game) {
-    super(game);
-  }
 
 }

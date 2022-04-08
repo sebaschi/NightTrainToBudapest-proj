@@ -2,6 +2,8 @@ package ch.unibas.dmi.dbis.cs108.multiplayer.server;
 
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
+import ch.unibas.dmi.dbis.cs108.gamelogic.Game;
+import ch.unibas.dmi.dbis.cs108.gamelogic.TrainOverflow;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
@@ -67,6 +69,14 @@ public class JServerProtocolParser {
         //TODO: add action
         LOGGER.debug(Protocol.listLobbies + " command recieved from: " + h.getClientUserName());
         break;
+      case Protocol.startANewGame:
+        try {
+          Game game = new Game(6,1, h.getConnectedClients().size());
+          game.run(h);
+        } catch (TrainOverflow e) {
+          LOGGER.warn(e.getMessage());
+        }
+
       default:
         System.out.println("Received unknown command");
     }

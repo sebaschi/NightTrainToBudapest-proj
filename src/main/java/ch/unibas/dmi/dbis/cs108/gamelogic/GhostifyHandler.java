@@ -21,10 +21,10 @@ public class GhostifyHandler {
     LOGGER.debug("Passenger Position " + p.getPosition());
     p.setGhost();
     Ghost g;
-    g = new Ghost(game);
+    g = new Ghost();
     g.setGhost();
     g.setPosition(p.getPosition());
-    game.gameFunctions.passengerTrain[g.getPosition()] = g;
+    game.gameState.addNewPassenger(g, g.getPosition());
     LOGGER.info("Passenger at position " + p.getPosition() + "has been ghostified");
     return g;
   }

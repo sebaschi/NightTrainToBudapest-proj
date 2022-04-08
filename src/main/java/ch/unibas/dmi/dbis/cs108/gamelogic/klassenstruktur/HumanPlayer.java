@@ -14,12 +14,10 @@ public class HumanPlayer extends Human {
   /**
    * Creates a new GhostPlayer. Should be used at game start or if a HumanPlayer is turned into a
    * ghost.
-   *
-   * @param position position on the train
+   *  @param position position on the train
    * @param name     name. if null, then a default name is used.
    */
-  public HumanPlayer(int position, String name, ClientHandler clientHandler, boolean isOG, Game game) {
-    super(game);
+  public HumanPlayer(int position, String name, ClientHandler clientHandler, boolean isOG) {
     this.position = position;
     this.clientHandler = clientHandler;
     isGhost = false;
@@ -33,7 +31,7 @@ public class HumanPlayer extends Human {
   }
 
   @Override
-  public void send(String msg) {
+  public void send(String msg, Game game) {
     String formattedMsg = ServerGameInfoHandler.format(msg);
     clientHandler.sendMsgToClient(formattedMsg);
   }

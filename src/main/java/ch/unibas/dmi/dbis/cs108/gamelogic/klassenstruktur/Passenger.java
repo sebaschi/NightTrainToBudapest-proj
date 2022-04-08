@@ -21,17 +21,12 @@ public class Passenger {
   protected ClientHandler clientHandler;//the socket for the client associated with this Passenger, for NPCs, this can be null.
   protected boolean hasVoted;           //true if the player gave his vote during voting time
   protected int vote;                   //saves the number of the player this passenger voted for during voting (0-5)
-  protected Game game;
-
-  Passenger(Game game) {
-    this.game = game;
-  }
 
   /**
    * Sends a protocol message to the respective player or NPC.
    * @param msg the message that is sent to this player.
    **/
-  public void send(String msg) {
+  public void send(String msg, Game game) {
     if (isPlayer) {
       String formattedMsg = ServerGameInfoHandler.format(msg);
       clientHandler.sendMsgToClient(formattedMsg);

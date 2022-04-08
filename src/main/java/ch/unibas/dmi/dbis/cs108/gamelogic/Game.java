@@ -2,7 +2,13 @@ package ch.unibas.dmi.dbis.cs108.gamelogic;
 
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
+import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.GhostNPC;
+import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.GhostPlayer;
+import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.HumanNPC;
+import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.HumanPlayer;
+import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Passenger;
 import ch.unibas.dmi.dbis.cs108.multiplayer.server.ClientHandler;
+import java.util.HashSet;
 import org.apache.logging.log4j.*;
 
 public class Game {
@@ -15,7 +21,7 @@ public class Game {
   protected int nrOfPlayers; //sets the length of the train
   protected int nrOfGhosts; // sets how many Ghosts we start witch
   protected int nrOfUsers; // safes how many clients are active in this Game
-  protected GameFunctions gameFunctions;
+  protected GameState gameState;
   protected boolean isDay; //false means it is night, it is night by default
   protected VoteHandler voteHandler;
   //TODO: Figure out where Day/Night game state is saved maybe think about a game state class or smt.
@@ -31,11 +37,11 @@ public class Game {
     this.nrOfPlayers = nrOfPlayers;
     this.nrOfGhosts = nrOfGhosts;
     this.nrOfUsers = nrOfUsers;
-    this.gameFunctions = new GameFunctions(nrOfPlayers, nrOfGhosts, nrOfUsers, this);
+    this.gameState = new GameState(nrOfPlayers, nrOfGhosts, nrOfUsers);
     }
 
-  public GameFunctions getGameFunctions() {
-    return gameFunctions;
+  public GameState getGameState() {
+    return gameState;
   }
 
   public int getNrOfGhosts() {
@@ -55,20 +61,53 @@ public class Game {
   }
 
   public void run(ClientHandler clientHandler) {
-        int i = 0;
-        String gameOverCheck = "";
-        while (true) { //ToDo: was ist die Abbruchbedingung? VoteHandler muss das schicken.
-          if (!isDay) {
-            voteHandler.ghostVote(gameFunctions.getPassengerTrain(), this);
-            setDay(true);
-          } else {
-            gameOverCheck = voteHandler.humanVote(gameFunctions.getPassengerTrain(), this);
-          }
-          if (gameOverCheck.equals("Game over: ghosts win!") || gameOverCheck.equals("Game over: humans win!")){
-            clientHandler.broadcastAnnouncement(gameOverCheck);
-            return;
-          }
-        }
+    int i = 0;
+    HashSet<ClientHandler> clients = ClientHandler.getConnectedClients();
+    String gameOverCheck = "";
+    int[] order = gameState.getTrain().orderOfTrain;
+    Passenger[] passengerTrain = gameState.getPassengerTrain();
+
+
+    for (ClientHandler client : clients) {
+      int index = order[i];
+      if (passengerTrain[index].getIsGhost()) { //if there is a ghost
+        GhostPlayer ghostPlayer = new GhostPlayer(passengerTrain[index].getPosition(),
+            client.getClientUserName(), client, passengerTrain[index].getIsOG());
+        gameState.getPassengerTrain()[index] = ghostPlayer;
+      } else {
+        HumanPlayer humanPlayer = new HumanPlayer(passengerTrain[index].getPosition(),
+            client.getClientUserName(), client, passengerTrain[index].getIsOG());
+        gameState.getPassengerTrain()[index] = humanPlayer;
+      }
+      i++;
+    }
+    while (i < order.length) {
+      int index = order[i];
+      if (passengerTrain[index].getIsGhost()) { //if there is a ghost
+        GhostNPC ghostNPC = new GhostNPC(passengerTrain[index].getPosition(), "NPC" + passengerTrain[index].getPosition(),passengerTrain[index].getIsOG() ,this);
+        gameState.getPassengerTrain()[index] = ghostNPC;
+      } else {
+        //ToDo: give NPC nice usernames
+        HumanNPC humanNPC = new HumanNPC(passengerTrain[index].getPosition(), "NPC" + passengerTrain[index].getPosition(),this);
+        gameState.getPassengerTrain()[index] = humanNPC;
+      }
+      i++;
+    }
+
+    i = 0;
+    while (true) { //ToDo: was ist die Abbruchbedingung? VoteHandler muss das schicken.
+      if (!isDay) {
+        voteHandler.ghostVote(gameState.getPassengerTrain(), this);
+        setDay(true);
+      } else {
+        gameOverCheck = voteHandler.humanVote(gameState.getPassengerTrain(), this);
+      }
+      if (gameOverCheck.equals("Game over: ghosts win!") || gameOverCheck.equals(
+          "Game over: humans win!")) {
+        clientHandler.broadcastAnnouncement(gameOverCheck);
+        return;
+      }
+    }
 
   }
 

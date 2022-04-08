@@ -6,6 +6,7 @@ Implemented:
  * CPING              Ping from client to server.
  * PINGB              Pingback from client to server.
  * NAMEC$name         Change name to whatever is specified
+ * STGAM              start the Game
 
 Future / planned:
  * CRTGM              Create a new game
