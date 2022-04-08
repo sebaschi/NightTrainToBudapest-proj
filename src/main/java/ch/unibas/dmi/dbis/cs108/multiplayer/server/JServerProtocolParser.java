@@ -58,14 +58,13 @@ public class JServerProtocolParser {
         h.removeClientOnLogout();
         break;
       case Protocol.createNewGame:
-        // TODO add h.openLobby(h) method
         h.createNewLobby();
         LOGGER.debug(Protocol.createNewGame
             + " command reached in JServerProtocolParser. Command issued by: "
             + h.getClientUserName());
         break;
       case Protocol.listLobbies:
-        //TODO: add action
+        h.listAllLobbiesToClient();
         LOGGER.debug(Protocol.listLobbies + " command recieved from: " + h.getClientUserName());
         break;
       default:
