@@ -234,6 +234,7 @@ public class ClientHandler implements Runnable {
    * Creates a list of all lobbies to send to client after LISTL command. Uses
    * Lobby.getIdAndAdminForList() to build a formated list for the client. used in
    * JServerProtocolParser.
+   * //TODO Still does not work properly!
    */
   public void listAllLobbiesToClient() {
     StringBuilder response = new StringBuilder();
