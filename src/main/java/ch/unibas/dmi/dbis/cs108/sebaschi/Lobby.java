@@ -80,6 +80,21 @@ public class Lobby {
   }
 
   /**
+   * Builds a message for the LISTL command.
+   * @return a string formatted for the clients convenients.
+   */
+  public String getIdAndAdminForList(){
+    StringBuilder response = new StringBuilder();
+    response.append("Lobby ID: ");
+    response.append(this.lobbyID);
+    response.append(" Admin Username: ");
+    response.append(getAdmin().getClientUserName());
+    response.append(System.lineSeparator());
+    LOGGER.info(response.toString());
+    return response.toString();
+  }
+
+  /**
    * Adds a player to the lobby.
    * TODO: ad an appropriate response. Currently hardcoded.
    * TODO: Does this method need to implemented somewhere else, e.g. in the ClientHandler?
