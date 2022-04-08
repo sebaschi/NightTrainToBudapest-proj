@@ -59,6 +59,7 @@ public class JServerProtocolParser {
         break;
       case Protocol.createNewGame:
         // TODO add h.openLobby(h) method
+        h.createNewLobby();
         LOGGER.debug(Protocol.createNewGame
             + " command reached in JServerProtocolParser. Command issued by: "
             + h.getClientUserName());

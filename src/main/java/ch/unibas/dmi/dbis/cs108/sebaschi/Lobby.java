@@ -72,6 +72,14 @@ public class Lobby {
   }
 
   /**
+   * getter for the lobby ID
+   * @return lobbyID as set in constructor based on number of lobbies.
+   */
+  public int getLobbyID(){
+    return this.lobbyID;
+  }
+
+  /**
    * Adds a player to the lobby.
    * TODO: ad an appropriate response. Currently hardcoded.
    * TODO: Does this method need to implemented somewhere else, e.g. in the ClientHandler?

@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class ClientHandler implements Runnable {
+
   public static final Logger LOGGER = LogManager.getLogger();
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
@@ -41,7 +42,8 @@ public class ClientHandler implements Runnable {
 
   /**
    * Implements the login logic in client-server architecture.
-   * @param ip the ip of the client, used for re-connection.
+   *
+   * @param ip     the ip of the client, used for re-connection.
    * @param socket the socket on which to make the connection.
    */
   public ClientHandler(Socket socket, InetAddress ip, CentralServerData serverData) {
@@ -118,10 +120,9 @@ public class ClientHandler implements Runnable {
   }
 
 
-
   /**
-   * Lets the client change their username, if the username is already taken, a similar
-   * option is chosen.
+   * Lets the client change their username, if the username is already taken, a similar option is
+   * chosen.
    *
    * @param newName The desired new name to replace the old one with.
    */
@@ -132,15 +133,15 @@ public class ClientHandler implements Runnable {
   }
 
   /**
-   * Sets the client's username on login, if the username is already taken, a similar
-   * option is chosen. Functionally, the only difference between this method and changeUsername
-   * is that it doesn't print out the name change.
+   * Sets the client's username on login, if the username is already taken, a similar option is
+   * chosen. Functionally, the only difference between this method and changeUsername is that it
+   * doesn't print out the name change.
    *
    * @param name The desired name.
    */
   public void setUsernameOnLogin(String name) {
     this.clientUserName = nameDuplicateChecker.checkName(name);
-    broadcastAnnouncement(  clientUserName + " has joined the Server");
+    broadcastAnnouncement(clientUserName + " has joined the Server");
   }
 
   /**
@@ -155,10 +156,10 @@ public class ClientHandler implements Runnable {
   }
 
   /**
-   * Broadcasts a non-chat Message to all active clients. This can be used for server
-   * messages / announcements rather than chat messages. The message will be printed to the user
-   * exactly as it is given to this method. Unlike broadcastChatMessage, it will also be printed
-   * onto the server console.
+   * Broadcasts a non-chat Message to all active clients. This can be used for server messages /
+   * announcements rather than chat messages. The message will be printed to the user exactly as it
+   * is given to this method. Unlike broadcastChatMessage, it will also be printed onto the server
+   * console.
    *
    * @param msg the Message to be broadcast
    */
@@ -169,8 +170,10 @@ public class ClientHandler implements Runnable {
     }
   }
 
-  /** Sends a given message to client. The message has to already be protocol-formatted. ALL
+  /**
+   * Sends a given message to client. The message has to already be protocol-formatted. ALL
    * communication with the client has to happen via this method!
+   *
    * @param msg the given message. Should already be protocol-formatted.
    */
   public void sendMsgToClient(String msg) {
@@ -186,10 +189,11 @@ public class ClientHandler implements Runnable {
   }
 
   /**
-   * Removes & disconnects the client. To be used if a severe connection loss is detected (i.e. if trying to
-   * send / receive a message throws an exception, not just if ping-pong detects a connection loss).
-   * This is very similar to removeClientOnLogout(), however removeClientOnLogout() should only be used for
-   * regular quitting, since removeClientOnLogout() cannot handle a client with connection loss.
+   * Removes & disconnects the client. To be used if a severe connection loss is detected (i.e. if
+   * trying to send / receive a message throws an exception, not just if ping-pong detects a
+   * connection loss). This is very similar to removeClientOnLogout(), however
+   * removeClientOnLogout() should only be used for regular quitting, since removeClientOnLogout()
+   * cannot handle a client with connection loss.
    */
   public void removeClientOnConnectionLoss() {
     connectedClients.remove(this);
@@ -210,8 +214,15 @@ public class ClientHandler implements Runnable {
     disconnectClient();
   }
 
+  /**
+   * Invoked by CRTGM. Creates a new lobby with the ClientHandler as admin and adds the lobby to the
+   * server data.
+   */
   public void createNewLobby() {
     Lobby newGame = new Lobby(this);
+    serverData.addLobbyToListOfAllLobbies(newGame);
+    LOGGER.debug(
+        this.getClientUserName() + " created a new lobby with ID: " + newGame.getLobbyID());
   }
 
   /**
