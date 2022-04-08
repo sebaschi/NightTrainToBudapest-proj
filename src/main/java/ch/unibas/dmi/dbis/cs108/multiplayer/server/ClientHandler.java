@@ -1,6 +1,7 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.server;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
+import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.ServerPinger;
 import java.io.*;
 import java.net.InetAddress;
@@ -144,7 +145,7 @@ public class ClientHandler implements Runnable {
    */
   public void broadcastChatMessage(String msg) {
     for (ClientHandler client : connectedClients) {
-      client.sendMsgToClient("CHATM$" + clientUserName + ": " + msg);
+      client.sendMsgToClient(Protocol.printToClientConsole + "$" + clientUserName + ": " + msg);
     }
   }
 
@@ -159,7 +160,7 @@ public class ClientHandler implements Runnable {
   public void broadcastAnnouncement(String msg) {
     System.out.println(msg);
     for (ClientHandler client : connectedClients) {
-      client.sendMsgToClient("CHATM$" + msg);
+      client.sendMsgToClient(Protocol.printToClientConsole + "$" + msg);
     }
   }
 
@@ -199,7 +200,7 @@ public class ClientHandler implements Runnable {
    */
   public void removeClientOnLogout() {
     broadcastAnnouncement(getClientUserName() + " has left the server.");
-    sendMsgToClient("QUITC");
+    sendMsgToClient(Protocol.serverConfirmQuit); //todo: protocol
     connectedClients.remove(this);
     disconnectClient();
   }
