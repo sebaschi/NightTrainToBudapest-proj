@@ -40,7 +40,7 @@ public class ServerPinger implements Runnable {
       Thread.sleep(2000);
       while (socket.isConnected() && !socket.isClosed()) {
         gotPingBack = false;
-        c.sendMsgToClient("SPING");
+        c.sendMsgToClient(Protocol.pingFromServer);
         Thread.sleep(4000);
         if (gotPingBack) {
           if (!isConnected) {         //if !isConnected, then the connection had been lost before.

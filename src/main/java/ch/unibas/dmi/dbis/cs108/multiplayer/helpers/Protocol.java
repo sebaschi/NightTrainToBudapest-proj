@@ -63,4 +63,35 @@ public class Protocol {
    */
   public static final String clientQuitRequest = "QUITS";
 
+  //SERVER TO CLIENT COMMANDS
+
+  /**
+   * todo: doc
+   * //sends a pingback to the server
+   */
+  public static final String pingFromServer = "SPING";
+
+  /**
+   * prints out incoming chat messages / announcements into the user's console.
+   * any string that follows CHATM$ is printed as is, so the message that follows
+   * already has to be formatted the way it should be shown to the client.
+   */
+  public static final String printToClientConsole = "CHATM";
+
+  /**
+   * todo:doc
+   */
+  public static final String serverConfirmQuit = "QUITC";
+
+  /**
+   * todo:doc
+   */
+  public static final String serverRequestsGhostVote = "GVOTR";
+
+  /**
+   * todo:doc
+   */
+  public static final String serverRequestsHumanVote = "HVOTR";
+
+
 }
