@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
  * how the server receives and parses messages.
  */
 public class ServerPinger implements Runnable {
+
   public static final Logger LOGGER = LogManager.getLogger();
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
@@ -50,7 +51,13 @@ public class ServerPinger implements Runnable {
         } else {
           if (isConnected) {
             isConnected = false;
-            System.out.println("Lost connection to user " + c.getClientUserName() + ". Waiting to reconnect...");
+            //TODO: Possibly an incorrect statement since this can also happen if a client is not adhearing to the protocol
+            System.out.println(
+                "Lost connection to user " + c.getClientUserName() + ". Waiting to reconnect...");
+          } else {
+            c.disconnectClient();
+            LOGGER.debug(
+                "gotPingBack has not been set to true and isConnected has been set to false before");
           }
         }
       }
