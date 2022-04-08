@@ -227,14 +227,26 @@ public class ClientHandler implements Runnable {
     sendMsgToClient(Protocol.printToClientConsole + "$New lobby with ID: " + newGame + " created.");
   }
 
-  public void listAllLobbies() {
-    if(serverData.getAllLobbies().isEmpty()) {
-      sendMsgToClient(Protocol.printToClientConsole +"$There are currently no open lobbies");
+  /**
+   * Creates a list of all lobbies to send to client after LISTL command. Uses
+   * Lobby.getIdAndAdminForList() to build a formated list for the client. used in
+   * JServerProtocolParser.
+   */
+  public void listAllLobbiesToClient() {
+    StringBuilder response = new StringBuilder();
+    response.append(Protocol.pingBack);
+    response.append("$");
+    if (serverData.getAllLobbies().isEmpty()) {
+      response.append("There are currently no open lobbies");
       LOGGER.debug("No open lobbies");
     } else {
-      StringBuilder response = new StringBuilder();
-
+      for (Lobby l : serverData.getAllLobbies()) {
+        response.append(l.getIdAndAdminForList());
+      }
     }
+    LOGGER.debug(
+        "RESPONSE TO LISTL: " + response.toString() + " requested by: " + this.clientUserName);
+    sendMsgToClient(response.toString());
   }
 
   /**
