@@ -1,6 +1,7 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.client;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
+import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -10,7 +11,7 @@ public class MessageFormatter {
 
   /**
    * Takes a given Message and reformats it to where the JServerProtocolParser.parse() method can
-   * handle it (see Protocol.txt). May need to be redesigned once the games uses a GUI
+   * handle it (see Protocol.java). May need to be redesigned once the games uses a GUI
    *
    * @param msg the Messaged to be reformatted
    * @return the reformatted message in the form HEADR$msg
@@ -27,7 +28,7 @@ public class MessageFormatter {
     }
     switch (header) {
       case "/c":
-        stringBuilder.append("CHATA$");
+        stringBuilder.append(Protocol.chatMsgToAll + "$");
         try {
           s = msg.substring(3);
         } catch (Exception e) {
@@ -35,15 +36,15 @@ public class MessageFormatter {
         }
         break;
       case "/q":
-        stringBuilder.append("QUITS$");
+        stringBuilder.append(Protocol.clientQuitRequest + "$");
         s = "";
         break;
       case "/n":
-        stringBuilder.append("NAMEC$");
+        stringBuilder.append(Protocol.nameChange + "$");
         try {
           s = msg.substring(3);
         } catch (Exception e) {
-          System.out.println("Well what do you want your name to be?");
+          s = "U.N. Owen";
         }
         break;
       default:

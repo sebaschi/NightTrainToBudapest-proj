@@ -4,6 +4,7 @@ import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.ClientPinger;
 
 
+import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
 import java.net.Socket;
 import java.io.*;
 import java.net.UnknownHostException;
@@ -36,7 +37,7 @@ public class Client {
         systemName = "U.N. Owen";
       }
       if (systemName == null) systemName = "U.N. Owen";
-      sendMsgToServer("LOGON$" + systemName);
+      sendMsgToServer(Protocol.clientLogin + "$" + systemName);
 
       clientPinger = new ClientPinger(this, this.socket);
     } catch (IOException e) {

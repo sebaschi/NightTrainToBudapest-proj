@@ -54,13 +54,14 @@ public class nameDuplicateChecker {
    * Also, if the name is empty, it assigns a default value ("U.N. Owen").
    */
   public static String checkName(String name) {
-    String rtrn = name;                 //if this line is used, only duplicate names get a suffix.
-    //String rtrn = extendName(name);     //if this line is used, all clients get a suffix
-    rtrn = rtrn.replace("$","");
-    rtrn = rtrn.replace(":","");
-    if (rtrn.equalsIgnoreCase("")) {rtrn = "U.N. Owen";}
+    String tempname = name;                 //if this line is used, only duplicate names get a suffix.
+    //String tempname = extendName(name);     //if this line is used, all clients get a suffix
+    tempname = tempname.replace("$","");
+    tempname = tempname.replace(":","");
+    if (tempname.equalsIgnoreCase("")) {tempname = "U.N. Owen";}
+    String rtrn = tempname;
     while (isTaken(rtrn)) {        //todo: handle the (very unlikely) case that all names are taken.
-      rtrn = extendName(name);
+      rtrn = extendName(tempname);
     }
     return rtrn;
   }
