@@ -23,9 +23,10 @@ public class CentralServerData {
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   //TODO which datastructures should be used here?
-  private Set<ClientHandler> clientsOnServer;
-  private List<Lobby> allLobbies;
-  private Map<Integer, Lobby> lobbyIDMap;
+  //TODO Static or non static?
+  private static Set<ClientHandler> clientsOnServer;
+  private static List<Lobby> allLobbies;
+  private static Map<Integer, Lobby> lobbyIDMap;
 
   public CentralServerData() {
     clientsOnServer = new HashSet<>();
@@ -67,7 +68,7 @@ public class CentralServerData {
   public synchronized void removeClientFromLobby(ClientHandler client) {
     boolean foundAndRemoved = false;
     for (Lobby l : allLobbies) {
-      foundAndRemoved = l.getPlayers().remove(client);
+      foundAndRemoved = l.removePlayer(client);
     }
     LOGGER.debug("foundAndRemoved value: " + foundAndRemoved);
   }

@@ -127,4 +127,22 @@ public class Lobby {
     }
   }
 
+  /**
+   * Does what is says on the box. Needs to be called when a client disconnects for some reason and
+   * cannot reconnect. I.E. when the server closes the connection to that client, the client should
+   * be removed from the list.
+   *
+   * @param player that is to be removed
+   * @return true if a player was found and removed. Used for debugging.
+   */
+  public synchronized boolean removePlayer(ClientHandler player) {
+    return this.getPlayers().remove(player);
+  }
+
+  public void broadcastToLounge(String msg) {
+    for (ClientHandler lounger : this.getPlayers()) {
+
+    }
+  }
+
 }
