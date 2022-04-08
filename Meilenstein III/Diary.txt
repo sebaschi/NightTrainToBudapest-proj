@@ -253,6 +253,9 @@ Stand 15:00 Uhr:
   scheint der Server zu ignorieren, dass er keine Pings bekommt.
   TODO: mit LISTL und CRTGM soll wirklich etwas getan werden. JOING muss noch implementiert werden.
   Frage: Was ist mit einer Login Sequenz?
+  Versuch meine commits wieder richtig zuorden zu können indem ich die user.name und user.email
+  Variablen von git
+  auf meinem Rechner neu configuriere.
 
 ToDo:
 	Spiellogik:		 - Send() methode von Passenger mit Client-Server verknüpfen(Seraina)
