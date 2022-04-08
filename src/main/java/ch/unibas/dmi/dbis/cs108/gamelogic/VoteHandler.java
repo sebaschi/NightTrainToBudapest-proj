@@ -190,6 +190,10 @@ public class VoteHandler {
     }
   }
 
+  /**
+   * Just a print Method for testing the VoteHandler
+   * @param array the Passenger array to be visualized
+   */
   static void print(Passenger[] array) {
     System.out.println();
     String[] print = new String[6];
