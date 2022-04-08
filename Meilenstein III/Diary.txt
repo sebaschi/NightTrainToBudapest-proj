@@ -237,3 +237,9 @@ ToDo:
 	Spiellogik:		 Ende des Spiels implementieren, NoiseHandling, Server/ClientGameInfoHandler, Testen ob bisherige implementationen tun was 						 sie sollen.
 					 Ziel: SAMSTAG Abend
 
+08.04.2022 - Seraina, Jonas, Alex
+Stand:
+	Server - Client: Connection loss handling funktioniert nun.
+	Lobby: ?
+	Spiellogik:
+
