@@ -19,8 +19,15 @@ public class ClientHandler implements Runnable {
   private BufferedReader in;
   private Socket socket;
   private InetAddress ip;
-  private
-  Scanner sc;
+
+  /**
+   * notes if the client has formally logged in yet. If connecting through the normal Client class,
+   * the client is logged in automatically, if connecting though some external application, the
+   * client has to use the {@code Protocol.clientLogin} command.
+   */
+  private boolean loggedIn;
+
+  private Scanner sc;
   public ServerPinger serverPinger;
   public static HashSet<ClientHandler> connectedClients = new HashSet<>();
   public static HashSet<ClientHandler> disconnectedClients = new HashSet<>(); //todo: implement re-connection
@@ -38,6 +45,7 @@ public class ClientHandler implements Runnable {
       this.socket = socket;
       this.out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
       this.in = new BufferedReader(new InputStreamReader((socket.getInputStream())));
+      this.loggedIn = false;
       this.clientUserName = nameDuplicateChecker.checkName("U.N. Owen");
       connectedClients.add(this);
       serverPinger = new ServerPinger(socket, this);
@@ -73,7 +81,18 @@ public class ClientHandler implements Runnable {
     return ghostClients;
   }
 
-  //Setters
+  public boolean isLoggedIn() {
+    return loggedIn;
+  }
+
+  public void setLoggedIn(boolean loggedIn) {
+    this.loggedIn = loggedIn;
+  }
+
+  //Setters:
+  public String getClientUserName() {
+    return clientUserName;
+  }
 
 
   @Override
@@ -81,7 +100,7 @@ public class ClientHandler implements Runnable {
     String msg;
     while (socket.isConnected() && !socket.isClosed()) {
       try {
-        msg = in.readLine();      //todo: here is where the server throws an exception when the client quits
+        msg = in.readLine();
         JServerProtocolParser.parse(msg, this);
       } catch (IOException e) {
         //e.printStackTrace();
@@ -92,9 +111,7 @@ public class ClientHandler implements Runnable {
     }
   }
 
-  public String getClientUserName() {
-    return clientUserName;
-  }
+
 
   /**
    * Lets the client change their username, if the username is already taken, a similar
@@ -148,12 +165,10 @@ public class ClientHandler implements Runnable {
 
   /** Sends a given message to client. The message has to already be protocol-formatted. ALL
    * communication with the client has to happen via this method!
-   * todo: check for exception if out is closed.
    * @param msg the given message. Should already be protocol-formatted.
    */
   public void sendMsgToClient(String msg) {
     try {
-      //todo: socket closed handling
       out.write(msg);
       out.newLine();
       out.flush();

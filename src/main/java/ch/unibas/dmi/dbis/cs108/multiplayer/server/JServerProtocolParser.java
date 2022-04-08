@@ -4,6 +4,7 @@ package ch.unibas.dmi.dbis.cs108.multiplayer.server;
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
 
 public class JServerProtocolParser {
   public static final Logger LOGGER = LogManager.getLogger();
@@ -17,6 +18,9 @@ public class JServerProtocolParser {
 
   /**
    * Used by the server (i.e. ClientHandler) to parse an incoming protocol message.
+   * For documentation on the individual Protocol messages, view the Protocol.java
+   * class or hover over the commands (e.g. Protocol.chatMsgToAll) with your mouse
+   * in this class.
    *
    * @param msg the encoded message that needs to be parsed
    * @param h   this ClientHandler (required so this method can access the ClientHandler's methods)
@@ -30,33 +34,27 @@ public class JServerProtocolParser {
       System.out.println("Received unknown command");
     }
     switch (header) {
-      case CHATA:
-        //sends chat message to all connected clients
+      case Protocol.chatMsgToAll:
         h.broadcastChatMessage(msg.substring(6));
         break;
-      case "LOGON":
-        //sets name to whatever follows LOGON$
+      case Protocol.clientLogin:
+        h.setLoggedIn(true);
         try {
           h.setUsernameOnLogin(msg.substring(6));
         } catch (Exception e) {
           h.setUsernameOnLogin("U.N. Owen");
         }
         break;
-      case "NAMEC":
-        //changes name to whatever follows NAMEC$. If the new name is already in use, it will append
-        //random numbers to the name.
+      case Protocol.nameChange:
         h.changeUsername(msg.substring(6));
         break;
-      case "CPING":
-        //sends a pingback to the client
-        h.sendMsgToClient("PINGB");
+      case Protocol.pingFromClient:
+        h.sendMsgToClient(Protocol.pingBack);
         break;
-      case "PINGB":
-        //registers pingback from client
+      case Protocol.pingBack:
         h.serverPinger.setGotPingBack(true);
         break;
-      case "QUITS":
-        //safely disconnects the user
+      case Protocol.clientQuitRequest:
         h.removeClientOnLogout();
         break;
       default:
