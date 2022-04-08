@@ -1,6 +1,7 @@
 package ch.unibas.dmi.dbis.cs108.sebaschi;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
+import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
 import ch.unibas.dmi.dbis.cs108.multiplayer.server.ClientHandler;
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +73,7 @@ public class Lobby {
 
   /**
    * Adds a player to the lobby.
-   *
+   * TODO: ad an appropriate response. Currently hardcoded.
    * @param player who wants to join the lobby.
    */
   public void addPlayer(ClientHandler player) {
@@ -82,7 +83,12 @@ public class Lobby {
       LOGGER.debug(player.getClientUserName() + " has been added to Lobby with ID: " + lobbyID
           + ". Current number of players in this lobby: " + players.size());
     } else {
-
+      LOGGER.debug(
+          player.getClientUserName() + " could not be added to lobby. No. of players in lobby: "
+              + numberOfPlayersInLobby);
+      //TODO: does this have to be formatted in any way to conform to protocol?
+      player.sendMsgToClient(Protocol.printToClientConsole +
+          "$The lobby is full. Please try joining a different lobby or create a new game");
     }
   }
 
