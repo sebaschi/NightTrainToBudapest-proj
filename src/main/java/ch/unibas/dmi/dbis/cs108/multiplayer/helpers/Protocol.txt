@@ -21,6 +21,7 @@ Future / planned:
  * VOTEG              ghost voting who to infect
  * VOTEH              humans voting who is the ghost
  * LISTP              list players/clients in session with the Server
+ * LISTL              list open lobbies
 
 Server to client Commands:
 
