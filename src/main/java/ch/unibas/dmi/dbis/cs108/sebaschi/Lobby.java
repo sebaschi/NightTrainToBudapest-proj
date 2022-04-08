@@ -8,7 +8,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * The Lobby one is in after a client sends the CRTGM command. THe Server
+ * Use: If a client sends a CRTGM command the server should create a lobby with the client as admin.
+ * In this state, up to 5 other clients (so 6 in total) are able to join this lobby. Once the admin
+ * feels like it, he can start a game.
+ * TODO: is all data in here or should GameSessionData be used to collect all relevant data?
  */
 public class Lobby {
 
@@ -16,7 +19,10 @@ public class Lobby {
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   private static final int MAX_NO_OF_CLIENTS = 6;
-  private static int lobbies;
+  public static int lobbies;
+
+  //TODO
+  CentralServerData serverData;
 
   /**
    * The Person who created the game and can configure it and decide to start once enough players
@@ -31,6 +37,7 @@ public class Lobby {
 
 
   private int numberOfPlayersInLobby;
+  //TODO maybe it makes sense to have LobbyID Class?
   private final int lobbyID = lobbies++;
 
 

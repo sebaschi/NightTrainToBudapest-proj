@@ -243,9 +243,16 @@ Stand:
 	Lobby: ?
 	Spiellogik: 	 VoteHandler wurde getestet und tut weitestgehenst was er soll
 
+08.04.2022 - Sebastian
+Stand Mittag:
+  Lobby: Es gibt eine Lobby Class. Sie verwaltet: LobbyID basierend darauf wieviele Lobbys/Spiele laufen;
+  Wieviele Spieler in der Lobby sind; Wer in der Lobby ist.
+
 ToDo:
 	Spiellogik:		 - Send() methode von Passenger mit Client-Server verknüpfen(Seraina)
 					 - NoiseHandler (Alex)
 					 - Game Zyklus implementieren (Seraina)
+
+
 
 
