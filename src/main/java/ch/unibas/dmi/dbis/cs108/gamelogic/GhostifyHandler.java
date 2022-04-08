@@ -21,7 +21,7 @@ public class GhostifyHandler {
     LOGGER.debug("Passenger Position " + p.getPosition());
     p.setGhost();
     Ghost g;
-    g = new Ghost();
+    g = new Ghost(game);
     g.setGhost();
     g.setPosition(p.getPosition());
     game.gameFunctions.passengerTrain[g.getPosition()] = g;

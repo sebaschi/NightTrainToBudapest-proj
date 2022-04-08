@@ -1,6 +1,7 @@
 package ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
+import ch.unibas.dmi.dbis.cs108.gamelogic.Game;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,7 +15,8 @@ public class HumanNPC extends Human {
    * @param position position on the train
    * @param name     player name. if null, then a default name is used.
    */
-  public HumanNPC(int position, String name) {
+  public HumanNPC(int position, String name, Game game) {
+    super(game);
     this.position = position;
     this.clientHandler = null;
     isGhost = false;
@@ -25,5 +27,13 @@ public class HumanNPC extends Human {
     } else {
       this.name = name;
     }
+  }
+
+  /**
+   * Currently returns a random integer for voting
+   * @return integer between 0 and 5
+   */
+  public int vote(){
+    return (int) (Math.random()*6);
   }
 }

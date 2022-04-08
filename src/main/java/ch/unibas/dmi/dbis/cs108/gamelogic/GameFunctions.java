@@ -18,6 +18,7 @@ public class GameFunctions {
   int nrOfUsers; // safes how many clients are active in this Game
   Train train; // safes who sits where
   public Passenger[] passengerTrain;
+  protected Game game;
 
   /**
    * Constructs a GameFunctions instance where nrOfPlayers >= nrOfUsers. Fills passengerTrain with
@@ -28,7 +29,7 @@ public class GameFunctions {
    * @param nrOfUsers   is the number of active users at the time (non NPCs)
    * @throws TrainOverflow if nrOfPlayers < nrOfUsers
    */
-  GameFunctions(int nrOfPlayers, int nrOfGhosts, int nrOfUsers)
+  GameFunctions(int nrOfPlayers, int nrOfGhosts, int nrOfUsers, Game game)
       throws TrainOverflow { //ToDo: where will Exception be handled?
     this.nrOfPlayers = nrOfPlayers;
     this.nrOfGhosts = nrOfGhosts;
@@ -36,7 +37,7 @@ public class GameFunctions {
     this.train = new Train(nrOfPlayers, nrOfUsers);
     Passenger[] passengerTrain = new Passenger[nrOfPlayers]; //Creates an array with Passengers with correlation positions (Train)
     for (int i = 0; i < nrOfPlayers; i++) {
-      Human h = new Human();
+      Human h = new Human(game);
       h.setPosition(train.orderOfTrain[i]);
       passengerTrain[train.orderOfTrain[i]] = h;
     }

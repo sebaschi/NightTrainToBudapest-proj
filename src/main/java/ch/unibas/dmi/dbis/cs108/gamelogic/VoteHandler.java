@@ -222,7 +222,7 @@ public class VoteHandler {
       VoteHandler voteHandler = new VoteHandler();
 
       Passenger[] testArray = game.gameFunctions.passengerTrain;
-      Passenger ghost = new Ghost();
+      Passenger ghost = new Ghost(game);
       testArray[3] = ghost;
       testArray[3].setGhost();
       testArray[3].setIsOg();

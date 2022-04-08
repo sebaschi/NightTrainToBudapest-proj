@@ -1,7 +1,9 @@
 package ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
+import ch.unibas.dmi.dbis.cs108.gamelogic.Game;
 import ch.unibas.dmi.dbis.cs108.gamelogic.ServerGameInfoHandler;
+import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
 import ch.unibas.dmi.dbis.cs108.multiplayer.server.ClientHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,13 +21,18 @@ public class Passenger {
   protected ClientHandler clientHandler;//the socket for the client associated with this Passenger, for NPCs, this can be null.
   protected boolean hasVoted;           //true if the player gave his vote during voting time
   protected int vote;                   //saves the number of the player this passenger voted for during voting (0-5)
-  int sendcounter = 0;
+  protected Game game;
+
+  Passenger(Game game) {
+    this.game = game;
+  }
+
   /**
    * Sends a protocol message to the respective player or NPC.
    * @param msg the message that is sent to this player.
    **/
   public void send(String msg) {
-    sendcounter++;
+    /*sendcounter++;
     if (msg.equals("Vote on who to ghostify!")) {
       vote = 1*sendcounter;
       hasVoted = true; // for testing, when is it set to false again?
@@ -37,13 +44,21 @@ public class Passenger {
     } else {
 
       LOGGER.debug(msg);
-    }
-    /*if (isPlayer) {
-      //TODO: maybe put a formatter here, so protocol msg are only send between sever-client
-      clientHandler.sendMsgToClient(msg); //ToDO(Seraina): Make sure only the right kind of messages are sent
-    } else { //is a NPC
-            //TODO: call a method that identifies message for NPC and calls respective methode NPCParser
     }*/
+    if (isPlayer) {
+      String formattedMsg = ServerGameInfoHandler.format(msg);
+      clientHandler.sendMsgToClient(formattedMsg);
+    } else { //is a NPC
+      if(isGhost) {
+
+
+
+      } else { //is a human
+
+      }
+
+            //TODO: call a method that identifies message for NPC and calls respective methode NPCParser
+    }
   }
 
   /**
@@ -116,4 +131,5 @@ public class Passenger {
   public ClientHandler getClientHandler() {
     return clientHandler;
   }
+
 }

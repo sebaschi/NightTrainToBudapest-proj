@@ -23,14 +23,29 @@ public class Game {
    * @param nrOfGhosts  is the number of OG Ghosts you want to start with  and
    * @param nrOfUsers   is the number of active users at the time (non NPCs)
    */
-  Game(int nrOfPlayers, int nrOfGhosts, int nrOfUsers)
+  public Game(int nrOfPlayers, int nrOfGhosts, int nrOfUsers)
       throws TrainOverflow { //ToDo: Who handles Exception how and where
     this.nrOfPlayers = nrOfPlayers;
     this.nrOfGhosts = nrOfGhosts;
     this.nrOfUsers = nrOfUsers;
-    this.gameFunctions = new GameFunctions(nrOfPlayers, nrOfGhosts, nrOfUsers);
+    this.gameFunctions = new GameFunctions(nrOfPlayers, nrOfGhosts, nrOfUsers, this);
     }
 
+  public GameFunctions getGameFunctions() {
+    return gameFunctions;
+  }
+
+  public int getNrOfGhosts() {
+    return nrOfGhosts;
+  }
+
+  public int getNrOfPlayers() {
+    return nrOfPlayers;
+  }
+
+  public int getNrOfUsers() {
+    return nrOfUsers;
+  }
 
   public static void main(String[] args) {
 
