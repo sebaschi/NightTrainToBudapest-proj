@@ -243,12 +243,12 @@ public class ClientHandler implements Runnable {
       LOGGER.debug("No open lobbies");
     } else {
       for (Lobby l : serverData.getAllLobbies()) {
-        response.append(l.getIdAndAdminForList());
+        sendMsgToClient(response + l.getIdAndAdminAndFormat());
       }
     }
     LOGGER.debug(
         "RESPONSE TO LISTL: " + response.toString() + " requested by: " + this.clientUserName);
-    sendMsgToClient(response.toString());
+    //sendMsgToClient(response.toString());
   }
 
   /**

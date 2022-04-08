@@ -93,7 +93,7 @@ public class Lobby {
    *
    * @return a string formatted for the clients convenients.
    */
-  public String getIdAndAdminForList() {
+  public String getIdAndAdminAndFormat() {
     StringBuilder response = new StringBuilder();
     response.append("Lobby ID: ");
     response.append(this.lobbyID);
