@@ -90,6 +90,11 @@ public class VoteHandler {
     passengers[ghostPosition] = g;
     passengers[ghostPosition].send(
         "You are now a ghost!"); // TODO: ServerGameInfoHandler might deal with this one
+
+    // set hasVoted to false for all passengers for future votings
+    for (Passenger passenger : passengers) {
+      passenger.setHasVoted(false);
+    }
   }
 
   /**
@@ -100,7 +105,8 @@ public class VoteHandler {
    *
    * @param passengers: train passengers
    */
-  public static void humanVote(Passenger[] passengers) {
+  public static void humanVote(Passenger[] passengers, Game game) {
+
 
     // array to collect votes for all players during voting, i.e. votes for player 1 are saved in
     // votesForPlayers[0]
@@ -175,6 +181,10 @@ public class VoteHandler {
           passenger.send("Player " + voteIndex + "has been kicked off!");
         }
       }
+    }
+    // set hasVoted to false for all passengers for future votings
+    for (Passenger passenger : passengers) {
+      passenger.setHasVoted(false);
     }
   }
 
