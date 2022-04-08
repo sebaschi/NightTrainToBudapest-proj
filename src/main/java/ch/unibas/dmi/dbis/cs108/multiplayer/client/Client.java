@@ -72,6 +72,15 @@ public class Client {
     }).start();
   }
 
+  /**
+   * Tells user to enter a position to vote for passenger at that position
+   */
+
+  public void voteGetter() {
+    //TODO(Seraina): implement
+
+  }
+
 
   /**
    * Starts a thread which listens for incoming chat messages / other messages that the user

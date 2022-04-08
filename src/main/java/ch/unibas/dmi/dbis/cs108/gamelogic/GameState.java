@@ -44,6 +44,7 @@ public class GameState {
       if (i == 3) {
         Ghost g = new Ghost();
         g.setPosition(train.orderOfTrain[i]);
+        g.setGhost();
         g.setIsOG(true);
         passengerTrain[train.orderOfTrain[i]] = g;
       } else {
@@ -72,6 +73,36 @@ public class GameState {
   public void addNewPassenger(Passenger passenger, int position) {
     passengerTrain[position] = passenger;
 
+  }
+
+  public String toString() {
+    Passenger[] array = passengerTrain;
+    StringBuilder stringBuilder = new StringBuilder();
+    String[] print = new String[6];
+    for (int i = 0; i < array.length; i++) {
+      if (array[i].getKickedOff()) {
+        print[i] = "| kicked off " + array[i].getPosition() + "|";
+      } else {
+        if (array[i].getIsPlayer()) {
+          if (array[i].getIsGhost()) {
+            print[i] = "| ghostPlayer " + array[i].getPosition() + "|";
+          } else {
+            print[i] = "| humanPlayer " + array[i].getPosition() + "|";
+          }
+        } else {
+          if (array[i].getIsGhost()) {
+            print[i] = "| ghostNPC " + array[i].getPosition() + "|";
+          } else {
+            print[i] = "| humanNPC " + array[i].getPosition() + "|";
+          }
+        }
+      }
+    }
+
+    for (int i = 0; i < array.length; i++) {
+      stringBuilder.append(print[i]);
+    }
+    return stringBuilder.toString();
   }
 
 }

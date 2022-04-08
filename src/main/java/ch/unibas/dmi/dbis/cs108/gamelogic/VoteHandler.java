@@ -32,6 +32,7 @@ public class VoteHandler {
    * @param passengers: passengers on the train
    */
   public void ghostVote(Passenger[] passengers, Game game) {
+    LOGGER.debug("ghostVote has been called");
 
     // array to collect votes for all players during voting, i.e. votes for player 1 (passengers[0])
     // are saved in
@@ -220,7 +221,7 @@ public class VoteHandler {
 
   }
 
-  public static void main(String[] args) {
+  /*public static void main(String[] args) {
     try {
       Game game = new Game(6,1, 6);
       VoteHandler voteHandler = new VoteHandler();
@@ -253,5 +254,5 @@ public class VoteHandler {
 
 
 
-  }
+  }*/
 }

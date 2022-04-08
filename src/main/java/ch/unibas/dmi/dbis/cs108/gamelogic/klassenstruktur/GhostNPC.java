@@ -68,7 +68,7 @@ public class GhostNPC extends Ghost {
     clientHandler.broadcastChatMessage("I heard some noise tonight");
   }
 
-  public static void main(String[] args) {
+  /*public static void main(String[] args) {
 
     try {
       Game game = new Game(6,1,1);
@@ -80,5 +80,5 @@ public class GhostNPC extends Ghost {
       LOGGER.warn(e.getMessage());
     }
 
-  }
+  }*/
 }

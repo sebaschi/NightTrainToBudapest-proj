@@ -32,7 +32,7 @@ public class HumanPlayer extends Human {
 
   @Override
   public void send(String msg, Game game) {
-    String formattedMsg = ServerGameInfoHandler.format(msg);
+    String formattedMsg = ServerGameInfoHandler.format(msg, game);
     clientHandler.sendMsgToClient(formattedMsg);
   }
 }

@@ -31,7 +31,7 @@ public class Passenger {
       String formattedMsg = ServerGameInfoHandler.format(msg);
       clientHandler.sendMsgToClient(formattedMsg);
     }
-    LOGGER.warn("This object should not just be a passenger");
+    LOGGER.warn("This object should not just be a passenger. Position:" + position);
   }
 
   /**

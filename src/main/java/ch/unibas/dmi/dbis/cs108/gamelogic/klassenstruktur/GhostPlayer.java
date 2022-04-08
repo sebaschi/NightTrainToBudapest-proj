@@ -35,7 +35,7 @@ public class GhostPlayer extends Ghost {
 
   @Override
   public void send(String msg, Game game) {
-    String formattedMsg = ServerGameInfoHandler.format(msg);
+    String formattedMsg = ServerGameInfoHandler.format(msg, game);
     clientHandler.sendMsgToClient(formattedMsg);
   }
 }

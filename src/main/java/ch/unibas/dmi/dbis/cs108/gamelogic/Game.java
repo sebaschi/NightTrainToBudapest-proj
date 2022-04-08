@@ -11,19 +11,20 @@ import ch.unibas.dmi.dbis.cs108.multiplayer.server.ClientHandler;
 import java.util.HashSet;
 import org.apache.logging.log4j.*;
 
-public class Game {
+public class Game implements Runnable {
   public static final Logger LOGGER = LogManager.getLogger();
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   /**
    * Can be extended for optional Game-settings
    **/
-  protected int nrOfPlayers; //sets the length of the train
-  protected int nrOfGhosts; // sets how many Ghosts we start witch
+  protected final int nrOfPlayers; //sets the length of the train
+  protected final int nrOfGhosts; // sets how many Ghosts we start witch
   protected int nrOfUsers; // safes how many clients are active in this Game
   protected GameState gameState;
-  protected boolean isDay; //false means it is night, it is night by default
-  protected VoteHandler voteHandler;
+  protected boolean isDay = false; //false means it is night, it is night by default
+  protected VoteHandler voteHandler = new VoteHandler();
+  private ClientHandler clientHandler;
   //TODO: Figure out where Day/Night game state is saved maybe think about a game state class or smt.
   /**
    * Constructs a Game instance where:
@@ -32,12 +33,13 @@ public class Game {
    * @param nrOfGhosts  is the number of OG Ghosts you want to start with  and
    * @param nrOfUsers   is the number of active users at the time (non NPCs)
    */
-  public Game(int nrOfPlayers, int nrOfGhosts, int nrOfUsers)
+  public Game(ClientHandler clientHandler, int nrOfPlayers, int nrOfGhosts, int nrOfUsers)
       throws TrainOverflow { //ToDo: Who handles Exception how and where
     this.nrOfPlayers = nrOfPlayers;
     this.nrOfGhosts = nrOfGhosts;
     this.nrOfUsers = nrOfUsers;
     this.gameState = new GameState(nrOfPlayers, nrOfGhosts, nrOfUsers);
+    this.clientHandler = clientHandler;
     }
 
   public GameState getGameState() {
@@ -60,7 +62,9 @@ public class Game {
     isDay = day;
   }
 
-  public void run(ClientHandler clientHandler) {
+  @Override
+  public void run() {
+    LOGGER.info("the run-method has been called");
     int i = 0;
     HashSet<ClientHandler> clients = ClientHandler.getConnectedClients();
     String gameOverCheck = "";
@@ -68,6 +72,7 @@ public class Game {
     Passenger[] passengerTrain = gameState.getPassengerTrain();
 
 
+    LOGGER.info(gameState.toString());
     for (ClientHandler client : clients) {
       int index = order[i];
       if (passengerTrain[index].getIsGhost()) { //if there is a ghost
@@ -93,6 +98,7 @@ public class Game {
       }
       i++;
     }
+    LOGGER.info(gameState.toString());
 
     i = 0;
     while (true) { //ToDo: was ist die Abbruchbedingung? VoteHandler muss das schicken.
@@ -111,18 +117,7 @@ public class Game {
 
   }
 
-  public static void main(String[] args) {
-
-    try {
-
-      Game game1 = new Game(6, 1, 1);
-
-
-    } catch (TrainOverflow e) {
-      System.out.println(e.getMessage());
-    }
-
-  }
-
-
 }
+
+
+

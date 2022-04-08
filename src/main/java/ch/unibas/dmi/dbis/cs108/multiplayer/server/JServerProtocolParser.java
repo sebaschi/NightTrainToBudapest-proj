@@ -71,8 +71,10 @@ public class JServerProtocolParser {
         break;
       case Protocol.startANewGame:
         try {
-          Game game = new Game(6,1, h.getConnectedClients().size());
-          game.run(h);
+
+          Game game = new Game(h,6,1, ClientHandler.getConnectedClients().size());
+          Thread t = new Thread(game);
+          game.run();
         } catch (TrainOverflow e) {
           LOGGER.warn(e.getMessage());
         }

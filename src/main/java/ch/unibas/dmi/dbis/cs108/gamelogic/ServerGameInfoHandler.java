@@ -25,10 +25,10 @@ public class ServerGameInfoHandler {
    * @param msg the message to be formatted
    * @return a message in a protocol format
    */
-  public static String format(String msg) {
+  public static String format(String msg, Game game) {
     switch (msg) {
       case "Vote on who to ghostify!":
-        msg = Protocol.serverRequestsGhostVote;
+        msg = Protocol.serverRequestsGhostVote + "$" + game.gameState.toString();
         break;
       case "Vote for a ghost to kick off!":
         msg = Protocol.serverRequestsHumanVote;
@@ -64,11 +64,5 @@ public class ServerGameInfoHandler {
 
   }
 
-
-
-  public static void main(String[] args) {
-    ServerGameInfoHandler s = new ServerGameInfoHandler();
-    s.format("jhbvdwfzu");
-  }
 
 }
