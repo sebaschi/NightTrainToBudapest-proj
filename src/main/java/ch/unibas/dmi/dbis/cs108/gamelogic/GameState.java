@@ -81,22 +81,36 @@ public class GameState {
     String[] print = new String[6];
     for (int i = 0; i < array.length; i++) {
       if (array[i].getKickedOff()) {
-        print[i] = "| kicked off " + array[i].getPosition() + "|";
+        print[i] = "| kicked off: " + array[i].getPosition() + "|";
       } else {
         if (array[i].getIsPlayer()) {
           if (array[i].getIsGhost()) {
-            print[i] = "| ghostPlayer " + array[i].getPosition() + "|";
+            print[i] = "| ghostPlayer: " + array[i].getPosition() + "|";
           } else {
-            print[i] = "| humanPlayer " + array[i].getPosition() + "|";
+            print[i] = "| humanPlayer: " + array[i].getPosition() + "|";
           }
         } else {
           if (array[i].getIsGhost()) {
-            print[i] = "| ghostNPC " + array[i].getPosition() + "|";
+            print[i] = "| ghostNPC: " + array[i].getPosition() + "|";
           } else {
-            print[i] = "| humanNPC " + array[i].getPosition() + "|";
+            print[i] = "| humanNPC: " + array[i].getPosition() + "|";
           }
         }
       }
+    }
+
+    for (int i = 0; i < array.length; i++) {
+      stringBuilder.append(print[i]);
+    }
+    return stringBuilder.toString();
+  }
+
+  public String humanToString() {
+    Passenger[] array = passengerTrain;
+    StringBuilder stringBuilder = new StringBuilder();
+    String[] print = new String[6];
+    for (int i = 0; i < array.length; i++) {
+      print[i] = "|  " + array[i].getName() + ": " + array[i].getPosition() + "|";
     }
 
     for (int i = 0; i < array.length; i++) {

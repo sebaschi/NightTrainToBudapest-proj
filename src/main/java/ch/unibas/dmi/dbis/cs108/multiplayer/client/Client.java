@@ -76,8 +76,24 @@ public class Client {
    * Tells user to enter a position to vote for passenger at that position
    */
 
-  public void voteGetter() {
+  public void voteGetter(String msg) {
+    Scanner userInput = new Scanner(System.in);
     //TODO(Seraina): implement
+    System.out.println(msg);
+    System.out.println("Please enter your vote");
+    int vote;
+    String input = "";
+    try {
+      input = userInput.nextLine();
+      vote = Integer.parseInt(input);
+      LOGGER.info("input is: " + vote);
+    } catch (Exception e) {
+      LOGGER.warn(e.getMessage());
+      System.out.println("Invalid vote");
+      input = String.valueOf(Integer.MAX_VALUE);
+    } finally {
+      sendMsgToServer(Protocol.votedFor + "$" + input);
+    }
 
   }
 

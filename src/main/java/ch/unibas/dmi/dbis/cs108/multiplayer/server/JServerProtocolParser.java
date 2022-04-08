@@ -69,6 +69,11 @@ public class JServerProtocolParser {
         //TODO: add action
         LOGGER.debug(Protocol.listLobbies + " command recieved from: " + h.getClientUserName());
         break;
+      case Protocol.votedFor:
+        int vote = Integer.parseInt(msg.substring(6));
+        if(vote != Integer.MAX_VALUE) {
+        //TODO(SERAINA): do smt
+        }
       case Protocol.startANewGame:
         try {
 

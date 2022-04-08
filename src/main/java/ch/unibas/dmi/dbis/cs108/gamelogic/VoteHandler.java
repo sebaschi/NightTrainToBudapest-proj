@@ -53,6 +53,12 @@ public class VoteHandler {
       }
     }
 
+    try { // waits 20 seconds before votes get collected
+      Thread.sleep(30*1000);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+    }
+
     for (Passenger passenger : passengers) {
       // collecting the votes - distribute them among the vote counters for all players
       // Note: Each voting collects votes for all players even though some might not be concerned
@@ -62,7 +68,7 @@ public class VoteHandler {
         for (int i = 0; i < votesForPlayers.length; i++) {
           if (passenger.getVote() == i) {
             votesForPlayers[i]++;
-            LOGGER.info(passengers[i] + " has received the most votes");
+            LOGGER.info(passengers[i] + " has received a vote");
           }
         }
       }
@@ -124,6 +130,12 @@ public class VoteHandler {
       } else {
         passenger.send("Vote for a ghost to kick off!", game);
       }
+    }
+
+    try { // waits 20 seconds before votes get collected
+      Thread.sleep(30*1000);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
     }
 
     for (Passenger passenger : passengers) {

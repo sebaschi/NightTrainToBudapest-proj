@@ -31,7 +31,7 @@ public class ServerGameInfoHandler {
         msg = Protocol.serverRequestsGhostVote + "$" + game.gameState.toString();
         break;
       case "Vote for a ghost to kick off!":
-        msg = Protocol.serverRequestsHumanVote;
+        msg = Protocol.serverRequestsHumanVote + "$" + game.gameState.humanToString();
         break;
       default:
         msg = Protocol.printToClientConsole + "$" + msg;

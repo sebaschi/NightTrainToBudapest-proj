@@ -70,6 +70,10 @@ public class Passenger {
     hasVoted = voted;
   }
 
+  public void setVote(int vote) {
+    this.vote = vote;
+  }
+
   public void setIsOg() {
     isOG = true;
   }

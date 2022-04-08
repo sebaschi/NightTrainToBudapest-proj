@@ -7,6 +7,7 @@ Implemented:
  * PINGB              Pingback from client to server.
  * NAMEC$name         Change name to whatever is specified
  * STGAM              start the Game
+ * CVOTE$position     Client has voted for position
 
 Future / planned:
  * CRTGM              Create a new game

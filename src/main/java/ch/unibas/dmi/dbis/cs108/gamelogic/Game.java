@@ -88,7 +88,7 @@ public class Game implements Runnable {
     }
     while (i < order.length) {
       int index = order[i];
-      if (passengerTrain[index].getIsGhost()) { //if there is a ghost
+      if (passengerTrain[index].getIsGhost()) { //if they are a ghost
         GhostNPC ghostNPC = new GhostNPC(passengerTrain[index].getPosition(), "NPC" + passengerTrain[index].getPosition(),passengerTrain[index].getIsOG() ,this);
         gameState.getPassengerTrain()[index] = ghostNPC;
       } else {
