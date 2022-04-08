@@ -2,6 +2,7 @@ package ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.gamelogic.Game;
+import ch.unibas.dmi.dbis.cs108.gamelogic.ServerGameInfoHandler;
 import ch.unibas.dmi.dbis.cs108.gamelogic.TrainOverflow;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -32,13 +33,18 @@ public class GhostNPC extends Ghost {
       }
   }
 
+  @Override
+  public void send(String msg) {
+    ServerGameInfoHandler.ghostNpcParser(this, msg, game);
+  }
+
   /**
    * Sets vote of this Ghost position on a number between 0 and 5,
    * but only for positions where there aren't any ghosts and sets hasVoted to true
    */
   public void vote(Game game){
     int ghostCounter = 0;
-    Passenger[] train = game.getGameFunctions().passengerTrain;
+    Passenger[] train = game.getGameFunctions().getPassengerTrain();
     for(Passenger passenger : train) {
       if(passenger.isGhost) {
         ghostCounter++;

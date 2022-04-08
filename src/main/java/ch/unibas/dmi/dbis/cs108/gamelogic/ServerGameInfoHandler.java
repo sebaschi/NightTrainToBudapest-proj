@@ -1,6 +1,9 @@
 package ch.unibas.dmi.dbis.cs108.gamelogic;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
+import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Ghost;
+import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.GhostNPC;
+import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.HumanNPC;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Passenger;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
 import org.apache.logging.log4j.LogManager;
@@ -37,26 +40,31 @@ public class ServerGameInfoHandler {
     return msg;
   }
 
-  /**
-   * TODO(Seraina): Handle NPC's Maybe do that in Passenger send methode!
-   * Send a message "GVOTR" to a passenger urging them to vote for a human to infect
-   * Currently only handles only Players, so send a message to corresponding client
-   * @param passenger the passenger the message is meant to, should be a Ghost
-   */
-  public void sendVoteRequestGhosts(Passenger passenger){
-    passenger.getClientHandler().sendMsgToClient("GVOTR");
+  public static void ghostNpcParser(GhostNPC npc, String msg, Game game) {
+    switch (msg) {
+      case "noise":
+        npc.noise();
+        break;
+      case "Vote on who to ghostify!":
+        npc.vote(game);
+    }
+
+
+  }
+
+  public static void humanNpcParser(HumanNPC npc, String msg, Game game) {
+    switch (msg) {
+      case "noise":
+        npc.noise();
+        break;
+      case "Vote for a ghost to kick off!":
+        npc.vote();
+    }
+
+
   }
 
 
-  /**
-   * TODO(Seraina): Handle NPC's
-   * Send a message "HVOTR" to a passenger urging them to vote for sm to kick off the train.
-   * Currently only handles only Players, so send a message to corresponding client
-   * @param passenger the passenger the message is meant to, can be either human or ghost
-   */
-  public void sendVoteRequestHumans(Passenger passenger){
-    passenger.getClientHandler().sendMsgToClient("HVOTR");
-  }
 
   public static void main(String[] args) {
     ServerGameInfoHandler s = new ServerGameInfoHandler();

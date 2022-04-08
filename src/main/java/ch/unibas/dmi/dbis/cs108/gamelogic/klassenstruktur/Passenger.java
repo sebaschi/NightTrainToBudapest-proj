@@ -32,33 +32,11 @@ public class Passenger {
    * @param msg the message that is sent to this player.
    **/
   public void send(String msg) {
-    /*sendcounter++;
-    if (msg.equals("Vote on who to ghostify!")) {
-      vote = 1*sendcounter;
-      hasVoted = true; // for testing, when is it set to false again?
-      LOGGER.info("Voted for Position " + vote);
-    } else if(msg.equals("Vote for a ghost to kick off!")) {
-      vote = (int) (0.5*sendcounter);
-      hasVoted = true; // for testing, when is it set to false again?
-      LOGGER.info("Voted for Position " + vote);
-    } else {
-
-      LOGGER.debug(msg);
-    }*/
     if (isPlayer) {
       String formattedMsg = ServerGameInfoHandler.format(msg);
       clientHandler.sendMsgToClient(formattedMsg);
-    } else { //is a NPC
-      if(isGhost) {
-
-
-
-      } else { //is a human
-
-      }
-
-            //TODO: call a method that identifies message for NPC and calls respective methode NPCParser
     }
+    LOGGER.warn("This object should not just be a passenger");
   }
 
   /**

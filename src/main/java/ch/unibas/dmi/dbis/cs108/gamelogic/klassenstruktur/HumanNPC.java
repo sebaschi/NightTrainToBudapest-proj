@@ -2,6 +2,7 @@ package ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.gamelogic.Game;
+import ch.unibas.dmi.dbis.cs108.gamelogic.ServerGameInfoHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -29,11 +30,20 @@ public class HumanNPC extends Human {
     }
   }
 
+  @Override
+  public void send(String msg) {
+    ServerGameInfoHandler.humanNpcParser(this, msg, game);
+  }
+
   /**
    * Currently returns a random integer for voting
    * @return integer between 0 and 5
    */
   public int vote(){
     return (int) (Math.random()*6);
+  }
+
+  public void noise() {
+    clientHandler.broadcastChatMessage("I heard some noise tonight");
   }
 }

@@ -2,6 +2,7 @@ package ch.unibas.dmi.dbis.cs108.gamelogic;
 
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
+import ch.unibas.dmi.dbis.cs108.multiplayer.server.ClientHandler;
 import org.apache.logging.log4j.*;
 
 public class Game {
@@ -15,6 +16,8 @@ public class Game {
   protected int nrOfGhosts; // sets how many Ghosts we start witch
   protected int nrOfUsers; // safes how many clients are active in this Game
   protected GameFunctions gameFunctions;
+  protected boolean isDay; //false means it is night, it is night by default
+  protected VoteHandler voteHandler;
   //TODO: Figure out where Day/Night game state is saved maybe think about a game state class or smt.
   /**
    * Constructs a Game instance where:
@@ -47,11 +50,34 @@ public class Game {
     return nrOfUsers;
   }
 
+  public void setDay(boolean day) {
+    isDay = day;
+  }
+
+  public void run(ClientHandler clientHandler) {
+        int i = 0;
+        String gameOverCheck = "";
+        while (true) { //ToDo: was ist die Abbruchbedingung? VoteHandler muss das schicken.
+          if (!isDay) {
+            voteHandler.ghostVote(gameFunctions.getPassengerTrain(), this);
+            setDay(true);
+          } else {
+            gameOverCheck = voteHandler.humanVote(gameFunctions.getPassengerTrain(), this);
+          }
+          if (gameOverCheck.equals("Game over: ghosts win!") || gameOverCheck.equals("Game over: humans win!")){
+            clientHandler.broadcastAnnouncement(gameOverCheck);
+            return;
+          }
+        }
+
+  }
+
   public static void main(String[] args) {
 
     try {
 
       Game game1 = new Game(6, 1, 1);
+
 
     } catch (TrainOverflow e) {
       System.out.println(e.getMessage());

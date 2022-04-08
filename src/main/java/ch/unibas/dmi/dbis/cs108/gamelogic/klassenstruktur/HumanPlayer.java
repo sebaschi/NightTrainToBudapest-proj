@@ -2,6 +2,7 @@ package ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.gamelogic.Game;
+import ch.unibas.dmi.dbis.cs108.gamelogic.ServerGameInfoHandler;
 import ch.unibas.dmi.dbis.cs108.multiplayer.server.ClientHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -31,5 +32,9 @@ public class HumanPlayer extends Human {
     }
   }
 
-
+  @Override
+  public void send(String msg) {
+    String formattedMsg = ServerGameInfoHandler.format(msg);
+    clientHandler.sendMsgToClient(formattedMsg);
+  }
 }

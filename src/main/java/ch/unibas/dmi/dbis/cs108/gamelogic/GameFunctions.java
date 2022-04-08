@@ -1,6 +1,7 @@
 package ch.unibas.dmi.dbis.cs108.gamelogic;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
+import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Ghost;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Human;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Passenger;
 import org.apache.logging.log4j.LogManager;
@@ -13,11 +14,11 @@ public class GameFunctions {
   /**
    * Can be extended for optional Game-settings
    **/
-  int nrOfPlayers; //sets the length of the train
-  int nrOfGhosts; // sets how many Ghosts we start witch
-  int nrOfUsers; // safes how many clients are active in this Game
-  Train train; // safes who sits where
-  public Passenger[] passengerTrain;
+  protected int nrOfPlayers; //sets the length of the train
+  protected int nrOfGhosts; // sets how many Ghosts we start witch
+  protected int nrOfUsers; // safes how many clients are active in this Game
+  protected Train train; // safes who sits where
+  protected Passenger[] passengerTrain;
   protected Game game;
 
   /**
@@ -37,10 +38,18 @@ public class GameFunctions {
     this.train = new Train(nrOfPlayers, nrOfUsers);
     Passenger[] passengerTrain = new Passenger[nrOfPlayers]; //Creates an array with Passengers with correlation positions (Train)
     for (int i = 0; i < nrOfPlayers; i++) {
-      Human h = new Human(game);
-      h.setPosition(train.orderOfTrain[i]);
-      passengerTrain[train.orderOfTrain[i]] = h;
+      if (i == 3) {
+        Ghost g = new Ghost(game);
+        g.setPosition(train.orderOfTrain[i]);
+        g.setIsOG(true);
+        passengerTrain[train.orderOfTrain[i]] = g;
+      } else {
+        Human h = new Human(game);
+        h.setPosition(train.orderOfTrain[i]);
+        passengerTrain[train.orderOfTrain[i]] = h;
+      }
     }
+
     this.passengerTrain = passengerTrain;
   }
 
@@ -56,6 +65,7 @@ public class GameFunctions {
     return nrOfUsers;
   }
 
-
-
+  public Passenger[] getPassengerTrain() {
+    return passengerTrain;
+  }
 }
