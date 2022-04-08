@@ -117,6 +117,7 @@ public class ClientHandler implements Runnable {
         break;
       }
     }
+    LOGGER.debug(this.getClientUserName() + " reached end of run()");
   }
 
 
@@ -224,7 +225,7 @@ public class ClientHandler implements Runnable {
     LOGGER.debug(
         this.getClientUserName() + " created a new lobby with ID: " + newGame.getLobbyID());
     //TODO add server response. Here a possibility:
-    sendMsgToClient(Protocol.printToClientConsole + "$New lobby with ID: " + newGame + " created.");
+    sendMsgToClient(Protocol.printToClientConsole + "$New lobby with ID: " + newGame.getLobbyID() + " created.");
   }
 
   /**
@@ -234,7 +235,7 @@ public class ClientHandler implements Runnable {
    */
   public void listAllLobbiesToClient() {
     StringBuilder response = new StringBuilder();
-    response.append(Protocol.pingBack);
+    response.append(Protocol.printToClientConsole);
     response.append("$");
     if (serverData.getAllLobbies().isEmpty()) {
       response.append("There are currently no open lobbies");
@@ -250,12 +251,13 @@ public class ClientHandler implements Runnable {
   }
 
   /**
-   * Closes the client's socket, in, and out.
+   * Closes the client's socket, in, and out. and removes from global list of clients.
    */
   public void disconnectClient() {
     socket = this.getSocket();
     in = this.getIn();
     out = this.getOut();
+    serverData.removeClientFromSetOfAllClients(this);
     try {
       Thread.sleep(100);
       if (in != null) {

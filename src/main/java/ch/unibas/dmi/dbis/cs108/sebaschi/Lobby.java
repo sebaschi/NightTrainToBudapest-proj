@@ -57,7 +57,6 @@ public class Lobby {
     this.admin = admin;
     this.players.add(admin);
     this.numberOfPlayersInLobby = 1;
-    lobbies++;
     LOGGER.debug("New Lobby created by " + admin.getClientUserName() + ". This lobby's ID:  "
         + this.lobbyID);
   }
