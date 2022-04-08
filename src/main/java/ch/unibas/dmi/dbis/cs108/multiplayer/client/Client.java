@@ -5,6 +5,7 @@ import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.ClientPinger;
 
 
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
+import ch.unibas.dmi.dbis.cs108.sebaschi.CentralClientData;
 import java.net.Socket;
 import java.io.*;
 import java.net.UnknownHostException;
@@ -22,6 +23,8 @@ public class Client {
   private BufferedReader in;
   private BufferedWriter out;
   public ClientPinger clientPinger;
+
+  private CentralClientData data;
 
   public Client(Socket socket) {
     try {
@@ -175,6 +178,10 @@ public class Client {
       e.printStackTrace();
     }
 
+  }
+
+  public CentralClientData getData(){
+    return this.data;
   }
 
   public Socket getSocket() {

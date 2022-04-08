@@ -50,6 +50,7 @@ public class JClientProtocolParser {
         System.out.println("Human received Vote request");
         //TODO(Seraina): How can be enforced, that clients won't vote otherwise? Trigger a methode here that listens to input
         break;
+      case Protocol.serverDeliversLobbyList:
       default:
         System.out.println("Received unknown command");
     }

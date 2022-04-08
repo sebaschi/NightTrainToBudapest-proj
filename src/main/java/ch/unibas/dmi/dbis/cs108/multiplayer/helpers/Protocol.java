@@ -100,5 +100,10 @@ public class Protocol {
    */
   public static final String serverRequestsHumanVote = "HVOTR";
 
+  /**
+   * todo: doch
+   */
+  public static final String serverDeliversLobbyList = "LLIST";
+
 
 }
