@@ -25,12 +25,19 @@ public class Passenger {
    * @param msg the message that is sent to this player.
    **/
   public void send(String msg) {
-    if (isPlayer) {
+    if (msg.equals("Vote on who to ghostify!") || msg.equals("Vote for a ghost to kick off!")) {
+      vote = (int) (Math.random() * 6);
+      hasVoted = true; // for testing, when is it set to false again?
+      LOGGER.info("Voted for Position" + vote);
+    } else {
+      LOGGER.debug(msg);
+    }
+    /*if (isPlayer) {
       //TODO: maybe put a formatter here, so protocol msg are only send between sever-client
       clientHandler.sendMsgToClient(msg); //ToDO(Seraina): Make sure only the right kind of messages are sent
-    } else {
+    } else { //is a NPC
             //TODO: call a method that identifies message for NPC and calls respective methode NPCParser
-    }
+    }*/
   }
 
   /**
