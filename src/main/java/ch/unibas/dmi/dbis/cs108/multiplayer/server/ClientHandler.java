@@ -224,7 +224,17 @@ public class ClientHandler implements Runnable {
     LOGGER.debug(
         this.getClientUserName() + " created a new lobby with ID: " + newGame.getLobbyID());
     //TODO add server response. Here a possibility:
-    sendMsgToClient("New lobby with ID: " + newGame + " created.");
+    sendMsgToClient(Protocol.printToClientConsole + "$New lobby with ID: " + newGame + " created.");
+  }
+
+  public void listAllLobbies() {
+    if(serverData.getAllLobbies().isEmpty()) {
+      sendMsgToClient(Protocol.printToClientConsole +"$There are currently no open lobbies");
+      LOGGER.debug("No open lobbies");
+    } else {
+      StringBuilder response = new StringBuilder();
+
+    }
   }
 
   /**
