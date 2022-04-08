@@ -179,6 +179,7 @@ public class ClientHandler implements Runnable {
    */
   public void sendMsgToClient(String msg) {
     try {
+      if(!msg.equals("SPING"))LOGGER.debug("Message sent to client: " + msg);
       out.write(msg);
       out.newLine();
       out.flush();
@@ -236,19 +237,26 @@ public class ClientHandler implements Runnable {
    */
   public void listAllLobbiesToClient() {
     StringBuilder response = new StringBuilder();
-    response.append(Protocol.printToClientConsole);
+    response.append(Protocol.listLobbies);
     response.append("$");
     if (serverData.getAllLobbies().isEmpty()) {
       response.append("There are currently no open lobbies");
       LOGGER.debug("No open lobbies");
     } else {
       for (Lobby l : serverData.getAllLobbies()) {
-        sendMsgToClient(response + l.getIdAndAdminAndFormat());
+        response.append(l.getIdAndAdminAndFormat());
       }
     }
     LOGGER.debug(
         "RESPONSE TO LISTL: " + response.toString() + " requested by: " + this.clientUserName);
-    //sendMsgToClient(response.toString());
+    try {
+      out.write(response.toString());
+      out.newLine();
+      out.flush();
+    } catch (IOException e) {
+      LOGGER.debug(e.getMessage());
+    }
+
   }
 
   /**

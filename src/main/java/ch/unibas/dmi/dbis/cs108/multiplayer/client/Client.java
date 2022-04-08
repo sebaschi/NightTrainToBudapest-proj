@@ -88,6 +88,7 @@ public class Client {
           try {
             chatMsg = in.readLine();     //todo: maybe if
             if (chatMsg != null) {
+              //LOGGER.debug("chatMSG recieved from Server: " + chatMsg);
               parse(chatMsg);
             } else { System.out.println("chatMsg is null"); throw new IOException();}
           } catch (IOException e) {
