@@ -10,9 +10,10 @@ Implemented:
  * CPING              Ping from client to server.
  * PINGB              Pingback from client to server.
  * NAMEC$name         Change name to whatever is specified
+ * CRTGM              Create a new game
 
 Future / planned:
- * CRTGM              Create a new game
+
  * CHATW              whisper chat
  * CHATG              ghost chat
  * LEAVG              leave a game

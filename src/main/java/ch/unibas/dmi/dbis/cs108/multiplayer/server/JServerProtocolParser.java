@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
 
 public class JServerProtocolParser {
+
   public static final Logger LOGGER = LogManager.getLogger();
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
@@ -17,10 +18,9 @@ public class JServerProtocolParser {
 
 
   /**
-   * Used by the server (i.e. ClientHandler) to parse an incoming protocol message.
-   * For documentation on the individual Protocol messages, view the Protocol.java
-   * class or hover over the commands (e.g. Protocol.chatMsgToAll) with your mouse
-   * in this class.
+   * Used by the server (i.e. ClientHandler) to parse an incoming protocol message. For
+   * documentation on the individual Protocol messages, view the Protocol.java class or hover over
+   * the commands (e.g. Protocol.chatMsgToAll) with your mouse in this class.
    *
    * @param msg the encoded message that needs to be parsed
    * @param h   this ClientHandler (required so this method can access the ClientHandler's methods)
@@ -28,7 +28,7 @@ public class JServerProtocolParser {
   public static void parse(String msg, ClientHandler h) {
     //LOGGER.debug("got message: " + msg + ".");
     String header = "";             //"header" is the first 5 characters, i.e. the protocol part
-        try {
+    try {
       header = msg.substring(0, 5);
     } catch (IndexOutOfBoundsException e) {
       System.out.println("Received unknown command");
@@ -56,6 +56,12 @@ public class JServerProtocolParser {
         break;
       case Protocol.clientQuitRequest:
         h.removeClientOnLogout();
+        break;
+      case Protocol.createNewGame:
+        // TODO add h.openLobby(h) method
+        LOGGER.debug(Protocol.createNewGame
+            + " command reached in JServerProtocolParser. Command issued by: "
+            + h.getClientUserName());
         break;
       default:
         System.out.println("Received unknown command");

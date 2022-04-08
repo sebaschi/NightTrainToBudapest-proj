@@ -54,10 +54,10 @@ public class Protocol {
 
   /**
    * TODO: enable for client
-   * TODO: add to JClientProtocolParser {@link ch.unibas.dmi.dbis.cs108.multiplayer.client.JClientProtocolParser}
-   * TODO: add to JSeverProtocolParser {@link ch.unibas.dmi.dbis.cs108.multiplayer.server.JServerProtocolParser}
    * TODO: add sever response
    * Client sends this message when he wants to create a new game.
+   * Client issues this command in {@link ch.unibas.dmi.dbis.cs108.multiplayer.client.MessageFormatter}
+   * using "/g".
    * First a lobby {@link ch.unibas.dmi.dbis.cs108.sebaschi.Lobby} is created of which the requesting client is the admin of.
    */
   public static final String createNewGame = "CRTGM";

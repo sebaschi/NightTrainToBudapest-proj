@@ -47,6 +47,11 @@ public class MessageFormatter {
           s = "U.N. Owen";
         }
         break;
+      case "/g":
+        stringBuilder.append(Protocol.createNewGame + "$");
+        s = "";
+        //TODO add LOGGER msg. Find out if .info or .debug.
+        break;
       default:
         s = msg;
     }
