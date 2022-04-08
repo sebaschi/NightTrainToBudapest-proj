@@ -18,7 +18,7 @@ public class JServerProtocolParser {
 
 
   /**
-   * Used by the server (i.e. ClientHandler) to parse an incoming protocol message. For
+   * Used by the server (i.e. ClientHandler{@link ClientHandler}) to parse an incoming protocol message. For
    * documentation on the individual Protocol messages, view the Protocol.java class or hover over
    * the commands (e.g. Protocol.chatMsgToAll) with your mouse in this class.
    *
