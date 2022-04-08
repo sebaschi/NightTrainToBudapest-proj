@@ -31,7 +31,7 @@ public class VoteHandler {
    *
    * @param passengers: passengers on the train
    */
-  public void ghostVote(Passenger[] passengers, Game game) {
+  public static void ghostVote(Passenger[] passengers, Game game) {
 
     // array to collect votes for all players during voting, i.e. votes for player 1 (passengers[0])
     // are saved in
@@ -42,13 +42,13 @@ public class VoteHandler {
     // TODO(Seraina): Messages in for-loop should probably be handled by ServerGameInfoHandler
     for (Passenger passenger : passengers) {
       if (passenger.getIsGhost()) {
-        LOGGER.info("Send msg to Ghost in Position: " + passenger);
+
         passenger.send("Vote on who to ghostify!");
       } else {
         passenger.send(
             "Please wait, ghosts are active"); // TODO(Seraina): make sure whatever clients send in
                                                // this time, except chat is ignored
-        LOGGER.info("Send msg to Human in Position: " + passenger);
+
       }
     }
 
@@ -75,14 +75,14 @@ public class VoteHandler {
         currentMax = votesForPlayer;
       }
     }
-    LOGGER.info("Most votes" + currentMax);
+    LOGGER.info("Most votes: " + currentMax + " vote");
 
     // ghostify the player with most votes
     int ghostPosition = 0;
     for (int i = 0; i < votesForPlayers.length; i++) {
       if (votesForPlayers[i] == currentMax) { // if player at position i has most votes
         ghostPosition = i;
-        LOGGER.info("Most votes for Passenger" + i);
+        LOGGER.info("Most votes for Passenger " + i);
       }
     }
     GhostifyHandler gh = new GhostifyHandler();
@@ -105,7 +105,8 @@ public class VoteHandler {
    *
    * @param passengers: train passengers
    */
-  public void humanVote(Passenger[] passengers, Game game) {
+  public static void humanVote(Passenger[] passengers, Game game) {
+
 
     // array to collect votes for all players during voting, i.e. votes for player 1 are saved in
     // votesForPlayers[0]
@@ -147,7 +148,7 @@ public class VoteHandler {
     for (int i = 0; i < votesForPlayers.length; i++) {
       if (votesForPlayers[i] == currentMax) { // if player has most votes
         voteIndex = i;
-        LOGGER.info("Player " + voteIndex + "has the most votes");
+        LOGGER.info("Player " + voteIndex + " has the most votes");
       }
     }
     if (!passengers[voteIndex]
@@ -177,13 +178,57 @@ public class VoteHandler {
         // kick this ghost off
         passengers[voteIndex].setKickedOff(true);
         for (Passenger passenger : passengers) {
-          passenger.send("Player " + voteIndex + "has been kicked off!");
+          passenger.send("Player " + voteIndex + " has been kicked off!");
         }
       }
     }
-    // set hasVoted to false for all passengers for future votings
+    // set hasVoted to false for all passengers for future voting
     for (Passenger passenger : passengers) {
       passenger.setHasVoted(false);
     }
+  }
+
+  static void print(Passenger[] array) {
+    System.out.println();
+    String[] print = new String[6];
+    for (int i = 0; i < array.length; i++) {
+      if(array[i].getIsGhost()) {
+        print[i] = "| ghost |";
+      } else {
+        print[i] = "| human |";
+      }
+    }
+
+    for (int i = 0; i < array.length; i++) {
+      System.out.print(print[i]);
+    }
+    System.out.println();
+
+  }
+
+  public static void main(String[] args) {
+    try {
+      Game game = new Game(6,1, 6);
+
+      Passenger[] testArray = game.gameFunctions.passengerTrain;
+      Passenger ghost = new Ghost();
+      testArray[3] = ghost;
+      testArray[3].setGhost();
+      testArray[3].setIsOg();
+      print(testArray);
+      LOGGER.info("NIGHT");
+      ghostVote(testArray,game);
+      print(testArray);
+
+      LOGGER.info("Day");
+      humanVote(testArray, game);
+      print(testArray);
+
+    } catch (TrainOverflow e) {
+      LOGGER.warn(e.getMessage());
+    }
+
+
+
   }
 }

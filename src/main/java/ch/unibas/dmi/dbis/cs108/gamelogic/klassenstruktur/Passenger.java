@@ -26,9 +26,9 @@ public class Passenger {
    **/
   public void send(String msg) {
     if (msg.equals("Vote on who to ghostify!") || msg.equals("Vote for a ghost to kick off!")) {
-      vote = (int) (Math.random() * 6);
+      vote = 1;
       hasVoted = true; // for testing, when is it set to false again?
-      LOGGER.info("Voted for Position" + vote);
+      LOGGER.info("Voted for Position " + vote);
     } else {
       LOGGER.debug(msg);
     }
@@ -74,6 +74,10 @@ public class Passenger {
   public void setHasVoted(boolean voted) {
     // used to signal that this passenger voted during a voting
     hasVoted = voted;
+  }
+
+  public void setIsOg() {
+    isOG = true;
   }
 
   public int getPosition() {
