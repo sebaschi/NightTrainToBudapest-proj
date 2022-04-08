@@ -71,9 +71,9 @@ public class Passenger {
     // changes this passenger's status from human to ghost
     isGhost = true;
   }
-  public void setHasVoted() {
+  public void setHasVoted(boolean voted) {
     // used to signal that this passenger voted during a voting
-    hasVoted = true;
+    hasVoted = voted;
   }
 
   public int getPosition() {
