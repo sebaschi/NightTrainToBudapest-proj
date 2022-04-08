@@ -40,6 +40,7 @@ public class GameFunctions {
       h.setPosition(train.orderOfTrain[i]);
       passengerTrain[i] = h;
     }
+    this.passengerTrain = passengerTrain;
   }
 
   public int getNrOfGhosts() {
