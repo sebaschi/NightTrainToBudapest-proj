@@ -85,7 +85,7 @@ public class Lobby {
    * TODO: Does this method need to implemented somewhere else, e.g. in the ClientHandler?
    * @param player who wants to join the lobby.
    */
-  public void addPlayer(ClientHandler player) {
+  public synchronized void addPlayer(ClientHandler player) {
     if (players.size()  <= MAX_NO_OF_CLIENTS) {
       players.add(player);
       numberOfPlayersInLobby++;

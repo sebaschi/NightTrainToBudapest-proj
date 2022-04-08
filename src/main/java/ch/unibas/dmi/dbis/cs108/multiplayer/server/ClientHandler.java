@@ -223,6 +223,8 @@ public class ClientHandler implements Runnable {
     serverData.addLobbyToListOfAllLobbies(newGame);
     LOGGER.debug(
         this.getClientUserName() + " created a new lobby with ID: " + newGame.getLobbyID());
+    //TODO add server response. Here a possibility:
+    sendMsgToClient("New lobby with ID: " + newGame + " created.");
   }
 
   /**
