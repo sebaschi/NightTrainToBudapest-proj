@@ -1,6 +1,7 @@
 package ch.unibas.dmi.dbis.cs108.sebaschi;
 
 import ch.unibas.dmi.dbis.cs108.multiplayer.server.ClientHandler;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,7 +11,15 @@ import java.util.List;
  */
 public class ServerLobby {
 
-  List<Lobby> openLobbies;
-  List<ClientHandler> allClients;
+  private static List<Lobby> openLobbies;
+  private static List<ClientHandler> allClients;
 
+  static {
+    openLobbies = new ArrayList<>();
+    allClients = new ArrayList<>();
+  }
+
+  public static List<Lobby> getOpenLobbies() {
+    return openLobbies;
+  }
 }
