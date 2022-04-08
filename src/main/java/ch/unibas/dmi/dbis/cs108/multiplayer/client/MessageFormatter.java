@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class MessageFormatter {
+
   public static final Logger LOGGER = LogManager.getLogger();
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
@@ -48,9 +49,15 @@ public class MessageFormatter {
         }
         break;
       case "/g":
+        //CRTGM command
         stringBuilder.append(Protocol.createNewGame + "$");
-        s = "";
+        s = ""; //command has no parameters
         //TODO add LOGGER msg. Find out if .info or .debug.
+        break;
+      case "/l":
+        //LISTL command
+        stringBuilder.append(Protocol.listLobbies + "$");
+        s = ""; //Command has no parameters
         break;
       default:
         s = msg;
