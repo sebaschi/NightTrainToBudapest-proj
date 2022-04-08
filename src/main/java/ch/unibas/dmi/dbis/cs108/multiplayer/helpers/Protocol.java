@@ -62,6 +62,13 @@ public class Protocol {
    */
   public static final String createNewGame = "CRTGM";
 
+  /**
+   * TODO: implement in {@link ch.unibas.dmi.dbis.cs108.multiplayer.client.MessageFormatter}
+   * TODO: imlement in {@link ch.unibas.dmi.dbis.cs108.multiplayer.server.JServerProtocolParser}
+   * Represents a clients request for a list of lobbies
+   */
+  public static final String listLobbies = "LISTL";
+
   //SERVER TO CLIENT COMMANDS
 
   /**

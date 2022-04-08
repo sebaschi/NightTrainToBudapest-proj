@@ -18,9 +18,9 @@ public class JServerProtocolParser {
 
 
   /**
-   * Used by the server (i.e. ClientHandler{@link ClientHandler}) to parse an incoming protocol message. For
-   * documentation on the individual Protocol messages, view the Protocol.java class or hover over
-   * the commands (e.g. Protocol.chatMsgToAll) with your mouse in this class.
+   * Used by the server (i.e. ClientHandler{@link ClientHandler}) to parse an incoming protocol
+   * message. For documentation on the individual Protocol messages, view the Protocol.java class or
+   * hover over the commands (e.g. Protocol.chatMsgToAll) with your mouse in this class.
    *
    * @param msg the encoded message that needs to be parsed
    * @param h   this ClientHandler (required so this method can access the ClientHandler's methods)
@@ -62,6 +62,10 @@ public class JServerProtocolParser {
         LOGGER.debug(Protocol.createNewGame
             + " command reached in JServerProtocolParser. Command issued by: "
             + h.getClientUserName());
+        break;
+      case Protocol.listLobbies:
+        //TODO: add action
+        LOGGER.debug(Protocol.listLobbies + " command recieved from: " + h.getClientUserName());
         break;
       default:
         System.out.println("Received unknown command");
