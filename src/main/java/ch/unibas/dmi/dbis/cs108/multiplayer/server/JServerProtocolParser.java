@@ -67,7 +67,7 @@ public class JServerProtocolParser {
         break;
       case Protocol.listLobbies:
         //TODO: add action
-        LOGGER.debug(Protocol.listLobbies + " command recieved from: " + h.getClientUserName());
+        LOGGER.debug(Protocol.listLobbies + " command received from: " + h.getClientUserName());
         break;
       case Protocol.votedFor:
         int vote = Integer.parseInt(msg.substring(6));

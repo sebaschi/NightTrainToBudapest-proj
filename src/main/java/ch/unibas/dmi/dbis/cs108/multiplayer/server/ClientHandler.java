@@ -21,6 +21,7 @@ public class ClientHandler implements Runnable {
   private Socket socket;
   private InetAddress ip;
 
+
   /**
    * notes if the client has formally logged in yet. If connecting through the normal Client class,
    * the client is logged in automatically, if connecting though some external application, the
@@ -34,6 +35,8 @@ public class ClientHandler implements Runnable {
   public static HashSet<ClientHandler> disconnectedClients = new HashSet<>(); //todo: implement re-connection
   public static HashSet<ClientHandler> lobby = new HashSet<>();
   public static HashSet<ClientHandler> ghostClients = new HashSet<>();
+  private int vote; //saves vote of clientHandler for later transmission to passenger, by default MAX_VALUE
+  private boolean hasVoted; //saves hasVoted status of clientHandler for later transmission to passenger, by default false
 
   /**
    * Implements the login logic in client-server architecture.
@@ -48,6 +51,8 @@ public class ClientHandler implements Runnable {
       this.in = new BufferedReader(new InputStreamReader((socket.getInputStream())));
       this.loggedIn = false;
       this.clientUserName = nameDuplicateChecker.checkName("U.N. Owen");
+      this.vote = Integer.MAX_VALUE;
+      this.hasVoted = false;
       connectedClients.add(this);
       serverPinger = new ServerPinger(socket, this);
       Thread sP = new Thread(serverPinger);
@@ -86,15 +91,30 @@ public class ClientHandler implements Runnable {
     return loggedIn;
   }
 
+  public int getVote() {
+    return vote;
+  }
+
+  public boolean getHasVoted() {
+    return hasVoted;
+  }
+
+  public String getClientUserName() {
+    return clientUserName;
+  }
+  //Setters:
+
   public void setLoggedIn(boolean loggedIn) {
     this.loggedIn = loggedIn;
   }
 
-  //Setters:
-  public String getClientUserName() {
-    return clientUserName;
+  public void setVote(int vote) {
+    this.vote = vote;
   }
 
+  public void setHasVoted(boolean hasVoted) {
+    this.hasVoted = hasVoted;
+  }
 
   @Override
   public void run() {
