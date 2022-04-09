@@ -37,6 +37,7 @@ public class ServerPinger implements Runnable {
 
   @Override
   public void run() {
+    Thread.currentThread().setPriority(10);
     try {
       Thread.sleep(2000);
       while (socket.isConnected() && !socket.isClosed()) {

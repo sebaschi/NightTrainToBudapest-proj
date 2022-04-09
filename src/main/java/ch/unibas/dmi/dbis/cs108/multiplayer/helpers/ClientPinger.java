@@ -35,28 +35,33 @@ public class ClientPinger implements Runnable {
 
   @Override
   public void run() {
+    Thread.currentThread().setPriority(10);
     try {
       Thread.sleep(20000);
-      while (socket.isConnected() && !socket.isClosed()) {
-        gotPingBack = false;
-        client.sendMsgToServer(Protocol.pingFromClient);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+    }
+    while (socket.isConnected() && !socket.isClosed()) {
+      gotPingBack = false;
+      client.sendMsgToServer(Protocol.pingFromClient);
+      try {
         Thread.sleep(4000);
-        if (gotPingBack) {
-          if (!isConnected) {         //if !isConnected, then the connection had been lost before.
-            isConnected = true;
-            System.out.println("Connection regained!");
-          }
-        } else {
-          if (isConnected) {
-            isConnected = false;
-            System.out.println("Lost connection. Waiting to reconnect...");
-          }
+      } catch (InterruptedException e) {
+        Thread.currentThread().interrupt();
+      }
+      if (gotPingBack) {
+        if (!isConnected) {         //if !isConnected, then the connection had been lost before.
+          isConnected = true;
+          System.out.println("Connection regained!");
+        }
+      } else {
+        if (isConnected) {
+          isConnected = false;
+          System.out.println("Lost connection. Waiting to reconnect...");
         }
       }
-      isConnected = false;
-    } catch (InterruptedException e) {
-      e.printStackTrace();
     }
+    isConnected = false;
   }
 
   public void setGotPingBack(boolean gotPingBack) {
