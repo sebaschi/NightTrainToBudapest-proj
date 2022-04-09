@@ -70,10 +70,18 @@ public class JServerProtocolParser {
         LOGGER.debug(Protocol.listLobbies + " command received from: " + h.getClientUserName());
         break;
       case Protocol.votedFor:
-        int vote = Integer.parseInt(msg.substring(6));
-        if(vote != Integer.MAX_VALUE) {
-        //TODO(SERAINA): do smt
+        int vote = Integer.MAX_VALUE;
+        try {
+          vote = Integer.parseInt(msg.substring(6));
+        } catch (Exception e) {
+          LOGGER.warn("Invalid vote " + e.getMessage());
+        } finally {
+          if(vote != Integer.MAX_VALUE) { //gets MAX_VALUE when the vote wasn't valid
+            h.setVote(vote);
+            h.setHasVoted(true);
+          }
         }
+        break;
       case Protocol.startANewGame:
         try {
 
