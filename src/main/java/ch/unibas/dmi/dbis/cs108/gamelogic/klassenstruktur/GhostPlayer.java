@@ -45,7 +45,7 @@ public class GhostPlayer extends Ghost {
    * Sets clientHandler fields to default: vote = Integer.MAX_VALUE , hasVoted = false
    */
   @Override
-  public void getVoteFromGameState(ClientVoteData clientVoteData) {
+  public void getVoteFromGameState(ClientVoteData clientVoteData, Game game) {
     vote = clientVoteData.getVote()[position];
     hasVoted = clientVoteData.getHasVoted()[position];
     clientVoteData.setVote(position,Integer.MAX_VALUE);

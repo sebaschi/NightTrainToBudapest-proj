@@ -43,20 +43,22 @@ public class HumanPlayer extends Human {
    * Sets clientHandler fields to default: vote = Integer.MAX_VALUE , hasVoted = false
    */
   @Override
-  public void getVoteFromGameState(ClientVoteData clientVoteData) {
-    LOGGER.debug(Arrays.toString(clientVoteData.getVote()));
-    LOGGER.info("method was called by: " + position);
-    vote = clientVoteData.getVote()[position];
-    LOGGER.info("Human at Pos: " + position + " has voted for: " + vote);
-    hasVoted = clientVoteData.getHasVoted()[position];
-    LOGGER.debug(Arrays.toString(clientVoteData.getVote()));
-    //clientVoteData.setVote(position,Integer.MAX_VALUE);
-    //clientVoteData.setHasVoted(position,false);
-    /*
-     * if vote wasn't valid, make sure, the passenger field hasVoted == false, probably redundant but better be safe than sorry
-     */
-    if(vote == Integer.MAX_VALUE) {
-      hasVoted = false;
+  public void getVoteFromGameState(ClientVoteData clientVoteData, Game game) {
+    if(game.getIsDay()) {
+      LOGGER.debug(Arrays.toString(clientVoteData.getVote()));
+      LOGGER.debug("method was called by: " + position);
+      vote = clientVoteData.getVote()[position];
+      LOGGER.info("Human at Pos: " + position + " has voted for: " + vote);
+      hasVoted = clientVoteData.getHasVoted()[position];
+      LOGGER.debug(Arrays.toString(clientVoteData.getVote()));
+      clientVoteData.setVote(position, Integer.MAX_VALUE);
+      clientVoteData.setHasVoted(position, false);
+      /*
+       * if vote wasn't valid, make sure, the passenger field hasVoted == false, probably redundant but better be safe than sorry
+       */
+      if (vote == Integer.MAX_VALUE) {
+        hasVoted = false;
+      }
     }
   }
 }

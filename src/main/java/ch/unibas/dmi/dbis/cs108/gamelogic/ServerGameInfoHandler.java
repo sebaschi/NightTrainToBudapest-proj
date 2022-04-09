@@ -34,9 +34,9 @@ public class ServerGameInfoHandler {
         msg = Protocol.serverRequestsHumanVote + "$" + p.getPosition() +"$"+ game.gameState.humanToString();
         break;
       default:
-        msg = Protocol.printToClientConsole + "$" + p.getPosition() +"$"+ msg;
+        msg = Protocol.printToClientConsole + "$"+ msg;
     }
-    LOGGER.info(msg);
+    LOGGER.debug(msg);
     return msg;
   }
 

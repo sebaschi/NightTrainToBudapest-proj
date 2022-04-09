@@ -81,6 +81,11 @@ public class GameState {
 
   }
 
+  /**
+   * Converts the data in this passengerTrain into a human-readable string,
+   * where one can see who is a ghost and who is a human, who is a player and who an NPC
+   * @return a String that displays passengerTrain
+   */
   public String toString() {
     Passenger[] array = passengerTrain;
     StringBuilder stringBuilder = new StringBuilder();
@@ -111,6 +116,12 @@ public class GameState {
     return stringBuilder.toString();
   }
 
+  /**
+   * Converts the data in this passengerTrain into a human-readable string, but it is anonymised for
+   * human players, so it is not obvious who is a human and who a ghost, only names and positions
+   * are displayed
+   * @return the String displaying an anonymised passengerTrain
+   */
   public String humanToString() {
     Passenger[] array = passengerTrain;
     StringBuilder stringBuilder = new StringBuilder();

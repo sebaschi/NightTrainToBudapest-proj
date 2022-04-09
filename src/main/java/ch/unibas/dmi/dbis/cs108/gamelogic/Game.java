@@ -58,6 +58,8 @@ public class Game implements Runnable {
     return nrOfUsers;
   }
 
+  public boolean getIsDay() {return isDay;}
+
   public void setDay(boolean day) {
     isDay = day;
   }

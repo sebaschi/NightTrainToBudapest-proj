@@ -72,17 +72,16 @@ public class VoteHandler {
     }
 
 
-    for (Passenger passenger : passengers) {
+    for (Passenger passenger : passengers) { //TODO: could be outsourced to a method to increase readability
       // collecting the votes - distribute them among the vote counters for all players
       // Note: Each voting collects votes for all players even though some might not be concerned
       // (i.e. ghosts during ghost vote). Those players will then get 0 votes so it doesn't matter.
       // TODO: Perhaps the vote results should be handled by ClientGameInfoHandler
-      passenger.getVoteFromGameState(clientVoteData);
+      passenger.getVoteFromGameState(clientVoteData, game);
       if (passenger.getHasVoted()) {
         for (int i = 0; i < votesForPlayers.length; i++) {
           if (passenger.getVote() == i) {
             votesForPlayers[i]++;
-            LOGGER.info(passengers[i] + " has received a vote");
           }
         }
       }
@@ -96,18 +95,18 @@ public class VoteHandler {
         currentMax = votesForPlayer;
       }
     }
-    LOGGER.info("Most votes: " + currentMax + " vote");
+    LOGGER.debug("Most votes: " + currentMax + " vote");
 
     // ghostify the player with most votes
     int ghostPosition = 0;
     for (int i = 0; i < votesForPlayers.length; i++) {
       if (votesForPlayers[i] == currentMax) { // if player at position i has most votes
         ghostPosition = i;
-        LOGGER.info("Most votes for Passenger " + i);
+        LOGGER.debug("Most votes for Passenger " + i);
 
       }
     }
-    LOGGER.debug("ghostPosition: " + ghostPosition);
+    LOGGER.info("Most votes for: " + ghostPosition);
     GhostifyHandler gh = new GhostifyHandler();
     Ghost g = gh.ghost(passengers[ghostPosition], game);
     passengers[ghostPosition] = g;
@@ -154,7 +153,7 @@ public class VoteHandler {
     }
 
     for (Passenger passenger : passengers) {
-      passenger.getVoteFromGameState(clientVoteData);
+      passenger.getVoteFromGameState(clientVoteData, game);
       // collecting the votes - distribute them among the vote counters for all players
       // TODO: Perhaps the vote results should be handled by ClientGameInfoHandler
       if (passenger.getHasVoted()) {

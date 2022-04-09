@@ -97,7 +97,7 @@ public class Client {
       input = String.valueOf(Integer.MAX_VALUE);
     }
     sendMsgToServer(Protocol.votedFor + "$" + position + "$" + input);
-    LOGGER.info("msg to server is: " + Protocol.votedFor + "$" + position + "$" + input);
+    LOGGER.debug("msg to server is: " + Protocol.votedFor + "$" + position + "$" + input);
   }
 
 
