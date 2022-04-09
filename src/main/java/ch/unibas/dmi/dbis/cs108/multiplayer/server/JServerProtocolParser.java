@@ -2,8 +2,11 @@ package ch.unibas.dmi.dbis.cs108.multiplayer.server;
 
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
+import ch.unibas.dmi.dbis.cs108.gamelogic.ClientVoteData;
 import ch.unibas.dmi.dbis.cs108.gamelogic.Game;
+import ch.unibas.dmi.dbis.cs108.gamelogic.GameState;
 import ch.unibas.dmi.dbis.cs108.gamelogic.TrainOverflow;
+import ch.unibas.dmi.dbis.cs108.gamelogic.VoteHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
@@ -77,6 +80,7 @@ public class JServerProtocolParser {
         int msgIndex = msg.indexOf('$');
         int vote = Integer.MAX_VALUE;
         int position = 0;
+        ClientVoteData clientVoteData = new ClientVoteData();
         LOGGER.debug("Message is " + msg.substring(6));
         try {
           position = Integer.parseInt(msg.substring(0,msgIndex));
@@ -85,10 +89,11 @@ public class JServerProtocolParser {
           LOGGER.warn("Invalid vote " + e.getMessage());
         }
         if(vote != Integer.MAX_VALUE) { //gets MAX_VALUE when the vote wasn't valid
-          h.setVote(position,vote);
+          clientVoteData.setVote(position,vote);
           LOGGER.debug("Player vote: " + vote);
-          h.setHasVoted(position,true);
+          clientVoteData.setHasVoted(position,true);
         }
+        VoteHandler.setClientVoteData(clientVoteData);
         break;
       case Protocol.startANewGame:
         try {

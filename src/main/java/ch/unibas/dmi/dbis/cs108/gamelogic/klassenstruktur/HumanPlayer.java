@@ -1,9 +1,11 @@
 package ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
+import ch.unibas.dmi.dbis.cs108.gamelogic.ClientVoteData;
 import ch.unibas.dmi.dbis.cs108.gamelogic.Game;
 import ch.unibas.dmi.dbis.cs108.gamelogic.ServerGameInfoHandler;
 import ch.unibas.dmi.dbis.cs108.multiplayer.server.ClientHandler;
+import java.util.Arrays;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -41,13 +43,14 @@ public class HumanPlayer extends Human {
    * Sets clientHandler fields to default: vote = Integer.MAX_VALUE , hasVoted = false
    */
   @Override
-  public void getVoteFromClientHandler() {
+  public void getVoteFromGameState(ClientVoteData clientVoteData) {
+    LOGGER.debug(Arrays.toString(clientVoteData.getVote()));
     LOGGER.info("method was called by: " + position);
-    vote = clientHandler.getVote()[position];
+    vote = clientVoteData.getVote()[position];
     LOGGER.info("Human at Pos: " + position + " has voted for: " + vote);
-    hasVoted = clientHandler.getHasVoted()[position];
-    clientHandler.setVote(position,Integer.MAX_VALUE);
-    clientHandler.setHasVoted(position,false);
+    hasVoted = clientVoteData.getHasVoted()[position];
+    clientVoteData.setVote(position,Integer.MAX_VALUE);
+    clientVoteData.setHasVoted(position,false);
     /*
      * if vote wasn't valid, make sure, the passenger field hasVoted == false, probably redundant but better be safe than sorry
      */

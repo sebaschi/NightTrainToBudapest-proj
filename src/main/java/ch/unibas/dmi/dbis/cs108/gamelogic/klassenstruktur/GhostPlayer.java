@@ -1,6 +1,7 @@
 package ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
+import ch.unibas.dmi.dbis.cs108.gamelogic.ClientVoteData;
 import ch.unibas.dmi.dbis.cs108.gamelogic.Game;
 import ch.unibas.dmi.dbis.cs108.gamelogic.ServerGameInfoHandler;
 import ch.unibas.dmi.dbis.cs108.multiplayer.server.ClientHandler;
@@ -44,11 +45,11 @@ public class GhostPlayer extends Ghost {
    * Sets clientHandler fields to default: vote = Integer.MAX_VALUE , hasVoted = false
    */
   @Override
-  public void getVoteFromClientHandler() {
-    vote = clientHandler.getVote()[position];
-    hasVoted = clientHandler.getHasVoted()[position];
-    clientHandler.setVote(position,Integer.MAX_VALUE);
-    clientHandler.setHasVoted(position,false);
+  public void getVoteFromGameState(ClientVoteData clientVoteData) {
+    vote = clientVoteData.getVote()[position];
+    hasVoted = clientVoteData.getHasVoted()[position];
+    clientVoteData.setVote(position,Integer.MAX_VALUE);
+    clientVoteData.setHasVoted(position,false);
     LOGGER.info("Ghost at Pos: " + position + " has voted for: " + vote);
     /*
     * if vote wasn't valid, make sure, the passenger field hasVoted == false, probably redundant but better be safe than sorry

@@ -2,9 +2,7 @@ package ch.unibas.dmi.dbis.cs108.gamelogic;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Ghost;
-import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.GhostPlayer;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Passenger;
-import ch.unibas.dmi.dbis.cs108.multiplayer.server.ClientHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,6 +21,15 @@ public class VoteHandler {
   public static final Logger LOGGER = LogManager.getLogger();
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
+  private ClientVoteData clientVoteData;
+
+  public ClientVoteData getClientVoteData() {
+    return clientVoteData;
+  }
+
+  public static void setClientVoteData(ClientVoteData clientVoteData) {
+    clientVoteData = clientVoteData;
+  }
 
   /**
    * Handles the ghost vote during nighttime: passengers who are ghosts are being asked on who to
@@ -65,7 +72,7 @@ public class VoteHandler {
       // Note: Each voting collects votes for all players even though some might not be concerned
       // (i.e. ghosts during ghost vote). Those players will then get 0 votes so it doesn't matter.
       // TODO: Perhaps the vote results should be handled by ClientGameInfoHandler
-      passenger.getVoteFromClientHandler();
+      passenger.getVoteFromGameState(clientVoteData);
       if (passenger.getHasVoted()) {
         for (int i = 0; i < votesForPlayers.length; i++) {
           if (passenger.getVote() == i) {
@@ -142,7 +149,7 @@ public class VoteHandler {
     }
 
     for (Passenger passenger : passengers) {
-      passenger.getVoteFromClientHandler();
+      passenger.getVoteFromGameState(clientVoteData);
       // collecting the votes - distribute them among the vote counters for all players
       // TODO: Perhaps the vote results should be handled by ClientGameInfoHandler
       if (passenger.getHasVoted()) {

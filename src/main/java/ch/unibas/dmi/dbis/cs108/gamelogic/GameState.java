@@ -4,6 +4,7 @@ import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Ghost;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Human;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Passenger;
+import java.util.Arrays;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,6 +23,7 @@ public class GameState {
    * contains all Passengers on train, needs to be updated
    */
   private Passenger[] passengerTrain;
+
 
 
   /**
@@ -64,6 +66,8 @@ public class GameState {
   public Train getTrain() {
     return train;
   }
+
+
 
   /**
    * Takes a given Passenger and puts it into the passengerTrain at a certain position

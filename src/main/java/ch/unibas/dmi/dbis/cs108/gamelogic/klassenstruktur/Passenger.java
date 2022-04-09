@@ -1,9 +1,9 @@
 package ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
+import ch.unibas.dmi.dbis.cs108.gamelogic.ClientVoteData;
 import ch.unibas.dmi.dbis.cs108.gamelogic.Game;
 import ch.unibas.dmi.dbis.cs108.gamelogic.ServerGameInfoHandler;
-import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
 import ch.unibas.dmi.dbis.cs108.multiplayer.server.ClientHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -112,7 +112,7 @@ public class Passenger {
   /**
    * When called by NPC nothing should happen, because clientHandler = null
    */
-  public void getVoteFromClientHandler() {
+  public void getVoteFromGameState(ClientVoteData clientVoteData) {
     LOGGER.debug("a NPC called this method hopefully: " + position);
   }
 

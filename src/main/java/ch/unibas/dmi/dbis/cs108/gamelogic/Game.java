@@ -109,6 +109,7 @@ public class Game implements Runnable {
       } else {
         LOGGER.info("DAY");
         gameOverCheck = voteHandler.humanVote(gameState.getPassengerTrain(), this);
+        setDay(false);
       }
       if (gameOverCheck.equals("Game over: ghosts win!") || gameOverCheck.equals(
           "Game over: humans win!")) {
