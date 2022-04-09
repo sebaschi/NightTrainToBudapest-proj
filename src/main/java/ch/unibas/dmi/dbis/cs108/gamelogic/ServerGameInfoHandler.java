@@ -27,10 +27,10 @@ public class ServerGameInfoHandler {
    */
   public static String format(String msg, Passenger p, Game game) {
     switch (msg) {
-      case "Vote on who to ghostify!":
+      case ClientGameInfoHandler.ghostVoteRequest:
         msg = Protocol.serverRequestsGhostVote + "$" + p.getPosition() +"$" + game.gameState.toString();
         break;
-      case "Vote for a ghost to kick off!":
+      case ClientGameInfoHandler.humanVoteRequest:
         msg = Protocol.serverRequestsHumanVote + "$" + p.getPosition() +"$"+ game.gameState.humanToString();
         break;
       default:
@@ -42,10 +42,11 @@ public class ServerGameInfoHandler {
 
   public static void ghostNpcParser(GhostNPC npc, String msg, Game game) {
     switch (msg) {
-      case "noise":
+      case ClientGameInfoHandler.noiseNotification:
+        //TODO(Seraina & Alex): noise handling
         npc.noise();
         break;
-      case "Vote on who to ghostify!":
+      case ClientGameInfoHandler.ghostVoteRequest:
         npc.vote(game);
     }
 
@@ -54,10 +55,10 @@ public class ServerGameInfoHandler {
 
   public static void humanNpcParser(HumanNPC npc, String msg, Game game) {
     switch (msg) {
-      case "noise":
+      case ClientGameInfoHandler.noiseNotification:
         npc.noise();
         break;
-      case "Vote for a ghost to kick off!":
+      case ClientGameInfoHandler.humanVoteRequest:
         npc.vote();
     }
 

@@ -56,10 +56,10 @@ public class VoteHandler {
     for (Passenger passenger : passengers) {
       if (passenger.getIsGhost()) {
 
-        passenger.send("Vote on who to ghostify!", game);
+        passenger.send(ClientGameInfoHandler.ghostVoteRequest, game);
       } else {
         passenger.send(
-            "Please wait, ghosts are active", game);
+            ClientGameInfoHandler.itsNightTime, game);
                                                // this time, except chat is ignored
 
       }
@@ -111,7 +111,7 @@ public class VoteHandler {
     Ghost g = gh.ghost(passengers[ghostPosition], game);
     passengers[ghostPosition] = g;
     passengers[ghostPosition].send(
-        "You are now a ghost!", game); // TODO: ServerGameInfoHandler might deal with this one
+        ClientGameInfoHandler.youGotGhostyfied, game); // TODO: ServerGameInfoHandler might deal with this one
 
     LOGGER.info(game.getGameState().toString());
     // set hasVoted to false for all passengers for future votings
@@ -140,9 +140,9 @@ public class VoteHandler {
     // TODO: Messages in for-loop should probably be handled by ServerGameInfoHandler
     for (Passenger passenger : passengers) {
       if (passenger.getIsGhost()) {
-        passenger.send("Please wait, humans are active", game);
+        passenger.send(ClientGameInfoHandler.itsDayTime, game);
       } else {
-        passenger.send("Vote for a ghost to kick off!", game);
+        passenger.send(ClientGameInfoHandler.humanVoteRequest , game);
       }
     }
 
@@ -185,13 +185,13 @@ public class VoteHandler {
         .getIsGhost()) { // if player with most votes is human, notify everyone about it
       for (Passenger passenger : passengers) {
         passenger.send(
-            "You voted for a human!", game); // TODO: ServerGameInfoHandler might be better to use here
+            ClientGameInfoHandler.humansVotedFor + voteIndex + ClientGameInfoHandler.isAHuman, game); // TODO: ServerGameInfoHandler might be better to use here
       }
     }
     if (passengers[voteIndex].getIsGhost()) { // if player is a ghost
       if (passengers[voteIndex].getIsOG()) { // if ghost is OG --> end game, humans win
-        System.out.println("Game over: humans win!"); // TODO: correctly handle end of game
-        return "Game over: humans win!";
+        System.out.println(ClientGameInfoHandler.gameOverHumansWin); // TODO: correctly handle end of game
+        return ClientGameInfoHandler.gameOverHumansWin;
       } else {
         /* Special case: if ghost is not OG and if only one human is left (--> last human didn't vote for OG ghost),
         ghosts win.
@@ -203,14 +203,14 @@ public class VoteHandler {
           }
         }
         if (humans == 1) {
-          System.out.println("Game over: ghosts win!");
-          return "Game over: ghosts win!";
+          System.out.println(ClientGameInfoHandler.gameOverGhostsWin);
+          return ClientGameInfoHandler.gameOverGhostsWin;
         }
         // Usual case: there is more than one human left and a normal ghost has been voted for -->
         // kick this ghost off
         passengers[voteIndex].setKickedOff(true);
         for (Passenger passenger : passengers) {
-          passenger.send("Player " + voteIndex + " has been kicked off!", game);
+          passenger.send("Player " + voteIndex + ClientGameInfoHandler.gotKickedOff, game);
         }
       }
     }
@@ -248,38 +248,4 @@ public class VoteHandler {
 
   }
 
-  /*public static void main(String[] args) {
-    try {
-      Game game = new Game(6,1, 6);
-      VoteHandler voteHandler = new VoteHandler();
-
-      Passenger[] testArray = game.gameState.getPassengerTrain();
-      Passenger ghost = new Ghost();
-      testArray[3] = ghost;
-      testArray[3].setGhost();
-      testArray[3].setIsOg();
-      testArray[3].setPosition(3);
-      print(testArray);
-      LOGGER.info("NIGHT");
-      voteHandler.ghostVote(testArray,game);
-      print(testArray);
-
-      LOGGER.info("Day");
-      voteHandler.humanVote(testArray, game);
-      print(testArray);
-
-      LOGGER.info("NIGHT");
-      voteHandler.ghostVote(testArray,game);
-      print(testArray);
-
-      LOGGER.info("Day");
-      voteHandler.humanVote(testArray, game);
-      print(testArray);
-    } catch (TrainOverflow e) {
-      LOGGER.warn(e.getMessage());
-    }
-
-
-
-  }*/
 }
