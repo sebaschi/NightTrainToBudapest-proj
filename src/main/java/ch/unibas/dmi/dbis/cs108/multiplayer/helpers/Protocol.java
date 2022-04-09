@@ -98,7 +98,7 @@ public class Protocol {
   public static final String startANewGame = "STGAM";
 
   /**
-   * Client informs server that they have voted and delivers this vote in the form of "CVOTE$position"
+   * Client informs server that they have voted and delivers this vote in the form of "CVOTE$position$vote"
     */
   public static final String votedFor = "CVOTE";
 
