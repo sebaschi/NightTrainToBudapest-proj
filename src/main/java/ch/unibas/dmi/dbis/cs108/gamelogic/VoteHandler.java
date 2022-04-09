@@ -43,6 +43,7 @@ public class VoteHandler {
    *
    * @param passengers: passengers on the train
    */
+
   public void ghostVote(Passenger[] passengers, Game game) {
     LOGGER.debug("ghostVote has been called");
     LOGGER.info(game.getGameState().toString());
@@ -112,6 +113,16 @@ public class VoteHandler {
     passengers[ghostPosition] = g;
     passengers[ghostPosition].send(
         ClientGameInfoHandler.youGotGhostyfied, game); // TODO: ServerGameInfoHandler might deal with this one
+
+    /* notify passengers the ghosts passed by - for each ghost that ghostified a player, an instance of NoiseHandler
+    is being created and the passengers this ghost passed by are being notified. The player who's just been ghostified
+     is ignored since he didn't participate in this night's ghostification. */
+    for (int i = 0; i < passengers.length; i++) {
+      if (passengers[i].getIsGhost() && i != ghostPosition) {
+        NoiseHandler n = new NoiseHandler();
+        n.noiseNotifier(passengers, passengers[i], g, game);
+      }
+    }
 
     LOGGER.info(game.getGameState().toString());
     // set hasVoted to false for all passengers for future votings

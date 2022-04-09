@@ -38,7 +38,7 @@ public class GhostifyHandler {
 
     }
     game.gameState.addNewPassenger(g, g.getPosition());
-    LOGGER.info("Passenger at position " + p.getPosition() + "has been ghostified");
+    LOGGER.info("Passenger at position " + p.getPosition() + " has been ghostified");
     return g;
   }
 }
