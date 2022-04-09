@@ -109,4 +109,7 @@ public class Passenger {
     return clientHandler;
   }
 
+  public void getVoteFromClientHandler() {
+  }
+
 }

@@ -38,5 +38,24 @@ public class GhostPlayer extends Ghost {
     String formattedMsg = ServerGameInfoHandler.format(msg, game);
     clientHandler.sendMsgToClient(formattedMsg);
   }
+
+  /**
+   * Gets the voting information vote and hasVoted from clientHandler and this values to those values.
+   * Sets clientHandler fields to default: vote = Integer.MAX_VALUE , hasVoted = false
+   */
+  @Override
+  public void getVoteFromClientHandler() {
+    vote = clientHandler.getVote();
+    hasVoted = clientHandler.getHasVoted();
+    clientHandler.setVote(Integer.MAX_VALUE);
+    clientHandler.setHasVoted(false);
+    /*
+    * if vote wasn't valid, make sure, the passenger field hasVoted == false, probably redundant but better be safe than sorry
+    */
+    if(vote == Integer.MAX_VALUE) {
+      hasVoted = false;
+    }
+  }
+
 }
 
