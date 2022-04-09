@@ -75,6 +75,10 @@ public class ClientHandler implements Runnable {
     return socket;
   }
 
+  /**
+   * Needed to fill a train with client TODO: how do lobbies fit here?
+   * @return the HashSet of Connected Clients
+   */
   public static HashSet<ClientHandler> getConnectedClients() {
     return connectedClients;
   }

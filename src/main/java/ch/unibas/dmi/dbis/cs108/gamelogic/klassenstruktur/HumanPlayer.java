@@ -32,6 +32,12 @@ public class HumanPlayer extends Human {
     }
   }
 
+  /**
+   * Sends a message to the client handled bye this client handler
+   * TODO: does this also work with 2 clients?
+   * @param msg the message that is sent to this player.
+   * @param game the game the HumanPlayer lives on (in game.gameState.passengerTrain)
+   */
   @Override
   public void send(String msg, Game game) {
     String formattedMsg = ServerGameInfoHandler.format(msg,this, game);

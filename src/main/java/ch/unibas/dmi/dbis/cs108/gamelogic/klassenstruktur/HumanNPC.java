@@ -29,6 +29,11 @@ public class HumanNPC extends Human {
     }
   }
 
+  /**
+   * Sends a msg to the ServerGameInfoHandler.humanNpcParser to decide what has to happen now
+   * @param msg the message that is sent to this player.
+   * @param game the game the HumanNPC lives on (in game.gameState.passengerTrain)
+   */
   @Override
   public void send(String msg, Game game) {
     ServerGameInfoHandler.humanNpcParser(this, msg, game);

@@ -23,6 +23,9 @@ public class GameState {
    * contains all Passengers on train, needs to be updated
    */
   private Passenger[] passengerTrain;
+  /**
+   * Saves ClientVoteData, might not be used
+   */
   private ClientVoteData clientVoteData;
 
 

@@ -12,6 +12,7 @@ public class ClientGameInfoHandler {
 
   /**
    * All messages that are used in VoteHandler
+   * TODO(Seraina&Alex): Adjust strings to be more meaningful
    */
   //relevant:
   public static final String ghostVoteRequest = "Vote on who to ghostify!";
@@ -28,11 +29,5 @@ public class ClientGameInfoHandler {
   public static final String isAHuman = "but they're a human!";
   public static final String gotKickedOff = "is a Ghost and got kicked off";
 
-  /**
-   * sends a msg "" to Server stating who voted for who, this being the Client that votes
-   * @param position the position of the passenger that is voted for
-   */
-  public void vote(int position) {
 
-  }
 }

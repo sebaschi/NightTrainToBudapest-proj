@@ -22,17 +22,6 @@ public class Passenger {
   protected boolean hasVoted;           //true if the player gave his vote during voting time
   protected int vote;                   //saves the number of the player this passenger voted for during voting (0-5)
 
-  /**
-   * Sends a protocol message to the respective player or NPC.
-   * @param msg the message that is sent to this player.
-   **/
-  public void send(String msg, Game game) {
-    if (isPlayer) {
-      String formattedMsg = ServerGameInfoHandler.format(msg,this,game);
-      clientHandler.sendMsgToClient(formattedMsg);
-    }
-    LOGGER.warn("This object should not just be a passenger. Position:" + position);
-  }
 
   /**
    * sets the Position of this passenger
@@ -114,6 +103,18 @@ public class Passenger {
    */
   public void getVoteFromGameState(ClientVoteData clientVoteData,Game game) {
     LOGGER.debug("a NPC called this method hopefully: " + position);
+  }
+
+  /**
+   * Sends a protocol message to the respective player or NPC.
+   * @param msg the message that is sent to this player.
+   **/
+  public void send(String msg, Game game) {
+    if (isPlayer) {
+      String formattedMsg = ServerGameInfoHandler.format(msg,this,game);
+      clientHandler.sendMsgToClient(formattedMsg);
+    }
+    LOGGER.warn("This object should not just be a passenger. Position:" + position);
   }
 
 }

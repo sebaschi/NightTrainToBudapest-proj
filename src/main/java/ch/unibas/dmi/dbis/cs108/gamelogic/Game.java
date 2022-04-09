@@ -64,6 +64,13 @@ public class Game implements Runnable {
     isDay = day;
   }
 
+  /**
+   * Starts a new game, creates a passenger array and saves it in gameState, sets the OG
+   * currently at gameState.train[3] fills the passengerTrain moving from left to rigth in the
+   * gameState.train array it connects clientHandlers witch the passengers in those positions
+   * (Players) and fills the rest with NPC's
+   * TODO: set ghost in a random position(i), gameState.train[i] so that a lone player can also start as a Ghost maybe use Train class
+   */
   @Override
   public void run() {
     LOGGER.info("the run-method has been called");
@@ -113,8 +120,8 @@ public class Game implements Runnable {
         gameOverCheck = voteHandler.humanVote(gameState.getPassengerTrain(), this);
         setDay(false);
       }
-      if (gameOverCheck.equals("Game over: ghosts win!") || gameOverCheck.equals(
-          "Game over: humans win!")) {
+      if (gameOverCheck.equals(ClientGameInfoHandler.gameOverGhostsWin) || gameOverCheck.equals(
+          ClientGameInfoHandler.gameOverHumansWin)) {
         clientHandler.broadcastAnnouncement(gameOverCheck);
         return;
       }

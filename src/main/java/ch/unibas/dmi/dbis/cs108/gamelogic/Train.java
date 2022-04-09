@@ -9,7 +9,7 @@ public class Train {
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   int[] orderOfTrain; //gives the random order in which the passengers enter the train
-  int positionOfGhost;
+  int positionOfGhost; // useful for randomization of og ghost position
 
   /**
    * Constructs a Train with orderOfTrain of the size nrOfPlayers, filled with a Random order of the
@@ -67,12 +67,4 @@ public class Train {
     return false;
   }
 
-  public static void main(String[] args) {
-    try {
-      Train t = new Train(6, 1);
-    } catch (TrainOverflow e) {
-      LOGGER.error(e.getMessage());
-    }
-
-  }
 }

@@ -41,6 +41,7 @@ public class GhostNPC extends Ghost {
   /**
    * Sets vote of this Ghost position on a number between 0 and 5,
    * but only for positions where there aren't any ghosts and sets hasVoted to true
+   * TODO: Make NPC smarter
    */
   public void vote(Game game){
     int ghostCounter = 0;
@@ -64,21 +65,13 @@ public class GhostNPC extends Ghost {
     LOGGER.info("GhostNPC at Position: " + this.getPosition() + " has voted for: " + vote);
   }
 
+  /**
+   * Decides what to do when a noise ist heard, currently just always broadcasts it
+   * TODO: Make NPC smarter
+   */
   public void noise() {
     clientHandler.broadcastChatMessage("I heard some noise tonight");
   }
 
-  /*public static void main(String[] args) {
 
-    try {
-      Game game = new Game(6,1,1);
-      Passenger p = new Passenger();
-      GhostNPC ghostNPC = new GhostNPC(2,"peter", false, game);
-      p = ghostNPC;
-      ghostNPC.vote(game);
-    } catch (TrainOverflow e) {
-      LOGGER.warn(e.getMessage());
-    }
-
-  }*/
 }

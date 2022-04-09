@@ -40,6 +40,12 @@ public class ServerGameInfoHandler {
     return msg;
   }
 
+  /**
+   * decides which action an GhostNpc needs to take, based on a message
+   * @param npc the GhostNpc needing to do smt
+   * @param msg the msg containing the information on what to do
+   * @param game the game the GhostNpc lives in (in gameState.passengerTrain)
+   */
   public static void ghostNpcParser(GhostNPC npc, String msg, Game game) {
     switch (msg) {
       case ClientGameInfoHandler.noiseNotification:
@@ -53,6 +59,12 @@ public class ServerGameInfoHandler {
 
   }
 
+  /**
+   * decides which action an HumanNpc needs to take, based on a message
+   * @param npc the HumanNpc needing to do smt
+   * @param msg the msg containing the information on what to do
+   * @param game the game the HumanNpc lives in (in gameState.passengerTrain)
+   */
   public static void humanNpcParser(HumanNPC npc, String msg, Game game) {
     switch (msg) {
       case ClientGameInfoHandler.noiseNotification:

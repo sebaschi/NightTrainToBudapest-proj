@@ -56,7 +56,7 @@ public class ServerPinger implements Runnable {
             System.out.println(
                 "Lost connection to user " + c.getClientUserName() + ". Waiting to reconnect...");
           } else {
-            //c.disconnectClient();
+            //c.disconnectClient(); TODO: is that ever necessary?
             //LOGGER.debug("gotPingBack has not been set to true and isConnected has been set to false before");
           }
         }
