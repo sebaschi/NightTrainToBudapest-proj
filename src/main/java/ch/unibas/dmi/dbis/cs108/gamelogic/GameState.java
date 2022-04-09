@@ -23,6 +23,7 @@ public class GameState {
    * contains all Passengers on train, needs to be updated
    */
   private Passenger[] passengerTrain;
+  private ClientVoteData clientVoteData;
 
 
 
@@ -41,6 +42,7 @@ public class GameState {
     this.nrOfGhosts = nrOfGhosts;
     this.nrOfUsers = nrOfUsers;
     this.train = new Train(nrOfPlayers, nrOfUsers);
+    clientVoteData = new ClientVoteData();
     Passenger[] passengerTrain = new Passenger[nrOfPlayers]; //Creates an array with Passengers with correlation positions (Train)
     for (int i = 0; i < nrOfPlayers; i++) {
       if (i == 3) {

@@ -49,8 +49,9 @@ public class HumanPlayer extends Human {
     vote = clientVoteData.getVote()[position];
     LOGGER.info("Human at Pos: " + position + " has voted for: " + vote);
     hasVoted = clientVoteData.getHasVoted()[position];
-    clientVoteData.setVote(position,Integer.MAX_VALUE);
-    clientVoteData.setHasVoted(position,false);
+    LOGGER.debug(Arrays.toString(clientVoteData.getVote()));
+    //clientVoteData.setVote(position,Integer.MAX_VALUE);
+    //clientVoteData.setHasVoted(position,false);
     /*
      * if vote wasn't valid, make sure, the passenger field hasVoted == false, probably redundant but better be safe than sorry
      */

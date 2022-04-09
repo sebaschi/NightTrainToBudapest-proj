@@ -9,7 +9,7 @@ public class ClientVoteData {
 
   public ClientVoteData() {
     int[] h = new int[6];
-    Arrays.fill(h,Integer.MAX_VALUE);
+    Arrays.fill(h,0);
     this.vote = h;
     this.hasVoted = new boolean[6];
   }

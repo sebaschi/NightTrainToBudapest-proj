@@ -113,7 +113,7 @@ public class Passenger {
    * When called by NPC nothing should happen, because clientHandler = null
    */
   public void getVoteFromGameState(ClientVoteData clientVoteData) {
-    LOGGER.debug("a NPC called this method hopefully: " + position);
+    //LOGGER.debug("a NPC called this method hopefully: " + position);
   }
 
 }

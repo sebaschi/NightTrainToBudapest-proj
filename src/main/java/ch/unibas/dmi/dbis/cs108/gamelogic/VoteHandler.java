@@ -21,15 +21,20 @@ public class VoteHandler {
   public static final Logger LOGGER = LogManager.getLogger();
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
-  private ClientVoteData clientVoteData;
+  private static ClientVoteData clientVoteData = new ClientVoteData();
 
-  public ClientVoteData getClientVoteData() {
+  public static ClientVoteData getClientVoteData() {
     return clientVoteData;
   }
+
+
 
   public static void setClientVoteData(ClientVoteData clientVoteData) {
     clientVoteData = clientVoteData;
   }
+
+
+
 
   /**
    * Handles the ghost vote during nighttime: passengers who are ghosts are being asked on who to

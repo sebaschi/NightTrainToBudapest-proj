@@ -76,31 +76,32 @@ public class JServerProtocolParser {
         LOGGER.debug(Protocol.listLobbies + " command received from: " + h.getClientUserName());
         break;
       case Protocol.votedFor:
+        LOGGER.debug("Made it here");
         msg = msg.substring(6);
         int msgIndex = msg.indexOf('$');
         int vote = Integer.MAX_VALUE;
         int position = 0;
-        ClientVoteData clientVoteData = new ClientVoteData();
-        LOGGER.debug("Message is " + msg.substring(6));
+        LOGGER.debug("Message is " + msg);
         try {
           position = Integer.parseInt(msg.substring(0,msgIndex));
           vote = Integer.parseInt(msg.substring(msgIndex + 1));
+          LOGGER.debug("Vote is:" + vote);
         } catch (Exception e) {
           LOGGER.warn("Invalid vote " + e.getMessage());
         }
+        LOGGER.debug("Vote is:" + vote);
         if(vote != Integer.MAX_VALUE) { //gets MAX_VALUE when the vote wasn't valid
-          clientVoteData.setVote(position,vote);
+          VoteHandler.getClientVoteData().setVote(position,vote);
           LOGGER.debug("Player vote: " + vote);
-          clientVoteData.setHasVoted(position,true);
+          VoteHandler.getClientVoteData().setHasVoted(position,true);
         }
-        VoteHandler.setClientVoteData(clientVoteData);
         break;
       case Protocol.startANewGame:
         try {
 
           Game game = new Game(h,6,1, ClientHandler.getConnectedClients().size());
           Thread t = new Thread(game);
-          game.run();
+          t.start();
         } catch (TrainOverflow e) {
           LOGGER.warn(e.getMessage());
         }
