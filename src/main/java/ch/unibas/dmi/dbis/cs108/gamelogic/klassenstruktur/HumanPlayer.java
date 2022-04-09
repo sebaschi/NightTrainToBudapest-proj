@@ -32,7 +32,7 @@ public class HumanPlayer extends Human {
 
   @Override
   public void send(String msg, Game game) {
-    String formattedMsg = ServerGameInfoHandler.format(msg, game);
+    String formattedMsg = ServerGameInfoHandler.format(msg,this, game);
     clientHandler.sendMsgToClient(formattedMsg);
   }
 
@@ -42,10 +42,12 @@ public class HumanPlayer extends Human {
    */
   @Override
   public void getVoteFromClientHandler() {
-    vote = clientHandler.getVote();
-    hasVoted = clientHandler.getHasVoted();
-    clientHandler.setVote(Integer.MAX_VALUE);
-    clientHandler.setHasVoted(false);
+    LOGGER.info("method was called by: " + position);
+    vote = clientHandler.getVote()[position];
+    LOGGER.info("Human at Pos: " + position + " has voted for: " + vote);
+    hasVoted = clientHandler.getHasVoted()[position];
+    clientHandler.setVote(position,Integer.MAX_VALUE);
+    clientHandler.setHasVoted(position,false);
     /*
      * if vote wasn't valid, make sure, the passenger field hasVoted == false, probably redundant but better be safe than sorry
      */

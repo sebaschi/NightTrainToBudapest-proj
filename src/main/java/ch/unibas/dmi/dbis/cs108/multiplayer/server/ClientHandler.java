@@ -6,6 +6,7 @@ import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.ServerPinger;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Scanner;
 import org.apache.logging.log4j.LogManager;
@@ -35,8 +36,8 @@ public class ClientHandler implements Runnable {
   public static HashSet<ClientHandler> disconnectedClients = new HashSet<>(); //todo: implement re-connection
   public static HashSet<ClientHandler> lobby = new HashSet<>();
   public static HashSet<ClientHandler> ghostClients = new HashSet<>();
-  private int vote; //saves vote of clientHandler for later transmission to passenger, by default MAX_VALUE
-  private boolean hasVoted; //saves hasVoted status of clientHandler for later transmission to passenger, by default false
+  private int[] vote; //saves vote of clientHandler for later transmission to passenger, by default MAX_VALUE, index corresponds to Passenger position
+  private boolean[] hasVoted; //saves hasVoted status of clientHandler for later transmission to passenger, by default false, index corresponds to Passenger position
 
   /**
    * Implements the login logic in client-server architecture.
@@ -51,8 +52,10 @@ public class ClientHandler implements Runnable {
       this.in = new BufferedReader(new InputStreamReader((socket.getInputStream())));
       this.loggedIn = false;
       this.clientUserName = nameDuplicateChecker.checkName("U.N. Owen");
-      this.vote = Integer.MAX_VALUE;
-      this.hasVoted = false;
+      int[] h = new int[1000];
+      Arrays.fill(h,Integer.MAX_VALUE);
+      this.vote = h;
+      this.hasVoted = new boolean[1000];
       connectedClients.add(this);
       serverPinger = new ServerPinger(socket, this);
       Thread sP = new Thread(serverPinger);
@@ -91,11 +94,11 @@ public class ClientHandler implements Runnable {
     return loggedIn;
   }
 
-  public int getVote() {
+  public int[] getVote() {
     return vote;
   }
 
-  public boolean getHasVoted() {
+  public boolean[] getHasVoted() {
     return hasVoted;
   }
 
@@ -108,12 +111,12 @@ public class ClientHandler implements Runnable {
     this.loggedIn = loggedIn;
   }
 
-  public void setVote(int vote) {
-    this.vote = vote;
+  public void setVote(int position, int vote) {
+    this.vote[position] = vote;
   }
 
-  public void setHasVoted(boolean hasVoted) {
-    this.hasVoted = hasVoted;
+  public void setHasVoted(int position, boolean hasVoted) {
+    this.hasVoted[position] = hasVoted;
   }
 
   @Override

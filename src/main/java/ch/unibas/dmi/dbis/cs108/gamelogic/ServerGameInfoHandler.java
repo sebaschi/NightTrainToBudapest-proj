@@ -25,16 +25,16 @@ public class ServerGameInfoHandler {
    * @param msg the message to be formatted
    * @return a message in a protocol format
    */
-  public static String format(String msg, Game game) {
+  public static String format(String msg, Passenger p, Game game) {
     switch (msg) {
       case "Vote on who to ghostify!":
-        msg = Protocol.serverRequestsGhostVote + "$" + game.gameState.toString();
+        msg = Protocol.serverRequestsGhostVote + "$" + p.getPosition() +"$" + game.gameState.toString();
         break;
       case "Vote for a ghost to kick off!":
-        msg = Protocol.serverRequestsHumanVote + "$" + game.gameState.humanToString();
+        msg = Protocol.serverRequestsHumanVote + "$" + p.getPosition() +"$"+ game.gameState.humanToString();
         break;
       default:
-        msg = Protocol.printToClientConsole + "$" + msg;
+        msg = Protocol.printToClientConsole + "$" + p.getPosition() +"$"+ msg;
     }
     LOGGER.info(msg);
     return msg;

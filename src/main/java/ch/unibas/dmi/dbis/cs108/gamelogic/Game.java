@@ -89,11 +89,11 @@ public class Game implements Runnable {
     while (i < order.length) {
       int index = order[i];
       if (passengerTrain[index].getIsGhost()) { //if they are a ghost
-        GhostNPC ghostNPC = new GhostNPC(passengerTrain[index].getPosition(), "NPC" + passengerTrain[index].getPosition(),passengerTrain[index].getIsOG() ,this);
+        GhostNPC ghostNPC = new GhostNPC(passengerTrain[index].getPosition(), "NPC" + passengerTrain[index].getPosition(),passengerTrain[index].getIsOG());
         gameState.getPassengerTrain()[index] = ghostNPC;
       } else {
         //ToDo: give NPC nice usernames
-        HumanNPC humanNPC = new HumanNPC(passengerTrain[index].getPosition(), "NPC" + passengerTrain[index].getPosition(),this);
+        HumanNPC humanNPC = new HumanNPC(passengerTrain[index].getPosition(), "NPC" + passengerTrain[index].getPosition());
         gameState.getPassengerTrain()[index] = humanNPC;
       }
       i++;

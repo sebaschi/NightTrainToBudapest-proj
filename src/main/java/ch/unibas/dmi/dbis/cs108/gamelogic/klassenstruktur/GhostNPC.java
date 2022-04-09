@@ -19,7 +19,7 @@ public class GhostNPC extends Ghost {
    * @param name     player name. if null, then a default name is used.
    * @param isOG     true if the ghost is the original ghost.
    */
-  public GhostNPC(int position, String name, boolean isOG, Game game) {
+  public GhostNPC(int position, String name, boolean isOG) {
     this.isOG = isOG;
     this.position = position;
     this.clientHandler = null;

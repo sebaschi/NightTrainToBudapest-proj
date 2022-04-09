@@ -32,6 +32,9 @@ public class JServerProtocolParser {
     String header = "";             //"header" is the first 5 characters, i.e. the protocol part
     try {
       header = msg.substring(0, 5);
+      if(!header.equals(Protocol.pingBack) &&!header.equals(Protocol.pingFromClient)) { //for debuging without constant pings
+        LOGGER.debug("got message: " + msg + ".");
+      }
     } catch (IndexOutOfBoundsException e) {
       System.out.println("Received unknown command");
     }
@@ -70,16 +73,21 @@ public class JServerProtocolParser {
         LOGGER.debug(Protocol.listLobbies + " command received from: " + h.getClientUserName());
         break;
       case Protocol.votedFor:
+        msg = msg.substring(6);
+        int msgIndex = msg.indexOf('$');
         int vote = Integer.MAX_VALUE;
+        int position = 0;
+        LOGGER.debug("Message is " + msg.substring(6));
         try {
-          vote = Integer.parseInt(msg.substring(6));
+          position = Integer.parseInt(msg.substring(0,msgIndex));
+          vote = Integer.parseInt(msg.substring(msgIndex + 1));
         } catch (Exception e) {
           LOGGER.warn("Invalid vote " + e.getMessage());
-        } finally {
-          if(vote != Integer.MAX_VALUE) { //gets MAX_VALUE when the vote wasn't valid
-            h.setVote(vote);
-            h.setHasVoted(true);
-          }
+        }
+        if(vote != Integer.MAX_VALUE) { //gets MAX_VALUE when the vote wasn't valid
+          h.setVote(position,vote);
+          LOGGER.debug("Player vote: " + vote);
+          h.setHasVoted(position,true);
         }
         break;
       case Protocol.startANewGame:

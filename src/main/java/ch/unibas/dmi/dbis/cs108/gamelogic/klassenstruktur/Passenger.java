@@ -28,7 +28,7 @@ public class Passenger {
    **/
   public void send(String msg, Game game) {
     if (isPlayer) {
-      String formattedMsg = ServerGameInfoHandler.format(msg,game);
+      String formattedMsg = ServerGameInfoHandler.format(msg,this,game);
       clientHandler.sendMsgToClient(formattedMsg);
     }
     LOGGER.warn("This object should not just be a passenger. Position:" + position);
@@ -113,6 +113,7 @@ public class Passenger {
    * When called by NPC nothing should happen, because clientHandler = null
    */
   public void getVoteFromClientHandler() {
+    LOGGER.debug("a NPC called this method hopefully: " + position);
   }
 
 }

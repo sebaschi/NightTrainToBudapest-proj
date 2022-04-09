@@ -33,6 +33,7 @@ public class VoteHandler {
    */
   public void ghostVote(Passenger[] passengers, Game game) {
     LOGGER.debug("ghostVote has been called");
+    LOGGER.info(game.getGameState().toString());
 
     // array to collect votes for all players during voting, i.e. votes for player 1 (passengers[0])
     // are saved in
@@ -101,6 +102,7 @@ public class VoteHandler {
     passengers[ghostPosition].send(
         "You are now a ghost!", game); // TODO: ServerGameInfoHandler might deal with this one
 
+    LOGGER.info(game.getGameState().toString());
     // set hasVoted to false for all passengers for future votings
     for (Passenger passenger : passengers) {
       passenger.setHasVoted(false);
@@ -117,7 +119,7 @@ public class VoteHandler {
    * @param passengers: train passengers
    */
   public String humanVote(Passenger[] passengers, Game game) {
-
+    LOGGER.info(game.getGameState().toString());
 
     // array to collect votes for all players during voting, i.e. votes for player 1 are saved in
     // votesForPlayers[0]
@@ -134,20 +136,19 @@ public class VoteHandler {
     }
 
     try { // waits 20 seconds before votes get collected
-      Thread.sleep(30*1000);
+      Thread.sleep(20*1000);
     } catch (InterruptedException e) {
       LOGGER.warn("Thread " + Thread.currentThread() + " was interrupted");
     }
 
     for (Passenger passenger : passengers) {
+      passenger.getVoteFromClientHandler();
       // collecting the votes - distribute them among the vote counters for all players
       // TODO: Perhaps the vote results should be handled by ClientGameInfoHandler
       if (passenger.getHasVoted()) {
         for (int i = 0; i < votesForPlayers.length; i++) {
-          LOGGER.info("Passenger: " + passenger.getPosition() + " voted for: " + passenger.getVote() );
           if (passenger.getVote() == i) {
             votesForPlayers[i]++;
-
           }
         }
       }
@@ -202,6 +203,7 @@ public class VoteHandler {
         }
       }
     }
+    LOGGER.info(game.getGameState().toString());
     // set hasVoted to false for all passengers for future voting
     for (Passenger passenger : passengers) {
       passenger.setHasVoted(false);

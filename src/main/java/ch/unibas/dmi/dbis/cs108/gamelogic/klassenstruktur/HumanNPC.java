@@ -16,7 +16,7 @@ public class HumanNPC extends Human {
    * @param position position on the train
    * @param name     player name. if null, then a default name is used.
    */
-  public HumanNPC(int position, String name, Game game) {
+  public HumanNPC(int position, String name) {
     this.position = position;
     this.clientHandler = null;
     isGhost = false;
@@ -38,8 +38,11 @@ public class HumanNPC extends Human {
    * Currently returns a random integer for voting
    * @return integer between 0 and 5
    */
-  public int vote(){
-    return (int) (Math.random()*6);
+  public void vote(){
+    int randomNr =  (int) (Math.random()*6);
+    vote = randomNr;
+    hasVoted = true;
+    LOGGER.info("HumanNPC at Position: " + this.getPosition() + " has voted for: " + vote);
   }
 
   public void noise() {

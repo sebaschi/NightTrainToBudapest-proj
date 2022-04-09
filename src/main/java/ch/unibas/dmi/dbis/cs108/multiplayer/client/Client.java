@@ -5,6 +5,7 @@ import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.ClientPinger;
 
 
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
+import ch.unibas.dmi.dbis.cs108.multiplayer.server.JServerProtocolParser;
 import java.net.Socket;
 import java.io.*;
 import java.net.UnknownHostException;
@@ -77,6 +78,9 @@ public class Client {
    */
 
   public void voteGetter(String msg) {
+    int msgIndex = msg.indexOf('$');
+    String position = msg.substring(0, msgIndex);;
+    msg = msg.substring(msgIndex + 1);
     Scanner userInput = new Scanner(System.in);
     //TODO(Seraina): implement
     System.out.println(msg);
@@ -91,10 +95,9 @@ public class Client {
       LOGGER.warn(e.getMessage());
       System.out.println("Invalid vote");
       input = String.valueOf(Integer.MAX_VALUE);
-    } finally {
-      sendMsgToServer(Protocol.votedFor + "$" + input);
     }
-
+    sendMsgToServer(Protocol.votedFor + "$" + position + "$" + input);
+    LOGGER.info("msg to server is: " + Protocol.votedFor + "$" + position + "$" + input);
   }
 
 

@@ -35,7 +35,7 @@ public class GhostPlayer extends Ghost {
 
   @Override
   public void send(String msg, Game game) {
-    String formattedMsg = ServerGameInfoHandler.format(msg, game);
+    String formattedMsg = ServerGameInfoHandler.format(msg, this, game);
     clientHandler.sendMsgToClient(formattedMsg);
   }
 
@@ -45,10 +45,11 @@ public class GhostPlayer extends Ghost {
    */
   @Override
   public void getVoteFromClientHandler() {
-    vote = clientHandler.getVote();
-    hasVoted = clientHandler.getHasVoted();
-    clientHandler.setVote(Integer.MAX_VALUE);
-    clientHandler.setHasVoted(false);
+    vote = clientHandler.getVote()[position];
+    hasVoted = clientHandler.getHasVoted()[position];
+    clientHandler.setVote(position,Integer.MAX_VALUE);
+    clientHandler.setHasVoted(position,false);
+    LOGGER.info("Ghost at Pos: " + position + " has voted for: " + vote);
     /*
     * if vote wasn't valid, make sure, the passenger field hasVoted == false, probably redundant but better be safe than sorry
     */
