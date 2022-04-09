@@ -109,6 +109,9 @@ public class Passenger {
     return clientHandler;
   }
 
+  /**
+   * When called by NPC nothing should happen, because clientHandler = null
+   */
   public void getVoteFromClientHandler() {
   }
 

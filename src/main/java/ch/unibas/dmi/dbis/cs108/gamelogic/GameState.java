@@ -110,7 +110,7 @@ public class GameState {
     StringBuilder stringBuilder = new StringBuilder();
     String[] print = new String[6];
     for (int i = 0; i < array.length; i++) {
-      print[i] = "|  " + array[i].getName() + ": " + array[i].getPosition() + "|";
+      print[i] = "| " + array[i].getName() + ": " + array[i].getPosition() + "|";
     }
 
     for (int i = 0; i < array.length; i++) {

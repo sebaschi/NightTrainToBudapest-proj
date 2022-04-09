@@ -103,9 +103,11 @@ public class Game implements Runnable {
     i = 0;
     while (true) { //ToDo: was ist die Abbruchbedingung? VoteHandler muss das schicken.
       if (!isDay) {
+        LOGGER.info("NIGHT");
         voteHandler.ghostVote(gameState.getPassengerTrain(), this);
         setDay(true);
       } else {
+        LOGGER.info("DAY");
         gameOverCheck = voteHandler.humanVote(gameState.getPassengerTrain(), this);
       }
       if (gameOverCheck.equals("Game over: ghosts win!") || gameOverCheck.equals(

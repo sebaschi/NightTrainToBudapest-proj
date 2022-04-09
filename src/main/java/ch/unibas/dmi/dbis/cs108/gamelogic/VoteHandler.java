@@ -40,14 +40,13 @@ public class VoteHandler {
     int[] votesForPlayers = new int[6];
 
     // Walk through entire train, ask ghosts to ghostify and humans to wait
-    // TODO(Seraina): Messages in for-loop should probably be handled by ServerGameInfoHandler
     for (Passenger passenger : passengers) {
       if (passenger.getIsGhost()) {
 
         passenger.send("Vote on who to ghostify!", game);
       } else {
         passenger.send(
-            "Please wait, ghosts are active", game); // TODO(Seraina): make sure whatever clients send in
+            "Please wait, ghosts are active", game);
                                                // this time, except chat is ignored
 
       }
@@ -56,14 +55,16 @@ public class VoteHandler {
     try { // waits 20 seconds before votes get collected
       Thread.sleep(30*1000);
     } catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
+      LOGGER.warn("Thread " + Thread.currentThread() + " was interrupted");
     }
+
 
     for (Passenger passenger : passengers) {
       // collecting the votes - distribute them among the vote counters for all players
       // Note: Each voting collects votes for all players even though some might not be concerned
       // (i.e. ghosts during ghost vote). Those players will then get 0 votes so it doesn't matter.
       // TODO: Perhaps the vote results should be handled by ClientGameInfoHandler
+      passenger.getVoteFromClientHandler();
       if (passenger.getHasVoted()) {
         for (int i = 0; i < votesForPlayers.length; i++) {
           if (passenger.getVote() == i) {
@@ -135,7 +136,7 @@ public class VoteHandler {
     try { // waits 20 seconds before votes get collected
       Thread.sleep(30*1000);
     } catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
+      LOGGER.warn("Thread " + Thread.currentThread() + " was interrupted");
     }
 
     for (Passenger passenger : passengers) {
@@ -143,8 +144,10 @@ public class VoteHandler {
       // TODO: Perhaps the vote results should be handled by ClientGameInfoHandler
       if (passenger.getHasVoted()) {
         for (int i = 0; i < votesForPlayers.length; i++) {
+          LOGGER.info("Passenger: " + passenger.getPosition() + " voted for: " + passenger.getVote() );
           if (passenger.getVote() == i) {
             votesForPlayers[i]++;
+
           }
         }
       }
@@ -156,7 +159,6 @@ public class VoteHandler {
     for (int votesForPlayer : votesForPlayers) {
       if (votesForPlayer > currentMax) {
         currentMax = votesForPlayer;
-        LOGGER.info("Max amount of votes: " + currentMax);
       }
     }
     // deal with voting results
@@ -164,9 +166,9 @@ public class VoteHandler {
     for (int i = 0; i < votesForPlayers.length; i++) {
       if (votesForPlayers[i] == currentMax) { // if player has most votes
         voteIndex = i;
-        LOGGER.info("Player " + voteIndex + " has the most votes");
       }
     }
+    LOGGER.info("Player " + voteIndex + " has the most votes");
     if (!passengers[voteIndex]
         .getIsGhost()) { // if player with most votes is human, notify everyone about it
       for (Passenger passenger : passengers) {
