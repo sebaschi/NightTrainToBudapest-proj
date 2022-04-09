@@ -78,34 +78,11 @@ public class JServerProtocolParser {
       case Protocol.votedFor:
         LOGGER.debug("Made it here");
         msg = msg.substring(6);
-        int msgIndex = msg.indexOf('$');
-        int vote = Integer.MAX_VALUE;
-        int position = 0;
-        LOGGER.debug("Message is " + msg);
-        try {
-          position = Integer.parseInt(msg.substring(0,msgIndex));
-          vote = Integer.parseInt(msg.substring(msgIndex + 1));
-          LOGGER.debug("Vote is:" + vote);
-        } catch (Exception e) {
-          LOGGER.warn("Invalid vote " + e.getMessage());
-        }
-        LOGGER.debug("Vote is:" + vote);
-        if(vote != Integer.MAX_VALUE) { //gets MAX_VALUE when the vote wasn't valid
-          VoteHandler.getClientVoteData().setVote(position,vote);
-          LOGGER.debug("Player vote: " + vote);
-          VoteHandler.getClientVoteData().setHasVoted(position,true);
-        }
+        h.decodeVote(msg);
         break;
       case Protocol.startANewGame:
-        try {
-
-          Game game = new Game(h,6,1, ClientHandler.getConnectedClients().size());
-          Thread t = new Thread(game);
-          t.start();
-        } catch (TrainOverflow e) {
-          LOGGER.warn(e.getMessage());
-        }
-
+        h.startNewGame();
+        break;
       default:
         System.out.println("Received unknown command");
     }

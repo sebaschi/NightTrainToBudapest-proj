@@ -77,28 +77,48 @@ public class Client {
    * Tells user to enter a position to vote for passenger at that position
    */
 
-  public void voteGetter(String msg) {
-    int msgIndex = msg.indexOf('$');
-    String position = msg.substring(0, msgIndex);;
-    msg = msg.substring(msgIndex + 1);
-    Scanner userInput = new Scanner(System.in);
-    //TODO(Seraina): implement
-    System.out.println(msg);
-    System.out.println("Please enter your vote");
-    int vote;
-    String input = "";
-    try {
-      input = userInput.nextLine();
-      vote = Integer.parseInt(input);
-      LOGGER.info("input is: " + vote);
-    } catch (Exception e) {
-      LOGGER.warn(e.getMessage());
-      System.out.println("Invalid vote");
-      input = String.valueOf(Integer.MAX_VALUE);
-    }
-    sendMsgToServer(Protocol.votedFor + "$" + position + "$" + input);
-    LOGGER.debug("msg to server is: " + Protocol.votedFor + "$" + position + "$" + input);
+  public void voteGetter(final String msg) {
+    /*TODO(Jonas): find a way to integrate this with userInput listener, so we can still send the
+     * position to the server. This way doesnt work, after a game is finished it thinks you still
+     * want to vote when entering /c msg
+     */
+    new Thread(new Runnable() {
+      @Override
+      public void run() {
+        int msgIndex = msg.indexOf('$');
+        String position = msg.substring(0, msgIndex);
+        String justMsg = msg.substring(msgIndex + 1);
+        BufferedReader bfr = new BufferedReader(new InputStreamReader(System.in));
+        while (socket.isConnected() && !socket.isClosed()) {
+          try {
+            if (bfr.ready()) {
+              System.out.println(justMsg);
+              System.out.println("Please enter your vote");
+              String msgInput = bfr.readLine();
+                int vote;
+                try {
+                  vote = Integer.parseInt(msgInput);
+                  LOGGER.info("input is: " + vote);
+                } catch (Exception e) {
+                  LOGGER.warn(e.getMessage());
+                  System.out.println("Invalid vote");
+                  msgInput = String.valueOf(Integer.MAX_VALUE);
+                }
+                sendMsgToServer(Protocol.votedFor + "$" + position + "$" + msgInput);
+                LOGGER.debug(
+                    "msg to server is: " + Protocol.votedFor + "$" + position + "$" + msgInput);
+
+              Thread.sleep(5);
+            }
+            //LOGGER.debug("just checked next line");
+          } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+          }
+        }
+      }
+    }).start();
   }
+
 
 
   /**

@@ -1,6 +1,9 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.server;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
+import ch.unibas.dmi.dbis.cs108.gamelogic.Game;
+import ch.unibas.dmi.dbis.cs108.gamelogic.TrainOverflow;
+import ch.unibas.dmi.dbis.cs108.gamelogic.VoteHandler;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.ServerPinger;
 import java.io.*;
@@ -179,6 +182,44 @@ public class ClientHandler implements Runnable {
       //e.printStackTrace();
       LOGGER.debug("unable to send msg: " + msg);
       removeClientOnConnectionLoss();
+    }
+  }
+
+  /**
+   * Takes a msg of the form position$vote and extracts vote and position from it and saves it
+   * in VoteHandler.getClientVoteData
+    * @param msg the messaged to decode
+   */
+  public void decodeVote(String msg){
+    int msgIndex = msg.indexOf('$');
+    int vote = Integer.MAX_VALUE;
+    int position = 0;
+    LOGGER.debug("Message is " + msg);
+    try {
+      position = Integer.parseInt(msg.substring(0,msgIndex));
+      vote = Integer.parseInt(msg.substring(msgIndex + 1));
+      LOGGER.debug("Vote is:" + vote);
+    } catch (Exception e) {
+      LOGGER.warn("Invalid vote " + e.getMessage());
+    }
+    LOGGER.debug("Vote is:" + vote);
+    if(vote != Integer.MAX_VALUE) { //gets MAX_VALUE when the vote wasn't valid
+      VoteHandler.getClientVoteData().setVote(position,vote);
+      LOGGER.debug("Player vote: " + vote);
+      VoteHandler.getClientVoteData().setHasVoted(position,true);
+    }
+  }
+
+  /**
+   * Initializes a new Game instance and starts its run method in a new thread
+   */
+  public void startNewGame() {
+    try {
+      Game game = new Game(this,6,1, ClientHandler.getConnectedClients().size());
+      Thread t = new Thread(game);
+      t.start();
+    } catch (TrainOverflow e) {
+      LOGGER.warn(e.getMessage());
     }
   }
 
