@@ -10,6 +10,18 @@ package ch.unibas.dmi.dbis.cs108.multiplayer.helpers;
  */
 public class Protocol {
 
+  //GENERAL PROTOCOL RULES:
+  /**
+   * Protocol messages should always start with five characters (these are the
+   * Strings listed here). If additional information is necessary, it should be
+   * given after a dollar sign, as such: {@code PRTCL$information}.
+   * It should be noted that the server simply ignores the 6th character, however
+   * for clarity's sake it should always be a $.
+   * The client does not need to send who they are, since the server will receive
+   * any client message on its dedicated clientHandler thread.
+   */
+
+
   //BIDIRECTIONAL COMMANDS:
 
   /**
@@ -17,6 +29,7 @@ public class Protocol {
    * "SPING". The other party then registers this in its ClientPinger / ServerPinger thread.
    */
   public static final String pingBack = "PINGB";
+
 
   //CLIENT TO SERVER COMMANDS:
 
@@ -38,19 +51,28 @@ public class Protocol {
   public static final String clientLogin = "LOGIN";
 
   /**
-   * todo:doc
+   * Client requests their name to be changed to whatever follows {@code NAMEC$}. For example,
+   * {@code NAMEC$Poirot} means the client wants to change their name to Poirot. However,
+   * the server will first pass this name through nameDuplicateChecker.checkName() to adjust it
+   * as needed (remove : and $ and add suffix in case of duplicate name.)
    */
   public static final String nameChange = "NAMEC";
 
   /**
-   * todo:doc
+   * Client sends ping message to server. If the client doesn't recieve a pingback from the
+   * server, it shows a disconnection message and sets clientPinger.isConnected to false,
+   * which can be implemented somehow later. As soon as a pingback message is received,
+   * isConnected is set to true again and a reconnection message is printed.
    */
   public static final String pingFromClient = "CPING";
 
   /**
-   * todo: doc
+   * The client requests to quit. Once the server receives this message, it will send
+   * a serverConfirmQuit message to the client to confirm the quitting, then close the
+   * socket associated with that client and remove the clientHandler from the list of
+   * clientHandlers.
    */
-  public static final String clientQuitRequest = "QUITS";
+  public static final String clientQuitRequest = "QUITR";
 
   /**
    * TODO: enable for client
@@ -77,11 +99,14 @@ public class Protocol {
    */
   public static final String joinLobby = "JOINL";
 
+
   //SERVER TO CLIENT COMMANDS
 
   /**
-   * todo: doc
-   * //sends a pingback to the server
+   * Server sends ping message to client. If the server doesn't recieve a pingback from the
+   * client, it shows a disconnection message and sets serverPinger.isConnected to false,
+   * which can be implemented somehow later. As soon as a pingback message is received,
+   * isConnected is set to true again and a reconnection message is printed.
    */
   public static final String pingFromServer = "SPING";
 
@@ -93,22 +118,24 @@ public class Protocol {
   public static final String printToClientConsole = "CHATM";
 
   /**
-   * todo:doc
+   * Server confirms the client's quit request, meaning that the client can now close its
+   * sockets and quit.
    */
   public static final String serverConfirmQuit = "QUITC";
 
   /**
-   * todo:doc
+   * The server requests the client (who should be a ghost) to vote on the victim.
    */
   public static final String serverRequestsGhostVote = "GVOTR";
 
   /**
-   * todo:doc
+   * The server requests the client (who should be a human) to vote on who is a ghost /
+   * who should be kicked off the train.
    */
   public static final String serverRequestsHumanVote = "HVOTR";
 
   /**
-   * todo: doch
+   * todo: doc
    */
   public static final String serverDeliversLobbyList = "LLIST";
 
