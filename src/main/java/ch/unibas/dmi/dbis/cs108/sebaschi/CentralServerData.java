@@ -13,6 +13,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
+ * todo: this class is not meaningfully used now, we could probably delete it?
+ *
+ *
  * This Class Represents an Object containing different Maps, Lists and Sets wherein a server object
  * can find all needed data. An instance of this object can also be passed to other class-objects if
  * they need the same data. This Class is used to query for information in collections.

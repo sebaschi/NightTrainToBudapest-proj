@@ -1,16 +1,15 @@
 package ch.unibas.dmi.dbis.cs108.sebaschi;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
-import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
 import ch.unibas.dmi.dbis.cs108.multiplayer.server.ClientHandler;
 import java.util.HashSet;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * Use: If a client sends a CRTGM command the server should create a lobby with the client as admin.
+ * Use: If a client sends a CRTLB command the server should create a lobby with the client as admin.
  * In this state, up to 5 other clients (so 6 in total) are able to join this lobby. Once the admin
- * feels like it, he can start a game.
+ * feels like it, they can start a game.
  * TODO: is all data in here or should GameSessionData be used to collect all relevant data?
  */
 public class Lobby {
@@ -22,7 +21,7 @@ public class Lobby {
   private static final int MAX_NO_OF_CLIENTS = 6;
 
   //TODO
-  CentralServerData serverData;
+  CentralServerData serverData;   //todo: do we need this?
 
   /**
    * The Person who created the game and can configure it and decide to start once enough lobbyClients
@@ -48,8 +47,12 @@ public class Lobby {
     this.admin = admin;
     this.lobbyClients.add(admin);
     lobbies.add(this);
-    this.lobbyID = lobbies.size();
-    admin.broadcastAnnouncement("New Lobby created by " + admin.getClientUserName() +
+    int helper = 1;
+    while (getLobbyFromID(helper) != null) {
+      helper++;
+    }
+    this.lobbyID = helper;
+    admin.broadcastAnnouncementToAll("New Lobby created by " + admin.getClientUserName() +
         ". This lobby's ID:  " + this.lobbyID);
   }
 
@@ -78,22 +81,6 @@ public class Lobby {
    */
   public HashSet<ClientHandler> getLobbyClients() {
     return this.lobbyClients;
-  }
-
-  /**
-   * Builds a message for the LISTL command.
-   *
-   * @return a string formatted for the clients convenients.
-   */
-  public String getIdAndAdminAndFormat() {
-    StringBuilder response = new StringBuilder();
-    response.append("Lobby ID: ");
-    response.append(this.lobbyID);
-    response.append(" Admin Username: ");
-    response.append(getAdmin().getClientUserName());
-    response.append(System.lineSeparator());
-    LOGGER.info(response.toString());
-    return response.toString();
   }
 
   /**
@@ -134,17 +121,15 @@ public class Lobby {
     if (lobbyClients.size() < MAX_NO_OF_CLIENTS) {
       if (clientIsInLobby(client) == -1) {
         lobbyClients.add(client);
-        client.broadcastAnnouncement(client.getClientUserName() + " has joined lobby " + this.getLobbyID());
-        LOGGER.debug(client.getClientUserName() + " has been added to Lobby with ID: " + lobbyID
-            + ". Current number of lobbyClients in this lobby: " + lobbyClients.size());
+        client.broadcastAnnouncementToAll(client.getClientUserName() + " has joined lobby " + this.getLobbyID());
+        //LOGGER.debug(client.getClientUserName() + " has been added to Lobby with ID: " + lobbyID
+        //    + ". Current number of lobbyClients in this lobby: " + lobbyClients.size());
         return true;
       } else {
-        client.sendMsgToClient(Protocol.printToClientConsole + "$You are already in lobby nr. "
-            + clientIsInLobby(client));
+        client.sendAnnouncementToClient("You are already in lobby nr. " + clientIsInLobby(client));
       }
     } else {
-      client.sendMsgToClient(Protocol.printToClientConsole +
-          "$This lobby is full. Please try joining a different lobby or create a new lobby");
+      client.sendAnnouncementToClient("This lobby is full. Please try joining a different lobby or create a new lobby");
     }
     return false;
   }
@@ -158,14 +143,28 @@ public class Lobby {
    * @return true if a player was found and removed. Used for debugging.
    */
   public synchronized boolean removePlayer(ClientHandler player) {
+    //if the player who leaves the lobby is the admin, the lobby is closed.
+    if (player.equals(getAdmin())) {
+      closeLobby();
+    }
     return this.getLobbyClients().remove(player);
   }
 
-  //todo: this here?
-  public void broadcastToLounge(String msg) {
-    for (ClientHandler lounger : this.getLobbyClients()) {
-
-    }
+  /**
+   * Closes the lobby.
+   *
+   */
+  public void closeLobby() {
+    lobbies.remove(this);
+    ClientHandler.broadcastAnnouncementToAll("Lobby nr. " + this.getLobbyID() + " has been closed.");
+    /*
+    Todo: theoretically, this is enough to close a lobby.
+     ClientHandlers dont have to manually be removed from the lobby
+     since if the lobby is removed from the lobbies
+     hash set then e.g. clientIsInLobby will not be able to tell that these clients
+     are theoretically still in this lobby. However, in the future we might implement
+     removing the clients anyways.
+     */
   }
 
 }

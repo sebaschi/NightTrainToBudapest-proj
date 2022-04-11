@@ -2,7 +2,6 @@ package ch.unibas.dmi.dbis.cs108.multiplayer.server;
 
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
-import ch.unibas.dmi.dbis.cs108.sebaschi.Lobby;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
@@ -36,7 +35,7 @@ public class JServerProtocolParser {
     }
     switch (header) {
       case Protocol.chatMsgToAll:
-        h.broadcastChatMessage(msg.substring(6));
+        h.broadcastChatMessageToLobby(msg.substring(6));
         break;
       case Protocol.clientLogin:
         h.setLoggedIn(true);
@@ -71,8 +70,13 @@ public class JServerProtocolParser {
         h.createNewLobby();
         break;
       case Protocol.listLobbies:
-        h.listAllLobbiesToClient();
-        LOGGER.debug(Protocol.listLobbies + " command received from: " + h.getClientUserName());
+        h.listLobbies();
+        break;
+      case Protocol.listPlayersInLobby:
+        h.listPlayersInLobby();
+        break;
+      case Protocol.leaveLobby:
+        h.leaveLobby();
         break;
       default:
         System.out.println("Received unknown command");

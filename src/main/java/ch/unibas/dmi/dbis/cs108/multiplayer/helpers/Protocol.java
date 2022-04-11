@@ -83,12 +83,14 @@ public class Protocol {
   public static final String createNewLobby = "CRTLB";
 
   /**
-   * TODO: implement in {@link ch.unibas.dmi.dbis.cs108.multiplayer.client.MessageFormatter}
-   * TODO: imlement in {@link ch.unibas.dmi.dbis.cs108.multiplayer.server.JServerProtocolParser}
-   * TODO: add the Servers reaction, i.e. sending a list of lobbies.
    * Represents a clients' request for a list of lobbies
    */
   public static final String listLobbies = "LISTL";
+
+  /**
+   * Represents a clients' request for a list of all players within the lobby.
+   */
+  public static final String listPlayersInLobby = "LISTP";
 
   /**
    * Client requests to join the Lobby with the given number, for example,
@@ -96,6 +98,12 @@ public class Protocol {
    * todo: document handling when lobby is already full
    */
   public static final String joinLobby = "JOINL";
+
+  /**
+   * Client requests to leave whatever lobby they're in.
+   */
+  public static final String leaveLobby = "LEAVL";
+
 
 
   //SERVER TO CLIENT COMMANDS
