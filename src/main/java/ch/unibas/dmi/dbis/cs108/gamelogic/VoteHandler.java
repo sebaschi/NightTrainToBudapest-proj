@@ -72,30 +72,8 @@ public class VoteHandler {
       LOGGER.warn("Thread " + Thread.currentThread() + " was interrupted");
     }
 
+    int currentMax = voteEvaluation(passengers, votesForPlayers, clientVoteData, game);
 
-    for (Passenger passenger : passengers) { //TODO: could be outsourced to a method to increase readability
-      // collecting the votes - distribute them among the vote counters for all players
-      // Note: Each voting collects votes for all players even though some might not be concerned
-      // (i.e. ghosts during ghost vote). Those players will then get 0 votes so it doesn't matter.
-      // TODO: Perhaps the vote results should be handled by ClientGameInfoHandler
-      passenger.getVoteFromGameState(clientVoteData, game);
-      if (passenger.getHasVoted()) {
-        for (int i = 0; i < votesForPlayers.length; i++) {
-          if (passenger.getVote() == i) {
-            votesForPlayers[i]++;
-          }
-        }
-      }
-    }
-
-    // count the votes - determine which player has the most votes by going through the
-    // votesForPlayers array
-    int currentMax = 0;
-    for (int votesForPlayer : votesForPlayers) {
-      if (votesForPlayer > currentMax) {
-        currentMax = votesForPlayer;
-      }
-    }
     LOGGER.debug("Most votes: " + currentMax + " vote");
 
     // ghostify the player with most votes
@@ -138,7 +116,7 @@ public class VoteHandler {
    * normal ghost, kick him off; if it's the OG ghost, end game, humans win.
    * @return Returns an empty String by default, returns a complex string when game is over:
    * "Game over: ghosts win!" or "Game over: humans win!"
-   * @param passengers: train passengers
+   * @param passengers train passengers
    */
   public String humanVote(Passenger[] passengers, Game game) {
     LOGGER.info(game.getGameState().toString());
@@ -153,7 +131,7 @@ public class VoteHandler {
       if (passenger.getIsGhost()) {
         passenger.send(ClientGameInfoHandler.itsDayTime, game);
       } else {
-        passenger.send(ClientGameInfoHandler.humanVoteRequest , game);
+        passenger.send(ClientGameInfoHandler.humanVoteRequest, game);
       }
     }
 
@@ -163,27 +141,8 @@ public class VoteHandler {
       LOGGER.warn("Thread " + Thread.currentThread() + " was interrupted");
     }
 
-    for (Passenger passenger : passengers) {
-      passenger.getVoteFromGameState(clientVoteData, game);
-      // collecting the votes - distribute them among the vote counters for all players
-      // TODO: Perhaps the vote results should be handled by ClientGameInfoHandler
-      if (passenger.getHasVoted()) {
-        for (int i = 0; i < votesForPlayers.length; i++) {
-          if (passenger.getVote() == i) {
-            votesForPlayers[i]++;
-          }
-        }
-      }
-    }
+    int currentMax = voteEvaluation(passengers, votesForPlayers, clientVoteData, game);
 
-    // count the votes - determine which player has the most votes by going through the
-    // votesForPlayers array
-    int currentMax = 0;
-    for (int votesForPlayer : votesForPlayers) {
-      if (votesForPlayer > currentMax) {
-        currentMax = votesForPlayer;
-      }
-    }
     // deal with voting results
     int voteIndex = 0;
     for (int i = 0; i < votesForPlayers.length; i++) {
@@ -259,4 +218,34 @@ public class VoteHandler {
 
   }
 
+  /**
+   * Collecting the votes - distribute them among the vote counters for all players. Note: each voting collects
+   * votes for all players even though some might not be concerned (i.e. ghosts during ghost vote). Those players
+   * will then get 0 votes so it dosen't matter. Returns the max amount of votes a player received.
+   * @param passengers train passengers
+   * @param votesForPlayers array collecting the votes each player received during a voting
+   * @param data deals with Client votes
+   * @param game current game instance
+   */
+  int voteEvaluation(Passenger[] passengers, int[] votesForPlayers, ClientVoteData data, Game game) {
+    for (Passenger passenger : passengers) {
+      passenger.getVoteFromGameState(data, game);
+      if (passenger.getHasVoted()) {
+        for (int i = 0; i < votesForPlayers.length; i++) {
+          if (passenger.getVote() == i) {
+            votesForPlayers[i]++;
+          }
+        }
+      }
+    }
+    /* count the votes - determine which player has the most votes by going through the
+    votesForPlayers array */
+    int currentMax = 0;
+    for (int votesForPlayer : votesForPlayers) {
+      if (votesForPlayer > currentMax) {
+        currentMax = votesForPlayer;
+      }
+    }
+    return currentMax;
+  }
 }
