@@ -59,22 +59,16 @@ public class JServerProtocolParser {
         h.removeClientOnLogout();
         break;
       case Protocol.joinLobby:
-        //todo: have this be a method of clientHandler.
-        int i = Integer.parseInt(msg.substring(6, 7));
-        Lobby l = Lobby.getLobbyFromID(i);
-        if (l != null) {
-          l.addPlayer(h);
-          h.broadcastAnnouncement(h.getClientUserName() + " joined Lobby nr. " + l.getLobbyID());
-        } else {
-          LOGGER.debug(h.getClientUserName() + " tried to join Lobby nr. "
-              + i + " but that doesn't exist.");
+        try {
+          int i = Integer.parseInt(msg.substring(6, 7));
+          h.joinLobby(i);
+        } catch (Exception e) {
+          h.sendMsgToClient(Protocol.printToClientConsole
+              + "$Invalid input. Please use JOINL$1 to join Lobby 1, for example.");
         }
         break;
-      case Protocol.createNewGame:
+      case Protocol.createNewLobby:
         h.createNewLobby();
-        LOGGER.debug(Protocol.createNewGame
-            + " command reached in JServerProtocolParser. Command issued by: "
-            + h.getClientUserName());
         break;
       case Protocol.listLobbies:
         h.listAllLobbiesToClient();

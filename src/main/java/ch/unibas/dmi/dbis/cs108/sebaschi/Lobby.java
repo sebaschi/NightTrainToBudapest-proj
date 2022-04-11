@@ -35,9 +35,6 @@ public class Lobby {
    */
   private HashSet<ClientHandler> lobbyClients = new HashSet<>(6);
 
-
-  private int numberOfPlayersInLobby;
-
   private final int lobbyID;
 
 
@@ -50,7 +47,6 @@ public class Lobby {
   public Lobby(ClientHandler admin) {
     this.admin = admin;
     this.lobbyClients.add(admin);
-    this.numberOfPlayersInLobby = 1;
     lobbies.add(this);
     this.lobbyID = lobbies.size();
     admin.broadcastAnnouncement("New Lobby created by " + admin.getClientUserName() +
@@ -114,38 +110,43 @@ public class Lobby {
     return null;
   }
 
-  public static boolean clientIsInALobby(ClientHandler h) {
+  /**
+   * Returns the ID of the lobby that the client is in. If the client is not in any
+   * lobby, it returns -1.
+   */
+  public static int clientIsInLobby(ClientHandler h) {
     for (Lobby l: lobbies) {
       for (ClientHandler clientHandler: l.getLobbyClients()) {
         if (h.equals(clientHandler)) {
-          return true;
+          return l.getLobbyID();
         }
       }
     }
-    return false;
+    return -1;
   }
 
   /**
-   * Adds a player to the lobby.
+   * Adds a player to the lobby. Returns true if successful.
    * TODO: add an appropriate response. Currently hardcoded.
-   * TODO: Does this method need to be implemented somewhere else, e.g. in the ClientHandler?
-   * //todo: Client can only join one Lobby.
-   * @param player who wants to join the lobby.
+   * @param client who wants to join the lobby.
    */
-  public synchronized void addPlayer(ClientHandler player) {
+  public synchronized boolean addPlayer(ClientHandler client) {
     if (lobbyClients.size() < MAX_NO_OF_CLIENTS) {
-      lobbyClients.add(player);
-      numberOfPlayersInLobby++;
-      LOGGER.debug(player.getClientUserName() + " has been added to Lobby with ID: " + lobbyID
-          + ". Current number of lobbyClients in this lobby: " + lobbyClients.size());
+      if (clientIsInLobby(client) == -1) {
+        lobbyClients.add(client);
+        client.broadcastAnnouncement(client.getClientUserName() + " has joined lobby " + this.getLobbyID());
+        LOGGER.debug(client.getClientUserName() + " has been added to Lobby with ID: " + lobbyID
+            + ". Current number of lobbyClients in this lobby: " + lobbyClients.size());
+        return true;
+      } else {
+        client.sendMsgToClient(Protocol.printToClientConsole + "$You are already in lobby nr. "
+            + clientIsInLobby(client));
+      }
     } else {
-      LOGGER.debug(
-          player.getClientUserName() + " could not be added to lobby. Number of lobbyClients in lobby: "
-              + numberOfPlayersInLobby);
-      //TODO: does this have to be formatted in any way to conform to protocol?
-      player.sendMsgToClient(Protocol.printToClientConsole +
-          "$The lobby is full. Please try joining a different lobby or create a new game");
+      client.sendMsgToClient(Protocol.printToClientConsole +
+          "$This lobby is full. Please try joining a different lobby or create a new lobby");
     }
+    return false;
   }
 
   /**
@@ -160,6 +161,7 @@ public class Lobby {
     return this.getLobbyClients().remove(player);
   }
 
+  //todo: this here?
   public void broadcastToLounge(String msg) {
     for (ClientHandler lounger : this.getLobbyClients()) {
 

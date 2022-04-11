@@ -39,6 +39,10 @@ public class JClientProtocolParser {
       case Protocol.printToClientConsole:
         System.out.println(msg.substring(6));
         break;
+      case Protocol.printToClientChat:
+        //todo: handle chat separately from console.
+        System.out.println(msg.substring(6));
+        break;
       case Protocol.serverConfirmQuit:
         c.disconnectFromServer();
         break;

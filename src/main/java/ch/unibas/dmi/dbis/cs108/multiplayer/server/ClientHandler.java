@@ -152,7 +152,7 @@ public class ClientHandler implements Runnable {
    */
   public void broadcastChatMessage(String msg) {
     for (ClientHandler client : connectedClients) {
-      client.sendMsgToClient(Protocol.printToClientConsole + "$" + clientUserName + ": " + msg);
+      client.sendMsgToClient(Protocol.printToClientChat + "$" + clientUserName + ": " + msg);
     }
   }
 
@@ -217,17 +217,35 @@ public class ClientHandler implements Runnable {
   }
 
   /**
-   * Invoked by CRTGM. Creates a new lobby with the ClientHandler as admin and adds the lobby to the
-   * server data.
+   * Invoked by Protocol.createNewLobby. Creates a new lobby with the ClientHandler as admin and
+   * adds the lobby to the server data.
    */
   public void createNewLobby() {
-    Lobby newGame = new Lobby(this);
-    serverData.addLobbyToListOfAllLobbies(newGame);
-    LOGGER.debug(
-        this.getClientUserName() + " created a new lobby with ID: " + newGame.getLobbyID());
-    //TODO add server response. Here a possibility:
-    sendMsgToClient(Protocol.printToClientConsole + "$New lobby with ID: " + newGame.getLobbyID()
-        + " created.");
+    if (Lobby.clientIsInLobby(this) == -1) {
+      Lobby newGame = new Lobby(this);
+      serverData.addLobbyToListOfAllLobbies(newGame);
+      broadcastAnnouncement("New lobby with ID: " + newGame.getLobbyID()
+          + " created by " + this.getClientUserName());
+    } else {
+      sendMsgToClient(Protocol.printToClientConsole +
+          "$You are already in lobby nr. " + Lobby.clientIsInLobby(this));
+    }
+  }
+
+  /**
+   * The client wants to join the lobby with the index i.
+   * //todo: needs more doc.
+   * @param i
+   */
+  public void joinLobby(int i) {
+    Lobby l = Lobby.getLobbyFromID(i);
+    if (l != null) {
+      l.addPlayer(this);
+    } else {
+      LOGGER.debug(getClientUserName() + " tried to join Lobby nr. "
+          + i + " but that doesn't exist.");
+    }
+
   }
 
   /**
@@ -259,6 +277,7 @@ public class ClientHandler implements Runnable {
     }
 
   }
+
 
   /**
    * Closes the client's socket, in, and out. and removes from global list of clients.

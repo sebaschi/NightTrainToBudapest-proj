@@ -75,14 +75,12 @@ public class Protocol {
   public static final String clientQuitRequest = "QUITR";
 
   /**
-   * TODO: enable for client
-   * TODO: add sever response
-   * Client sends this message when he wants to create a new game.
+   * Client sends this message when they want to create a new game.
    * Client issues this command in {@link ch.unibas.dmi.dbis.cs108.multiplayer.client.MessageFormatter}
    * using "/g".
    * First a lobby {@link ch.unibas.dmi.dbis.cs108.sebaschi.Lobby} is created of which the requesting client is the admin of.
    */
-  public static final String createNewGame = "CRTGM";
+  public static final String createNewLobby = "CRTLB";
 
   /**
    * TODO: implement in {@link ch.unibas.dmi.dbis.cs108.multiplayer.client.MessageFormatter}
@@ -111,11 +109,19 @@ public class Protocol {
   public static final String pingFromServer = "SPING";
 
   /**
-   * prints out incoming chat messages / announcements into the user's console. any string that
+   * prints out incoming announcements into the user's console. any string that
+   * follows CONSM$ is printed as is, so the message that follows already has to be formatted the
+   * way it should be shown to the client.
+   */
+  public static final String printToClientConsole = "CONSM";
+
+  /**
+   * prints out incoming chat messages into the user's chat. any string that
    * follows CHATM$ is printed as is, so the message that follows already has to be formatted the
    * way it should be shown to the client.
    */
-  public static final String printToClientConsole = "CHATM";
+  public static final String printToClientChat = "CHATM";
+
 
   /**
    * Server confirms the client's quit request, meaning that the client can now close its
@@ -137,7 +143,7 @@ public class Protocol {
   /**
    * todo: doc
    */
-  public static final String serverDeliversLobbyList = "LLIST";
+  public static final String serverDeliversLobbyList = "LLIST"; //todo: do we need this?
 
 
 

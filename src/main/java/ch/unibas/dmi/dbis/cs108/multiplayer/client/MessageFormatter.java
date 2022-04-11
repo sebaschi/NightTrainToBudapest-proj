@@ -50,7 +50,7 @@ public class MessageFormatter {
         break;
       case "/g":
         //CRTGM command
-        stringBuilder.append(Protocol.createNewGame + "$");
+        stringBuilder.append(Protocol.createNewLobby + "$");
         s = ""; //command has no parameters
         //TODO add LOGGER msg. Find out if .info or .debug.
         break;
