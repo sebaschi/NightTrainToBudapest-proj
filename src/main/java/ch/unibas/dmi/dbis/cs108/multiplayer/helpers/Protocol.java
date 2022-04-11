@@ -70,6 +70,13 @@ public class Protocol {
    */
   public static final String listLobbies = "LISTL";
 
+  /**
+   * Client requests to join the Lobby with the given number, for example,
+   * {@code JOINL$2} means the client wants to join lobby 2.
+   * todo: document handling when lobby is already full
+   */
+  public static final String joinLobby = "JOINL";
+
   //SERVER TO CLIENT COMMANDS
 
   /**
@@ -104,6 +111,8 @@ public class Protocol {
    * todo: doch
    */
   public static final String serverDeliversLobbyList = "LLIST";
+
+
 
 
 }

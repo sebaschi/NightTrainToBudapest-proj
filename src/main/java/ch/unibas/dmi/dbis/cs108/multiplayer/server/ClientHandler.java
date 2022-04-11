@@ -18,7 +18,7 @@ public class ClientHandler implements Runnable {
   public static final Logger LOGGER = LogManager.getLogger();
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
-  CentralServerData serverData;
+  CentralServerData serverData;   //todo: does this really need to be instantiated?
 
   private String clientUserName;
   private BufferedWriter out;
@@ -161,7 +161,7 @@ public class ClientHandler implements Runnable {
    * announcements rather than chat messages. The message will be printed to the user exactly as it
    * is given to this method. Unlike broadcastChatMessage, it will also be printed onto the server
    * console.
-   *
+   * todo: this could be static!
    * @param msg the Message to be broadcast
    */
   public void broadcastAnnouncement(String msg) {
@@ -179,7 +179,7 @@ public class ClientHandler implements Runnable {
    */
   public void sendMsgToClient(String msg) {
     try {
-      if(!msg.equals("SPING"))LOGGER.debug("Message sent to client: " + msg);
+      //if(!msg.equals("SPING"))LOGGER.debug("Message sent to client: " + msg);
       out.write(msg);
       out.newLine();
       out.flush();

@@ -2,6 +2,7 @@ package ch.unibas.dmi.dbis.cs108.multiplayer.server;
 
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
+import ch.unibas.dmi.dbis.cs108.sebaschi.Lobby;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
@@ -57,6 +58,18 @@ public class JServerProtocolParser {
       case Protocol.clientQuitRequest:
         h.removeClientOnLogout();
         break;
+      case Protocol.joinLobby:
+        //todo: have this be a method of clientHandler.
+        int i = Integer.parseInt(msg.substring(6, 7));
+        Lobby l = Lobby.getLobbyFromID(i);
+        if (l != null) {
+          l.addPlayer(h);
+          h.broadcastAnnouncement(h.getClientUserName() + " joined Lobby nr. " + l.getLobbyID());
+        } else {
+          LOGGER.debug(h.getClientUserName() + " tried to join Lobby nr. "
+              + i + " but that doesn't exist.");
+        }
+        break;
       case Protocol.createNewGame:
         h.createNewLobby();
         LOGGER.debug(Protocol.createNewGame
@@ -65,7 +78,7 @@ public class JServerProtocolParser {
         break;
       case Protocol.listLobbies:
         h.listAllLobbiesToClient();
-        LOGGER.debug(Protocol.listLobbies + " command recieved from: " + h.getClientUserName());
+        LOGGER.debug(Protocol.listLobbies + " command received from: " + h.getClientUserName());
         break;
       default:
         System.out.println("Received unknown command");

@@ -9,7 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * Class that shall contain all non-game logik information relevant to a game session needed for
+ * Class that shall contain all non-game logic information relevant to a game session needed for
  * client-server and client-client communication.
  */
 public class GameSessionData {

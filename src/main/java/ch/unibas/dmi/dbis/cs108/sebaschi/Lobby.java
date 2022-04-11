@@ -3,8 +3,7 @@ package ch.unibas.dmi.dbis.cs108.sebaschi;
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
 import ch.unibas.dmi.dbis.cs108.multiplayer.server.ClientHandler;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,15 +17,15 @@ public class Lobby {
 
   public static final Logger LOGGER = LogManager.getLogger();
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
+  public static HashSet<Lobby> lobbies = new HashSet<>();
 
   private static final int MAX_NO_OF_CLIENTS = 6;
-  public static int lobbies;
 
   //TODO
   CentralServerData serverData;
 
   /**
-   * The Person who created the game and can configure it and decide to start once enough players
+   * The Person who created the game and can configure it and decide to start once enough lobbyClients
    * have entered the lobby.
    */
   private final ClientHandler admin;
@@ -34,31 +33,28 @@ public class Lobby {
   /**
    * Everyone who's in the lobby.
    */
-  private List<ClientHandler> players = new ArrayList<>(6);
+  private HashSet<ClientHandler> lobbyClients = new HashSet<>(6);
 
 
   private int numberOfPlayersInLobby;
-  //TODO maybe it makes sense to have LobbyID Class?
-  private final int lobbyID = lobbies++;
 
-
-  static {
-    lobbies = 0;
-  }
+  private final int lobbyID;
 
 
   /**
-   * Constructor. Sets the admin to who created the lobby. Adds the admin to the list of players.
-   * Increases the number of players from 0 to 1.
+   * Constructor. Sets the admin to who created the lobby. Adds the admin to the list of lobbyClients.
+   * Increases the number of lobbyClients from 0 to 1.
    *
    * @param admin the Client who called CRTGM
    */
   public Lobby(ClientHandler admin) {
     this.admin = admin;
-    this.players.add(admin);
+    this.lobbyClients.add(admin);
     this.numberOfPlayersInLobby = 1;
-    LOGGER.debug("New Lobby created by " + admin.getClientUserName() + ". This lobby's ID:  "
-        + this.lobbyID);
+    lobbies.add(this);
+    this.lobbyID = lobbies.size();
+    admin.broadcastAnnouncement("New Lobby created by " + admin.getClientUserName() +
+        ". This lobby's ID:  " + this.lobbyID);
   }
 
   /**
@@ -80,12 +76,12 @@ public class Lobby {
   }
 
   /**
-   * Returns the list containing players currently in the lobby
+   * Returns the list containing lobbyClients currently in the lobby
    *
-   * @return list of players
+   * @return list of lobbyClients
    */
-  public List<ClientHandler> getPlayers() {
-    return this.players;
+  public HashSet<ClientHandler> getLobbyClients() {
+    return this.lobbyClients;
   }
 
   /**
@@ -105,21 +101,46 @@ public class Lobby {
   }
 
   /**
+   * Returns the lobby with the desired LobbyID.
+   * For example, getLobbyFromID(5) returns the lobby whose LobbyID is 5.
+   * If no such lobby exists, it returns null.
+   */
+  public static Lobby getLobbyFromID(int i) {
+    for (Lobby l: lobbies) {
+      if (l.getLobbyID() == i) {
+        return l;
+      }
+    }
+    return null;
+  }
+
+  public static boolean clientIsInALobby(ClientHandler h) {
+    for (Lobby l: lobbies) {
+      for (ClientHandler clientHandler: l.getLobbyClients()) {
+        if (h.equals(clientHandler)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  /**
    * Adds a player to the lobby.
    * TODO: add an appropriate response. Currently hardcoded.
    * TODO: Does this method need to be implemented somewhere else, e.g. in the ClientHandler?
-   *
+   * //todo: Client can only join one Lobby.
    * @param player who wants to join the lobby.
    */
   public synchronized void addPlayer(ClientHandler player) {
-    if (players.size() <= MAX_NO_OF_CLIENTS) {
-      players.add(player);
+    if (lobbyClients.size() < MAX_NO_OF_CLIENTS) {
+      lobbyClients.add(player);
       numberOfPlayersInLobby++;
       LOGGER.debug(player.getClientUserName() + " has been added to Lobby with ID: " + lobbyID
-          + ". Current number of players in this lobby: " + players.size());
+          + ". Current number of lobbyClients in this lobby: " + lobbyClients.size());
     } else {
       LOGGER.debug(
-          player.getClientUserName() + " could not be added to lobby. Number of players in lobby: "
+          player.getClientUserName() + " could not be added to lobby. Number of lobbyClients in lobby: "
               + numberOfPlayersInLobby);
       //TODO: does this have to be formatted in any way to conform to protocol?
       player.sendMsgToClient(Protocol.printToClientConsole +
@@ -136,11 +157,11 @@ public class Lobby {
    * @return true if a player was found and removed. Used for debugging.
    */
   public synchronized boolean removePlayer(ClientHandler player) {
-    return this.getPlayers().remove(player);
+    return this.getLobbyClients().remove(player);
   }
 
   public void broadcastToLounge(String msg) {
-    for (ClientHandler lounger : this.getPlayers()) {
+    for (ClientHandler lounger : this.getLobbyClients()) {
 
     }
   }
