@@ -18,7 +18,7 @@ public class OutMsgTargetChooserNode extends ToggleGroup implements NodeWithChil
   }
 
   @Override
-  public void getChildren() {
+  public Node getChildren() {
     NodeWithChildren.super.getChildren();
   }
 
