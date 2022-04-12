@@ -162,7 +162,7 @@ public class ClientHandler implements Runnable {
 
   /**
    * Broadcasts a chat Message to all clients in the same lobby in the form "Username: @msg"
-   * If this client isn't in a lobby, it instead defers the message to broadcastChatMessageToAll
+   * If this client isn't in a lobby, it instead sends the message to everyone not in a lobby
    * @param msg the Message to be broadcast
    */
   public void broadcastChatMessageToLobby(String msg) {
@@ -172,9 +172,12 @@ public class ClientHandler implements Runnable {
         client.sendMsgToClient(Protocol.printToClientChat + "$" + clientUserName + ": " + msg);
       }
     } else {
-      LOGGER.debug("Could not send chat message; probably client isn't in a lobby."
-          + "Will broadcast across all lobbies now.");
-      broadcastChatMessageToAll(msg);
+      //send msg to all clients who are not in a lobby.
+      for (ClientHandler client: connectedClients) {
+        if (Lobby.clientIsInLobby(client) == -1) {
+          client.sendMsgToClient(Protocol.printToClientChat + "$" + clientUserName + ": " + msg);
+        }
+      }
     }
   }
 
@@ -207,6 +210,7 @@ public class ClientHandler implements Runnable {
    * Broadcasts a non-chat Message to all clients in the same lobby. This can be used for server messages /
    * announcements rather than chat messages. The message will be printed to the user exactly as it
    * is given to this method. The announcement will not be printed on the server console.
+   * If this clienthandler is not in a lobby, it will instead broadcast to all clients.
    *
    * @param msg the Message to be broadcast. Does not have to be protocol-formatted, this method will take care of that.
    */
@@ -307,9 +311,11 @@ public class ClientHandler implements Runnable {
   }
 
   public void leaveLobby() {
-    for (Lobby l : Lobby.lobbies) {
-      boolean b = l.removePlayer(this);
-      if (b) broadcastAnnouncementToAll(this.getClientUserName() + " has left lobby nr. " + l.getLobbyID());
+    Lobby l = Lobby.getLobbyFromID(Lobby.clientIsInLobby(this));
+    if (l != null) {
+      l.removePlayer(this);
+    } else {
+      sendMsgToClient(Protocol.printToClientConsole + "$Unable to leave lobby.");
     }
   }
 

@@ -42,6 +42,15 @@ public class Protocol {
   public static final String chatMsgToAll = "CHATA";
 
   /**
+   * When the server receives this, it broadcasts a chat message to all clients in the same Lobby.
+   * The message has to be given in the protocol message after {@code CHATL$}, for example the protocol message {@code
+   * CHATL$Hello everybody!}, if sent from the user named Poirot, will print {@code Poirot: Hello
+   * everybody!} to the chat console of every client in the lobby (note the absence / presence of spaces).
+   * If the client is not in a lobby, the chat message will be sent to everyone not in a lobby.
+   */
+  public static final String chatMsgToLobby = "CHATL";
+
+  /**
    * The message sent by the client on login to set their name. For example, {@code LOGIN$Poirot}
    * will use the clientHandler.setUsernameOnLogin() method to set this client's username to Poirot,
    * and broadcast the announcement: {@code "Poirot has joined the Server"}. Also, it will set this

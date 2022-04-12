@@ -145,9 +145,13 @@ public class Lobby {
   public synchronized boolean removePlayer(ClientHandler player) {
     //if the player who leaves the lobby is the admin, the lobby is closed.
     if (player.equals(getAdmin())) {
+      ClientHandler.broadcastAnnouncementToAll(player.getClientUserName() + " has closed lobby nr. " + this.getLobbyID());
       closeLobby();
+    } else if (this.getLobbyClients().remove(player)){
+      ClientHandler.broadcastAnnouncementToAll(player.getClientUserName() + " has left lobby nr. " + this.getLobbyID());
+      return true;
     }
-    return this.getLobbyClients().remove(player);
+    return false;
   }
 
   /**

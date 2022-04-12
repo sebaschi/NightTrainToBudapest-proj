@@ -35,6 +35,9 @@ public class JServerProtocolParser {
     }
     switch (header) {
       case Protocol.chatMsgToAll:
+        h.broadcastChatMessageToAll(msg.substring(6));
+        break;
+      case Protocol.chatMsgToLobby:
         h.broadcastChatMessageToLobby(msg.substring(6));
         break;
       case Protocol.clientLogin:
