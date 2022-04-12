@@ -1,7 +1,7 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.server;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
-import ch.unibas.dmi.dbis.cs108.sebaschi.CentralServerData;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -13,7 +13,6 @@ import org.apache.logging.log4j.Logger;
 public class Server {
   public static final Logger LOGGER = LogManager.getLogger();
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
-  private static CentralServerData allData = new CentralServerData();
 
   private static final int gamePort = 42069;
   private HashSet<ClientHandler> connectedClients = new HashSet<>();
@@ -32,10 +31,9 @@ public class Server {
       System.out.println("Port 42069 is open.");
       while (!serverSocket.isClosed()) {
         Socket socket = serverSocket.accept();
-        ClientHandler nextClient = new ClientHandler(socket, socket.getInetAddress(), allData);
+        ClientHandler nextClient = new ClientHandler(socket, socket.getInetAddress());
         Thread th = new Thread(nextClient);
         connectedClients.add(nextClient); // will leave be for now
-        allData.addClientToSetOfAllClients(nextClient);
         th.start();
       }
     } catch (IOException e) {

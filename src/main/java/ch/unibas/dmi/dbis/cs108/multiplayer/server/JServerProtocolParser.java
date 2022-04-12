@@ -11,11 +11,6 @@ public class JServerProtocolParser {
   public static final Logger LOGGER = LogManager.getLogger();
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
-  /**
-   * jsdcjkhcsdjksdacjkn
-   */
-  public static final String CHATA = "CHATA";
-
 
   /**
    * Used by the server (i.e. ClientHandler{@link ClientHandler}) to parse an incoming protocol
@@ -39,6 +34,25 @@ public class JServerProtocolParser {
         break;
       case Protocol.chatMsgToLobby:
         h.broadcastChatMessageToLobby(msg.substring(6));
+        break;
+      case Protocol.whisper:
+        //find ClientHandler
+        try {
+          ClientHandler target = null;
+          String targetName = msg.substring(6, msg.indexOf("$", 6));
+          String chatMsg = msg.substring(msg.indexOf("$", 6)+1);
+          System.out.println(targetName);
+          System.out.println(chatMsg);
+          for (ClientHandler c : ClientHandler.getConnectedClients()) {
+            if (c.getClientUserName().equals(targetName)) {
+              target = c;
+            }
+          }
+          assert target != null;
+          h.whisper(chatMsg, target);
+        } catch (Exception ignored) {
+          h.sendAnnouncementToClient("Something went wrong.");
+        }
         break;
       case Protocol.clientLogin:
         h.setLoggedIn(true);

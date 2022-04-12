@@ -1,7 +1,7 @@
-package ch.unibas.dmi.dbis.cs108.sebaschi;
+package ch.unibas.dmi.dbis.cs108.multiplayer.server;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
-import ch.unibas.dmi.dbis.cs108.multiplayer.server.ClientHandler;
+
 import java.util.HashSet;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,7 +10,6 @@ import org.apache.logging.log4j.Logger;
  * Use: If a client sends a CRTLB command the server should create a lobby with the client as admin.
  * In this state, up to 5 other clients (so 6 in total) are able to join this lobby. Once the admin
  * feels like it, they can start a game.
- * TODO: is all data in here or should GameSessionData be used to collect all relevant data?
  */
 public class Lobby {
 
@@ -20,8 +19,6 @@ public class Lobby {
 
   private static final int MAX_NO_OF_CLIENTS = 6;
 
-  //TODO
-  CentralServerData serverData;   //todo: do we need this?
 
   /**
    * The Person who created the game and can configure it and decide to start once enough lobbyClients
@@ -52,7 +49,7 @@ public class Lobby {
       helper++;
     }
     this.lobbyID = helper;
-    admin.broadcastAnnouncementToAll("New Lobby created by " + admin.getClientUserName() +
+    ClientHandler.broadcastAnnouncementToAll("New Lobby created by " + admin.getClientUserName() +
         ". This lobby's ID:  " + this.lobbyID);
   }
 
@@ -67,8 +64,7 @@ public class Lobby {
 
   /**
    * getter for the lobby ID
-   *
-   * @return lobbyID as set in constructor based on number of lobbies.
+   * @return lobbyID as set in constructor.
    */
   public int getLobbyID() {
     return this.lobbyID;
@@ -121,7 +117,7 @@ public class Lobby {
     if (lobbyClients.size() < MAX_NO_OF_CLIENTS) {
       if (clientIsInLobby(client) == -1) {
         lobbyClients.add(client);
-        client.broadcastAnnouncementToAll(client.getClientUserName() + " has joined lobby " + this.getLobbyID());
+        ClientHandler.broadcastAnnouncementToAll(client.getClientUserName() + " has joined lobby " + this.getLobbyID());
         //LOGGER.debug(client.getClientUserName() + " has been added to Lobby with ID: " + lobbyID
         //    + ". Current number of lobbyClients in this lobby: " + lobbyClients.size());
         return true;

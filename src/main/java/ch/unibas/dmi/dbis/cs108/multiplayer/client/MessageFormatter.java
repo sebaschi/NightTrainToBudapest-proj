@@ -45,7 +45,7 @@ public class MessageFormatter {
         }
         break;
       case "/q":
-        stringBuilder.append(Protocol.clientQuitRequest + "$");
+        stringBuilder.append(Protocol.clientQuitRequest);
         s = "";
         break;
       case "/n":
@@ -57,13 +57,13 @@ public class MessageFormatter {
         }
         break;
       case "/g":
-        stringBuilder.append(Protocol.createNewLobby + "$");
-        s = ""; //command has no parameters
+        stringBuilder.append(Protocol.createNewLobby);
         break;
       case "/l":
-        //LISTL command
-        stringBuilder.append(Protocol.listLobbies + "$");
-        s = ""; //Command has no parameters
+        stringBuilder.append(Protocol.listLobbies);
+        break;
+      case "/p":
+        stringBuilder.append(Protocol.listPlayersInLobby);
         break;
       case "/j":
         stringBuilder.append(Protocol.joinLobby + "$");
@@ -71,6 +71,16 @@ public class MessageFormatter {
           s = msg.substring(3);
         } catch (Exception ignored) {
         }
+        break;
+      case "/w":
+        stringBuilder.append(Protocol.whisper + "$");
+        try {
+          s = msg.substring(3);
+        } catch (Exception ignored) {
+        }
+        break;
+      case "/e":
+        stringBuilder.append(Protocol.leaveLobby);
         break;
       default:
         s = msg;

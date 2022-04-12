@@ -3,8 +3,7 @@ package ch.unibas.dmi.dbis.cs108.multiplayer.server;
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.ServerPinger;
-import ch.unibas.dmi.dbis.cs108.sebaschi.CentralServerData;
-import ch.unibas.dmi.dbis.cs108.sebaschi.Lobby;
+
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -17,8 +16,6 @@ public class ClientHandler implements Runnable {
 
   public static final Logger LOGGER = LogManager.getLogger();
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
-
-  CentralServerData serverData;   //todo: does this really need to be instantiated?
 
   private String clientUserName;
   private BufferedWriter out;
@@ -45,13 +42,12 @@ public class ClientHandler implements Runnable {
    * @param ip     the ip of the client, used for re-connection.
    * @param socket the socket on which to make the connection.
    */
-  public ClientHandler(Socket socket, InetAddress ip, CentralServerData serverData) {
+  public ClientHandler(Socket socket, InetAddress ip) {
     try {
-      this.serverData = serverData;
       this.ip = ip;
       this.socket = socket;
       this.out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-      this.in = new BufferedReader(new InputStreamReader((socket.getInputStream())));
+      this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
       this.loggedIn = false;
       this.clientUserName = nameDuplicateChecker.checkName("U.N. Owen");
       connectedClients.add(this);
@@ -119,7 +115,6 @@ public class ClientHandler implements Runnable {
   /**
    * Lets the client change their username, if the username is already taken, a similar option is
    * chosen.
-   *
    * @param newName The desired new name to replace the old one with.
    */
   public void changeUsername(String newName) {
@@ -149,12 +144,10 @@ public class ClientHandler implements Runnable {
   /**
    * Returns the Lobby this ClientHandler is in. If this ClientHandler is not in a Lobby,
    * it returns null.
-   * @return
    */
   public Lobby getLobby() {
     try {
-      Lobby l = Lobby.getLobbyFromID(Lobby.clientIsInLobby(this));
-      return l;
+      return Lobby.getLobbyFromID(Lobby.clientIsInLobby(this));
     } catch (Exception e) {
       return null;
     }
@@ -229,7 +222,17 @@ public class ClientHandler implements Runnable {
   }
 
   /**
-   * Sends a given message to client. The message has to already be protocol-formatted. ALL
+   * Sends a message only to the specified user, as well as sending a confirmation to the user who sent the message
+   * that it has been sent. Syntax:
+   * @param target MUST NOT BE NULL!
+   */
+  public void whisper(String msg, ClientHandler target) {
+    target.sendMsgToClient(Protocol.printToClientChat + "$" + this.getClientUserName() + " whispers: " + msg);
+    sendMsgToClient(Protocol.printToClientChat + "$You whispered to " + target.getClientUserName() + ": " + msg);
+  }
+
+  /**
+   * Sends a given message to this client. The message has to already be protocol-formatted. ALL
    * communication with the client has to happen via this method!
    *
    * @param msg the given message. Should already be protocol-formatted.
@@ -247,6 +250,11 @@ public class ClientHandler implements Runnable {
     }
   }
 
+  /**
+   * Sends an announcement to just this client. Essentially the same as broadcastAnnouncementToAll except
+   * it only sends an announcement to just this client instead of everyone.
+   * Can be used for private non-chat messages (e.g. "You are now a ghost").
+   */
   public void sendAnnouncementToClient(String msg) {
     sendMsgToClient(Protocol.printToClientConsole + "$" + msg);
   }
@@ -261,8 +269,7 @@ public class ClientHandler implements Runnable {
   public void removeClientOnConnectionLoss() {
     connectedClients.remove(this);
     disconnectClient();
-    serverData.removeClientFromSetOfAllClients(this);   //todo: delete?
-    serverData.removeClientFromLobby(this);             //todo: do this via Lobby class directly.
+    leaveLobby();
     broadcastAnnouncementToAll(getClientUserName() + " has left the server due to a connection loss.");
     disconnectedClients.add(this);
   }
@@ -276,8 +283,7 @@ public class ClientHandler implements Runnable {
     broadcastAnnouncementToAll(getClientUserName() + " has left the server.");
     sendMsgToClient(Protocol.serverConfirmQuit);
     connectedClients.remove(this);
-    serverData.removeClientFromSetOfAllClients(this);    //todo: delete?
-    serverData.removeClientFromLobby(this);              //todo: do this via Lobby class directly.
+    leaveLobby();
     disconnectClient();
   }
 
@@ -288,7 +294,6 @@ public class ClientHandler implements Runnable {
   public void createNewLobby() {
     if (Lobby.clientIsInLobby(this) == -1) {
       Lobby newGame = new Lobby(this);
-      serverData.addLobbyToListOfAllLobbies(newGame);
     } else {
       sendAnnouncementToClient("You are already in lobby nr. " + Lobby.clientIsInLobby(this));
     }
@@ -310,12 +315,13 @@ public class ClientHandler implements Runnable {
 
   }
 
+  /**
+   * If the client is in a Lobby, they leave it. Otherwise, this method does nothing.
+   */
   public void leaveLobby() {
     Lobby l = Lobby.getLobbyFromID(Lobby.clientIsInLobby(this));
     if (l != null) {
       l.removePlayer(this);
-    } else {
-      sendMsgToClient(Protocol.printToClientConsole + "$Unable to leave lobby.");
     }
   }
 
@@ -354,6 +360,10 @@ public class ClientHandler implements Runnable {
     }
   }
 
+  /**
+   * Lists all players in the client's lobby. If the client is not in a Lobby, it will say
+   * "You are not in a lobby."
+   */
   public void listPlayersInLobby() {
     Lobby l = getLobby();
     if (l != null) {
@@ -366,7 +376,7 @@ public class ClientHandler implements Runnable {
         }
       }
     } else {
-      sendAnnouncementToClient("You are not in a Lobby.");
+      sendAnnouncementToClient("You are not in a lobby.");
     }
   }
 

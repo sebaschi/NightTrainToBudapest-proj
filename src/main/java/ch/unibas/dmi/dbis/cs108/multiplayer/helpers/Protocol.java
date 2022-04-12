@@ -1,5 +1,7 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.helpers;
 
+import ch.unibas.dmi.dbis.cs108.multiplayer.server.Lobby;
+
 /**
  * This class is where the Protocol commands are saved as strings. The idea is that every class that
  * uses protocol messages does not directly use e.g. "CHATA" in the code but rather uses
@@ -87,7 +89,7 @@ public class Protocol {
    * Client sends this message when they want to create a new game.
    * Client issues this command in {@link ch.unibas.dmi.dbis.cs108.multiplayer.client.MessageFormatter}
    * using "/g".
-   * First a lobby {@link ch.unibas.dmi.dbis.cs108.sebaschi.Lobby} is created of which the requesting client is the admin of.
+   * First a lobby {@link Lobby} is created of which the requesting client is the admin of.
    */
   public static final String createNewLobby = "CRTLB";
 
@@ -114,7 +116,7 @@ public class Protocol {
   public static final String leaveLobby = "LEAVL";
 
   /**
-   * Whisper chat
+   * Whisper chat. Syntax: {@code WHISP$recipient's username$message}
    */
   public static final String whisper ="WHISP";
 
