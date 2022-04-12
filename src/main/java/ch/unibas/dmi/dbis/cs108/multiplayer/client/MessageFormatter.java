@@ -65,6 +65,13 @@ public class MessageFormatter {
         stringBuilder.append(Protocol.listLobbies + "$");
         s = ""; //Command has no parameters
         break;
+      case "/j":
+        stringBuilder.append(Protocol.joinLobby + "$");
+        try {
+          s = msg.substring(3);
+        } catch (Exception ignored) {
+        }
+        break;
       default:
         s = msg;
     }

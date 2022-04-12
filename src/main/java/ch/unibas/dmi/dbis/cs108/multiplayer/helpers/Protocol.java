@@ -113,6 +113,11 @@ public class Protocol {
    */
   public static final String leaveLobby = "LEAVL";
 
+  /**
+   * Whisper chat
+   */
+  public static final String whisper ="WHISP";
+
 
 
   //SERVER TO CLIENT COMMANDS
