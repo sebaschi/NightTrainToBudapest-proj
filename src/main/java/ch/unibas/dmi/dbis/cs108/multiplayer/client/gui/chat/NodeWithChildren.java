@@ -9,7 +9,9 @@ public interface NodeWithChildren {
 
   void create();
 
-  public default Node getChildren(){};
+  public default Node getChildren() {
+    return null;
+  }
 
   void createNodeHierarchy();
 }
