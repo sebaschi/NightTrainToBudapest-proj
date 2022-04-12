@@ -257,6 +257,10 @@ Stand 15:00 Uhr:
   Variablen von git
   auf meinem Rechner neu configuriere.
 
+12.04.2022 - Sebastian
+  Nach dem durchstöbern vieler Literatur endlich die Grundidee für den Chat-GUI. Insbesondere mit Hinblick
+  auf Integration in einen grösseres GUI-Modul. Wir werden wohl JavaFX(openFX) verwenden.
+
 ToDo:
 	Spiellogik:		 - Send() methode von Passenger mit Client-Server verknüpfen(Seraina)
 					 - NoiseHandler (Alex)
