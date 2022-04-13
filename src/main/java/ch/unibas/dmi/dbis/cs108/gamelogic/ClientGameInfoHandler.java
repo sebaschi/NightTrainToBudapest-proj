@@ -17,7 +17,7 @@ public class ClientGameInfoHandler {
   //relevant:
   public static final String ghostVoteRequest = "Vote on who to ghostify!";
   public static final String humanVoteRequest = "Vote for a ghost to kick off!";
-  public static final String noiseNotification = "noise";
+  public static final String noiseNotification = "You heard some noise";
   public static final String gameOverHumansWin = "Game over: humans win!";
   public static final String gameOverGhostsWin = "Game over: ghosts win!";
 
@@ -25,9 +25,9 @@ public class ClientGameInfoHandler {
   public static final String itsNightTime = "Please wait, ghosts are active";
   public static final String youGotGhostyfied = "You are now a ghost!";
   public static final String itsDayTime = "Please wait, humans are active";
-  public static final String humansVotedFor = "Humans voted for:";
-  public static final String isAHuman = "but they're a human!";
-  public static final String gotKickedOff = "is a Ghost and got kicked off";
+  public static final String humansVotedFor = "Humans voted for: ";
+  public static final String isAHuman = " but they're a human!";
+  public static final String gotKickedOff = " is a Ghost and got kicked off";
 
 
 }

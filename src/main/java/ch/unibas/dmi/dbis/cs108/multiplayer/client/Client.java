@@ -78,23 +78,18 @@ public class Client {
    */
 
   public void voteGetter(final String msg) {
-    /*TODO(Jonas): find a way to integrate this with userInput listener, so we can still send the
-     * position to the server. This way doesnt work, after a game is finished it thinks you still
-     * want to vote when entering /c msg
-     */
+    /*TODO(Seraina): Find out what happens if there is no input*/
     new Thread(new Runnable() {
       @Override
       public void run() {
         int msgIndex = msg.indexOf('$');
         String position = msg.substring(0, msgIndex);
         String justMsg = msg.substring(msgIndex + 1);
-        BufferedReader bfr = new BufferedReader(new InputStreamReader(System.in));
-        while (socket.isConnected() && !socket.isClosed()) {
+        Scanner input = new Scanner(System.in);
+        System.out.println(justMsg);
           try {
-            if (bfr.ready()) {
-              System.out.println(justMsg);
               System.out.println("Please enter your vote");
-              String msgInput = bfr.readLine();
+              String msgInput = input.nextLine();
                 int vote;
                 try {
                   vote = Integer.parseInt(msgInput);
@@ -109,12 +104,11 @@ public class Client {
                     "msg to server is: " + Protocol.votedFor + "$" + position + "$" + msgInput);
 
               Thread.sleep(5);
-            }
+
             //LOGGER.debug("just checked next line");
-          } catch (IOException | InterruptedException e) {
+          } catch (InterruptedException e) {
             e.printStackTrace();
           }
-        }
       }
     }).start();
   }

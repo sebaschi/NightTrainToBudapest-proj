@@ -159,6 +159,17 @@ public class ClientHandler implements Runnable {
   }
 
   /**
+   * Broadcasts a pseudo chat Message from a NPC to all active clients
+   *
+   * @param msg the Message to be broadcast
+   */
+  public void broadcastNpcChatMessage(String msg) {
+    for (ClientHandler client : connectedClients) {
+      client.sendMsgToClient(Protocol.printToClientConsole + "$" + msg);
+    }
+  }
+
+  /**
    * Broadcasts a non-chat Message to all active clients. This can be used for server
    * messages / announcements rather than chat messages. The message will be printed to the user
    * exactly as it is given to this method. Unlike broadcastChatMessage, it will also be printed
