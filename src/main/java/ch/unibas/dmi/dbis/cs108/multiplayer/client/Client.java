@@ -11,6 +11,8 @@ import java.io.*;
 import java.net.UnknownHostException;
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,6 +25,11 @@ public class Client {
   private BufferedReader in;
   private BufferedWriter out;
   public ClientPinger clientPinger;
+
+  /**
+   * Saves the position of the client, gets refreshed everytime the client gets a vote request.
+   */
+  int position = Integer.MAX_VALUE;
 
   public Client(Socket socket) {
     try {
@@ -59,7 +66,7 @@ public class Client {
           try {
             if (bfr.ready()) {
               String msg = bfr.readLine();
-              String formattedMSG = MessageFormatter.formatMsg(msg);
+              String formattedMSG = MessageFormatter.formatMsg(msg, position);
               sendMsgToServer(formattedMSG);
             }
             Thread.sleep(5);
@@ -73,44 +80,27 @@ public class Client {
     }).start();
   }
 
+
   /**
    * Tells user to enter a position to vote for passenger at that position
    */
+  public void positionSetter(String msg) {
 
-  public void voteGetter(final String msg) {
-    /*TODO(Seraina): Find out what happens if there is no input*/
-    new Thread(new Runnable() {
-      @Override
-      public void run() {
+        LOGGER.info("Im in thread:" + Thread.currentThread());
         int msgIndex = msg.indexOf('$');
-        String position = msg.substring(0, msgIndex);
+        String pos = msg.substring(0, msgIndex);
+        try {
+          position = Integer.parseInt(pos);
+        } catch (NumberFormatException e) {
+          LOGGER.warn("Position got scrabbled on the way here");
+        }
         String justMsg = msg.substring(msgIndex + 1);
-        Scanner input = new Scanner(System.in);
+
         System.out.println(justMsg);
-          try {
-              System.out.println("Please enter your vote");
-              String msgInput = input.nextLine();
-                int vote;
-                try {
-                  vote = Integer.parseInt(msgInput);
-                  LOGGER.info("input is: " + vote);
-                } catch (Exception e) {
-                  LOGGER.warn(e.getMessage());
-                  System.out.println("Invalid vote");
-                  msgInput = String.valueOf(Integer.MAX_VALUE);
-                }
-                sendMsgToServer(Protocol.votedFor + "$" + position + "$" + msgInput);
-                LOGGER.debug(
-                    "msg to server is: " + Protocol.votedFor + "$" + position + "$" + msgInput);
+        System.out.println("Please enter your vote");
 
-              Thread.sleep(5);
 
-            //LOGGER.debug("just checked next line");
-          } catch (InterruptedException e) {
-            e.printStackTrace();
-          }
-      }
-    }).start();
+        //LOGGER.debug("just checked next line");
   }
 
 
@@ -134,7 +124,7 @@ public class Client {
             } else { System.out.println("chatMsg is null"); throw new IOException();}
           } catch (IOException e) {
             //e.printStackTrace();
-            LOGGER.debug("Exception while trying to read message: " + e.getMessage());
+            LOGGER.warn("Exception while trying to read message: " + e.getMessage());
             disconnectFromServer();
           }
 
