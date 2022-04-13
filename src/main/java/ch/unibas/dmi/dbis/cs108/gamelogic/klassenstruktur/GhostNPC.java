@@ -69,9 +69,6 @@ public class GhostNPC extends Ghost {
    * Decides what to do when a noise ist heard, currently just always broadcasts it
    * TODO: Make NPC smarter
    */
-  public void noise() {
-    clientHandler.broadcastChatMessage("I heard some noise tonight");
-  }
 
 
 }

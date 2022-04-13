@@ -6,6 +6,7 @@ import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.GhostNPC;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.HumanNPC;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Passenger;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
+import ch.unibas.dmi.dbis.cs108.multiplayer.server.ClientHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -50,7 +51,7 @@ public class ServerGameInfoHandler {
     switch (msg) {
       case ClientGameInfoHandler.noiseNotification:
         //TODO(Seraina & Alex): noise handling
-        npc.noise();
+        game.getClientHandler().broadcastChatMessage(ClientGameInfoHandler.noiseNotification);
         break;
       case ClientGameInfoHandler.ghostVoteRequest:
         npc.vote(game);
@@ -68,7 +69,7 @@ public class ServerGameInfoHandler {
   public static void humanNpcParser(HumanNPC npc, String msg, Game game) {
     switch (msg) {
       case ClientGameInfoHandler.noiseNotification:
-        npc.noise();
+        game.getClientHandler().broadcastChatMessage(ClientGameInfoHandler.noiseNotification);
         break;
       case ClientGameInfoHandler.humanVoteRequest:
         npc.vote();

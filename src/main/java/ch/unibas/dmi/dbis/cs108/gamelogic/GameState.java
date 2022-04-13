@@ -48,7 +48,7 @@ public class GameState {
     clientVoteData = new ClientVoteData();
     Passenger[] passengerTrain = new Passenger[nrOfPlayers]; //Creates an array with Passengers with correlation positions (Train)
     for (int i = 0; i < nrOfPlayers; i++) {
-      if (i == 3) {
+      if (i == 3) { //TODO: randomize via Train.ghostposition
         Ghost g = new Ghost();
         g.setPosition(train.orderOfTrain[i]);
         g.setGhost();

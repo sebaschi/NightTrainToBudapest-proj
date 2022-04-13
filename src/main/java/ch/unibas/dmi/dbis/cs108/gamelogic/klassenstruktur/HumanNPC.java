@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class HumanNPC extends Human {
+
   public static final Logger LOGGER = LogManager.getLogger();
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
@@ -31,7 +32,8 @@ public class HumanNPC extends Human {
 
   /**
    * Sends a msg to the ServerGameInfoHandler.humanNpcParser to decide what has to happen now
-   * @param msg the message that is sent to this player.
+   *
+   * @param msg  the message that is sent to this player.
    * @param game the game the HumanNPC lives on (in game.gameState.passengerTrain)
    */
   @Override
@@ -41,16 +43,13 @@ public class HumanNPC extends Human {
 
   /**
    * Currently returns a random integer for voting
+   *
    * @return integer between 0 and 5
    */
-  public void vote(){
-    int randomNr =  (int) (Math.random()*6);
+  public void vote() {
+    int randomNr = (int) (Math.random() * 6);
     vote = randomNr;
     hasVoted = true;
     LOGGER.info("HumanNPC at Position: " + this.getPosition() + " has voted for: " + vote);
-  }
-
-  public void noise() {
-    clientHandler.broadcastChatMessage("I heard some noise tonight");
   }
 }

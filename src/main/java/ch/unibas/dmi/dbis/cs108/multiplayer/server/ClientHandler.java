@@ -210,7 +210,7 @@ public class ClientHandler implements Runnable {
     if(vote != Integer.MAX_VALUE) { //gets MAX_VALUE when the vote wasn't valid
       VoteHandler.getClientVoteData().setVote(position,vote);
       LOGGER.debug("Player vote: " + vote);
-      VoteHandler.getClientVoteData().setHasVoted(position,true);
+      VoteHandler.getClientVoteData().setHasVoted(position,true); //TODO: move clientVoteData to gamestate
     }
   }
 

@@ -58,6 +58,10 @@ public class Game implements Runnable {
     return nrOfUsers;
   }
 
+  public ClientHandler getClientHandler() {
+    return clientHandler;
+  }
+
   public boolean getIsDay() {return isDay;}
 
   public void setDay(boolean day) {

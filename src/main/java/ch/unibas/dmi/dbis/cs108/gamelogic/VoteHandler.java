@@ -113,6 +113,11 @@ public class VoteHandler {
     passengers[ghostPosition] = g;
     passengers[ghostPosition].send(
         ClientGameInfoHandler.youGotGhostyfied, game); // TODO: ServerGameInfoHandler might deal with this one
+    try { // waits 20 seconds before votes get collected
+      Thread.sleep(10);
+    } catch (InterruptedException e) {
+      LOGGER.warn("Thread " + Thread.currentThread() + " was interrupted");
+    }
 
     /* notify passengers the ghosts passed by - for each ghost that ghostified a player, an instance of NoiseHandler
     is being created and the passengers this ghost passed by are being notified. The player who's just been ghostified
