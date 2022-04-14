@@ -461,8 +461,9 @@ public class ClientHandler implements Runnable {
    */
   public void disconnectClient() {
     Lobby l = getLobby();
-    Game g = l.getGame();
-    if (l != null && g != null) {
+    if (l != null) {
+      Game g = l.getGame();
+      if(g != null)
       l.getGame().getGameState().handleClientDisconnect(this);
     }
     socket = this.getSocket();
