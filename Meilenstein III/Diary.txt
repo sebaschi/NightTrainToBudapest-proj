@@ -256,6 +256,10 @@ Stand 15:00 Uhr:
   Versuch meine commits wieder richtig zuorden zu können indem ich die user.name und user.email
   Variablen von git
   auf meinem Rechner neu configuriere.
+Stand 17:30 Uhr:
+  Ich habe einen neuen Branch "BudaLobbySebastian" erstellt, worauf ich schaue wie und wo eigentlich eine "Lobby"
+  lebt. LISTL wurde auch implementiert aber noch nicht getestet.
+
 
 ToDo:
 	Spiellogik:		 - Send() methode von Passenger mit Client-Server verknüpfen(Seraina)

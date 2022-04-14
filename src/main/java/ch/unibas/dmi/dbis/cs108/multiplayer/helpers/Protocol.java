@@ -1,5 +1,7 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.helpers;
 
+import ch.unibas.dmi.dbis.cs108.multiplayer.server.Lobby;
+
 /**
  * This class is where the Protocol commands are saved as strings. The idea is that every class that
  * uses protocol messages does not directly use e.g. "CHATA" in the code but rather uses
@@ -42,6 +44,15 @@ public class Protocol {
   public static final String chatMsgToAll = "CHATA";
 
   /**
+   * When the server receives this, it broadcasts a chat message to all clients in the same Lobby.
+   * The message has to be given in the protocol message after {@code CHATL$}, for example the protocol message {@code
+   * CHATL$Hello everybody!}, if sent from the user named Poirot, will print {@code Poirot: Hello
+   * everybody!} to the chat console of every client in the lobby (note the absence / presence of spaces).
+   * If the client is not in a lobby, the chat message will be sent to everyone not in a lobby.
+   */
+  public static final String chatMsgToLobby = "CHATL";
+
+  /**
    * The message sent by the client on login to set their name. For example, {@code LOGIN$Poirot}
    * will use the clientHandler.setUsernameOnLogin() method to set this client's username to Poirot,
    * and broadcast the announcement: {@code "Poirot has joined the Server"}. Also, it will set this
@@ -75,22 +86,40 @@ public class Protocol {
   public static final String clientQuitRequest = "QUITR";
 
   /**
-   * TODO: enable for client
-   * TODO: add sever response
-   * Client sends this message when he wants to create a new game.
+   * Client sends this message when they want to create a new game.
    * Client issues this command in {@link ch.unibas.dmi.dbis.cs108.multiplayer.client.MessageFormatter}
    * using "/g".
-   * First a lobby {@link ch.unibas.dmi.dbis.cs108.sebaschi.Lobby} is created of which the requesting client is the admin of.
+   * First a lobby {@link Lobby} is created of which the requesting client is the admin of.
    */
-  public static final String createNewGame = "CRTGM";
+  public static final String createNewLobby = "CRTLB";
 
   /**
-   * TODO: implement in {@link ch.unibas.dmi.dbis.cs108.multiplayer.client.MessageFormatter}
-   * TODO: imlement in {@link ch.unibas.dmi.dbis.cs108.multiplayer.server.JServerProtocolParser}
-   * TODO: add the Servers reaction, i.e. sending a list of lobbies.
    * Represents a clients' request for a list of lobbies
    */
   public static final String listLobbies = "LISTL";
+
+  /**
+   * Represents a clients' request for a list of all players within the lobby.
+   */
+  public static final String listPlayersInLobby = "LISTP";
+
+  /**
+   * Client requests to join the Lobby with the given number, for example,
+   * {@code JOINL$2} means the client wants to join lobby 2.
+   * todo: document handling when lobby is already full
+   */
+  public static final String joinLobby = "JOINL";
+
+  /**
+   * Client requests to leave whatever lobby they're in.
+   */
+  public static final String leaveLobby = "LEAVL";
+
+  /**
+   * Whisper chat. Syntax: {@code WHISP$recipient's username$message}
+   */
+  public static final String whisper ="WHISP";
+
 
   /**
    * A Client decides to start the game.
@@ -114,11 +143,19 @@ public class Protocol {
   public static final String pingFromServer = "SPING";
 
   /**
-   * prints out incoming chat messages / announcements into the user's console. any string that
+   * prints out incoming announcements into the user's console. any string that
+   * follows CONSM$ is printed as is, so the message that follows already has to be formatted the
+   * way it should be shown to the client.
+   */
+  public static final String printToClientConsole = "CONSM";
+
+  /**
+   * prints out incoming chat messages into the user's chat. any string that
    * follows CHATM$ is printed as is, so the message that follows already has to be formatted the
    * way it should be shown to the client.
    */
-  public static final String printToClientConsole = "CHATM";
+  public static final String printToClientChat = "CHATM";
+
 
   /**
    * Server confirms the client's quit request, meaning that the client can now close its
@@ -137,6 +174,11 @@ public class Protocol {
    * who should be kicked off the train.
    */
   public static final String serverRequestsHumanVote = "HVOTR";
+
+  /**
+   * todo: doc
+   */
+  public static final String serverDeliversLobbyList = "LLIST"; //todo: do we need this?
 
 
 

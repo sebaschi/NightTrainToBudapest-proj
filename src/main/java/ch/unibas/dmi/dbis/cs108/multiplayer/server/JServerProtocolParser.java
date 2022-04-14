@@ -16,11 +16,6 @@ public class JServerProtocolParser {
   public static final Logger LOGGER = LogManager.getLogger();
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
-  /**
-   * jsdcjkhcsdjksdacjkn
-   */
-  public static final String CHATA = "CHATA";
-
 
   /**
    * Used by the server (i.e. ClientHandler{@link ClientHandler}) to parse an incoming protocol
@@ -43,7 +38,29 @@ public class JServerProtocolParser {
     }
     switch (header) {
       case Protocol.chatMsgToAll:
-        h.broadcastChatMessage(msg.substring(6));
+        h.broadcastChatMessageToAll(msg.substring(6));
+        break;
+      case Protocol.chatMsgToLobby:
+        h.broadcastChatMessageToLobby(msg.substring(6));
+        break;
+      case Protocol.whisper:
+        //find ClientHandler
+        try {
+          ClientHandler target = null;
+          String targetName = msg.substring(6, msg.indexOf("$", 6));
+          String chatMsg = msg.substring(msg.indexOf("$", 6)+1);
+          System.out.println(targetName);
+          System.out.println(chatMsg);
+          for (ClientHandler c : ClientHandler.getConnectedClients()) {
+            if (c.getClientUserName().equals(targetName)) {
+              target = c;
+            }
+          }
+          assert target != null;
+          h.whisper(chatMsg, target);
+        } catch (Exception ignored) {
+          h.sendAnnouncementToClient("Something went wrong.");
+        }
         break;
       case Protocol.clientLogin:
         h.setLoggedIn(true);
@@ -65,15 +82,26 @@ public class JServerProtocolParser {
       case Protocol.clientQuitRequest:
         h.removeClientOnLogout();
         break;
-      case Protocol.createNewGame:
-        // TODO add h.openLobby(h) method
-        LOGGER.debug(Protocol.createNewGame
-            + " command reached in JServerProtocolParser. Command issued by: "
-            + h.getClientUserName());
+      case Protocol.joinLobby:
+        try {
+          int i = Integer.parseInt(msg.substring(6, 7));
+          h.joinLobby(i);
+        } catch (Exception e) {
+          h.sendMsgToClient(Protocol.printToClientConsole
+              + "$Invalid input. Please use JOINL$1 to join Lobby 1, for example.");
+        }
+        break;
+      case Protocol.createNewLobby:
+        h.createNewLobby();
         break;
       case Protocol.listLobbies:
-        //TODO: add action
-        LOGGER.debug(Protocol.listLobbies + " command received from: " + h.getClientUserName());
+        h.listLobbies();
+        break;
+      case Protocol.listPlayersInLobby:
+        h.listPlayersInLobby();
+        break;
+      case Protocol.leaveLobby:
+        h.leaveLobby();
         break;
       case Protocol.votedFor:
         LOGGER.debug("Made it here");

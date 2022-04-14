@@ -5,14 +5,13 @@ import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.ClientPinger;
 
 
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
+
 import ch.unibas.dmi.dbis.cs108.multiplayer.server.JServerProtocolParser;
 import java.net.Socket;
 import java.io.*;
 import java.net.UnknownHostException;
 import java.util.Objects;
 import java.util.Scanner;
-import java.util.Timer;
-import java.util.TimerTask;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,6 +29,7 @@ public class Client {
    * Saves the position of the client, gets refreshed everytime the client gets a vote request.
    */
   int position = Integer.MAX_VALUE;
+
 
   public Client(Socket socket) {
     try {
@@ -120,6 +120,7 @@ public class Client {
           try {
             chatMsg = in.readLine();     //todo: maybe if
             if (chatMsg != null) {
+              //LOGGER.debug("chatMSG recieved from Server: " + chatMsg);
               parse(chatMsg);
             } else { System.out.println("chatMsg is null"); throw new IOException();}
           } catch (IOException e) {
@@ -207,6 +208,7 @@ public class Client {
     }
 
   }
+
 
   public Socket getSocket() {
     return socket;

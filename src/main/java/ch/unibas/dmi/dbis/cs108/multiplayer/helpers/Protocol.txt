@@ -30,6 +30,8 @@ Implemented:
  * SPING              Ping from server to client
  * PINGB              Pingback from client to server.
  * QUITC              Confirms to the client that they are being disconnected from the server.
+ * LLIST$LobbyIDAndAdmin
+                      Response to LISTL. Parameter is a string.
 
 Future / planned:
  * MSGRS              "Message received": Paramaters: a string detailing to the client that and what the server received as command.

@@ -1,6 +1,7 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.server;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -32,7 +33,7 @@ public class Server {
         Socket socket = serverSocket.accept();
         ClientHandler nextClient = new ClientHandler(socket, socket.getInetAddress());
         Thread th = new Thread(nextClient);
-        connectedClients.add(nextClient);
+        connectedClients.add(nextClient); // will leave be for now
         th.start();
       }
     } catch (IOException e) {

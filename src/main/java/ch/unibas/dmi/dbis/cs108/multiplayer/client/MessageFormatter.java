@@ -11,8 +11,8 @@ public class MessageFormatter {
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   /**
-   * Takes a given Message and reformats it to where the JServerProtocolParser.parse() method can
-   * handle it (see Protocol.java). May need to be redesigned once the games uses a GUI
+   * Takes a given client input and reformats it to where the JServerProtocolParser.parse() method can
+   * handle it (see Protocol.java). May need to be redesigned once the game uses a GUI.
    *
    * @param msg the Messaged to be reformatted
    * @return the reformatted message in the form HEADR$msg
@@ -29,6 +29,14 @@ public class MessageFormatter {
     }
     switch (header) {
       case "/c":
+        stringBuilder.append(Protocol.chatMsgToLobby + "$");
+        try {
+          s = msg.substring(3);
+        } catch (Exception e) {
+          System.out.println("You didn't even write a chat line, you silly billy!");
+        }
+        break;
+      case "/b":
         stringBuilder.append(Protocol.chatMsgToAll + "$");
         try {
           s = msg.substring(3);
@@ -37,7 +45,7 @@ public class MessageFormatter {
         }
         break;
       case "/q":
-        stringBuilder.append(Protocol.clientQuitRequest + "$");
+        stringBuilder.append(Protocol.clientQuitRequest);
         s = "";
         break;
       case "/n":
@@ -49,15 +57,30 @@ public class MessageFormatter {
         }
         break;
       case "/g":
-        //CRTGM command
-        stringBuilder.append(Protocol.createNewGame + "$");
-        s = ""; //command has no parameters
-        //TODO add LOGGER msg. Find out if .info or .debug.
+        stringBuilder.append(Protocol.createNewLobby);
         break;
       case "/l":
-        //LISTL command
-        stringBuilder.append(Protocol.listLobbies + "$");
-        s = ""; //Command has no parameters
+        stringBuilder.append(Protocol.listLobbies);
+        break;
+      case "/p":
+        stringBuilder.append(Protocol.listPlayersInLobby);
+        break;
+      case "/j":
+        stringBuilder.append(Protocol.joinLobby + "$");
+        try {
+          s = msg.substring(3);
+        } catch (Exception ignored) {
+        }
+        break;
+      case "/w":
+        stringBuilder.append(Protocol.whisper + "$");
+        try {
+          s = msg.substring(3);
+        } catch (Exception ignored) {
+        }
+        break;
+      case "/e":
+        stringBuilder.append(Protocol.leaveLobby);
         break;
       case "/v":
         try {

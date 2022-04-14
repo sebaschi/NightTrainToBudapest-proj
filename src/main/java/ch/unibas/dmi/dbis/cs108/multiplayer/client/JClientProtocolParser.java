@@ -39,6 +39,10 @@ public class JClientProtocolParser {
       case Protocol.printToClientConsole:
         System.out.println(msg.substring(6));
         break;
+      case Protocol.printToClientChat:
+        //todo: handle chat separately from console.
+        System.out.println(msg.substring(6));
+        break;
       case Protocol.serverConfirmQuit:
         c.disconnectFromServer();
         break;
@@ -54,6 +58,7 @@ public class JClientProtocolParser {
         c.positionSetter(msg.substring(6));
         //TODO(Seraina): How can be enforced, that clients won't vote otherwise? Trigger a methode here that listens to input
         break;
+      case Protocol.serverDeliversLobbyList:
       default:
         System.out.println("Received unknown command");
     }
