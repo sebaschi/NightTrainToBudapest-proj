@@ -2,9 +2,13 @@ package ch.unibas.dmi.dbis.cs108.gamelogic;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Ghost;
+import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.GhostNPC;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Human;
+import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.HumanNPC;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Passenger;
+import ch.unibas.dmi.dbis.cs108.multiplayer.server.ClientHandler;
 import java.util.Arrays;
+import java.util.HashSet;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -72,6 +76,41 @@ public class GameState {
     return train;
   }
 
+  /**
+   *
+   *
+   */
+  public void changeUsername(String oldName, String newName){
+    for (Passenger passenger : passengerTrain) {
+      String name = passenger.getName();
+      if (name.equals(oldName)) {
+        passenger.setName(newName);
+      }
+    }
+  }
+
+  /**
+   *
+   */
+  public void handleClientDisconnect(ClientHandler disconnectedClient) {
+    for(Passenger passenger : passengerTrain) {
+      if (passenger.getIsPlayer()) {
+        if (passenger.getClientHandler().equals(disconnectedClient)) {
+          String name = passenger.getName() + "-NPC";
+          if (passenger.getIsGhost()) {
+            GhostNPC ghostNPC = new GhostNPC(passenger.getPosition(),name, passenger.getIsOG());
+            addNewPassenger(ghostNPC, passenger.getPosition());
+          } else { //is a human
+            HumanNPC humanNPC = new HumanNPC(passenger.getPosition(),name);
+            addNewPassenger(humanNPC, passenger.getPosition());
+          }
+        }
+      }
+    }
+
+  }
+
+
 
 
   /**
@@ -95,19 +134,19 @@ public class GameState {
     String[] print = new String[6];
     for (int i = 0; i < array.length; i++) {
       if (array[i].getKickedOff()) {
-        print[i] = "-| kicked off: " + array[i].getPosition() + "|-";
+        print[i] = "| kicked off: " + array[i].getPosition() + " |";
       } else {
         if (array[i].getIsPlayer()) {
           if (array[i].getIsGhost()) {
-            print[i] = "-| ghostPlayer: " + array[i].getPosition() + "|-";
+            print[i] = "| ghostPlayer: " + array[i].getPosition() + " |";
           } else {
-            print[i] = "-| humanPlayer: " + array[i].getPosition() + "|";
+            print[i] = "-| humanPlayer: " + array[i].getPosition() + " |";
           }
         } else {
           if (array[i].getIsGhost()) {
-            print[i] = "-| ghostNPC: " + array[i].getPosition() + "|-";
+            print[i] = "| ghostNPC: " + array[i].getPosition() + " |";
           } else {
-            print[i] = "-| humanNPC: " + array[i].getPosition() + "|-";
+            print[i] = "| humanNPC: " + array[i].getPosition() + " |";
           }
         }
       }
@@ -130,7 +169,7 @@ public class GameState {
     StringBuilder stringBuilder = new StringBuilder();
     String[] print = new String[6];
     for (int i = 0; i < array.length; i++) {
-      print[i] = "-| " + array[i].getName() + ": " + array[i].getPosition() + "|-";
+      print[i] = "| " + array[i].getName() + ": " + array[i].getPosition() + " |";
     }
 
     for (int i = 0; i < array.length; i++) {
