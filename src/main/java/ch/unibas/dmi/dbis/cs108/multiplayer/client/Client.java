@@ -200,7 +200,7 @@ public class Client {
     }
     Socket socket;
     try {
-      socket = new Socket(hostname, 42069);
+      socket = new Socket(hostname, 1873);
       Client client = new Client(socket, null);
       client.chatListener();
       Thread cP = new Thread(client.clientPinger);

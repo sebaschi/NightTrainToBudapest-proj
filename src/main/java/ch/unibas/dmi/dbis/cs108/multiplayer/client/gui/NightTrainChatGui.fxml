@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ChatController">
+   <children>
+      <SplitPane dividerPositions="0.5565326633165829" layoutX="220.0" layoutY="53.0" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <ScrollPane fx:id="scrollPaneIncomeingChatMsg" layoutX="111.0" layoutY="-2.0" prefHeight="196.0" prefWidth="598.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <content>
+                        <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="-Infinity">
+                           <children>
+                              <VBox fx:id="inChatMsg" layoutY="-130.0" prefHeight="82.0" prefWidth="595.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </ScrollPane>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <AnchorPane layoutX="8.0" prefHeight="179.0" prefWidth="598.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <AnchorPane layoutX="6.0" layoutY="14.0" prefHeight="141.0" prefWidth="190.0" AnchorPane.bottomAnchor="27.0" AnchorPane.topAnchor="20.0">
+                           <children>
+                              <AnchorPane layoutX="32.0" layoutY="3.0" AnchorPane.bottomAnchor="130.0" AnchorPane.topAnchor="3.0">
+                                 <children>
+                                    <Button fx:id="sendButton" mnemonicParsing="false" onAction="#sendButtonPressedEvent" prefHeight="26.0" prefWidth="129.0" text="Send" />
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane layoutX="5.0" layoutY="110.0" AnchorPane.bottomAnchor="20.0" AnchorPane.topAnchor="110.0">
+                                 <children>
+                                    <TextField fx:id="whisperTarget" onInputMethodTextChanged="#setWhisperTarget" prefHeight="26.0" prefWidth="176.0" promptText="enter who you want to whisper to" text="whisper..." />
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane layoutX="9.0" layoutY="37.0" prefHeight="66.0" prefWidth="176.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="35.0">
+                                 <children>
+                                    <VBox layoutX="10.0" layoutY="10.0" prefHeight="74.0" prefWidth="200.0" spacing="4.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <RadioButton fx:id="broadcastToggle" mnemonicParsing="false" onAction="#setChatModeToBroadcast" prefHeight="18.0" prefWidth="140.0" text="Broadcast" />
+                                          <RadioButton fx:id="whisperToggle" mnemonicParsing="false" onAction="#setChatModeToWhisper" prefHeight="18.0" prefWidth="151.0" text="Whisper" />
+                                          <RadioButton fx:id="ghostToggle" mnemonicParsing="false" onAction="#setChatModeToGhost" prefHeight="18.0" prefWidth="169.0" text="Ghost" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </AnchorPane>
+                        <TextArea fx:id="outChatMsg" layoutX="223.0" layoutY="18.0" prefHeight="132.0" prefWidth="361.0" AnchorPane.bottomAnchor="27.0" AnchorPane.topAnchor="20.0" />
+                     </children>
+                  </AnchorPane>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>
