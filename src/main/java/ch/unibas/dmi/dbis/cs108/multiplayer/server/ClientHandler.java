@@ -311,6 +311,8 @@ public class ClientHandler implements Runnable {
       t.start();
     } catch (TrainOverflow e) {
       LOGGER.warn(e.getMessage());
+    } catch (NullPointerException e) {
+      LOGGER.warn("Client is not in a lobby");
     }
   }
 
