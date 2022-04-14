@@ -194,9 +194,9 @@ Fazit daraus für Meilenstein III:
 	- Was wurde erreicht, was nicht? Wenn nicht, warum nicht?
 		- Nicht erreicht: Ping-Pong-Funktionalität, Logout-Handling
 			- Unerwarteter Fehler bei Ping-Pong (beim Client-Logout)
-	- Diskussion über Kommunikationsschwierigkeiten: In Zukunft bessere Code-Dokumentation nötig, damit 		Gruppenmitglieder eigenen Code nachvollziehen können. 
-		- Auch: 1-2 Mal pro Woche Meeting zur Fortschrittsbesprechung (Do, Fr), zusätzlich während der 				Übungsstunde.
-		- Einführung eines Buddy-Systems: Zwei 2er-Gruppen (Seraina + Sebastian, Jonas + Alex, Teamswitch 			möglich), gegenseitige Unterstützung/Überprüfung beim Coden, Orientierung an QA-Konzept
+	- Diskussion über Kommunikationsschwierigkeiten: In Zukunft bessere Code-Dokumentation nötig, damit Gruppenmitglieder eigenen Code nachvollziehen können. 
+		- Auch: 1-2 Mal pro Woche Meeting zur Fortschrittsbesprechung (Do, Fr), zusätzlich während der Übungsstunde.
+		- Einführung eines Buddy-Systems: Zwei 2er-Gruppen (Seraina + Sebastian, Jonas + Alex, Teamswitch möglich), gegenseitige Unterstützung/Überprüfung beim Coden, Orientierung an QA-Konzept
 		- Logger-Implementierung
 	- Wer macht was für Meilenstein 3?
 		1a. Client/Server (Beheben bisheriger Probleme (Ping-Pong, Logout)) (Sebastian, Jonas)
@@ -205,7 +205,7 @@ Fazit daraus für Meilenstein III:
 			Verbindung 1a-1b: Wie werden Informationen gesammelt und verbreitet?
 		- Wichtig: Klare Arbeitsteilung innerhalb einer Gruppe
 			- Client/Server
-				- PingPong, Logout, Socket Handling, evtl. Protokoll in Enum übertragen, evtl. name 						suggestion verbressern (Jonas)
+				- PingPong, Logout, Socket Handling, evtl. Protokoll in Enum übertragen, evtl. name suggestion verbressern (Jonas)
 				- Lobbies, evtl. Chat-GUI (Sebastian)
 			- Repo-Cleanup (Seraina, bis Mo)
 			- Spiellogik v.a. Sa, So
@@ -267,5 +267,9 @@ ToDo:
 					 - Game Zyklus implementieren (Seraina)
 
 
+08.04.2022 - 11.04.2022 - Alex
+- Implementierung NoiseHandler, Verbindung mit VoteHandler
+- Verbesserung der Lesbarkeit von VoteHandler (Code-Duplikate in eine Methode zusammengefasst)
 
-
+14.04.2022 - Alex
+- Erste Version des Spiel-Manuals
