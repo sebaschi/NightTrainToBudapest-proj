@@ -115,6 +115,7 @@ public class Lobby {
    */
   public synchronized boolean addPlayer(ClientHandler client) {
     if (lobbyClients.size() < MAX_NO_OF_CLIENTS) {
+      //todo: check that game hasn't started yet
       if (clientIsInLobby(client) == -1) {
         lobbyClients.add(client);
         ClientHandler.broadcastAnnouncementToAll(client.getClientUserName() + " has joined lobby " + this.getLobbyID());

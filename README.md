@@ -18,9 +18,19 @@ Votes are held in the night for the ghosts to decide who will be next and during
 * ...
 
 ## Console Commands
-* /c "message" - sends a chat message to all connected players
-* /n "name" - changes player name
+* /c _message_ - sends a chat message to all players in the same lobby. If you are not in a lobby, the message will be sent to all players who are also not in a lobby.
+* /b _message_ - broadcasts a message to all connected clients, regardless of lobbies.
+* /w _username$message_ - sends a message to the specified user only. 
+* /g - create (&join) a new lobby.
+* /j _1_ - join lobby 1. To join lobby 2, use /j _2_, etc.
+* /l - list all connected clients and all lobbies
+* /p - list all players in your lobby.
+* /e - exit your lobby
+* /n _name_ - changes player name. If unavailable, it adds a fun and quirky suffix
 * /q - quit
+* /s - start game in your current lobby.
+* /v 1 - vote for person 1 (same for other numbers)
+
 
 ## Installation
 ...

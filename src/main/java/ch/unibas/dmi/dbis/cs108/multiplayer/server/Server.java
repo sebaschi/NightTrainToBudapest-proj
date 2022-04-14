@@ -14,7 +14,7 @@ public class Server {
   public static final Logger LOGGER = LogManager.getLogger();
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
-  private static final int gamePort = 42069;
+  private static int gamePort;
   private HashSet<ClientHandler> connectedClients = new HashSet<>();
   private ServerSocket serverSocket;
   Scanner sc = new Scanner(System.in);
@@ -28,7 +28,7 @@ public class Server {
    */
   public void startServer() {
     try {
-      System.out.println("Port 42069 is open.");
+      System.out.println("Port " + gamePort + " is open.");
       while (!serverSocket.isClosed()) {
         Socket socket = serverSocket.accept();
         ClientHandler nextClient = new ClientHandler(socket, socket.getInetAddress());
@@ -53,6 +53,19 @@ public class Server {
   }
 
   public static void main(String[] args) {
+    ServerSocket serverSocket = null;
+    gamePort = 1873;
+    try {
+      serverSocket = new ServerSocket(gamePort);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    Server server = new Server(serverSocket);
+    server.startServer();
+  }
+
+  public static void main(int port) {
+    gamePort = port;
     ServerSocket serverSocket = null;
     try {
       serverSocket = new ServerSocket(gamePort);

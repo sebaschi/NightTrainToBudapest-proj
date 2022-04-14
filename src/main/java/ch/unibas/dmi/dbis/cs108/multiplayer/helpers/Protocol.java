@@ -86,7 +86,7 @@ public class Protocol {
   public static final String clientQuitRequest = "QUITR";
 
   /**
-   * Client sends this message when they want to create a new game.
+   * Client sends this message when they want to create a new lobby (& automatically join it).
    * Client issues this command in {@link ch.unibas.dmi.dbis.cs108.multiplayer.client.MessageFormatter}
    * using "/g".
    * First a lobby {@link Lobby} is created of which the requesting client is the admin of.
@@ -94,7 +94,7 @@ public class Protocol {
   public static final String createNewLobby = "CRTLB";
 
   /**
-   * Represents a clients' request for a list of lobbies
+   * Represents a clients' request for a list of lobbies, plus what players are in them.
    */
   public static final String listLobbies = "LISTL";
 

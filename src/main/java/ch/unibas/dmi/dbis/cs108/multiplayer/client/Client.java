@@ -7,6 +7,7 @@ import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.ClientPinger;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
 
 import ch.unibas.dmi.dbis.cs108.multiplayer.server.JServerProtocolParser;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.io.*;
 import java.net.UnknownHostException;
@@ -31,7 +32,7 @@ public class Client {
   int position = Integer.MAX_VALUE;
 
 
-  public Client(Socket socket) {
+  public Client(Socket socket, String username) {
     try {
       this.socket = socket;
       this.out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
@@ -39,12 +40,16 @@ public class Client {
 
       //sending the initial name to server.
       String systemName;
-      try {
-        systemName = System.getProperty("user.name");
-      } catch (Exception e) {
-        systemName = "U.N. Owen";
+      if (username == null) {
+        try {
+          systemName = System.getProperty("user.name");
+        } catch (Exception e) {
+          systemName = "U.N. Owen";
+        }
+        if (systemName == null) systemName = "U.N. Owen";
+      } else {
+        systemName = username;
       }
-      if (systemName == null) systemName = "U.N. Owen";
       sendMsgToServer(Protocol.clientLogin + "$" + systemName);
 
       clientPinger = new ClientPinger(this, this.socket);
@@ -183,7 +188,7 @@ public class Client {
   public static void main(String[] args) {
     Scanner sc = new Scanner(System.in);
     String hostname;
-    int port = 42069;               //can be set via argument later if needed.
+    int port = 1873;
     if (args.length < 1) {
       System.out.println("Enter the host's IP address (or type l for localhost)");
       hostname = sc.next();
@@ -196,7 +201,7 @@ public class Client {
     Socket socket;
     try {
       socket = new Socket(hostname, 42069);
-      Client client = new Client(socket);
+      Client client = new Client(socket, null);
       client.chatListener();
       Thread cP = new Thread(client.clientPinger);
       cP.start();
@@ -209,6 +214,22 @@ public class Client {
 
   }
 
+  public static void main(InetAddress address, int port, String username) {
+    Scanner sc = new Scanner(System.in);
+    Socket socket;
+    try {
+      socket = new Socket(address, port);
+      Client client = new Client(socket, username);
+      client.chatListener();
+      Thread cP = new Thread(client.clientPinger);
+      cP.start();
+      client.userInputListener();     //this one blocks.
+    } catch (UnknownHostException e) {
+      System.out.println("Invalid host IP");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
 
   public Socket getSocket() {
     return socket;
