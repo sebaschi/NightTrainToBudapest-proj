@@ -190,9 +190,12 @@ public class ClientHandler implements Runnable {
    *
    * @param msg the Message to be broadcast
    */
-  public void broadcastNpcChatMessage(String msg) {
-    for (ClientHandler client : connectedClients) {
-      client.sendMsgToClient(Protocol.printToClientConsole + "$" + msg);
+  public void broadcastNpcChatMessageToLobby(String msg) {
+    Lobby l = getLobby();
+    if (l != null) {
+      for (ClientHandler client : l.getLobbyClients()) {
+        client.sendMsgToClient(Protocol.printToClientChat + "$" + msg);
+      }
     }
   }
 
@@ -267,7 +270,7 @@ public class ClientHandler implements Runnable {
       out.flush();
     } catch (IOException e) {
       //e.printStackTrace();
-      LOGGER.debug("unable to send msg: " + msg);
+      LOGGER.warn("unable to send msg: " + msg);
       removeClientOnConnectionLoss();
     }
   }
@@ -302,7 +305,8 @@ public class ClientHandler implements Runnable {
    */
   public void startNewGame() {
     try {
-      Game game = new Game(this,6,1, ClientHandler.getConnectedClients().size());
+      Lobby l = getLobby();
+      Game game = new Game(6,1, l.getLobbyClients().size(), l);
       Thread t = new Thread(game);
       t.start();
     } catch (TrainOverflow e) {

@@ -76,7 +76,7 @@ public class ServerGameInfoHandler {
     switch (msg) {
       case ClientGameInfoHandler.noiseNotification:
         String outMsg = npc.getName() + ": " + noiseRandomizer();
-        game.getClientHandler().broadcastNpcChatMessage(outMsg);
+        game.getLobby().getAdmin().broadcastNpcChatMessageToLobby(outMsg);
         break;
       case ClientGameInfoHandler.ghostVoteRequest:
         npc.vote(game);
@@ -93,7 +93,7 @@ public class ServerGameInfoHandler {
     switch (msg) {
       case ClientGameInfoHandler.noiseNotification:
         String outMsg = npc.getName() + ": " + noiseRandomizer();;
-        game.getClientHandler().broadcastNpcChatMessage(outMsg);
+        game.getLobby().getAdmin().broadcastNpcChatMessageToLobby(outMsg);
         break;
       case ClientGameInfoHandler.humanVoteRequest:
         npc.vote();

@@ -8,6 +8,7 @@ import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.HumanNPC;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.HumanPlayer;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Passenger;
 import ch.unibas.dmi.dbis.cs108.multiplayer.server.ClientHandler;
+import ch.unibas.dmi.dbis.cs108.multiplayer.server.Lobby;
 import java.util.HashSet;
 import org.apache.logging.log4j.*;
 
@@ -24,7 +25,7 @@ public class Game implements Runnable {
   protected GameState gameState;
   protected boolean isDay = false; //false means it is night, it is night by default
   protected VoteHandler voteHandler = new VoteHandler();
-  private ClientHandler clientHandler;
+  private Lobby lobby;
   //TODO: Figure out where Day/Night game state is saved maybe think about a game state class or smt.
   /**
    * Constructs a Game instance where:
@@ -33,13 +34,13 @@ public class Game implements Runnable {
    * @param nrOfGhosts  is the number of OG Ghosts you want to start with  and
    * @param nrOfUsers   is the number of active users at the time (non NPCs)
    */
-  public Game(ClientHandler clientHandler, int nrOfPlayers, int nrOfGhosts, int nrOfUsers)
+  public Game(int nrOfPlayers, int nrOfGhosts, int nrOfUsers, Lobby lobby)
       throws TrainOverflow { //ToDo: Who handles Exception how and where
     this.nrOfPlayers = nrOfPlayers;
     this.nrOfGhosts = nrOfGhosts;
     this.nrOfUsers = nrOfUsers;
     this.gameState = new GameState(nrOfPlayers, nrOfGhosts, nrOfUsers);
-    this.clientHandler = clientHandler;
+    this.lobby = lobby;
     }
 
   public GameState getGameState() {
@@ -58,8 +59,8 @@ public class Game implements Runnable {
     return nrOfUsers;
   }
 
-  public ClientHandler getClientHandler() {
-    return clientHandler;
+  public Lobby getLobby() {
+    return lobby;
   }
 
   public boolean getIsDay() {return isDay;}
@@ -79,14 +80,14 @@ public class Game implements Runnable {
   public void run() {
     LOGGER.info("the run-method has been called");
     int i = 0;
-    HashSet<ClientHandler> clients = ClientHandler.getConnectedClients();
+    HashSet<ClientHandler> lobbyClients = lobby.getLobbyClients();
     String gameOverCheck = "";
     int[] order = gameState.getTrain().orderOfTrain;
     Passenger[] passengerTrain = gameState.getPassengerTrain();
 
 
     LOGGER.info(gameState.toString());
-    for (ClientHandler client : clients) {
+    for (ClientHandler client : lobbyClients) { //TODO(Seraina): Adjust for lobbies
       int index = order[i];
       if (passengerTrain[index].getIsGhost()) { //if there is a ghost
         GhostPlayer ghostPlayer = new GhostPlayer(passengerTrain[index].getPosition(),
@@ -126,7 +127,7 @@ public class Game implements Runnable {
       }
       if (gameOverCheck.equals(ClientGameInfoHandler.gameOverGhostsWin) || gameOverCheck.equals(
           ClientGameInfoHandler.gameOverHumansWin)) {
-        clientHandler.broadcastAnnouncementToAll(gameOverCheck); //ToDo(Seraina): adjust for lobby
+        lobby.getAdmin().broadcastAnnouncementToLobby(gameOverCheck); //ToDo(Seraina): adjust for lobby
         return;
       }
     }
