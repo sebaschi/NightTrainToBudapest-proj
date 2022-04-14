@@ -132,6 +132,11 @@ public class ClientHandler implements Runnable {
     String helper = this.getClientUserName();
     this.clientUserName = nameDuplicateChecker.checkName(newName);
     broadcastAnnouncementToAll(helper + " has changed their nickname to " + clientUserName);
+    try {
+      getLobby().getGame().getGameState().changeUsername(helper,newName);
+    } catch (NullPointerException e) {
+      LOGGER.warn("No game has been started yet in this lobby");
+    }
   }
 
   /**
@@ -186,7 +191,7 @@ public class ClientHandler implements Runnable {
   }
 
   /**
-   * Broadcasts a pseudo chat Message from a NPC to all active clients
+   * Broadcasts a pseudo chat Message from a NPC to all active clients in the corresponding lobby
    *
    * @param msg the Message to be broadcast
    */
@@ -307,10 +312,13 @@ public class ClientHandler implements Runnable {
     try {
       Lobby l = getLobby();
       Game game = new Game(6,1, l.getLobbyClients().size(), l);
+      l.setGame(game);
       Thread t = new Thread(game);
       t.start();
     } catch (TrainOverflow e) {
       LOGGER.warn(e.getMessage());
+    } catch (NullPointerException e) {
+      LOGGER.warn("Client is not in a lobby");
     }
   }
 
@@ -386,6 +394,10 @@ public class ClientHandler implements Runnable {
     Lobby l = Lobby.getLobbyFromID(Lobby.clientIsInLobby(this));
     if (l != null) {
       l.removePlayer(this);
+      Game game = l.getGame();
+      if(game != null) {
+        l.getGame().getGameState().handleClientDisconnect(this);
+      }
     }
   }
 
@@ -448,6 +460,12 @@ public class ClientHandler implements Runnable {
    * Closes the client's socket, in, and out. and removes from global list of clients.
    */
   public void disconnectClient() {
+    Lobby l = getLobby();
+    if (l != null) {
+      Game g = l.getGame();
+      if(g != null)
+      l.getGame().getGameState().handleClientDisconnect(this);
+    }
     socket = this.getSocket();
     in = this.getIn();
     out = this.getOut();

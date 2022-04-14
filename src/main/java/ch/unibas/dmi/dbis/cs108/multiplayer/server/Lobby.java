@@ -2,6 +2,7 @@ package ch.unibas.dmi.dbis.cs108.multiplayer.server;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 
+import ch.unibas.dmi.dbis.cs108.gamelogic.Game;
 import java.util.HashSet;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,6 +17,8 @@ public class Lobby {
   public static final Logger LOGGER = LogManager.getLogger();
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
   public static HashSet<Lobby> lobbies = new HashSet<>();
+  public Game game;
+  public boolean gameIsOngoing; //TODO(Seraina): getter and setter
 
   private static final int MAX_NO_OF_CLIENTS = 6;
 
@@ -91,6 +94,24 @@ public class Lobby {
       }
     }
     return null;
+  }
+
+  /**
+   * Returns the game that the clients in this lobby are in
+   *
+   * @return the game associated with this lobby
+   */
+  public Game getGame() {
+    return game;
+  }
+
+  /**
+   * Sets the game of this lobby to a certain game
+   *
+   * @param game The game to be set as this lobbys game
+   */
+  public void setGame(Game game) {
+    this.game = game;
   }
 
   /**
