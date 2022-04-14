@@ -11,6 +11,7 @@ Implemented:
  * PINGB              Pingback from client to server.
  * NAMEC$name         Change name to whatever is specified
  * CRTGM              Create a new game
+ *
 
 Future / planned:
 

@@ -5,11 +5,14 @@ import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.ClientPinger;
 
 
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
+import ch.unibas.dmi.dbis.cs108.multiplayer.server.JServerProtocolParser;
 import java.net.Socket;
 import java.io.*;
 import java.net.UnknownHostException;
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,6 +25,11 @@ public class Client {
   private BufferedReader in;
   private BufferedWriter out;
   public ClientPinger clientPinger;
+
+  /**
+   * Saves the position of the client, gets refreshed everytime the client gets a vote request.
+   */
+  int position = Integer.MAX_VALUE;
 
   public Client(Socket socket) {
     try {
@@ -58,7 +66,7 @@ public class Client {
           try {
             if (bfr.ready()) {
               String msg = bfr.readLine();
-              String formattedMSG = MessageFormatter.formatMsg(msg);
+              String formattedMSG = MessageFormatter.formatMsg(msg, position);
               sendMsgToServer(formattedMSG);
             }
             Thread.sleep(5);
@@ -71,6 +79,30 @@ public class Client {
       }
     }).start();
   }
+
+
+  /**
+   * Tells user to enter a position to vote for passenger at that position
+   */
+  public void positionSetter(String msg) {
+
+        LOGGER.info("Im in thread:" + Thread.currentThread());
+        int msgIndex = msg.indexOf('$');
+        String pos = msg.substring(0, msgIndex);
+        try {
+          position = Integer.parseInt(pos);
+        } catch (NumberFormatException e) {
+          LOGGER.warn("Position got scrabbled on the way here");
+        }
+        String justMsg = msg.substring(msgIndex + 1);
+
+        System.out.println(justMsg);
+        System.out.println("Please enter your vote");
+
+
+        //LOGGER.debug("just checked next line");
+  }
+
 
 
   /**
@@ -92,7 +124,7 @@ public class Client {
             } else { System.out.println("chatMsg is null"); throw new IOException();}
           } catch (IOException e) {
             //e.printStackTrace();
-            LOGGER.debug("Exception while trying to read message: " + e.getMessage());
+            LOGGER.warn("Exception while trying to read message: " + e.getMessage());
             disconnectFromServer();
           }
 

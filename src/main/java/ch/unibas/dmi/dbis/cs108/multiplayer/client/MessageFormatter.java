@@ -18,7 +18,7 @@ public class MessageFormatter {
    * @return the reformatted message in the form HEADR$msg
    */
 
-  public static String formatMsg(String msg) {
+  public static String formatMsg(String msg, int position) {
     String header = ""; //header is first two characters
     StringBuilder stringBuilder = new StringBuilder();
     String s = ""; // just a friendly helper to save message in
@@ -59,10 +59,20 @@ public class MessageFormatter {
         stringBuilder.append(Protocol.listLobbies + "$");
         s = ""; //Command has no parameters
         break;
+      case "/v":
+        try {
+          s = msg.substring(3);
+          LOGGER.debug("substring: " + s);
+        } catch (Exception e) {
+          System.out.println("invalid vote");
+        }
+        stringBuilder.append(Protocol.votedFor + "$" + position + "$");
+        break;
       default:
         s = msg;
     }
     stringBuilder.append(s);
+    LOGGER.debug(stringBuilder.toString());
     return stringBuilder.toString();
 
   }

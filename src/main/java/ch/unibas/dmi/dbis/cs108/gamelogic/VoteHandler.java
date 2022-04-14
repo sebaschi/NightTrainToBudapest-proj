@@ -2,9 +2,7 @@ package ch.unibas.dmi.dbis.cs108.gamelogic;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Ghost;
-import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.GhostPlayer;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Passenger;
-import ch.unibas.dmi.dbis.cs108.multiplayer.server.ClientHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,6 +21,20 @@ public class VoteHandler {
   public static final Logger LOGGER = LogManager.getLogger();
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
+  private static ClientVoteData clientVoteData = new ClientVoteData();
+
+  public static ClientVoteData getClientVoteData() {
+    return clientVoteData;
+  }
+
+
+
+  public static void setClientVoteData(ClientVoteData clientVoteData) {
+    clientVoteData = clientVoteData;
+  }
+
+
+
 
   /**
    * Handles the ghost vote during nighttime: passengers who are ghosts are being asked on who to
@@ -31,7 +43,10 @@ public class VoteHandler {
    *
    * @param passengers: passengers on the train
    */
+
   public void ghostVote(Passenger[] passengers, Game game) {
+    LOGGER.debug("ghostVote has been called");
+    LOGGER.info(game.getGameState().toString());
 
     // array to collect votes for all players during voting, i.e. votes for player 1 (passengers[0])
     // are saved in
@@ -39,60 +54,60 @@ public class VoteHandler {
     int[] votesForPlayers = new int[6];
 
     // Walk through entire train, ask ghosts to ghostify and humans to wait
-    // TODO(Seraina): Messages in for-loop should probably be handled by ServerGameInfoHandler
     for (Passenger passenger : passengers) {
       if (passenger.getIsGhost()) {
 
-        passenger.send("Vote on who to ghostify!");
+        passenger.send(ClientGameInfoHandler.ghostVoteRequest, game);
       } else {
         passenger.send(
-            "Please wait, ghosts are active"); // TODO(Seraina): make sure whatever clients send in
+            ClientGameInfoHandler.itsNightTime, game);
                                                // this time, except chat is ignored
 
       }
     }
 
-    for (Passenger passenger : passengers) {
-      // collecting the votes - distribute them among the vote counters for all players
-      // Note: Each voting collects votes for all players even though some might not be concerned
-      // (i.e. ghosts during ghost vote). Those players will then get 0 votes so it doesn't matter.
-      // TODO: Perhaps the vote results should be handled by ClientGameInfoHandler
-      if (passenger.getHasVoted()) {
-        for (int i = 0; i < votesForPlayers.length; i++) {
-          if (passenger.getVote() == i) {
-            votesForPlayers[i]++;
-            LOGGER.info(passengers[i] + " has received the most votes");
-          }
-        }
-      }
+    try { // waits 20 seconds before votes get collected
+      Thread.sleep(30*1000);
+    } catch (InterruptedException e) {
+      LOGGER.warn("Thread " + Thread.currentThread() + " was interrupted");
     }
 
-    // count the votes - determine which player has the most votes by going through the
-    // votesForPlayers array
-    int currentMax = 0;
-    for (int votesForPlayer : votesForPlayers) {
-      if (votesForPlayer > currentMax) {
-        currentMax = votesForPlayer;
-      }
-    }
-    LOGGER.info("Most votes: " + currentMax + " vote");
+    int currentMax = voteEvaluation(passengers, votesForPlayers, clientVoteData, game);
+
+    LOGGER.debug("Most votes: " + currentMax + " vote");
 
     // ghostify the player with most votes
     int ghostPosition = 0;
     for (int i = 0; i < votesForPlayers.length; i++) {
       if (votesForPlayers[i] == currentMax) { // if player at position i has most votes
         ghostPosition = i;
-        LOGGER.info("Most votes for Passenger " + i);
+        LOGGER.debug("Most votes for Passenger " + i);
 
       }
     }
-    LOGGER.debug("ghostPosition: " + ghostPosition);
+    LOGGER.info("Most votes for: " + ghostPosition);
     GhostifyHandler gh = new GhostifyHandler();
     Ghost g = gh.ghost(passengers[ghostPosition], game);
     passengers[ghostPosition] = g;
     passengers[ghostPosition].send(
-        "You are now a ghost!"); // TODO: ServerGameInfoHandler might deal with this one
+        ClientGameInfoHandler.youGotGhostyfied, game); // TODO: ServerGameInfoHandler might deal with this one
+    try { // waits 20 seconds before votes get collected
+      Thread.sleep(10);
+    } catch (InterruptedException e) {
+      LOGGER.warn("Thread " + Thread.currentThread() + " was interrupted");
+    }
 
+    /* notify passengers the ghosts passed by - for each ghost that ghostified a player, an instance of NoiseHandler
+    is being created and the passengers this ghost passed by are being notified. The player who's just been ghostified
+     is ignored since he didn't participate in this night's ghostification. */
+    for (int i = 0; i < passengers.length; i++) {
+      if (passengers[i].getIsGhost() && i != ghostPosition) {
+        NoiseHandler n = new NoiseHandler();
+        n.noiseNotifier(passengers, passengers[i], g, game);
+      }
+    }
+
+    LOGGER.info(game.getGameState().toString());
     // set hasVoted to false for all passengers for future votings
     for (Passenger passenger : passengers) {
       passenger.setHasVoted(false);
@@ -104,11 +119,12 @@ public class VoteHandler {
    * ghosts are waiting. Votes are being collected, vote results are being handled in three possible
    * ways: if passenger who was voted for is a human, continue with next ghost vote; if it's a
    * normal ghost, kick him off; if it's the OG ghost, end game, humans win.
-   *
-   * @param passengers: train passengers
+   * @return Returns an empty String by default, returns a complex string when game is over:
+   * "Game over: ghosts win!" or "Game over: humans win!"
+   * @param passengers train passengers
    */
-  public void humanVote(Passenger[] passengers, Game game) {
-
+  public String humanVote(Passenger[] passengers, Game game) {
+    LOGGER.info(game.getGameState().toString());
 
     // array to collect votes for all players during voting, i.e. votes for player 1 are saved in
     // votesForPlayers[0]
@@ -118,51 +134,39 @@ public class VoteHandler {
     // TODO: Messages in for-loop should probably be handled by ServerGameInfoHandler
     for (Passenger passenger : passengers) {
       if (passenger.getIsGhost()) {
-        passenger.send("Please wait, humans are active");
+        passenger.send(ClientGameInfoHandler.itsDayTime, game);
       } else {
-        passenger.send("Vote for a ghost to kick off!");
+        passenger.send(ClientGameInfoHandler.humanVoteRequest, game);
       }
     }
 
-    for (Passenger passenger : passengers) {
-      // collecting the votes - distribute them among the vote counters for all players
-      // TODO: Perhaps the vote results should be handled by ClientGameInfoHandler
-      if (passenger.getHasVoted()) {
-        for (int i = 0; i < votesForPlayers.length; i++) {
-          if (passenger.getVote() == i) {
-            votesForPlayers[i]++;
-          }
-        }
-      }
+    try { // waits 20 seconds before votes get collected
+      Thread.sleep(20*1000);
+    } catch (InterruptedException e) {
+      LOGGER.warn("Thread " + Thread.currentThread() + " was interrupted");
     }
 
-    // count the votes - determine which player has the most votes by going through the
-    // votesForPlayers array
-    int currentMax = 0;
-    for (int votesForPlayer : votesForPlayers) {
-      if (votesForPlayer > currentMax) {
-        currentMax = votesForPlayer;
-        LOGGER.info("Max amount of votes: " + currentMax);
-      }
-    }
+    int currentMax = voteEvaluation(passengers, votesForPlayers, clientVoteData, game);
+
     // deal with voting results
     int voteIndex = 0;
     for (int i = 0; i < votesForPlayers.length; i++) {
       if (votesForPlayers[i] == currentMax) { // if player has most votes
         voteIndex = i;
-        LOGGER.info("Player " + voteIndex + " has the most votes");
       }
     }
+    LOGGER.info("Player " + voteIndex + " has the most votes");
     if (!passengers[voteIndex]
         .getIsGhost()) { // if player with most votes is human, notify everyone about it
       for (Passenger passenger : passengers) {
         passenger.send(
-            "You voted for a human!"); // TODO: ServerGameInfoHandler might be better to use here
+            ClientGameInfoHandler.humansVotedFor + voteIndex + ClientGameInfoHandler.isAHuman, game); // TODO: ServerGameInfoHandler might be better to use here
       }
     }
     if (passengers[voteIndex].getIsGhost()) { // if player is a ghost
       if (passengers[voteIndex].getIsOG()) { // if ghost is OG --> end game, humans win
-        System.out.println("Game over: humans win!"); // TODO: correctly handle end of game
+        System.out.println(ClientGameInfoHandler.gameOverHumansWin); // TODO: correctly handle end of game
+        return ClientGameInfoHandler.gameOverHumansWin;
       } else {
         /* Special case: if ghost is not OG and if only one human is left (--> last human didn't vote for OG ghost),
         ghosts win.
@@ -174,20 +178,23 @@ public class VoteHandler {
           }
         }
         if (humans == 1) {
-          System.out.println("Game over: ghosts win!");
+          System.out.println(ClientGameInfoHandler.gameOverGhostsWin);
+          return ClientGameInfoHandler.gameOverGhostsWin;
         }
         // Usual case: there is more than one human left and a normal ghost has been voted for -->
         // kick this ghost off
         passengers[voteIndex].setKickedOff(true);
         for (Passenger passenger : passengers) {
-          passenger.send("Player " + voteIndex + " has been kicked off!");
+          passenger.send("Player " + voteIndex + ClientGameInfoHandler.gotKickedOff, game);
         }
       }
     }
+    LOGGER.info(game.getGameState().toString());
     // set hasVoted to false for all passengers for future voting
     for (Passenger passenger : passengers) {
       passenger.setHasVoted(false);
     }
+    return "";
   }
 
   /**
@@ -216,38 +223,34 @@ public class VoteHandler {
 
   }
 
-  public static void main(String[] args) {
-    try {
-      Game game = new Game(6,1, 6);
-      VoteHandler voteHandler = new VoteHandler();
-
-      Passenger[] testArray = game.gameFunctions.passengerTrain;
-      Passenger ghost = new Ghost();
-      testArray[3] = ghost;
-      testArray[3].setGhost();
-      testArray[3].setIsOg();
-      testArray[3].setPosition(3);
-      print(testArray);
-      LOGGER.info("NIGHT");
-      voteHandler.ghostVote(testArray,game);
-      print(testArray);
-
-      LOGGER.info("Day");
-      voteHandler.humanVote(testArray, game);
-      print(testArray);
-
-      LOGGER.info("NIGHT");
-      voteHandler.ghostVote(testArray,game);
-      print(testArray);
-
-      LOGGER.info("Day");
-      voteHandler.humanVote(testArray, game);
-      print(testArray);
-    } catch (TrainOverflow e) {
-      LOGGER.warn(e.getMessage());
+  /**
+   * Collecting the votes - distribute them among the vote counters for all players. Note: each voting collects
+   * votes for all players even though some might not be concerned (i.e. ghosts during ghost vote). Those players
+   * will then get 0 votes so it dosen't matter. Returns the max amount of votes a player received.
+   * @param passengers train passengers
+   * @param votesForPlayers array collecting the votes each player received during a voting
+   * @param data deals with Client votes
+   * @param game current game instance
+   */
+  int voteEvaluation(Passenger[] passengers, int[] votesForPlayers, ClientVoteData data, Game game) {
+    for (Passenger passenger : passengers) {
+      passenger.getVoteFromGameState(data, game);
+      if (passenger.getHasVoted()) {
+        for (int i = 0; i < votesForPlayers.length; i++) {
+          if (passenger.getVote() == i) {
+            votesForPlayers[i]++;
+          }
+        }
+      }
     }
-
-
-
+    /* count the votes - determine which player has the most votes by going through the
+    votesForPlayers array */
+    int currentMax = 0;
+    for (int votesForPlayer : votesForPlayers) {
+      if (votesForPlayer > currentMax) {
+        currentMax = votesForPlayer;
+      }
+    }
+    return currentMax;
   }
 }

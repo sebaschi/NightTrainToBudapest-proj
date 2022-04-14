@@ -6,6 +6,8 @@ Implemented:
  * CPING              Ping from client to server.
  * PINGB              Pingback from client to server.
  * NAMEC$name         Change name to whatever is specified
+ * STGAM              start the Game
+ * CVOTE$position$vote Client at position has voted for position
 
 Future / planned:
  * CRTGM              Create a new game
@@ -22,8 +24,8 @@ Server Commands:
 Implemented:
  * SPING              Ping from server to client
  * PINGB              Pingback from client to server.
- * GVOTR              Ghosts: Please vote now
- * HVOTR              Humans: Please vote now
+ * GVOTR$position$msg Ghosts: Please vote now
+ * HVOTR$position$msg Humans: Please vote now
 
 Future / planned:
  * MSGRS              "Message received": Paramaters: a string detailing to the client that and what the server received as command.

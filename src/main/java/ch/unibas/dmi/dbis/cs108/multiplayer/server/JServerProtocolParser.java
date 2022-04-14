@@ -2,6 +2,11 @@ package ch.unibas.dmi.dbis.cs108.multiplayer.server;
 
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
+import ch.unibas.dmi.dbis.cs108.gamelogic.ClientVoteData;
+import ch.unibas.dmi.dbis.cs108.gamelogic.Game;
+import ch.unibas.dmi.dbis.cs108.gamelogic.GameState;
+import ch.unibas.dmi.dbis.cs108.gamelogic.TrainOverflow;
+import ch.unibas.dmi.dbis.cs108.gamelogic.VoteHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
@@ -30,6 +35,9 @@ public class JServerProtocolParser {
     String header = "";             //"header" is the first 5 characters, i.e. the protocol part
     try {
       header = msg.substring(0, 5);
+      if(!header.equals(Protocol.pingBack) &&!header.equals(Protocol.pingFromClient)) { //for debuging without constant pings
+        LOGGER.debug("got message: " + msg + ".");
+      }
     } catch (IndexOutOfBoundsException e) {
       System.out.println("Received unknown command");
     }
@@ -65,7 +73,15 @@ public class JServerProtocolParser {
         break;
       case Protocol.listLobbies:
         //TODO: add action
-        LOGGER.debug(Protocol.listLobbies + " command recieved from: " + h.getClientUserName());
+        LOGGER.debug(Protocol.listLobbies + " command received from: " + h.getClientUserName());
+        break;
+      case Protocol.votedFor:
+        LOGGER.debug("Made it here");
+        msg = msg.substring(6);
+        h.decodeVote(msg);
+        break;
+      case Protocol.startANewGame:
+        h.startNewGame();
         break;
       default:
         System.out.println("Received unknown command");

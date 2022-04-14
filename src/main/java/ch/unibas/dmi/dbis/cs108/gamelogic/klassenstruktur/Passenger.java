@@ -1,6 +1,8 @@
 package ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
+import ch.unibas.dmi.dbis.cs108.gamelogic.ClientVoteData;
+import ch.unibas.dmi.dbis.cs108.gamelogic.Game;
 import ch.unibas.dmi.dbis.cs108.gamelogic.ServerGameInfoHandler;
 import ch.unibas.dmi.dbis.cs108.multiplayer.server.ClientHandler;
 import org.apache.logging.log4j.LogManager;
@@ -19,32 +21,7 @@ public class Passenger {
   protected ClientHandler clientHandler;//the socket for the client associated with this Passenger, for NPCs, this can be null.
   protected boolean hasVoted;           //true if the player gave his vote during voting time
   protected int vote;                   //saves the number of the player this passenger voted for during voting (0-5)
-  int sendcounter = 0;
-  /**
-   * Sends a protocol message to the respective player or NPC.
-   * @param msg the message that is sent to this player.
-   **/
-  public void send(String msg) {
-    sendcounter++;
-    if (msg.equals("Vote on who to ghostify!")) {
-      vote = 1*sendcounter;
-      hasVoted = true; // for testing, when is it set to false again?
-      LOGGER.info("Voted for Position " + vote);
-    } else if(msg.equals("Vote for a ghost to kick off!")) {
-      vote = (int) (0.5*sendcounter);
-      hasVoted = true; // for testing, when is it set to false again?
-      LOGGER.info("Voted for Position " + vote);
-    } else {
 
-      LOGGER.debug(msg);
-    }
-    /*if (isPlayer) {
-      //TODO: maybe put a formatter here, so protocol msg are only send between sever-client
-      clientHandler.sendMsgToClient(msg); //ToDO(Seraina): Make sure only the right kind of messages are sent
-    } else { //is a NPC
-            //TODO: call a method that identifies message for NPC and calls respective methode NPCParser
-    }*/
-  }
 
   /**
    * sets the Position of this passenger
@@ -82,6 +59,10 @@ public class Passenger {
     hasVoted = voted;
   }
 
+  public void setVote(int vote) {
+    this.vote = vote;
+  }
+
   public void setIsOg() {
     isOG = true;
   }
@@ -116,4 +97,24 @@ public class Passenger {
   public ClientHandler getClientHandler() {
     return clientHandler;
   }
+
+  /**
+   * When called by NPC nothing should happen, because clientHandler = null
+   */
+  public void getVoteFromGameState(ClientVoteData clientVoteData,Game game) {
+    LOGGER.debug("a NPC called this method hopefully: " + position);
+  }
+
+  /**
+   * Sends a protocol message to the respective player or NPC.
+   * @param msg the message that is sent to this player.
+   **/
+  public void send(String msg, Game game) {
+    if (isPlayer) {
+      String formattedMsg = ServerGameInfoHandler.format(msg,this,game);
+      clientHandler.sendMsgToClient(formattedMsg);
+    }
+    LOGGER.warn("This object should not just be a passenger. Position:" + position);
+  }
+
 }

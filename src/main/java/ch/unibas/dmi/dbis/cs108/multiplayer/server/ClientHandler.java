@@ -1,11 +1,15 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.server;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
+import ch.unibas.dmi.dbis.cs108.gamelogic.Game;
+import ch.unibas.dmi.dbis.cs108.gamelogic.TrainOverflow;
+import ch.unibas.dmi.dbis.cs108.gamelogic.VoteHandler;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.ServerPinger;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Scanner;
 import org.apache.logging.log4j.LogManager;
@@ -20,6 +24,7 @@ public class ClientHandler implements Runnable {
   private BufferedReader in;
   private Socket socket;
   private InetAddress ip;
+
 
   /**
    * notes if the client has formally logged in yet. If connecting through the normal Client class,
@@ -70,6 +75,10 @@ public class ClientHandler implements Runnable {
     return socket;
   }
 
+  /**
+   * Needed to fill a train with client TODO: how do lobbies fit here?
+   * @return the HashSet of Connected Clients
+   */
   public static HashSet<ClientHandler> getConnectedClients() {
     return connectedClients;
   }
@@ -86,13 +95,13 @@ public class ClientHandler implements Runnable {
     return loggedIn;
   }
 
-  public void setLoggedIn(boolean loggedIn) {
-    this.loggedIn = loggedIn;
-  }
-
-  //Setters:
   public String getClientUserName() {
     return clientUserName;
+  }
+  //Setters:
+
+  public void setLoggedIn(boolean loggedIn) {
+    this.loggedIn = loggedIn;
   }
 
 
@@ -150,6 +159,17 @@ public class ClientHandler implements Runnable {
   }
 
   /**
+   * Broadcasts a pseudo chat Message from a NPC to all active clients
+   *
+   * @param msg the Message to be broadcast
+   */
+  public void broadcastNpcChatMessage(String msg) {
+    for (ClientHandler client : connectedClients) {
+      client.sendMsgToClient(Protocol.printToClientConsole + "$" + msg);
+    }
+  }
+
+  /**
    * Broadcasts a non-chat Message to all active clients. This can be used for server
    * messages / announcements rather than chat messages. The message will be printed to the user
    * exactly as it is given to this method. Unlike broadcastChatMessage, it will also be printed
@@ -177,6 +197,44 @@ public class ClientHandler implements Runnable {
       //e.printStackTrace();
       LOGGER.debug("unable to send msg: " + msg);
       removeClientOnConnectionLoss();
+    }
+  }
+
+  /**
+   * Takes a msg of the form position$vote and extracts vote and position from it and saves it
+   * in VoteHandler.getClientVoteData
+    * @param msg the messaged to decode
+   */
+  public void decodeVote(String msg){
+    int msgIndex = msg.indexOf('$');
+    int vote = Integer.MAX_VALUE;
+    int position = 0;
+    LOGGER.debug("Message is " + msg);
+    try {
+      position = Integer.parseInt(msg.substring(0,msgIndex));
+      vote = Integer.parseInt(msg.substring(msgIndex + 1));
+      LOGGER.debug("Vote is:" + vote);
+    } catch (Exception e) {
+      LOGGER.warn("Invalid vote " + e.getMessage());
+    }
+    LOGGER.debug("Vote is:" + vote);
+    if(vote != Integer.MAX_VALUE) { //gets MAX_VALUE when the vote wasn't valid
+      VoteHandler.getClientVoteData().setVote(position,vote);
+      LOGGER.debug("Player vote: " + vote);
+      VoteHandler.getClientVoteData().setHasVoted(position,true); //TODO: move clientVoteData to gamestate
+    }
+  }
+
+  /**
+   * Initializes a new Game instance and starts its run method in a new thread
+   */
+  public void startNewGame() {
+    try {
+      Game game = new Game(this,6,1, ClientHandler.getConnectedClients().size());
+      Thread t = new Thread(game);
+      t.start();
+    } catch (TrainOverflow e) {
+      LOGGER.warn(e.getMessage());
     }
   }
 

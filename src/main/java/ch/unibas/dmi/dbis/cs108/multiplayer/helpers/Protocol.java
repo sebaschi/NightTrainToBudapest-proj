@@ -92,6 +92,16 @@ public class Protocol {
    */
   public static final String listLobbies = "LISTL";
 
+  /**
+   * A Client decides to start the game.
+   */
+  public static final String startANewGame = "STGAM";
+
+  /**
+   * Client informs server that they have voted and delivers this vote in the form of "CVOTE$position$vote"
+    */
+  public static final String votedFor = "CVOTE";
+
 
   //SERVER TO CLIENT COMMANDS
 
@@ -117,7 +127,8 @@ public class Protocol {
   public static final String serverConfirmQuit = "QUITC";
 
   /**
-   * The server requests the client (who should be a ghost) to vote on the victim.
+   * The server requests the client (who should be a ghost) to vote on the victim. in the format GVOTR$string
+   * the current train will be shown as a string to the client
    */
   public static final String serverRequestsGhostVote = "GVOTR";
 
@@ -126,6 +137,8 @@ public class Protocol {
    * who should be kicked off the train.
    */
   public static final String serverRequestsHumanVote = "HVOTR";
+
+
 
 
 }

@@ -2,6 +2,7 @@ package ch.unibas.dmi.dbis.cs108.gamelogic;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Ghost;
+import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.GhostNPC;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.GhostPlayer;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Passenger;
 import org.apache.logging.log4j.LogManager;
@@ -19,13 +20,25 @@ public class GhostifyHandler {
 
   public Ghost ghost(Passenger p, Game game) { //TODO: Adjust for not only players but also npcs
     LOGGER.debug("Passenger Position " + p.getPosition());
-    p.setGhost();
     Ghost g;
-    g = new Ghost();
-    g.setGhost();
-    g.setPosition(p.getPosition());
-    game.gameFunctions.passengerTrain[g.getPosition()] = g;
-    LOGGER.info("Passenger at position " + p.getPosition() + "has been ghostified");
+    if (p.getIsPlayer()) {
+      p.setGhost();
+      GhostPlayer ghostPlayer;
+      ghostPlayer = new GhostPlayer(p.getPosition(), p.getName(), p.getClientHandler(),p.getIsOG());
+      ghostPlayer.setGhost();
+      ghostPlayer.setPosition(p.getPosition());
+      g = ghostPlayer;
+    } else {
+      p.setGhost();
+      GhostNPC ghostNPC;
+      ghostNPC = new GhostNPC(p.getPosition(), p.getName(),p.getIsOG());
+      ghostNPC.setGhost();
+      ghostNPC.setPosition(p.getPosition());
+      g = ghostNPC;
+
+    }
+    game.gameState.addNewPassenger(g, g.getPosition());
+    LOGGER.info("Passenger at position " + p.getPosition() + " has been ghostified");
     return g;
   }
 }

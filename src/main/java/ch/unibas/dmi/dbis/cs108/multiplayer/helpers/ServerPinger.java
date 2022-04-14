@@ -37,6 +37,7 @@ public class ServerPinger implements Runnable {
 
   @Override
   public void run() {
+    Thread.currentThread().setPriority(10);
     try {
       Thread.sleep(2000);
       while (socket.isConnected() && !socket.isClosed()) {
@@ -55,9 +56,8 @@ public class ServerPinger implements Runnable {
             System.out.println(
                 "Lost connection to user " + c.getClientUserName() + ". Waiting to reconnect...");
           } else {
-            c.disconnectClient();
-            LOGGER.debug(
-                "gotPingBack has not been set to true and isConnected has been set to false before");
+            //c.disconnectClient(); TODO: is that ever necessary?
+            //LOGGER.debug("gotPingBack has not been set to true and isConnected has been set to false before");
           }
         }
       }

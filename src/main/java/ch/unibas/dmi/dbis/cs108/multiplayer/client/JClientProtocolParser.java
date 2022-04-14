@@ -43,11 +43,15 @@ public class JClientProtocolParser {
         c.disconnectFromServer();
         break;
       case Protocol.serverRequestsGhostVote:
-        System.out.println("Ghost received Vote request");
+        LOGGER.debug("Ghost received Vote request");
+        System.out.println("Ghost Vote:");
+        c.positionSetter(msg.substring(6));
         //TODO(Seraina): How can be enforced, that clients won't vote otherwise? Trigger a methode here that listens to input
         break;
       case Protocol.serverRequestsHumanVote:
-        System.out.println("Human received Vote request");
+        LOGGER.debug("Human received Vote request");
+        System.out.println("Human Vote:");
+        c.positionSetter(msg.substring(6));
         //TODO(Seraina): How can be enforced, that clients won't vote otherwise? Trigger a methode here that listens to input
         break;
       default:

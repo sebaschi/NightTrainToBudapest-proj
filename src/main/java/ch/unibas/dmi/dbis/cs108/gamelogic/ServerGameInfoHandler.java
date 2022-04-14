@@ -1,6 +1,14 @@
 package ch.unibas.dmi.dbis.cs108.gamelogic;
 
+import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
+import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Ghost;
+import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.GhostNPC;
+import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.HumanNPC;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Passenger;
+import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
+import ch.unibas.dmi.dbis.cs108.multiplayer.server.ClientHandler;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Handles all communications Server to Client concerning game state or game state related requests
@@ -10,26 +18,89 @@ import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Passenger;
  */
 
 public class ServerGameInfoHandler {
+  public static final Logger LOGGER = LogManager.getLogger();
+  public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   /**
-   * TODO(Seraina): Handle NPC's Maybe do that in Passenger send methode!
-   * Send a message "GVOTR" to a passenger urging them to vote for a human to infect
-   * Currently only handles only Players, so send a message to corresponding client
-   * @param passenger the passenger the message is meant to, should be a Ghost
+   * Gets a string msg from somewhere and formats it into protocol messages
+   * @param msg the message to be formatted
+   * @return a message in a protocol format
    */
-  public void sendVoteRequestGhosts(Passenger passenger){
-    passenger.getClientHandler().sendMsgToClient("GVOTR");
+  public static String format(String msg, Passenger p, Game game) {
+    switch (msg) {
+      case ClientGameInfoHandler.ghostVoteRequest:
+        msg = Protocol.serverRequestsGhostVote + "$" + p.getPosition() +"$" + game.gameState.toString();
+        break;
+      case ClientGameInfoHandler.humanVoteRequest:
+        msg = Protocol.serverRequestsHumanVote + "$" + p.getPosition() +"$"+ game.gameState.humanToString();
+        break;
+      default:
+        msg = Protocol.printToClientConsole + "$"+ msg;
+    }
+    LOGGER.debug(msg);
+    return msg;
   }
-
 
   /**
-   * TODO(Seraina): Handle NPC's
-   * Send a message "HVOTR" to a passenger urging them to vote for sm to kick off the train.
-   * Currently only handles only Players, so send a message to corresponding client
-   * @param passenger the passenger the message is meant to, can be either human or ghost
+   * Chooses for an NPC what they want to say, so they don't sound the same all the time
+   * @return a String saying that sm heard sm noise
    */
-  public void sendVoteRequestHumans(Passenger passenger){
-    passenger.getClientHandler().sendMsgToClient("HVOTR");
+  public static String noiseRandomizer() {
+    String a = "I heard some noise tonight";
+    String b = "noise";
+    String c = "I heard smt strange tonight";
+    String d = "Me, noise!";
+    String e = "Uuuuh, spoky noises";
+    int number = (int)(Math.random()*4);
+    switch (number) {
+      case 0:
+        return a;
+      case 1:
+        return d;
+      case 2:
+        return c;
+      case 3:
+        return e;
+      default:
+        return b;
+    }
   }
+
+  /**
+   * decides which action an GhostNpc needs to take, based on a message
+   * @param npc the GhostNpc needing to do smt
+   * @param msg the msg containing the information on what to do
+   * @param game the game the GhostNpc lives in (in gameState.passengerTrain)
+   */
+  public static void ghostNpcParser(GhostNPC npc, String msg, Game game) {
+    switch (msg) {
+      case ClientGameInfoHandler.noiseNotification:
+        String outMsg = npc.getName() + ": " + noiseRandomizer();
+        game.getClientHandler().broadcastNpcChatMessage(outMsg);
+        break;
+      case ClientGameInfoHandler.ghostVoteRequest:
+        npc.vote(game);
+    }
+  }
+
+  /**
+   * decides which action an HumanNpc needs to take, based on a message
+   * @param npc the HumanNpc needing to do smt
+   * @param msg the msg containing the information on what to do
+   * @param game the game the HumanNpc lives in (in gameState.passengerTrain)
+   */
+  public static void humanNpcParser(HumanNPC npc, String msg, Game game) {
+    switch (msg) {
+      case ClientGameInfoHandler.noiseNotification:
+        String outMsg = npc.getName() + ": " + noiseRandomizer();;
+        game.getClientHandler().broadcastNpcChatMessage(outMsg);
+        break;
+      case ClientGameInfoHandler.humanVoteRequest:
+        npc.vote();
+    }
+
+
+  }
+
 
 }
