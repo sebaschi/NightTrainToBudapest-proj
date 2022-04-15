@@ -65,6 +65,9 @@ public class MessageFormatter {
       case "/p":
         stringBuilder.append(Protocol.listPlayersInLobby);
         break;
+      case "/z":
+        stringBuilder.append(Protocol.listGames);
+        break;
       case "/j":
         stringBuilder.append(Protocol.joinLobby + "$");
         try {
@@ -93,7 +96,6 @@ public class MessageFormatter {
         break;
       case "/s":
         stringBuilder.append(Protocol.startANewGame);
-
         break;
       default:
         s = msg;

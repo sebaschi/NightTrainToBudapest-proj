@@ -19,9 +19,7 @@ public class Game implements Runnable {
   /**
    * Can be extended for optional Game-settings
    **/
-  protected final int nrOfPlayers; //sets the length of the train
-  protected final int nrOfGhosts; // sets how many Ghosts we start witch
-  protected int nrOfUsers; // safes how many clients are active in this Game
+
   protected GameState gameState;
   protected boolean isDay = false; //false means it is night, it is night by default
   protected VoteHandler voteHandler = new VoteHandler();
@@ -38,36 +36,23 @@ public class Game implements Runnable {
    */
   public Game(int nrOfPlayers, int nrOfGhosts, int nrOfUsers, Lobby lobby)
       throws TrainOverflow { //ToDo: Who handles Exception how and where
-    this.nrOfPlayers = nrOfPlayers;
-    this.nrOfGhosts = nrOfGhosts;
-    this.nrOfUsers = nrOfUsers;
     this.gameState = new GameState(nrOfPlayers, nrOfGhosts, nrOfUsers);
     this.lobby = lobby;
     nameCounter++;
-    this.name = "Game-" + nameCounter;
+    this.name = "Game" + nameCounter;
     }
 
   public GameState getGameState() {
     return gameState;
   }
 
-  public int getNrOfGhosts() {
-    return nrOfGhosts;
-  }
-
-  public int getNrOfPlayers() {
-    return nrOfPlayers;
-  }
-
-  public int getNrOfUsers() {
-    return nrOfUsers;
-  }
-
   public Lobby getLobby() {
     return lobby;
   }
 
-  public boolean getIsDay() {return isDay;}
+  public boolean getIsDay() {return isDay; }
+
+  public String getName() {return name; }
 
   public void setDay(boolean day) {
     isDay = day;

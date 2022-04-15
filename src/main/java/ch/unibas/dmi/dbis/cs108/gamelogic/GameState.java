@@ -76,6 +76,18 @@ public class GameState {
     return train;
   }
 
+  public int getNrOfUsers() {
+    return nrOfUsers;
+  }
+
+  public int getNrOfPlayers() {
+    return nrOfPlayers;
+  }
+
+  public int getNrOfGhosts() {
+    return nrOfGhosts;
+  }
+
   /**
    *
    *

@@ -11,7 +11,7 @@ import org.apache.logging.log4j.Logger;
  * vote / ghost vote) and handles votes accordingly. - Sends voting request to passengers that need
  * to be concerned - collects voting results - calculates who was voted for - decides consequence of
  * vote: - Is it OG ghost: humans win - Is it last human: ghosts win - Is it just a human: message
- * "x is a human" - Is it a peasant ghost -> kickoff
+ * "x is a human" - Is it a peasant ghost - kickoff
  *
  * <p>(All messages going to Clients are handled via ServerGameInfoHandler)
  *
@@ -44,7 +44,7 @@ public class VoteHandler {
    * @param passengers: passengers on the train
    */
 
-  public void ghostVote(Passenger[] passengers, Game game) {
+  public String ghostVote(Passenger[] passengers, Game game) {
     LOGGER.debug("ghostVote has been called");
     LOGGER.info(game.getGameState().toString());
 
@@ -106,12 +106,23 @@ public class VoteHandler {
         n.noiseNotifier(passengers, passengers[i], g, game);
       }
     }
+    int humanCounter = 0;
+    for(Passenger passenger : passengers) {
+      if(!passenger.getIsGhost()) { //if it is a human
+        humanCounter++;
+      }
+    }
+
+    if (humanCounter == 0) {
+      return ClientGameInfoHandler.gameOverGhostsWin;
+    }
 
     LOGGER.info(game.getGameState().toString());
     // set hasVoted to false for all passengers for future votings
     for (Passenger passenger : passengers) {
       passenger.setHasVoted(false);
     }
+    return "";
   }
 
   /**

@@ -423,7 +423,7 @@ public class ClientHandler implements Runnable {
    */
   public void listLobbies() {
     if (Lobby.lobbies.isEmpty()) {
-      sendAnnouncementToClient("No open Lobbies.");
+      sendAnnouncementToClient("No Lobbies.");
     } else {
       for (Lobby l : Lobby.lobbies) {
         String lobbyStatus = "closed";
@@ -472,6 +472,32 @@ public class ClientHandler implements Runnable {
       }
     } else {
       sendAnnouncementToClient("You are not in a lobby.");
+    }
+  }
+
+  /**
+   * Lists all Games currenty running and already finished and displays it to the client handled by this
+   */
+  public void listGames() {
+    if (Lobby.runningGames.isEmpty() && Lobby.finishedGames.isEmpty()) {
+      sendAnnouncementToClient("No Games");
+    } else {
+      sendAnnouncementToClient("Running Games:");
+      try {
+        for (Game runningGame : Lobby.runningGames) {
+          sendAnnouncementToClient("  - " + runningGame.getName() + ", Lobby" + runningGame.getLobby().getLobbyID());
+        }
+      } catch (Exception e) {
+        sendAnnouncementToClient("  - No running Games");
+      }
+      sendAnnouncementToClient("Finished Games");
+      try {
+        for (Game finishedGame : Lobby.finishedGames) {
+          sendAnnouncementToClient("  - " + finishedGame.getName() + ", Lobby" + finishedGame.getLobby().getLobbyID());
+        }
+      } catch (Exception e) {
+        sendAnnouncementToClient("  - No finished Games");
+      }
     }
   }
 

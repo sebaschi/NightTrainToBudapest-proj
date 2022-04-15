@@ -1,6 +1,9 @@
 package ch.unibas.dmi.dbis.cs108.gamelogic;
 
+import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import java.util.Arrays;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Data structure that is used to store clientVotes in an array, where the index correponds to the
@@ -8,6 +11,8 @@ import java.util.Arrays;
  */
 
 public class ClientVoteData {
+  public static final Logger LOGGER = LogManager.getLogger();
+  public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   private int[] vote; //saves vote of clientHandler for later transmission to passenger, by default MAX_VALUE, index corresponds to Passenger position
   private boolean[] hasVoted; //saves hasVoted status of clientHandler for later transmission to passenger, by default false, index corresponds to Passenger position
@@ -33,7 +38,14 @@ public class ClientVoteData {
    * @param vote the vote value
    */
   public void setVote(int position, int vote) {
-    this.vote[position] = vote;
+    if (vote == Integer.MAX_VALUE) {
+      setHasVoted(position, false);
+    }
+    try {
+      this.vote[position] = vote;
+    } catch (IndexOutOfBoundsException e) {
+      LOGGER.info("Position is: " + position);
+    }
   }
 
   /**

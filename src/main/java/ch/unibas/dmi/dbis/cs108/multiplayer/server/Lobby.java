@@ -108,13 +108,6 @@ public class Lobby {
     return null;
   }
 
-  public static HashSet<Game> getFinishedGames() {
-    return finishedGames;
-  }
-
-  public static HashSet<Game> getRunningGames() {
-    return runningGames;
-  }
 
   /**
    * Returns the game that the clients in this lobby are in

@@ -53,7 +53,7 @@ public class GhostPlayer extends Ghost {
   public void getVoteFromGameState(ClientVoteData clientVoteData, Game game) {
     vote = clientVoteData.getVote()[position];
     hasVoted = clientVoteData.getHasVoted()[position];
-    clientVoteData.setVote(position,Integer.MAX_VALUE);
+    clientVoteData.setVote(position, Integer.MAX_VALUE);
     clientVoteData.setHasVoted(position,false);
     LOGGER.info("Ghost at Pos: " + position + " has voted for: " + vote);
     /*

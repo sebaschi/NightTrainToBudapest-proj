@@ -43,26 +43,31 @@ public class GhostNPC extends Ghost {
    * but only for positions where there aren't any ghosts and sets hasVoted to true
    * TODO: Make NPC smarter
    */
-  public void vote(Game game){
+  public void vote(Game game) {
     int ghostCounter = 0;
     Passenger[] train = game.getGameState().getPassengerTrain();
-    for(Passenger passenger : train) {
-      if(passenger.isGhost) {
+    for (Passenger passenger : train) {
+      if (passenger.isGhost) {
         ghostCounter++;
       }
     }
-    int[] humanPositions = new int[game.getNrOfPlayers() - ghostCounter ];
-    int j = 0;
-    for (int i = 0; i < train.length; i++) {
-      if (!train[i].isGhost) { //is human
-        humanPositions[j] = train[i].getPosition();
-        j++;
+    int[] humanPositions = new int[game.getGameState().getNrOfPlayers() - ghostCounter];
+    if (humanPositions.length == 0) {
+      vote = Integer.MAX_VALUE;
+    } else {
+
+      int j = 0;
+      for (int i = 0; i < train.length; i++) {
+        if (!train[i].isGhost) { //is human
+          humanPositions[j] = train[i].getPosition();
+          j++;
+        }
       }
+      int randomPosition = (int) (Math.random() * humanPositions.length);
+      vote = humanPositions[randomPosition];
+      hasVoted = true;
+      LOGGER.info("GhostNPC at Position: " + this.getPosition() + " has voted for: " + vote);
     }
-    int randomPosition = (int) (Math.random()*humanPositions.length);
-    vote = humanPositions[randomPosition];
-    hasVoted = true;
-    LOGGER.info("GhostNPC at Position: " + this.getPosition() + " has voted for: " + vote);
   }
 
   /**

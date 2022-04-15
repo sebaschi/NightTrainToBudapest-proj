@@ -23,8 +23,9 @@ Votes are held in the night for the ghosts to decide who will be next and during
 * /w _username$message_ - sends a message to the specified user only. 
 * /g - create (&join) a new lobby.
 * /j _1_ - join lobby 1. To join lobby 2, use /j _2_, etc.
-* /l - list all connected clients and all lobbies
+* /l - list all connected clients and all lobbies and their status
 * /p - list all players in your lobby.
+* /z - list all games on the server and their status
 * /e - exit your lobby
 * /n _name_ - changes player name. If unavailable, it adds a fun and quirky suffix
 * /q - quit

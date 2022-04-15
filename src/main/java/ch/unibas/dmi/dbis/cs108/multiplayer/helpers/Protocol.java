@@ -122,9 +122,16 @@ public class Protocol {
 
 
   /**
-   * A Client decides to start the game.
+   * A Client decides to start the game. The game is started in the lobby the message came from.
+   * Only one game can be started per lobby at a time.
    */
   public static final String startANewGame = "STGAM";
+
+  /**
+   * Client request to see a list of all games, ongoing and finished.
+   */
+
+  public static final String listGames = "LISTG";
 
   /**
    * Client informs server that they have voted and delivers this vote in the form of "CVOTE$position$vote"
