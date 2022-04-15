@@ -71,7 +71,7 @@ public class Game implements Runnable {
     int i = 0;
     HashSet<ClientHandler> lobbyClients = lobby.getLobbyClients();
     String gameOverCheck = "";
-    int[] order = gameState.getTrain().orderOfTrain;
+    int[] order = gameState.getTrain().getOrderOfTrain();
     Passenger[] passengerTrain = gameState.getPassengerTrain();
 
 

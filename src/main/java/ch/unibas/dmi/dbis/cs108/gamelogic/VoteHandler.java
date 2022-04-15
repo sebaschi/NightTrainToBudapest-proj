@@ -21,21 +21,6 @@ public class VoteHandler {
   public static final Logger LOGGER = LogManager.getLogger(VoteHandler.class);
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
-  private static ClientVoteData clientVoteData = new ClientVoteData();
-
-  public static ClientVoteData getClientVoteData() {
-    return clientVoteData;
-  }
-
-
-
-  public static void setClientVoteData(ClientVoteData clientVoteData) {
-    clientVoteData = clientVoteData;
-  }
-
-
-
-
   /**
    * Handles the ghost vote during nighttime: passengers who are ghosts are being asked on who to
    * ghostify, others are waiting. Results are being collected and the player with most votes is
@@ -72,7 +57,7 @@ public class VoteHandler {
       LOGGER.warn("Thread " + Thread.currentThread() + " was interrupted");
     }
 
-    int currentMax = voteEvaluation(passengers, votesForPlayers, clientVoteData, game);
+    int currentMax = voteEvaluation(passengers, votesForPlayers, game.getGameState().getClientVoteData(), game);
 
     LOGGER.debug("Most votes: " + currentMax + " vote");
 
@@ -157,7 +142,7 @@ public class VoteHandler {
       LOGGER.warn("Thread " + Thread.currentThread() + " was interrupted");
     }
 
-    int currentMax = voteEvaluation(passengers, votesForPlayers, clientVoteData, game);
+    int currentMax = voteEvaluation(passengers, votesForPlayers, game.getGameState().getClientVoteData(), game);
 
     // deal with voting results
     int voteIndex = 0;

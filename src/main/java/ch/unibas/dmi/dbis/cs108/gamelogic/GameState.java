@@ -52,16 +52,17 @@ public class GameState {
     clientVoteData = new ClientVoteData();
     Passenger[] passengerTrain = new Passenger[nrOfPlayers]; //Creates an array with Passengers with correlation positions (Train)
     for (int i = 0; i < nrOfPlayers; i++) {
-      if (i == 3) { //TODO: randomize via Train.ghostposition
+      if (i == train.getPositionOfGhost()) { //TODO: randomize via Train.ghostposition
+        LOGGER.info("OG position: " + train.getOrderOfTrain()[i]);
         Ghost g = new Ghost();
-        g.setPosition(train.orderOfTrain[i]);
+        g.setPosition(train.getOrderOfTrain()[i]);
         g.setGhost();
         g.setIsOG(true);
-        passengerTrain[train.orderOfTrain[i]] = g;
+        passengerTrain[train.getOrderOfTrain()[i]] = g;
       } else {
         Human h = new Human();
-        h.setPosition(train.orderOfTrain[i]);
-        passengerTrain[train.orderOfTrain[i]] = h;
+        h.setPosition(train.getOrderOfTrain()[i]);
+        passengerTrain[train.getOrderOfTrain()[i]] = h;
       }
     }
 
@@ -86,6 +87,10 @@ public class GameState {
 
   public int getNrOfGhosts() {
     return nrOfGhosts;
+  }
+
+  public  ClientVoteData getClientVoteData() {
+    return clientVoteData;
   }
 
   /**
