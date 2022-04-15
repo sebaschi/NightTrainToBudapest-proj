@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
 
 public class MessageFormatter {
 
-  public static final Logger LOGGER = LogManager.getLogger();
+  public static final Logger LOGGER = LogManager.getLogger(MessageFormatter.class);
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   /**

@@ -9,7 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class GhostifyHandler {
-  public static final Logger LOGGER = LogManager.getLogger();
+  public static final Logger LOGGER = LogManager.getLogger(GhostifyHandler.class);
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
   /**
    * Changes passenger at position x to ghost and returns this ghost. Monitors the times the ghost method is being

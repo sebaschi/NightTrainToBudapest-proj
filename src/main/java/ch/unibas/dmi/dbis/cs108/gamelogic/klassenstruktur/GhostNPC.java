@@ -9,7 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class GhostNPC extends Ghost {
-  public static final Logger LOGGER = LogManager.getLogger();
+  public static final Logger LOGGER = LogManager.getLogger(GhostNPC.class);
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   /**

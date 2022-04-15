@@ -15,7 +15,7 @@ import org.apache.logging.log4j.Logger;
  */
 public class ServerPinger implements Runnable {
 
-  public static final Logger LOGGER = LogManager.getLogger();
+  public static final Logger LOGGER = LogManager.getLogger(ServerPinger.class);
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   private boolean gotPingBack;    //should be set to true (via setGotPingBack) as soon as the server gets a pingback.

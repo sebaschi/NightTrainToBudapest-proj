@@ -18,7 +18,7 @@ import org.apache.logging.log4j.Logger;
  * <p>TODO: Think about if the timer needs to be implemented here or in the Game class
  */
 public class VoteHandler {
-  public static final Logger LOGGER = LogManager.getLogger();
+  public static final Logger LOGGER = LogManager.getLogger(VoteHandler.class);
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   private static ClientVoteData clientVoteData = new ClientVoteData();

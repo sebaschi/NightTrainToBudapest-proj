@@ -8,7 +8,7 @@ import org.apache.logging.log4j.Logger;
 
 public class HumanNPC extends Human {
 
-  public static final Logger LOGGER = LogManager.getLogger();
+  public static final Logger LOGGER = LogManager.getLogger(HumanNPC.class);
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   /**

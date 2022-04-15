@@ -11,7 +11,7 @@ import org.apache.logging.log4j.Logger;
  */
 
 public class ClientVoteData {
-  public static final Logger LOGGER = LogManager.getLogger();
+  public static final Logger LOGGER = LogManager.getLogger(ClientVoteData.class);
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   private int[] vote; //saves vote of clientHandler for later transmission to passenger, by default MAX_VALUE, index corresponds to Passenger position

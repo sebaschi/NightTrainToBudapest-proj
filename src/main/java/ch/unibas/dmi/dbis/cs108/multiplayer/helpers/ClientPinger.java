@@ -14,7 +14,7 @@ import org.apache.logging.log4j.Logger;
  * how the client receives and parses messages.
  */
 public class ClientPinger implements Runnable {
-  public static final Logger LOGGER = LogManager.getLogger();
+  public static final Logger LOGGER = LogManager.getLogger(ClientPinger.class);
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   private boolean gotPingBack;    //should be set to true when client gets a pingback.

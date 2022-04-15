@@ -5,7 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class Train {
-  public static final Logger LOGGER = LogManager.getLogger();
+  public static final Logger LOGGER = LogManager.getLogger(Train.class);
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   int[] orderOfTrain; //gives the random order in which the passengers enter the train
@@ -44,7 +44,7 @@ public class Train {
       }
 
     }
-    LOGGER.info("The userTrain order is: " + Arrays.toString(userTrain));
+    LOGGER.debug("The userTrain order is: " + Arrays.toString(userTrain));
     this.orderOfTrain = userTrain;
     this.positionOfGhost = nrOfPlayers / 2;
   }

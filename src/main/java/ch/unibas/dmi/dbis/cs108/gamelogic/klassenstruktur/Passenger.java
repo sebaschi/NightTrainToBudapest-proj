@@ -9,7 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class Passenger {
-  public static final Logger LOGGER = LogManager.getLogger();
+  public static final Logger LOGGER = LogManager.getLogger(Passenger.class);
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   protected int position;               //the player's Cabin number (0 to 5)

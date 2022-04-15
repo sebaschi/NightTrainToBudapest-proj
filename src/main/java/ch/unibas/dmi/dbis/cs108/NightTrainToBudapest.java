@@ -3,10 +3,7 @@ package ch.unibas.dmi.dbis.cs108;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.Client;
 import ch.unibas.dmi.dbis.cs108.multiplayer.server.Server;
 import java.net.InetAddress;
-import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.tools.picocli.CommandLine.Help.IParameterRenderer;
+
 
 public class NightTrainToBudapest {
 

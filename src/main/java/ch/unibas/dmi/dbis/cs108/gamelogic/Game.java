@@ -13,7 +13,7 @@ import java.util.HashSet;
 import org.apache.logging.log4j.*;
 
 public class Game implements Runnable {
-  public static final Logger LOGGER = LogManager.getLogger();
+  public static final Logger LOGGER = LogManager.getLogger(Game.class);
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   /**

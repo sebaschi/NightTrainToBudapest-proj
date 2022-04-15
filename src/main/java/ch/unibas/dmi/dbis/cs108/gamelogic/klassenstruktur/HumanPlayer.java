@@ -10,7 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class HumanPlayer extends Human {
-  public static final Logger LOGGER = LogManager.getLogger();
+  public static final Logger LOGGER = LogManager.getLogger(HumanPlayer.class);
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   /**

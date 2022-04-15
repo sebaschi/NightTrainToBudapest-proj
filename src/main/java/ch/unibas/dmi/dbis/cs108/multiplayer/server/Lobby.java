@@ -14,7 +14,7 @@ import org.apache.logging.log4j.Logger;
  */
 public class Lobby {
 
-  public static final Logger LOGGER = LogManager.getLogger();
+  public static final Logger LOGGER = LogManager.getLogger(Lobby.class);
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
   public static HashSet<Lobby> lobbies = new HashSet<>();
   public static HashSet<Game> runningGames = new HashSet<>();

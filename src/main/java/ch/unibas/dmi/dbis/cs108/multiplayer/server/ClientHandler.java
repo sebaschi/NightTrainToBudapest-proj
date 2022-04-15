@@ -18,7 +18,7 @@ import org.apache.logging.log4j.Logger;
 
 public class ClientHandler implements Runnable {
 
-  public static final Logger LOGGER = LogManager.getLogger();
+  public static final Logger LOGGER = LogManager.getLogger(ClientHandler.class);
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   private String clientUserName;

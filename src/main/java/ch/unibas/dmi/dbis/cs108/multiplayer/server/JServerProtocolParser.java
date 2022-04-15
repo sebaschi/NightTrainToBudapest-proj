@@ -13,7 +13,7 @@ import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
 
 public class JServerProtocolParser {
 
-  public static final Logger LOGGER = LogManager.getLogger();
+  public static final Logger LOGGER = LogManager.getLogger(JServerProtocolParser.class);
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
 
