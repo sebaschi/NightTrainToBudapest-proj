@@ -131,7 +131,10 @@ public class Game implements Runnable {
       }
       if (gameOverCheck.equals(ClientGameInfoHandler.gameOverGhostsWin) || gameOverCheck.equals(
           ClientGameInfoHandler.gameOverHumansWin)) {
-        lobby.getAdmin().broadcastAnnouncementToLobby(gameOverCheck); //ToDo(Seraina): adjust for lobby
+        lobby.getAdmin().broadcastAnnouncementToLobby(gameOverCheck);
+        lobby.removeGameFromRunningGames(this);
+        lobby.addGameToFinishedGames(this);
+        lobby.setLobbyIsOpen(true);
         return;
       }
     }

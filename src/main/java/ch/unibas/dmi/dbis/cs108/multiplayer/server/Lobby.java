@@ -17,8 +17,20 @@ public class Lobby {
   public static final Logger LOGGER = LogManager.getLogger();
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
   public static HashSet<Lobby> lobbies = new HashSet<>();
-  public Game game;
-  public boolean gameIsOngoing; //TODO(Seraina): getter and setter
+  public static HashSet<Game> runningGames = new HashSet<>();
+  public static HashSet<Game> finishedGames = new HashSet<>();
+  /**
+   * The currently ongoing game, is set, when a game is started
+   */
+  private Game game;
+  /**
+   * true by default
+   * true if game has not started yet, false if game has. If true, potential players can still join the game.
+   * Should be set to true again, after a game is finished.
+   * Games can only be started if Lobby is open.
+   */
+  private boolean lobbyIsOpen = true;
+
 
   private static final int MAX_NO_OF_CLIENTS = 6;
 
@@ -96,6 +108,14 @@ public class Lobby {
     return null;
   }
 
+  public static HashSet<Game> getFinishedGames() {
+    return finishedGames;
+  }
+
+  public static HashSet<Game> getRunningGames() {
+    return runningGames;
+  }
+
   /**
    * Returns the game that the clients in this lobby are in
    *
@@ -103,6 +123,10 @@ public class Lobby {
    */
   public Game getGame() {
     return game;
+  }
+
+  public boolean getLobbyIsOpen() {
+    return lobbyIsOpen;
   }
 
   /**
@@ -114,10 +138,16 @@ public class Lobby {
     this.game = game;
   }
 
+  public void setLobbyIsOpen(boolean lobbyIsOpen) {
+    this.lobbyIsOpen = lobbyIsOpen;
+  }
+
   /**
    * Returns the ID of the lobby that the client is in. If the client is not in any
    * lobby, it returns -1.
    */
+
+
   public static int clientIsInLobby(ClientHandler h) {
     for (Lobby l: lobbies) {
       for (ClientHandler clientHandler: l.getLobbyClients()) {
@@ -172,6 +202,18 @@ public class Lobby {
     return false;
   }
 
+  public void addGameToRunningGames(Game game) {
+    runningGames.add(game);
+  }
+
+  public void removeGameFromRunningGames(Game game) {
+    runningGames.remove(game);
+  }
+
+  public  void addGameToFinishedGames(Game game) {
+    finishedGames.add(game);
+  }
+
   /**
    * Closes the lobby.
    *
@@ -179,6 +221,7 @@ public class Lobby {
   public void closeLobby() {
     lobbies.remove(this);
     ClientHandler.broadcastAnnouncementToAll("Lobby nr. " + this.getLobbyID() + " has been closed.");
+
     /*
     Todo: theoretically, this is enough to close a lobby.
      ClientHandlers dont have to manually be removed from the lobby

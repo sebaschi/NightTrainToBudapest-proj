@@ -135,7 +135,6 @@ public class ClientHandler implements Runnable {
     try {
       getLobby().getGame().getGameState().changeUsername(helper,newName);
     } catch (NullPointerException e) {
-      LOGGER.warn("No game has been started yet in this lobby");
     }
   }
 
@@ -306,15 +305,27 @@ public class ClientHandler implements Runnable {
   }
 
   /**
-   * Initializes a new Game instance and starts its run method in a new thread
+   * Initializes a new Game instance and starts its run method in a new thread.
+   * Puts the game in the corresponding lobby. Only the admin of this lobby can start a new
+   * game.
    */
   public void startNewGame() {
     try {
       Lobby l = getLobby();
-      Game game = new Game(6,1, l.getLobbyClients().size(), l);
-      l.setGame(game);
-      Thread t = new Thread(game);
-      t.start();
+      if (l.getLobbyIsOpen()) {
+        if (l.getAdmin().equals(this)) {
+          Game game = new Game(6, 1, l.getLobbyClients().size(), l);
+          l.setGame(game);
+          Thread t = new Thread(game);
+          t.start();
+          l.addGameToRunningGames(game);
+          l.setLobbyIsOpen(false);
+        } else {
+          sendAnnouncementToClient("Only the admin can start the game");
+        }
+      } else {
+        sendAnnouncementToClient("The game has already started");
+      }
     } catch (TrainOverflow e) {
       LOGGER.warn(e.getMessage());
     } catch (NullPointerException e) {
@@ -379,7 +390,11 @@ public class ClientHandler implements Runnable {
   public void joinLobby(int i) {
     Lobby l = Lobby.getLobbyFromID(i);
     if (l != null) {
-      l.addPlayer(this);
+      if (l.getLobbyIsOpen()) {
+        l.addPlayer(this);
+      } else {
+        sendAnnouncementToClient("The game in Lobby " + l.getLobbyID() + " has already started");
+      }
     } else {
       sendAnnouncementToClient("Invalid Lobby nr.");
       sendAnnouncementToClient("use LISTL to list lobbies");
@@ -411,7 +426,11 @@ public class ClientHandler implements Runnable {
       sendAnnouncementToClient("No open Lobbies.");
     } else {
       for (Lobby l : Lobby.lobbies) {
-        sendAnnouncementToClient("Lobby nr. " + l.getLobbyID() + ":");
+        String lobbyStatus = "closed";
+        if(l.getLobbyIsOpen()) {
+          lobbyStatus = "open";
+        }
+        sendAnnouncementToClient("Lobby nr. " + l.getLobbyID() + ": (" + lobbyStatus + ")");
         for (ClientHandler c : l.getLobbyClients()) {
           if (c.equals(l.getAdmin())) {
             sendAnnouncementToClient("  -" + c.getClientUserName() + " (admin)");

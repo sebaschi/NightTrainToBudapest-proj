@@ -91,6 +91,10 @@ public class MessageFormatter {
         }
         stringBuilder.append(Protocol.votedFor + "$" + position + "$");
         break;
+      case "/s":
+        stringBuilder.append(Protocol.startANewGame);
+
+        break;
       default:
         s = msg;
     }
