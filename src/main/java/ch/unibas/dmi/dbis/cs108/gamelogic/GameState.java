@@ -44,7 +44,7 @@ public class GameState {
    * @throws TrainOverflow if nrOfPlayers < nrOfUsers
    */
   GameState(int nrOfPlayers, int nrOfGhosts, int nrOfUsers)
-      throws TrainOverflow { //ToDo: where will Exception be handled?
+      throws TrainOverflow {
     this.nrOfPlayers = nrOfPlayers;
     this.nrOfGhosts = nrOfGhosts;
     this.nrOfUsers = nrOfUsers;
@@ -52,7 +52,7 @@ public class GameState {
     clientVoteData = new ClientVoteData();
     Passenger[] passengerTrain = new Passenger[nrOfPlayers]; //Creates an array with Passengers with correlation positions (Train)
     for (int i = 0; i < nrOfPlayers; i++) {
-      if (i == train.getPositionOfGhost()) { //TODO: randomize via Train.ghostposition
+      if (i == train.getPositionOfGhost()) {
         LOGGER.info("OG position: " + train.getOrderOfTrain()[i]);
         Ghost g = new Ghost();
         g.setPosition(train.getOrderOfTrain()[i]);

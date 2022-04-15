@@ -17,7 +17,7 @@ public class Passenger {
   protected boolean isGhost;            //boolean regarding if the player is a ghost. Could probably be removed since ghost is a subclass but I'm keeping it in.
   protected boolean isOG = false;       //true if the player is the original ghost, false by default.
   protected boolean isPlayer;           //same here
-  protected boolean kickedOff;          //true if the player has been voted off.
+  protected boolean kickedOff;          //true if the player has been voted off
   protected ClientHandler clientHandler;//the socket for the client associated with this Passenger, for NPCs, this can be null.
   protected boolean hasVoted;           //true if the player gave his vote during voting time
   protected int vote;                   //saves the number of the player this passenger voted for during voting (0-5)
@@ -65,6 +65,14 @@ public class Passenger {
 
   public void setIsOg() {
     isOG = true;
+  }
+
+  public void setPlayer(boolean player) {
+    isPlayer = player;
+  }
+
+  public void setClientHandler(ClientHandler clientHandler) {
+    this.clientHandler = clientHandler;
   }
 
   public int getPosition() {

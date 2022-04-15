@@ -26,7 +26,6 @@ public class Game implements Runnable {
   private Lobby lobby;
   private String name;
   private static int nameCounter = 0;
-  //TODO: Figure out where Day/Night game state is saved maybe think about a game state class or smt.
   /**
    * Constructs a Game instance where:
    *
@@ -35,7 +34,7 @@ public class Game implements Runnable {
    * @param nrOfUsers   is the number of active users at the time (non NPCs)
    */
   public Game(int nrOfPlayers, int nrOfGhosts, int nrOfUsers, Lobby lobby)
-      throws TrainOverflow { //ToDo: Who handles Exception how and where
+      throws TrainOverflow {
     this.gameState = new GameState(nrOfPlayers, nrOfGhosts, nrOfUsers);
     this.lobby = lobby;
     nameCounter++;
@@ -63,7 +62,6 @@ public class Game implements Runnable {
    * currently at gameState.train[3] fills the passengerTrain moving from left to rigth in the
    * gameState.train array it connects clientHandlers witch the passengers in those positions
    * (Players) and fills the rest with NPC's
-   * TODO: set ghost in a random position(i), gameState.train[i] so that a lone player can also start as a Ghost maybe use Train class
    */
   @Override
   public void run() {
@@ -76,7 +74,7 @@ public class Game implements Runnable {
 
 
     LOGGER.info(gameState.toString());
-    for (ClientHandler client : lobbyClients) { //TODO(Seraina): Adjust for lobbies
+    for (ClientHandler client : lobbyClients) {
       int index = order[i];
       if (passengerTrain[index].getIsGhost()) { //if there is a ghost
         GhostPlayer ghostPlayer = new GhostPlayer(passengerTrain[index].getPosition(),
@@ -104,7 +102,7 @@ public class Game implements Runnable {
     LOGGER.info(gameState.toString());
 
     i = 0;
-    while (true) { //ToDo: was ist die Abbruchbedingung? VoteHandler muss das schicken.
+    while (true) {
       if (!isDay) {
         LOGGER.info("NIGHT");
         voteHandler.ghostVote(gameState.getPassengerTrain(), this);

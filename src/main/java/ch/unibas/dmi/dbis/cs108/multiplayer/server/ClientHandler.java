@@ -77,11 +77,6 @@ public class ClientHandler implements Runnable {
     return socket;
   }
 
-  /**
-   * Needed to fill a train with client TODO: how do lobbies fit here?
-   *
-   * @return the HashSet of Connected Clients
-   */
   public static HashSet<ClientHandler> getConnectedClients() {
     return connectedClients;
   }
@@ -300,7 +295,7 @@ public class ClientHandler implements Runnable {
     if(vote != Integer.MAX_VALUE) { //gets MAX_VALUE when the vote wasn't valid
       getLobby().getGame().getGameState().getClientVoteData().setVote(position,vote);
       LOGGER.debug("Player vote: " + vote);
-      getLobby().getGame().getGameState().getClientVoteData().setHasVoted(position,true); //TODO: move clientVoteData to gamestate
+      getLobby().getGame().getGameState().getClientVoteData().setHasVoted(position,true);
     }
   }
 
@@ -490,7 +485,7 @@ public class ClientHandler implements Runnable {
       } catch (Exception e) {
         sendAnnouncementToClient("  - No running Games");
       }
-      sendAnnouncementToClient("Finished Games");
+      sendAnnouncementToClient("Finished Games:");
       try {
         for (Game finishedGame : Lobby.finishedGames) {
           sendAnnouncementToClient("  - " + finishedGame.getName() + ", Lobby" + finishedGame.getLobby().getLobbyID());

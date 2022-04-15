@@ -22,7 +22,7 @@ public class Train {
   Train(int nrOfPlayers, int nrOfUsers) throws TrainOverflow {
 
     if (nrOfPlayers < nrOfUsers) {
-      throw new TrainOverflow(); //ToDo: What kind of Exception must be thrown here and who handles it how?
+      throw new TrainOverflow();
     }
 
     int[] userTrain = new int[nrOfPlayers];

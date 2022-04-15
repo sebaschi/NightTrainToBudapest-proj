@@ -44,7 +44,7 @@ public class ClientVoteData {
     try {
       this.vote[position] = vote;
     } catch (IndexOutOfBoundsException e) {
-      LOGGER.info("Position is: " + position);
+      LOGGER.warn("Position is: " + position);
     }
   }
 
@@ -54,6 +54,10 @@ public class ClientVoteData {
    * @param hasVoted the vote state value
    */
   public void setHasVoted(int position, boolean hasVoted) {
-    this.hasVoted[position] = hasVoted;
+    try {
+      this.hasVoted[position] = hasVoted;
+    } catch (Exception e) {
+      LOGGER.warn("Position is:" + position);
+    }
   }
 }

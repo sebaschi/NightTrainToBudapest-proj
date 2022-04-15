@@ -14,7 +14,6 @@ import org.apache.logging.log4j.Logger;
  * Handles all communications Server to Client concerning game state or game state related requests
  * - Needs a possibility to only send to Ghosts
  * - and only humans
- * TODO: Figure out what format the messages have, consider protocol add what is needed dont forget about parsing
  */
 
 public class ServerGameInfoHandler {
@@ -24,20 +23,34 @@ public class ServerGameInfoHandler {
   /**
    * Gets a string msg from somewhere and formats it into protocol messages
    * @param msg the message to be formatted
+   * @param passenger the passenger getting the message
+   * @param game the game in wich the passenger lives
    * @return a message in a protocol format
    */
-  public static String format(String msg, Passenger p, Game game) {
+  public static String format(String msg, Passenger passenger, Game game) {
     switch (msg) {
       case ClientGameInfoHandler.ghostVoteRequest:
-        msg = Protocol.serverRequestsGhostVote + "$" + p.getPosition() +"$" + game.gameState.toString();
+        msg = Protocol.serverRequestsGhostVote + "$" + passenger.getPosition() +"$" + game.gameState.toString();
         break;
       case ClientGameInfoHandler.humanVoteRequest:
-        msg = Protocol.serverRequestsHumanVote + "$" + p.getPosition() +"$"+ game.gameState.humanToString();
+        msg = Protocol.serverRequestsHumanVote + "$" + passenger.getPosition() +"$"+ game.gameState.humanToString();
         break;
       default:
         msg = Protocol.printToClientConsole + "$"+ msg;
     }
     LOGGER.debug(msg);
+    return msg;
+  }
+
+  /**
+   * //TODO(Seraina): implementation
+   * Formartiert Nachrichten die für einen Spectator gedacht sind.
+   * @param msg the message to be formatted
+   * @param passenger the passenger getting the message
+   * @param game the game in wich the passenger lives
+   * @return a message in a protocol format
+   */
+  public static String spectatorFormat(String msg, Passenger passenger, Game game) {
     return msg;
   }
 
@@ -50,8 +63,8 @@ public class ServerGameInfoHandler {
     String b = "noise";
     String c = "I heard smt strange tonight";
     String d = "Me, noise!";
-    String e = "Uuuuh, spoky noises";
-    int number = (int)(Math.random()*4);
+    String e = "Uuuuh, spoky sounds";
+    int number = (int)(Math.random()*5);
     switch (number) {
       case 0:
         return a;

@@ -15,7 +15,7 @@ import org.apache.logging.log4j.Logger;
  *
  * <p>(All messages going to Clients are handled via ServerGameInfoHandler)
  *
- * <p>TODO: Think about if the timer needs to be implemented here or in the Game class
+ * <p>
  */
 public class VoteHandler {
   public static final Logger LOGGER = LogManager.getLogger(VoteHandler.class);
@@ -57,7 +57,7 @@ public class VoteHandler {
       LOGGER.warn("Thread " + Thread.currentThread() + " was interrupted");
     }
 
-    int currentMax = voteEvaluation(passengers, votesForPlayers, game.getGameState().getClientVoteData(), game);
+    int currentMax = ghostVoteEvaluation(passengers, votesForPlayers, game.getGameState().getClientVoteData(), game);
 
     LOGGER.debug("Most votes: " + currentMax + " vote");
 
@@ -71,11 +71,11 @@ public class VoteHandler {
       }
     }
     LOGGER.info("Most votes for: " + ghostPosition);
-    GhostifyHandler gh = new GhostifyHandler();
-    Ghost g = gh.ghost(passengers[ghostPosition], game);
+
+    Ghost g = GhostifyHandler.ghost(passengers[ghostPosition], game);
     passengers[ghostPosition] = g;
     passengers[ghostPosition].send(
-        ClientGameInfoHandler.youGotGhostyfied, game); // TODO: ServerGameInfoHandler might deal with this one
+        ClientGameInfoHandler.youGotGhostyfied, game);
     try { // waits 20 seconds before votes get collected
       Thread.sleep(10);
     } catch (InterruptedException e) {
@@ -127,7 +127,6 @@ public class VoteHandler {
     int[] votesForPlayers = new int[6];
 
     // Walk through entire train, ask humans to vote and ghosts to wait
-    // TODO: Messages in for-loop should probably be handled by ServerGameInfoHandler
     for (Passenger passenger : passengers) {
       if (passenger.getIsGhost()) {
         passenger.send(ClientGameInfoHandler.itsDayTime, game);
@@ -142,7 +141,7 @@ public class VoteHandler {
       LOGGER.warn("Thread " + Thread.currentThread() + " was interrupted");
     }
 
-    int currentMax = voteEvaluation(passengers, votesForPlayers, game.getGameState().getClientVoteData(), game);
+    int currentMax = humanVoteEvaluation(passengers, votesForPlayers, game.getGameState().getClientVoteData(), game);
 
     // deal with voting results
     int voteIndex = 0;
@@ -156,12 +155,12 @@ public class VoteHandler {
         .getIsGhost()) { // if player with most votes is human, notify everyone about it
       for (Passenger passenger : passengers) {
         passenger.send(
-            ClientGameInfoHandler.humansVotedFor + voteIndex + ClientGameInfoHandler.isAHuman, game); // TODO: ServerGameInfoHandler might be better to use here
+            ClientGameInfoHandler.humansVotedFor + voteIndex + ClientGameInfoHandler.isAHuman, game);
       }
     }
     if (passengers[voteIndex].getIsGhost()) { // if player is a ghost
       if (passengers[voteIndex].getIsOG()) { // if ghost is OG --> end game, humans win
-        System.out.println(ClientGameInfoHandler.gameOverHumansWin); // TODO: correctly handle end of game
+        System.out.println(ClientGameInfoHandler.gameOverHumansWin);
         return ClientGameInfoHandler.gameOverHumansWin;
       } else {
         /* Special case: if ghost is not OG and if only one human is left (--> last human didn't vote for OG ghost),
@@ -179,7 +178,7 @@ public class VoteHandler {
         }
         // Usual case: there is more than one human left and a normal ghost has been voted for -->
         // kick this ghost off
-        passengers[voteIndex].setKickedOff(true);
+        passengers[voteIndex] = GhostifyHandler.kickOff(passengers[voteIndex], game);
         for (Passenger passenger : passengers) {
           passenger.send("Player " + voteIndex + ClientGameInfoHandler.gotKickedOff, game);
         }
@@ -220,7 +219,7 @@ public class VoteHandler {
   }
 
   /**
-   * Collecting the votes - distribute them among the vote counters for all players. Note: each voting collects
+   * Collecting the votes of Ghosts- distribute them among the vote counters for all players. Note: each voting collects
    * votes for all players even though some might not be concerned (i.e. ghosts during ghost vote). Those players
    * will then get 0 votes so it dosen't matter. Returns the max amount of votes a player received.
    * @param passengers train passengers
@@ -228,10 +227,41 @@ public class VoteHandler {
    * @param data deals with Client votes
    * @param game current game instance
    */
-  int voteEvaluation(Passenger[] passengers, int[] votesForPlayers, ClientVoteData data, Game game) {
+  int ghostVoteEvaluation(Passenger[] passengers, int[] votesForPlayers, ClientVoteData data, Game game) {
     for (Passenger passenger : passengers) {
       passenger.getVoteFromGameState(data, game);
-      if (passenger.getHasVoted()) {
+      if (passenger.getHasVoted() && passenger.getIsGhost() && !passenger.getKickedOff()) {
+        for (int i = 0; i < votesForPlayers.length; i++) {
+          if (passenger.getVote() == i) {
+            votesForPlayers[i]++;
+          }
+        }
+      }
+    }
+    /* count the votes - determine which player has the most votes by going through the
+    votesForPlayers array */
+    int currentMax = 0;
+    for (int votesForPlayer : votesForPlayers) {
+      if (votesForPlayer > currentMax) {
+        currentMax = votesForPlayer;
+      }
+    }
+    return currentMax;
+  }
+
+  /**
+   * Collecting the votes of Humans - distribute them among the vote counters for all players. Note: each voting collects
+   * votes for all players even though some might not be concerned (i.e. ghosts during ghost vote). Those players
+   * will then get 0 votes so it dosen't matter. Returns the max amount of votes a player received.
+   * @param passengers train passengers
+   * @param votesForPlayers array collecting the votes each player received during a voting
+   * @param data deals with Client votes
+   * @param game current game instance
+   */
+  int humanVoteEvaluation(Passenger[] passengers, int[] votesForPlayers, ClientVoteData data, Game game) {
+    for (Passenger passenger : passengers) {
+      passenger.getVoteFromGameState(data, game);
+      if (passenger.getHasVoted() && !passenger.getIsGhost() && !passenger.getKickedOff()) {
         for (int i = 0; i < votesForPlayers.length; i++) {
           if (passenger.getVote() == i) {
             votesForPlayers[i]++;
