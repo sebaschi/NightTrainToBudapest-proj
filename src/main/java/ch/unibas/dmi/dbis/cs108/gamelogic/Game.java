@@ -26,6 +26,8 @@ public class Game implements Runnable {
   protected boolean isDay = false; //false means it is night, it is night by default
   protected VoteHandler voteHandler = new VoteHandler();
   private Lobby lobby;
+  private String name;
+  private static int nameCounter = 0;
   //TODO: Figure out where Day/Night game state is saved maybe think about a game state class or smt.
   /**
    * Constructs a Game instance where:
@@ -41,6 +43,8 @@ public class Game implements Runnable {
     this.nrOfUsers = nrOfUsers;
     this.gameState = new GameState(nrOfPlayers, nrOfGhosts, nrOfUsers);
     this.lobby = lobby;
+    nameCounter++;
+    this.name = "Game-" + nameCounter;
     }
 
   public GameState getGameState() {
