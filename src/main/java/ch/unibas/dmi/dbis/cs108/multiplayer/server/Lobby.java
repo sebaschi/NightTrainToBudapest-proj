@@ -23,6 +23,8 @@ public class Lobby {
    * The currently ongoing game, is set, when a game is started
    */
   private Game game;
+
+
   /**
    * true by default
    * true if game has not started yet, false if game has. If true, potential players can still join the game.
@@ -30,6 +32,8 @@ public class Lobby {
    * Games can only be started if Lobby is open.
    */
   private boolean lobbyIsOpen = true;
+
+  private boolean gameIsRunning = false;
 
 
   private static final int MAX_NO_OF_CLIENTS = 6;
@@ -119,6 +123,11 @@ public class Lobby {
   }
 
   public boolean getLobbyIsOpen() {
+    if (lobbyClients.size() >= MAX_NO_OF_CLIENTS || gameIsRunning ) {
+      setLobbyIsOpen(false);
+    } else {
+      setLobbyIsOpen(true);
+    }
     return lobbyIsOpen;
   }
 
@@ -135,12 +144,11 @@ public class Lobby {
     this.lobbyIsOpen = lobbyIsOpen;
   }
 
+
   /**
    * Returns the ID of the lobby that the client is in. If the client is not in any
    * lobby, it returns -1.
    */
-
-
   public static int clientIsInLobby(ClientHandler h) {
     for (Lobby l: lobbies) {
       for (ClientHandler clientHandler: l.getLobbyClients()) {
@@ -158,8 +166,7 @@ public class Lobby {
    * @param client who wants to join the lobby.
    */
   public synchronized boolean addPlayer(ClientHandler client) {
-    if (lobbyClients.size() < MAX_NO_OF_CLIENTS) {
-      //todo: check that game hasn't started yet (handled in cleintHandler)
+    if (getLobbyIsOpen()) {
       if (clientIsInLobby(client) == -1) {
         lobbyClients.add(client);
         ClientHandler.broadcastAnnouncementToAll(client.getClientUserName() + " has joined lobby " + this.getLobbyID());
@@ -170,7 +177,7 @@ public class Lobby {
         client.sendAnnouncementToClient("You are already in lobby nr. " + clientIsInLobby(client));
       }
     } else {
-      client.sendAnnouncementToClient("This lobby is full. Please try joining a different lobby or create a new lobby");
+      client.sendAnnouncementToClient("This lobby is closed. Please try joining a different lobby or create a new lobby");
     }
     return false;
   }
@@ -195,11 +202,19 @@ public class Lobby {
     return false;
   }
 
+  /**
+   * Adds game to list of running games and sets its lobby's gameIsRunning to true.
+   */
   public void addGameToRunningGames(Game game) {
+    game.getLobby().gameIsRunning = true;
     runningGames.add(game);
   }
 
+  /**
+   * Removes game from list of running games and sets its lobby's gameIsRunning to false.
+   */
   public void removeGameFromRunningGames(Game game) {
+    game.getLobby().gameIsRunning = false;
     runningGames.remove(game);
   }
 
@@ -213,9 +228,10 @@ public class Lobby {
    */
   public void closeLobby() {
     lobbies.remove(this);
-    ClientHandler.broadcastAnnouncementToAll("Lobby nr. " + this.getLobbyID() + " has been closed.");
+    //ClientHandler.broadcastAnnouncementToAll("Lobby nr. " + this.getLobbyID() + " has been closed.");
 
     /*
+    TODO: close game when lobby is closed
     Todo: theoretically, this is enough to close a lobby.
      ClientHandlers dont have to manually be removed from the lobby
      since if the lobby is removed from the lobbies

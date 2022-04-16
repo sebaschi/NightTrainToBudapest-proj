@@ -117,7 +117,6 @@ public class Game implements Runnable {
         lobby.getAdmin().broadcastAnnouncementToLobby(gameOverCheck);
         lobby.removeGameFromRunningGames(this);
         lobby.addGameToFinishedGames(this);
-        lobby.setLobbyIsOpen(true);
         return;
       }
     }

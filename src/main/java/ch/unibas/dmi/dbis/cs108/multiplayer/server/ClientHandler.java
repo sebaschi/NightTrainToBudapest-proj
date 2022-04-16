@@ -314,7 +314,6 @@ public class ClientHandler implements Runnable {
           Thread t = new Thread(game);
           t.start();
           l.addGameToRunningGames(game);
-          l.setLobbyIsOpen(false);
         } else {
           sendAnnouncementToClient("Only the admin can start the game");
         }
@@ -378,9 +377,8 @@ public class ClientHandler implements Runnable {
   }
 
   /**
-   * The client wants to join the lobby with the index i.
-   * //todo: needs more doc.
-   * @param i
+   * The client wants to join the lobby with the index i. If the lobby is closed, the client will be notified.
+   * @param i the number of the lobby to join
    */
   public void joinLobby(int i) {
     Lobby l = Lobby.getLobbyFromID(i);
@@ -388,7 +386,7 @@ public class ClientHandler implements Runnable {
       if (l.getLobbyIsOpen()) {
         l.addPlayer(this);
       } else {
-        sendAnnouncementToClient("The game in Lobby " + l.getLobbyID() + " has already started");
+        sendAnnouncementToClient("The game in Lobby " + l.getLobbyID() + " has already started, or the lobby is already full.");
       }
     } else {
       sendAnnouncementToClient("Invalid Lobby nr.");
