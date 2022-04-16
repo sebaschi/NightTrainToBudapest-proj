@@ -123,6 +123,13 @@ public class Passenger {
   public boolean getIsOG() { return isOG; }
 
   /**
+   * true if passenger is a spectator
+   */
+  public  boolean getIsSpectator() {
+    return isSpectator;
+  }
+
+  /**
    * true if passenger has been voted off, false if passenger is still in the game
    * @return the boolean
    */

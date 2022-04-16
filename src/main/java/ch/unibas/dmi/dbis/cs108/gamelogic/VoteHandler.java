@@ -41,7 +41,6 @@ public class VoteHandler {
     // Walk through entire train, ask ghosts to ghostify and humans to wait
     for (Passenger passenger : passengers) {
       if (passenger.getIsGhost()) {
-
         passenger.send(ClientGameInfoHandler.ghostVoteRequest, game);
       } else {
         passenger.send(
@@ -67,15 +66,21 @@ public class VoteHandler {
       if (votesForPlayers[i] == currentMax) { // if player at position i has most votes
         ghostPosition = i;
         LOGGER.debug("Most votes for Passenger " + i);
-
       }
     }
     LOGGER.info("Most votes for: " + ghostPosition);
 
+    for(Passenger passenger : passengers) {
+      if(passenger.getIsGhost() || passenger.getIsSpectator()) {
+        passenger.send(passengers[ghostPosition].getName() + ClientGameInfoHandler.gotGhostyfied, game);
+      }
+    }
     Passenger g = GhostifyHandler.ghost(passengers[ghostPosition], game);
     passengers[ghostPosition] = g;
-    passengers[ghostPosition].send(
-        ClientGameInfoHandler.youGotGhostyfied, game);
+    if (!passengers[ghostPosition].getIsSpectator()) {
+      passengers[ghostPosition].send(
+          ClientGameInfoHandler.youGotGhostyfied, game);
+    }
     try { // waits 20 seconds before votes get collected
       Thread.sleep(10);
     } catch (InterruptedException e) {
@@ -180,8 +185,9 @@ public class VoteHandler {
         // Usual case: there is more than one human left and a normal ghost has been voted for -->
         // kick this ghost off
         passengers[voteIndex] = GhostifyHandler.kickOff(passengers[voteIndex], game);
+        passengers[voteIndex].send(ClientGameInfoHandler.youGotKickedOff, game);
         for (Passenger passenger : passengers) {
-          passenger.send("Player " + voteIndex + ClientGameInfoHandler.gotKickedOff, game);
+          passenger.send(passengers[voteIndex].getName() + ClientGameInfoHandler.gotKickedOff, game);
         }
       }
     }

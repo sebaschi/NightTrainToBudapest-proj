@@ -62,7 +62,8 @@ public class HumanPlayer extends Human {
       /*
        * if vote wasn't valid, make sure, the passenger field hasVoted == false, probably redundant but better be safe than sorry
        */
-      if (vote == Integer.MAX_VALUE) {
+      if (vote == Integer.MAX_VALUE || game.getGameState().getPassengerTrain()[vote].getKickedOff()) {
+        send("Your vote was invalid", game);
         hasVoted = false;
       }
     }

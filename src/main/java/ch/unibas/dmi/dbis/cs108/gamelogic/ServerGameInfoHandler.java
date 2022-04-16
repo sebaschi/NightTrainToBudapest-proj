@@ -53,9 +53,11 @@ public class ServerGameInfoHandler {
   public static String spectatorFormat(String msg, Passenger passenger, Game game) {
     switch (msg) {
       case ClientGameInfoHandler.ghostVoteRequest:
+      case ClientGameInfoHandler.itsNightTime:
         msg = Protocol.printToClientConsole + "$Ghosts are voting: " + game.gameState.toString();
         break;
       case ClientGameInfoHandler.humanVoteRequest:
+      case ClientGameInfoHandler.itsDayTime:
         msg = Protocol.printToClientConsole + "$Humans are voting:" + game.gameState.toString();
         break;
       default:
@@ -120,11 +122,8 @@ public class ServerGameInfoHandler {
         game.getLobby().getAdmin().broadcastNpcChatMessageToLobby(outMsg);
         break;
       case ClientGameInfoHandler.humanVoteRequest:
-        npc.vote();
+        npc.vote(game);
     }
-
-
   }
-
 
 }

@@ -105,7 +105,7 @@ public class Game implements Runnable {
     while (true) {
       if (!isDay) {
         LOGGER.info("NIGHT");
-        voteHandler.ghostVote(gameState.getPassengerTrain(), this);
+        gameOverCheck = voteHandler.ghostVote(gameState.getPassengerTrain(), this);
         setDay(true);
       } else {
         LOGGER.info("DAY");

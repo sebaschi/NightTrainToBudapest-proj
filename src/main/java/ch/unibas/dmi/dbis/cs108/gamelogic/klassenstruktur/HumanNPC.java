@@ -44,13 +44,29 @@ public class HumanNPC extends Human {
   }
 
   /**
-   * Currently returns a random integer for voting
+   * Currently returns a random integer for voting, but only for passengers that haven't been
+   * kicked off yet
    *
    * @return integer between 0 and 5
    */
-  public void vote() {
-    int randomNr = (int) (Math.random() * 6);
-    vote = randomNr;
+  public void vote(Game game) {
+    Passenger[] passengers = game.getGameState().getPassengerTrain();
+    int kickedOffCounter = 0;
+    for(Passenger passenger : passengers) {
+      if(passenger.getKickedOff()) {
+        kickedOffCounter++;
+      }
+    }
+    int[] inGamePositions = new int[passengers.length - kickedOffCounter];
+    int i = 0;
+    for(Passenger passenger : passengers) {
+      if(!passenger.getKickedOff()) {
+        inGamePositions[i] = passenger.getPosition();
+        i++;
+      }
+    }
+    int randomNr = (int) (Math.random() * inGamePositions.length);
+    vote = inGamePositions[randomNr];
     hasVoted = true;
     LOGGER.info("HumanNPC at Position: " + this.getPosition() + " has voted for: " + vote);
   }
