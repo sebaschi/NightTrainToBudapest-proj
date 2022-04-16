@@ -1,21 +1,21 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat;
 
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ClientModel;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.Objects;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class ChatApp extends Application {
   ClientModel clientModel;
   private ChatController chatController;
 
-
+  public ChatApp() {
+    super();
+  }
   public ChatApp(ClientModel clientModel) {
     this.clientModel = clientModel;
     this.chatController = new ChatController(clientModel);
@@ -36,14 +36,25 @@ public class ChatApp extends Application {
    */
   @Override
   public void start(Stage primaryStage) throws Exception {
-
+    URL resource = ChatApp.class.getResource(
+        "splitPaneChatView.fxml");
+    if (resource == null) {
+      System.out.println("File wasnt found");
+    }
     //ChatApp chatApp = new ChatApp(new ClientModel());
-    Parent root = FXMLLoader.load(getClass().getResource("splitPaneChatView.fxml"));
-    // TODO bin chatController.getChatPaneRoot() border to root border for rezising
-    Scene scene = new Scene(root);
+    try {
+      Parent root = FXMLLoader.load(
+          Objects.requireNonNull(ChatApp.class.getResource(
+              "splitPaneChatView.fxml")));
+      // TODO bin chatController.getChatPaneRoot() border to root border for rezising
+      Scene scene = new Scene(root);
+      scene.setRoot(root);
+      primaryStage.setScene(scene);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
     primaryStage.setResizable(true);
     primaryStage.setTitle("Chat");
-    primaryStage.setScene(scene);
     primaryStage.show();
 
 

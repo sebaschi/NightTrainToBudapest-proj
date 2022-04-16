@@ -51,7 +51,9 @@ public class ChatController implements Initializable {
   private static final String chatToAll = Protocol.chatMsgToAll;
   private static final String chatToLobby = Protocol.chatMsgToLobby;
 
-
+  public ChatController() {
+    super();
+  }
   public ChatController(ClientModel client) {
     this.client = client;
     whisperTargetChosen = new SimpleBooleanProperty();
