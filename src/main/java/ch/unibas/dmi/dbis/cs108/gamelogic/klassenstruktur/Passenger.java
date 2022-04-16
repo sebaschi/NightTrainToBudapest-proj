@@ -17,6 +17,7 @@ public class Passenger {
   protected boolean isGhost;            //boolean regarding if the player is a ghost. Could probably be removed since ghost is a subclass but I'm keeping it in.
   protected boolean isOG = false;       //true if the player is the original ghost, false by default.
   protected boolean isPlayer;           //same here
+  protected boolean isSpectator = false;        //true if a player is a spectator
   protected boolean kickedOff;          //true if the player has been voted off
   protected ClientHandler clientHandler;//the socket for the client associated with this Passenger, for NPCs, this can be null.
   protected boolean hasVoted;           //true if the player gave his vote during voting time
@@ -50,27 +51,50 @@ public class Passenger {
     this.kickedOff = kickedOff;
   }
 
+  /**
+   * Sets boolean isGhost to true
+   */
   public void setGhost() {
     // changes this passenger's status from human to ghost
     isGhost = true;
   }
+
+  /**
+   * Sets hasVoted of this Passenger, should be true if the passenger has voted
+   * @param voted the boolean either true or false
+   */
   public void setHasVoted(boolean voted) {
     // used to signal that this passenger voted during a voting
     hasVoted = voted;
   }
 
+  /**
+   * Sets the vote of this Passenger to:
+   * @param vote vote for a position, an integer
+   */
   public void setVote(int vote) {
     this.vote = vote;
   }
 
+  /**
+   * Sets the isOg boolean to true
+   */
   public void setIsOg() {
     isOG = true;
   }
 
+  /**
+   * Sets the isPlayer to either true or false, should be set to true if Passneger is a Player (not an NPC)
+   * @param player the boolean
+   */
   public void setPlayer(boolean player) {
     isPlayer = player;
   }
 
+  /**
+   * Sets the clientHandler of this passenger to the specified clientHandler
+   * @param clientHandler the specified clientHamdler
+   */
   public void setClientHandler(ClientHandler clientHandler) {
     this.clientHandler = clientHandler;
   }
@@ -84,16 +108,32 @@ public class Passenger {
     return name;
   }
 
+  /**
+   * true if passenger is a ghost, false if passenger is a human
+   * @return the boolean
+   */
   public boolean getIsGhost() {
     return isGhost;
   }
 
+  /**
+   * true if passenger is the OG ghost
+   * @return the boolean
+   */
   public boolean getIsOG() { return isOG; }
 
+  /**
+   * true if passenger has been voted off, false if passenger is still in the game
+   * @return the boolean
+   */
   public boolean getKickedOff() {
     return kickedOff;
   }
 
+  /**
+   * true if passenger is a Player, false if passenger is an NPC
+   * @return the boolean
+   */
   public boolean getIsPlayer() {
     return isPlayer;
   }

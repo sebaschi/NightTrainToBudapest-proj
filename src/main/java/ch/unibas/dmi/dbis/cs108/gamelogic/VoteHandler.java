@@ -72,7 +72,7 @@ public class VoteHandler {
     }
     LOGGER.info("Most votes for: " + ghostPosition);
 
-    Ghost g = GhostifyHandler.ghost(passengers[ghostPosition], game);
+    Passenger g = GhostifyHandler.ghost(passengers[ghostPosition], game);
     passengers[ghostPosition] = g;
     passengers[ghostPosition].send(
         ClientGameInfoHandler.youGotGhostyfied, game);
@@ -106,6 +106,7 @@ public class VoteHandler {
     // set hasVoted to false for all passengers for future votings
     for (Passenger passenger : passengers) {
       passenger.setHasVoted(false);
+      passenger.setVote(Integer.MAX_VALUE);
     }
     return "";
   }
@@ -188,6 +189,7 @@ public class VoteHandler {
     // set hasVoted to false for all passengers for future voting
     for (Passenger passenger : passengers) {
       passenger.setHasVoted(false);
+      passenger.setVote(Integer.MAX_VALUE);
     }
     return "";
   }

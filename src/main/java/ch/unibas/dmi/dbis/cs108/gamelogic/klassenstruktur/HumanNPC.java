@@ -31,14 +31,16 @@ public class HumanNPC extends Human {
   }
 
   /**
-   * Sends a msg to the ServerGameInfoHandler.humanNpcParser to decide what has to happen now
-   *
+   * Sends a msg to the ServerGameInfoHandler.humanNpcParser to decide what has to happen now, if the
+   * npc hasn't been kicked off 8(should never happen to a human though)
    * @param msg  the message that is sent to this player.
    * @param game the game the HumanNPC lives on (in game.gameState.passengerTrain)
    */
   @Override
   public void send(String msg, Game game) {
-    ServerGameInfoHandler.humanNpcParser(this, msg, game);
+    if (!getKickedOff()) {
+      ServerGameInfoHandler.humanNpcParser(this, msg, game);
+    }
   }
 
   /**

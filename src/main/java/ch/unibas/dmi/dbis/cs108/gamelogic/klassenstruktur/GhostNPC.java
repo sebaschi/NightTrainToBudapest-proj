@@ -33,9 +33,16 @@ public class GhostNPC extends Ghost {
       }
   }
 
+  /**
+   * Sends the message to the ghostNpcParser, if ghost has not been kicked off
+   * @param msg the message that is sent to this npc.
+   * @param game the game this npc is in
+   */
   @Override
   public void send(String msg, Game game) {
-    ServerGameInfoHandler.ghostNpcParser(this, msg, game);
+    if (!getKickedOff()) {
+      ServerGameInfoHandler.ghostNpcParser(this, msg, game);
+    }
   }
 
   /**
@@ -47,7 +54,7 @@ public class GhostNPC extends Ghost {
     int ghostCounter = 0;
     Passenger[] train = game.getGameState().getPassengerTrain();
     for (Passenger passenger : train) {
-      if (passenger.isGhost) {
+      if (passenger.isGhost && !passenger.getKickedOff()) {
         ghostCounter++;
       }
     }
@@ -55,10 +62,9 @@ public class GhostNPC extends Ghost {
     if (humanPositions.length == 0) {
       vote = Integer.MAX_VALUE;
     } else {
-
       int j = 0;
       for (int i = 0; i < train.length; i++) {
-        if (!train[i].isGhost) { //is human
+        if (!train[i].isGhost && !train[i].getKickedOff()) { //is human
           humanPositions[j] = train[i].getPosition();
           j++;
         }

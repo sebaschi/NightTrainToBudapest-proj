@@ -22,7 +22,7 @@ public class NoiseHandler {
    * @param victim human player who has been turned into a ghost this night
    * @param game current game instance
    */
-  public void noiseNotifier(Passenger[] passengers, Passenger predator, Ghost victim, Game game) {
+  public void noiseNotifier(Passenger[] passengers, Passenger predator, Passenger victim, Game game) {
     if (predator.getPosition() - victim.getPosition()
         > 0) { // if predator is to the right of victim
       for (int i = predator.getPosition() - 1; i > victim.getPosition(); i--) {

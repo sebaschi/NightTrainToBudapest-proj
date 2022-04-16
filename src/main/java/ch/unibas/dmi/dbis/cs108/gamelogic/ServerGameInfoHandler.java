@@ -43,7 +43,7 @@ public class ServerGameInfoHandler {
   }
 
   /**
-   * //TODO(Seraina): implementation
+   * //TODO(Seraina): Smart implementation that sends all relevant things to spectator, so they won't get bored
    * Formartiert Nachrichten die für einen Spectator gedacht sind.
    * @param msg the message to be formatted
    * @param passenger the passenger getting the message
@@ -51,6 +51,17 @@ public class ServerGameInfoHandler {
    * @return a message in a protocol format
    */
   public static String spectatorFormat(String msg, Passenger passenger, Game game) {
+    switch (msg) {
+      case ClientGameInfoHandler.ghostVoteRequest:
+        msg = Protocol.printToClientConsole + "$Ghosts are voting: " + game.gameState.toString();
+        break;
+      case ClientGameInfoHandler.humanVoteRequest:
+        msg = Protocol.printToClientConsole + "$Humans are voting:" + game.gameState.toString();
+        break;
+      default:
+        msg = Protocol.printToClientConsole + "$"+ msg;
+    }
+    LOGGER.debug(msg);
     return msg;
   }
 

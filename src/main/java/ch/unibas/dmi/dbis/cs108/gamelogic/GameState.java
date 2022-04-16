@@ -94,8 +94,9 @@ public class GameState {
   }
 
   /**
-   *
-   *
+   * Changes the name of the passenger in the Array that has the oldName
+   * @param oldName the old Name of the Passenger to be name-changed
+   * @param newName the new name for the Passenger
    */
   public void changeUsername(String oldName, String newName){
     for (Passenger passenger : passengerTrain) {
@@ -107,7 +108,8 @@ public class GameState {
   }
 
   /**
-   *
+   * Replaces a disconnected Clients with an NPC
+   * @param disconnectedClient the ClientHandler handling the disconnected client
    */
   public void handleClientDisconnect(ClientHandler disconnectedClient) {
     for(Passenger passenger : passengerTrain) {
@@ -126,8 +128,6 @@ public class GameState {
     }
 
   }
-
-
 
 
   /**
@@ -151,19 +151,19 @@ public class GameState {
     String[] print = new String[6];
     for (int i = 0; i < array.length; i++) {
       if (array[i].getKickedOff()) {
-        print[i] = "| kicked off: " + array[i].getPosition() + " |";
+        print[i] = "| " + array[i].getName() + ", kicked off: " + array[i].getPosition() + " |";
       } else {
         if (array[i].getIsPlayer()) {
           if (array[i].getIsGhost()) {
-            print[i] = "| ghostPlayer: " + array[i].getPosition() + " |";
+            print[i] = "| " + array[i].getName() + "(ghostPlayer): " + array[i].getPosition() + " |";
           } else {
-            print[i] = "-| humanPlayer: " + array[i].getPosition() + " |";
+            print[i] = "| " + array[i].getName() + "(humanPlayer): " + array[i].getPosition() + " |";
           }
         } else {
           if (array[i].getIsGhost()) {
-            print[i] = "| ghostNPC: " + array[i].getPosition() + " |";
+            print[i] = "| " + array[i].getName() + "(ghostNPC): " + array[i].getPosition() + " |";
           } else {
-            print[i] = "| humanNPC: " + array[i].getPosition() + " |";
+            print[i] = "| " + array[i].getName() + "(humanNPC): " + array[i].getPosition() + " |";
           }
         }
       }

@@ -20,10 +20,12 @@ public class Spectator extends Passenger{
     isGhost = false;
     isPlayer = true;
     kickedOff = true;
+    isSpectator = true;
   }
+
 
   @Override
   public void send(String msg, Game game) {
-    clientHandler.sendMsgToClient(ServerGameInfoHandler.format(msg, this, game));
+    clientHandler.sendMsgToClient(ServerGameInfoHandler.spectatorFormat(msg, this, game));
   }
 }

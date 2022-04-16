@@ -19,7 +19,7 @@ public class GhostifyHandler {
    * @param p Passenger to be ghostified
    */
 
-  public static Ghost ghost(Passenger p, Game game) {
+  public static Passenger ghost(Passenger p, Game game) {
     LOGGER.debug("Passenger Position " + p.getPosition());
     Ghost g;
     if (p.getIsPlayer()) {
@@ -36,7 +36,9 @@ public class GhostifyHandler {
       ghostNPC.setGhost();
       ghostNPC.setPosition(p.getPosition());
       g = ghostNPC;
-
+    }
+    if (p.getKickedOff()) {
+      return p;
     }
     game.gameState.addNewPassenger(g, g.getPosition());
     LOGGER.info("Passenger at position " + p.getPosition() + " has been ghostified");
