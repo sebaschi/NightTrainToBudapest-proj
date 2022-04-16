@@ -8,6 +8,11 @@ public class ClientModel {
   private Client client;
   private String incomingChatMsg;
 
+  public ClientModel(String username, Client client) {
+    this.username = username;
+    this.client = client;
+  }
+
   //private Number;
 
   public Client getClient() {

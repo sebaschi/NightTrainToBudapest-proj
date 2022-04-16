@@ -1,6 +1,8 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.client;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ClientModel;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.GUI;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat.ChatApp;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.ClientPinger;
 
@@ -19,6 +21,7 @@ import org.apache.logging.log4j.Logger;
 
 
 public class Client {
+
   public static final Logger LOGGER = LogManager.getLogger(Client.class);
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
@@ -27,8 +30,8 @@ public class Client {
   private BufferedWriter out;
   public ClientPinger clientPinger;
 
-  private BufferedWriter toChatGui;
   private ChatApp chatApp;
+  private GUI chatGUi;
 
   /**
    * Saves the position of the client, gets refreshed everytime the client gets a vote request.
@@ -50,16 +53,20 @@ public class Client {
         } catch (Exception e) {
           systemName = "U.N. Owen";
         }
-        if (systemName == null) systemName = "U.N. Owen";
+        if (systemName == null) {
+          systemName = "U.N. Owen";
+        }
       } else {
         systemName = username;
       }
       sendMsgToServer(Protocol.clientLogin + "$" + systemName);
-
+      this.chatApp = new ChatApp(new ClientModel(systemName, this));
+      this.chatGUi = new GUI(this.chatApp);
       clientPinger = new ClientPinger(this, this.socket);
     } catch (IOException e) {
       e.printStackTrace();
     }
+
   }
 
   /**
@@ -95,28 +102,26 @@ public class Client {
    */
   public void positionSetter(String msg) {
 
-        LOGGER.info("Im in thread:" + Thread.currentThread());
-        int msgIndex = msg.indexOf('$');
-        String pos = msg.substring(0, msgIndex);
-        try {
-          position = Integer.parseInt(pos);
-        } catch (NumberFormatException e) {
-          LOGGER.warn("Position got scrabbled on the way here");
-        }
-        String justMsg = msg.substring(msgIndex + 1);
+    LOGGER.info("Im in thread:" + Thread.currentThread());
+    int msgIndex = msg.indexOf('$');
+    String pos = msg.substring(0, msgIndex);
+    try {
+      position = Integer.parseInt(pos);
+    } catch (NumberFormatException e) {
+      LOGGER.warn("Position got scrabbled on the way here");
+    }
+    String justMsg = msg.substring(msgIndex + 1);
 
-        System.out.println(justMsg);
-        System.out.println("Please enter your vote");
+    System.out.println(justMsg);
+    System.out.println("Please enter your vote");
 
-
-        //LOGGER.debug("just checked next line");
+    //LOGGER.debug("just checked next line");
   }
 
 
-
   /**
-   * Starts a thread which listens for incoming chat messages / other messages that the user
-   * has to see
+   * Starts a thread which listens for incoming chat messages / other messages that the user has to
+   * see
    */
   public void chatListener() {
     new Thread(new Runnable() {
@@ -131,7 +136,10 @@ public class Client {
             if (chatMsg != null) {
               //LOGGER.debug("chatMSG recieved from Server: " + chatMsg);
               parse(chatMsg);
-            } else { System.out.println("chatMsg is null"); throw new IOException();}
+            } else {
+              System.out.println("chatMsg is null");
+              throw new IOException();
+            }
           } catch (IOException e) {
             //e.printStackTrace();
             LOGGER.warn("Exception while trying to read message: " + e.getMessage());
@@ -165,6 +173,7 @@ public class Client {
 
   /**
    * parses a received message according to the client protocol.
+   *
    * @param msg the message to be parsed.
    */
   public void parse(String msg) {
@@ -210,6 +219,9 @@ public class Client {
       Thread cP = new Thread(client.clientPinger);
       cP.start();
       client.userInputListener();     //this one blocks.
+      //Start the GUI
+      Thread guiThread = new Thread(client.chatGUi);
+      guiThread.start();
     } catch (UnknownHostException e) {
       System.out.println("Invalid host IP");
     } catch (IOException e) {
@@ -228,6 +240,9 @@ public class Client {
       Thread cP = new Thread(client.clientPinger);
       cP.start();
       client.userInputListener();     //this one blocks.
+
+      Thread guiThread = new Thread(client.chatGUi);
+      guiThread.start();
     } catch (UnknownHostException e) {
       System.out.println("Invalid host IP");
     } catch (IOException e) {
@@ -248,5 +263,6 @@ public class Client {
   }
 
   public void sendToChat(String substring) {
+    chatApp.getChatController().addChatMsgToView(substring);
   }
 }

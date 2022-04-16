@@ -5,6 +5,7 @@ import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ClientModel;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -69,11 +70,10 @@ public class ChatController implements Initializable {
   @Override
   public void initialize(URL location, ResourceBundle resources) {
 
-
     vBoxChatMessages.getChildren().addListener(new ListChangeListener<Node>() {
       @Override
       public void onChanged(Change<? extends Node> c) {
-        vBoxChatMessages.setMaxHeight(vBoxChatMessages.getMaxHeight()*2);
+        vBoxChatMessages.setMaxHeight(vBoxChatMessages.getMaxHeight() * 2);
       }
     });
 
@@ -91,7 +91,6 @@ public class ChatController implements Initializable {
         vBoxChatMessages.setMaxHeight(newValue.doubleValue());
       }
     });
-
 
     /**
      * Initialize what heppens when the sen button is pressed
@@ -132,7 +131,7 @@ public class ChatController implements Initializable {
       public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue,
           Boolean newValue) {
         //is true if {@code whisperTargetSelectedField} has content
-        if(!newValue) {
+        if (!newValue) {
           cmd = whisper + "$";
         } else {
           cmd = chatToLobby + "$";
@@ -167,10 +166,21 @@ public class ChatController implements Initializable {
     return chatPaneRoot;
   }
 
+  /**
+   * The client calls this method to foreward a chat message to the chat gui
+   *
+   * @param msg the message to be displayed
+   */
   public void addChatMsgToView(String msg) {
     Label l = new Label(msg);
     l.setBackground(Background.fill(Color.LIGHTSKYBLUE));
     l.setTextFill(Color.BLACK);
-    vBoxChatMessages.getChildren().add(l);
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        vBoxChatMessages.getChildren().add(l);
+      }
+    });
   }
+
 }
