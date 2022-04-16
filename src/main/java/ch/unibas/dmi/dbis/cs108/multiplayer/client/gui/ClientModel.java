@@ -6,6 +6,8 @@ public class ClientModel {
 
   private String username;
   private Client client;
+  private String incomingChatMsg;
+
   //private Number;
 
   public Client getClient() {

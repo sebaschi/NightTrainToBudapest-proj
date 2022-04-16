@@ -1,9 +1,19 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat;
 
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ClientModel;
 import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class ChatApp extends Application {
+  ClientModel clientModel;
+  ChatController chatController;
+
+  public ChatApp(ClientModel clientModel) {
+    this.clientModel = clientModel;
+    this.chatController = new ChatController(clientModel);
+  }
 
   /**
    * The main entry point for all JavaFX applications. The start method is called after the init
@@ -20,6 +30,16 @@ public class ChatApp extends Application {
    */
   @Override
   public void start(Stage primaryStage) throws Exception {
+
+    ChatApp chatApp = new ChatApp(new ClientModel());
+    AnchorPane root = new AnchorPane(chatController.getChatPaneRoot());
+    // TODO bin chatController.getChatPaneRoot() border to root border for rezising
+    Scene scene = new Scene(root);
+    primaryStage.setResizable(true);
+    primaryStage.setTitle("Chat");
+    primaryStage.setScene(scene);
+    primaryStage.show();
+
 
   }
 }

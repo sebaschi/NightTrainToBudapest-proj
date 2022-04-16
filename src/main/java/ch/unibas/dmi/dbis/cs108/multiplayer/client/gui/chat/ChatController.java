@@ -10,10 +10,13 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
@@ -41,18 +44,17 @@ public class ChatController implements Initializable {
   private ClientModel client;
 
   private SimpleBooleanProperty whisperTargetChosen;
-  private SimpleStringProperty cmd;
+  private String cmd;
 
   private static final String whisper = Protocol.whisper;
   private static final String chatToAll = Protocol.chatMsgToAll;
   private static final String chatToLobby = Protocol.chatMsgToLobby;
 
 
-
   public ChatController(ClientModel client) {
     this.client = client;
     whisperTargetChosen = new SimpleBooleanProperty();
-    cmd = new SimpleStringProperty();
+    cmd = "";
 
   }
 
@@ -68,6 +70,12 @@ public class ChatController implements Initializable {
   public void initialize(URL location, ResourceBundle resources) {
 
 
+    vBoxChatMessages.getChildren().addListener(new ListChangeListener<Node>() {
+      @Override
+      public void onChanged(Change<? extends Node> c) {
+        vBoxChatMessages.setMaxHeight(vBoxChatMessages.getMaxHeight()*2);
+      }
+    });
 
     vBoxChatMessages.heightProperty().addListener(new ChangeListener<Number>() {
       /**
@@ -84,11 +92,11 @@ public class ChatController implements Initializable {
       }
     });
 
+
+    /**
+     * Initialize what heppens when the sen button is pressed
+     */
     sendButton.setOnAction(new EventHandler<ActionEvent>() {
-      /**
-       * control what to do when the "SendButton" is pressed
-       * @param event
-       */
       @Override
       public void handle(ActionEvent event) {
         String msg = chatMsgField.getText();
@@ -101,6 +109,10 @@ public class ChatController implements Initializable {
         }
       }
     });
+
+    /**
+     * Initialize the change of the TextArea field holding potential chat messages
+     */
     chatMsgField.textProperty().addListener(new ChangeListener<String>() {
       @Override
       public void changed(ObservableValue<? extends String> observable, String oldValue,
@@ -109,7 +121,24 @@ public class ChatController implements Initializable {
       }
     });
 
+    //Bind the the fact if the whisper field contains a name to a boolean
     whisperTargetChosen.bind(whisperTargetSelectField.textProperty().isEmpty());
+
+    /**
+     * change the chat command based on the whisper text field.
+     */
+    whisperTargetChosen.addListener(new ChangeListener<Boolean>() {
+      @Override
+      public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue,
+          Boolean newValue) {
+        //is true if {@code whisperTargetSelectedField} has content
+        if(!newValue) {
+          cmd = whisper + "$";
+        } else {
+          cmd = chatToLobby + "$";
+        }
+      }
+    });
 
     whisperTargetSelectField.textProperty().addListener(new ChangeListener<String>() {
       @Override
@@ -136,5 +165,12 @@ public class ChatController implements Initializable {
 
   public SplitPane getChatPaneRoot() {
     return chatPaneRoot;
+  }
+
+  public void addChatMsgToView(String msg) {
+    Label l = new Label(msg);
+    l.setBackground(Background.fill(Color.LIGHTSKYBLUE));
+    l.setTextFill(Color.BLACK);
+    vBoxChatMessages.getChildren().add(l);
   }
 }

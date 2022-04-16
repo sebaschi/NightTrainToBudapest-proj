@@ -2,6 +2,7 @@ package ch.unibas.dmi.dbis.cs108.multiplayer.client;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
+import java.io.OutputStreamWriter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -41,7 +42,7 @@ public class JClientProtocolParser {
         break;
       case Protocol.printToClientChat:
         //todo: handle chat separately from console.
-        System.out.println(msg.substring(6));
+        c.sendToChat(msg.substring(6));
         break;
       case Protocol.serverConfirmQuit:
         c.disconnectFromServer();

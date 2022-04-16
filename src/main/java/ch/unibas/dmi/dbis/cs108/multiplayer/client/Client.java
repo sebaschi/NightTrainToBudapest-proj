@@ -1,6 +1,7 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.client;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat.ChatApp;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.ClientPinger;
 
 
@@ -25,6 +26,9 @@ public class Client {
   private BufferedReader in;
   private BufferedWriter out;
   public ClientPinger clientPinger;
+
+  private BufferedWriter toChatGui;
+  private ChatApp chatApp;
 
   /**
    * Saves the position of the client, gets refreshed everytime the client gets a vote request.
@@ -241,5 +245,8 @@ public class Client {
 
   public BufferedWriter getOut() {
     return out;
+  }
+
+  public void sendToChat(String substring) {
   }
 }
