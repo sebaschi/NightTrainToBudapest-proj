@@ -228,6 +228,7 @@ public class Lobby {
    */
   public void closeLobby() {
     lobbies.remove(this);
+    game.setOngoing(false); // ends game
     //ClientHandler.broadcastAnnouncementToAll("Lobby nr. " + this.getLobbyID() + " has been closed.");
 
     /*

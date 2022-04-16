@@ -24,6 +24,7 @@ public class Game implements Runnable {
   protected boolean isDay = false; //false means it is night, it is night by default
   protected VoteHandler voteHandler = new VoteHandler();
   private Lobby lobby;
+  private boolean isOngoing = true;
   private String name;
   private static int nameCounter = 0;
   /**
@@ -55,6 +56,10 @@ public class Game implements Runnable {
 
   public void setDay(boolean day) {
     isDay = day;
+  }
+
+  public void setOngoing(boolean ongoing) {
+    isOngoing = ongoing;
   }
 
   /**
@@ -102,7 +107,7 @@ public class Game implements Runnable {
     LOGGER.info(gameState.toString());
 
     i = 0;
-    while (true) {
+    while (isOngoing == true) {
       if (!isDay) {
         LOGGER.info("NIGHT");
         gameOverCheck = voteHandler.ghostVote(gameState.getPassengerTrain(), this);
