@@ -126,6 +126,7 @@ public class ClientHandler implements Runnable {
   public void changeUsername(String newName) {
     String helper = this.getClientUserName();
     this.clientUserName = nameDuplicateChecker.checkName(newName);
+    sendMsgToClient(Protocol.changedUserName + "$" + newName);
     broadcastAnnouncementToAll(helper + " has changed their nickname to " + clientUserName);
     try {
       getLobby().getGame().getGameState().changeUsername(helper,newName);

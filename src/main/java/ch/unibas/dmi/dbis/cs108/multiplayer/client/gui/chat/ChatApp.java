@@ -17,8 +17,9 @@ public class ChatApp extends Application {
   public static final Logger LOGGER = LogManager.getLogger(ChatApp.class);
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
-  private  static ClientModel clientModel;
+  private static ClientModel clientModel;
   private static ChatController chatController;
+  private ClientModel cModel;
 
   public ChatApp() {
     super();
@@ -34,6 +35,14 @@ public class ChatApp extends Application {
   public static void setChatController(
       ChatController chatC) {
     chatController = chatC;
+  }
+
+  public void setcModel(ClientModel cModel) {
+    this.cModel = cModel;
+  }
+
+  public ClientModel getcModel() {
+    return cModel;
   }
 
   public static void setClientModel(ClientModel clientM) {
@@ -60,7 +69,7 @@ public class ChatApp extends Application {
   @Override
   public void start(Stage primaryStage) throws Exception {
     LOGGER.info("made it here");
-    this.setClientModel(clientModel);
+    this.setcModel(clientModel);
     URL resource = ChatApp.class.getResource(
         "splitPaneChatView.fxml");
     LOGGER.info("1");

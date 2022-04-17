@@ -42,7 +42,7 @@ public class ChatController implements Initializable {
   @FXML
   private TextArea chatMsgField;
 
-  private ClientModel client;
+  private static ClientModel client;
 
   private SimpleBooleanProperty whisperTargetChosen;
   private String cmd;
@@ -56,8 +56,8 @@ public class ChatController implements Initializable {
     whisperTargetChosen = new SimpleBooleanProperty();
     cmd = "CHATA$";
   }
-  public ChatController(ClientModel client) {
-    this.client = client;
+  public ChatController(ClientModel c) {
+    client = c;
     whisperTargetChosen = new SimpleBooleanProperty();
     cmd = "CHATA";
 
@@ -73,8 +73,8 @@ public class ChatController implements Initializable {
    */
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-  setClient(ChatApp.getClientModel());
-  ChatApp.setChatController(this);
+    setClient(ChatApp.getClientModel());
+    ChatApp.setChatController(this);
     vBoxChatMessages.getChildren().addListener(new ListChangeListener<Node>() {
       @Override
       public void onChanged(Change<? extends Node> c) {
@@ -157,7 +157,7 @@ public class ChatController implements Initializable {
   /**
    * @return the client who's chat controller this is
    */
-  public ClientModel getClient() {
+  public static ClientModel getClient() {
     return client;
   }
 
