@@ -57,7 +57,7 @@ public class Protocol {
    * will use the clientHandler.setUsernameOnLogin() method to set this client's username to Poirot,
    * and broadcast the announcement: {@code "Poirot has joined the Server"}. Also, it will set this
    * clientHandler's loggedIn boolean to true, which could be used later to refuse access to users
-   * who haven't formally logged in using this command => //todo: shun non-logged-in users
+   * who haven't formally logged in using this command //todo: shun non-logged-in users
    */
   public static final String clientLogin = "LOGIN";
 

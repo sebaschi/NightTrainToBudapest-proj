@@ -3,7 +3,7 @@ package ch.unibas.dmi.dbis.cs108.gamelogic;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Passenger;
 
 /**
- * Handles all communication Client to Server concerning games tate updates i.e. client a has voted
+ * Handles all communication Client to Server concerning gamestate updates i.e. client a has voted
  * Maybe unnecessary, everything that is needed might already be implemented in ClientHandler.
  * We might only need to extend the protocol and its parser.
  */
@@ -12,7 +12,7 @@ public class ClientGameInfoHandler {
 
   /**
    * All messages that are used in VoteHandler
-   * TODO(Seraina&Alex): Adjust strings to be more meaningful
+   * TODO(Seraina-Alex): Adjust strings to be more meaningful
    */
   //relevant:
   public static final String ghostVoteRequest = "Vote on who to ghostify!";

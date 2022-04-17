@@ -16,6 +16,7 @@ version '0.0.2'
 mainClassName = 'ch.unibas.dmi.dbis.cs108.NightTrainToBudapest'
 
 java {
+    //withJavadocJar()
     toolchain {
         languageVersion = JavaLanguageVersion.of(11)
     }
@@ -53,5 +54,23 @@ jar {
     from {
         configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+
+tasks.register('build-cs108', Jar) {
+    manifest {
+        attributes(
+                'Main-Class': mainClassName
+        )
+    }
+    from {
+        configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    description 'Builds .jar & documentation. Or is supposed to do that, at least.'
+
+    doLast {
+        println('Hello world')
     }
 }
