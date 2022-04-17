@@ -17,6 +17,8 @@ public class GhostifyHandler {
    * called. If it's being called for the first time, the ghostified player is being set as the original ghost.
    *
    * @param p Passenger to be ghostified
+   * @param game the game the GhostyfyHandler is used in
+   * @return a Passenger that either got ghostyfied or i still kicked off
    */
 
   public static Passenger ghost(Passenger p, Game game) {

@@ -27,6 +27,7 @@ public class ServerPinger implements Runnable {
   /**
    * @param socket the socket the ClientHandler is connected to; used to end the thread if the
    *               connection is closed.
+   * @param c the ClientHandler handeling the Client this pinger pings to
    */
   public ServerPinger(Socket socket, ClientHandler c) {
     gotPingBack = false;

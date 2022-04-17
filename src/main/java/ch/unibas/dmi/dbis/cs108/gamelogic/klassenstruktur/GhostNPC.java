@@ -48,6 +48,7 @@ public class GhostNPC extends Ghost {
   /**
    * Sets vote of this Ghost position on a number between 0 and 5,
    * but only for positions where there aren't any ghosts and sets hasVoted to true
+   * @param game the Game the NPC lives on
    * TODO: Make NPC smarter
    */
   public void vote(Game game) {

@@ -52,6 +52,8 @@ public class nameDuplicateChecker {
    * If that name is already used by some other ClientHandler, it returns the name with some suffix.
    * Also, any ":" or "$" are removed, so they can be used for whisper chat.
    * Also, if the name is empty, it assigns a default value ("U.N. Owen").
+   * @param name the name that is checked for
+   * @return returns either just the name or added some suffix
    */
   public static String checkName(String name) {
     String tempname = name;                 //if this line is used, only duplicate names get a suffix.

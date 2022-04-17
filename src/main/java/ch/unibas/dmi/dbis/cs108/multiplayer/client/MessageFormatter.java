@@ -15,6 +15,7 @@ public class MessageFormatter {
    * handle it (see Protocol.java). May need to be redesigned once the game uses a GUI.
    *
    * @param msg the Messaged to be reformatted
+   * @param position the position the client is in
    * @return the reformatted message in the form HEADR$msg
    */
 

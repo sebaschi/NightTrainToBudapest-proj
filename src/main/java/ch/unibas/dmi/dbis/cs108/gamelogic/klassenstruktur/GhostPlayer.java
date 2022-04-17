@@ -18,6 +18,7 @@ public class GhostPlayer extends Ghost {
    *  @param position position on the train
    * @param name     name. if null, then a default name is used.
    * @param isOG     true if the ghost is the original ghost.
+   * @param clientHandler the clientHandler connecting this Player to a Client
    */
   public GhostPlayer(int position, String name, ClientHandler clientHandler, boolean isOG) {
     this.position = position;

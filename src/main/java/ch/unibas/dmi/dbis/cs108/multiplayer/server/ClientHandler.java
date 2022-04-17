@@ -156,6 +156,7 @@ public class ClientHandler implements Runnable {
   /**
    * Returns the Lobby this ClientHandler is in. If this ClientHandler is not in a Lobby, it returns
    * null.
+   * @return the Lobby this clientHandler lives in
    */
   public Lobby getLobby() {
     try {
@@ -205,7 +206,7 @@ public class ClientHandler implements Runnable {
   }
 
   /**
-   * Broadcasts a chat Message to all clients across all lobbies & clients who are not in a lobby in
+   * Broadcasts a chat Message to all clients across all lobbies and clients who are not in a lobby in
    * the form "Username: @msg"
    *
    * @param msg the Message to be broadcast
@@ -260,6 +261,7 @@ public class ClientHandler implements Runnable {
    * sent the message that it has been sent. Syntax:
    *
    * @param target MUST NOT BE NULL!
+   * @param msg the message being whisperd
    */
   public void whisper(String msg, ClientHandler target) {
     target.sendMsgToClient(
@@ -367,13 +369,14 @@ public class ClientHandler implements Runnable {
    * Sends an announcement to just this client. Essentially the same as broadcastAnnouncementToAll
    * except it only sends an announcement to just this client instead of everyone. Can be used for
    * private non-chat messages (e.g. "You are now a ghost").
+   * @param msg the message being announced
    */
   public void sendAnnouncementToClient(String msg) {
     sendMsgToClient(Protocol.printToClientConsole + "$" + msg);
   }
 
   /**
-   * Removes & disconnects the client. To be used if a severe connection loss is detected (i.e. if
+   * Removes and disconnects the client. To be used if a severe connection loss is detected (i.e. if
    * trying to send / receive a message throws an exception, not just if ping-pong detects a
    * connection loss). This is very similar to removeClientOnLogout(), however
    * removeClientOnLogout() should only be used for regular quitting, since removeClientOnLogout()

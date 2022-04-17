@@ -124,6 +124,7 @@ public class Passenger {
 
   /**
    * true if passenger is a spectator
+   * @return isSpectator
    */
   public  boolean getIsSpectator() {
     return isSpectator;
@@ -155,6 +156,8 @@ public class Passenger {
 
   /**
    * When called by NPC nothing should happen, because clientHandler = null
+   * @param game the game the VoteData belongs to
+   * @param clientVoteData the VoteData
    */
   public void getVoteFromGameState(ClientVoteData clientVoteData,Game game) {
     LOGGER.debug("a NPC called this method hopefully: " + position);
@@ -163,6 +166,7 @@ public class Passenger {
   /**
    * Sends a protocol message to the respective player or NPC.
    * @param msg the message that is sent to this player.
+   * @param game the game the Passenger lives on
    **/
   public void send(String msg, Game game) {
     if (isPlayer) {
