@@ -46,8 +46,7 @@ public class HumanNPC extends Human {
   /**
    * Currently returns a random integer for voting, but only for passengers that haven't been
    * kicked off yet
-   *
-   * @return integer between 0 and 5
+   * @param game the game this NPC lives on
    */
   public void vote(Game game) {
     Passenger[] passengers = game.getGameState().getPassengerTrain();

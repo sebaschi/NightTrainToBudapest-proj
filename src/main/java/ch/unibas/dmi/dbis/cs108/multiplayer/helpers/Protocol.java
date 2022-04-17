@@ -86,7 +86,7 @@ public class Protocol {
   public static final String clientQuitRequest = "QUITR";
 
   /**
-   * Client sends this message when they want to create a new lobby (& automatically join it).
+   * Client sends this message when they want to create a new lobby (and automatically join it).
    * Client issues this command in {@link ch.unibas.dmi.dbis.cs108.multiplayer.client.MessageFormatter}
    * using "/g".
    * First a lobby {@link Lobby} is created of which the requesting client is the admin of.

@@ -102,6 +102,8 @@ public class Lobby {
    * Returns the lobby with the desired LobbyID.
    * For example, getLobbyFromID(5) returns the lobby whose LobbyID is 5.
    * If no such lobby exists, it returns null.
+   * @param i the Lobby ID you are looking for
+   * @return the Lobby with i as its ID
    */
   public static Lobby getLobbyFromID(int i) {
     for (Lobby l: lobbies) {
@@ -148,6 +150,8 @@ public class Lobby {
   /**
    * Returns the ID of the lobby that the client is in. If the client is not in any
    * lobby, it returns -1.
+   * @param h ClientHandler that the corresponding Lobby is searched for
+   * @return the Lobby ID
    */
   public static int clientIsInLobby(ClientHandler h) {
     for (Lobby l: lobbies) {
@@ -164,6 +168,7 @@ public class Lobby {
    * Adds a player to the lobby. Returns true if successful.
    * TODO: add an appropriate response. Currently hardcoded.
    * @param client who wants to join the lobby.
+   * @return true if successful
    */
   public synchronized boolean addPlayer(ClientHandler client) {
     if (getLobbyIsOpen()) {
@@ -204,6 +209,7 @@ public class Lobby {
 
   /**
    * Adds game to list of running games and sets its lobby's gameIsRunning to true.
+   * @param game the game to be added
    */
   public void addGameToRunningGames(Game game) {
     game.getLobby().gameIsRunning = true;
@@ -212,6 +218,7 @@ public class Lobby {
 
   /**
    * Removes game from list of running games and sets its lobby's gameIsRunning to false.
+   * @param game the game to be removed
    */
   public void removeGameFromRunningGames(Game game) {
     game.getLobby().gameIsRunning = false;

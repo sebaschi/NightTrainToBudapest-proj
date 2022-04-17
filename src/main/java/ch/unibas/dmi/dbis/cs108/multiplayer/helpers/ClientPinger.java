@@ -25,6 +25,7 @@ public class ClientPinger implements Runnable {
   /**
    * @param socket the socket the Client is connected to which is used to end the thread if the
    *               connection is lost.
+   * @param client the client the pinger is related to
    */
   public ClientPinger(Client client, Socket socket) {
     gotPingBack = false;

@@ -15,7 +15,6 @@ import org.apache.logging.log4j.Logger;
  *
  * <p>(All messages going to Clients are handled via ServerGameInfoHandler)
  *
- * <p>
  */
 public class VoteHandler {
   public static final Logger LOGGER = LogManager.getLogger(VoteHandler.class);
@@ -27,6 +26,8 @@ public class VoteHandler {
    * being ghostified.
    *
    * @param passengers: passengers on the train
+   * @param game the game the votehandler is in
+   * @return returns a gameover message
    */
 
   public String ghostVote(Passenger[] passengers, Game game) {
@@ -124,6 +125,7 @@ public class VoteHandler {
    * @return Returns an empty String by default, returns a complex string when game is over:
    * "Game over: ghosts win!" or "Game over: humans win!"
    * @param passengers train passengers
+   * @param game the game the Votehandler is in
    */
   public String humanVote(Passenger[] passengers, Game game) {
     LOGGER.info(game.getGameState().toString());

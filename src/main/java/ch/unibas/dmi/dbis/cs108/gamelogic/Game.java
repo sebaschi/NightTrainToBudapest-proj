@@ -33,6 +33,8 @@ public class Game implements Runnable {
    * @param nrOfPlayers is the length of the Train
    * @param nrOfGhosts  is the number of OG Ghosts you want to start with  and
    * @param nrOfUsers   is the number of active users at the time (non NPCs)
+   * @param lobby the lobby the game is in
+   * @throws TrainOverflow when there are to many users
    */
   public Game(int nrOfPlayers, int nrOfGhosts, int nrOfUsers, Lobby lobby)
       throws TrainOverflow {

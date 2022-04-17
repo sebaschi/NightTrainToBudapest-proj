@@ -16,8 +16,10 @@ public class HumanPlayer extends Human {
   /**
    * Creates a new GhostPlayer. Should be used at game start or if a HumanPlayer is turned into a
    * ghost.
-   *  @param position position on the train
+   * @param position position on the train
    * @param name     name. if null, then a default name is used.
+   * @param clientHandler the clienthandler connection this Passenger to a client
+   * @param isOG the boolean defining if this is the Og ghost
    */
   public HumanPlayer(int position, String name, ClientHandler clientHandler, boolean isOG) {
     this.position = position;
