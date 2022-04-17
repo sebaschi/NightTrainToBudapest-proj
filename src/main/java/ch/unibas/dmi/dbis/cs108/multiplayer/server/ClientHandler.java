@@ -174,6 +174,9 @@ public class ClientHandler implements Runnable {
     Lobby l = getLobby();
     if (l != null) {
       for (ClientHandler client : l.getLobbyClients()) {
+        if(client.getClientUserName().equals(this.getClientUserName())){
+          continue;
+        }
         client.sendMsgToClient(Protocol.printToClientChat + "$" + clientUserName + ": " + msg);
       }
     } else {
@@ -195,7 +198,6 @@ public class ClientHandler implements Runnable {
     Lobby l = getLobby();
     if (l != null) {
       for (ClientHandler client : l.getLobbyClients()) {
-        //Todo do not send chat msg to self
         client.sendMsgToClient(Protocol.printToClientChat + "$" + msg);
       }
     }
