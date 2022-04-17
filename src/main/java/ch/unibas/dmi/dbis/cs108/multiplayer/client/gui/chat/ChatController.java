@@ -68,7 +68,7 @@ public class ChatController implements Initializable {
    */
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-
+  setClient(ChatApp.getClientModel());
     vBoxChatMessages.getChildren().addListener(new ListChangeListener<Node>() {
       @Override
       public void onChanged(Change<? extends Node> c) {

@@ -1,8 +1,13 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.client.gui;
 
+import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.Client;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ClientModel {
+  public static final Logger LOGGER = LogManager.getLogger(ClientModel.class);
+  public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   private String username;
   private Client client;
