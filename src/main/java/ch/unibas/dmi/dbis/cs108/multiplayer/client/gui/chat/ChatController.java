@@ -112,6 +112,8 @@ public class ChatController implements Initializable {
           l.setBackground(Background.fill(Color.LAVENDER));
           vBoxChatMessages.getChildren().add(l);
           chatMsgField.clear();
+        } else {
+          LOGGER.debug("Trying to send an empty message.");
         }
       }
     });
@@ -146,11 +148,17 @@ public class ChatController implements Initializable {
       }
     });
 
+    //Possibly now the whisperTargetChosenProperty is obsolete
     whisperTargetSelectField.textProperty().addListener(new ChangeListener<String>() {
       @Override
       public void changed(ObservableValue<? extends String> observable, String oldValue,
           String newValue) {
         whisperTargetSelectField.setText(newValue);
+        if (newValue.isEmpty()) {
+          cmd = chatToLobby + "$";
+        } else {
+          cmd = whisper + "$" + whisperTargetSelectField.getText() + "$";
+        }
       }
     });
   }
