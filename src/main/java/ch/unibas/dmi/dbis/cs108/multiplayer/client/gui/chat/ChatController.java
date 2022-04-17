@@ -1,25 +1,21 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat;
 
-import ch.unibas.dmi.dbis.cs108.multiplayer.client.Client;
+
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ClientModel;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextArea;
@@ -27,7 +23,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 
 public class ChatController implements Initializable {
 
@@ -56,6 +51,7 @@ public class ChatController implements Initializable {
     whisperTargetChosen = new SimpleBooleanProperty();
     cmd = "";
   }
+
   public ChatController(ClientModel client) {
     this.client = client;
     whisperTargetChosen = new SimpleBooleanProperty();
@@ -74,12 +70,9 @@ public class ChatController implements Initializable {
   @Override
   public void initialize(URL location, ResourceBundle resources) {
 
-    vBoxChatMessages.getChildren().addListener(new ListChangeListener<Node>() {
-      @Override
-      public void onChanged(Change<? extends Node> c) {
-        vBoxChatMessages.setMaxHeight(vBoxChatMessages.getMaxHeight() * 2);
-      }
-    });
+    vBoxChatMessages.getChildren().addListener(
+        (ListChangeListener<Node>) c -> vBoxChatMessages.setMaxHeight(
+            vBoxChatMessages.getMaxHeight() * 2));
 
     vBoxChatMessages.heightProperty().addListener(new ChangeListener<Number>() {
       /**
@@ -97,34 +90,26 @@ public class ChatController implements Initializable {
     });
 
     /**
-     * Initialize what heppens when the sen button is pressed
+     * Initialize what happens when the send button is pressed
      */
-    sendButton.setOnAction(new EventHandler<ActionEvent>() {
-      @Override
-      public void handle(ActionEvent event) {
-        String msg = chatMsgField.getText();
-        if (!msg.isEmpty()) {
-          client.getClient().sendMsgToServer(cmd.toString() + msg);
-          Label l = new Label(client.getUsername() + " (you): " + msg);
-          l.setBackground(Background.fill(Color.LAVENDER));
-          vBoxChatMessages.getChildren().add(l);
-          chatMsgField.clear();
-        }
+    sendButton.setOnAction(event -> {
+      String msg = chatMsgField.getText();
+      if (!msg.isEmpty()) {
+        client.getClient().sendMsgToServer(cmd.toString() + msg);
+        Label l = new Label(client.getUsername() + " (you): " + msg);
+        l.setBackground(Background.fill(Color.LAVENDER));
+        vBoxChatMessages.getChildren().add(l);
+        chatMsgField.clear();
       }
     });
 
     /**
      * Initialize the change of the TextArea field holding potential chat messages
      */
-    chatMsgField.textProperty().addListener(new ChangeListener<String>() {
-      @Override
-      public void changed(ObservableValue<? extends String> observable, String oldValue,
-          String newValue) {
-        chatMsgField.setText(newValue);
-      }
-    });
+    chatMsgField.textProperty().addListener(
+        (observable, oldValue, newValue) -> chatMsgField.setText(newValue));
 
-    //Bind the the fact if the whisper field contains a name to a boolean
+    //Bind the fact if the whisper field contains a name to a boolean
     whisperTargetChosen.bind(whisperTargetSelectField.textProperty().isEmpty());
 
     /**
@@ -153,7 +138,7 @@ public class ChatController implements Initializable {
   }
 
   /**
-   * @return the client who's chat controller this is
+   * @return the client whose chat controller this is
    */
   public ClientModel getClient() {
     return client;
@@ -171,7 +156,7 @@ public class ChatController implements Initializable {
   }
 
   /**
-   * The client calls this method to foreward a chat message to the chat gui
+   * The client calls this method to forward a chat message to the chat gui
    *
    * @param msg the message to be displayed
    */

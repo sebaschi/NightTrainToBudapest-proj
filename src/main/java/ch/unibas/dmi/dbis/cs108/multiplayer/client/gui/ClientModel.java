@@ -6,7 +6,6 @@ public class ClientModel {
 
   private String username;
   private Client client;
-  private String incomingChatMsg;
 
   public ClientModel(String username, Client client) {
     this.username = username;
