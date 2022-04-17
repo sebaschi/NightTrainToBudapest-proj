@@ -22,12 +22,14 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class ChatController implements Initializable {
+
   public static final Logger LOGGER = LogManager.getLogger(ChatController.class);
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
@@ -57,6 +59,7 @@ public class ChatController implements Initializable {
     cmd = "";
     LOGGER.info("ChatController empty constructor used");
   }
+
   public ChatController(ClientModel c) {
     client = c;
     whisperTargetChosen = new SimpleBooleanProperty();
@@ -129,25 +132,6 @@ public class ChatController implements Initializable {
       }
     });
 
-    //Bind the the fact if the whisper field contains a name to a boolean
-    whisperTargetChosen.bind(whisperTargetSelectField.textProperty().isEmpty());
-
-    /**
-     * change the chat command based on the whisper text field.
-     */
-    whisperTargetChosen.addListener(new ChangeListener<Boolean>() {
-      @Override
-      public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue,
-          Boolean newValue) {
-        //is true if {@code whisperTargetSelectedField} has content
-        if (!newValue) {
-          cmd = whisper + "$" + whisperTargetSelectField.getText() + "$";
-        } else {
-          cmd = chatToLobby + "$";
-        }
-      }
-    });
-
     //Possibly now the whisperTargetChosenProperty is obsolete
     whisperTargetSelectField.textProperty().addListener(new ChangeListener<String>() {
       @Override
@@ -188,7 +172,11 @@ public class ChatController implements Initializable {
    */
   public void addChatMsgToView(String msg) {
     Label l = new Label(msg);
-    l.setBackground(Background.fill(Color.LIGHTSKYBLUE));
+    if (msg.contains("whispers")) {
+      l.setBackground(Background.fill(Color.SLATEBLUE));
+    } else {
+      l.setBackground(Background.fill(Color.LIGHTSKYBLUE));
+    }
     l.setTextFill(Color.BLACK);
     Platform.runLater(new Runnable() {
       @Override
