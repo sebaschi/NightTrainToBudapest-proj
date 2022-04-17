@@ -56,7 +56,7 @@ public class ChatController implements Initializable {
   public ChatController() { //TODO: why does this get called
     super();
     whisperTargetChosen = new SimpleBooleanProperty();
-    cmd = "";
+    cmd = "CHATA$";
     LOGGER.info("ChatController empty constructor used");
   }
 
