@@ -20,6 +20,6 @@ public class GUI implements Runnable{
    */
   @Override
   public void run() {
-    Application.launch(ChatApp.class);
+    Application.launch(this.chatApp.getClass());
   }
 }
