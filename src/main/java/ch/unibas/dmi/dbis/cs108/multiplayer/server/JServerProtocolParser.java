@@ -47,8 +47,9 @@ public class JServerProtocolParser {
         //find ClientHandler
         try {
           ClientHandler target = null;
-          String targetName = msg.substring(6, msg.indexOf("$", 6));
-          String chatMsg = msg.substring(msg.indexOf("$", 6)+1);
+          String[] targetAndMsg = h.decodeWhisper(msg.substring(6));
+          String targetName = targetAndMsg[0];
+          String chatMsg = targetAndMsg[1];
           System.out.println(targetName);
           System.out.println(chatMsg);
           for (ClientHandler c : ClientHandler.getConnectedClients()) {

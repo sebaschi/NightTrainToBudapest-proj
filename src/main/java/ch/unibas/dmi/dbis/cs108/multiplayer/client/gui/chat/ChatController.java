@@ -54,13 +54,14 @@ public class ChatController implements Initializable {
   public ChatController() { //TODO: why does this get called
     super();
     whisperTargetChosen = new SimpleBooleanProperty();
-    cmd = "CHATA$";
+    cmd = "";
+    LOGGER.info("ChatController empty constructor used");
   }
   public ChatController(ClientModel c) {
     client = c;
     whisperTargetChosen = new SimpleBooleanProperty();
-    cmd = "CHATA";
-
+    cmd = "";
+    LOGGER.info("ChatController single parameter constructor used");
   }
 
 
@@ -138,7 +139,7 @@ public class ChatController implements Initializable {
           Boolean newValue) {
         //is true if {@code whisperTargetSelectedField} has content
         if (!newValue) {
-          cmd = whisper + "$";
+          cmd = whisper + "$" + whisperTargetSelectField.getText() + "$";
         } else {
           cmd = chatToLobby + "$";
         }

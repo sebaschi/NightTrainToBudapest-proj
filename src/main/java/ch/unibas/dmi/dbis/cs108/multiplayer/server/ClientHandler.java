@@ -117,10 +117,10 @@ public class ClientHandler implements Runnable {
   }
 
 
-
   /**
    * Lets the client change their username, if the username is already taken, a similar option is
    * chosen.
+   *
    * @param newName The desired new name to replace the old one with.
    */
   public void changeUsername(String newName) {
@@ -129,7 +129,7 @@ public class ClientHandler implements Runnable {
     sendMsgToClient(Protocol.changedUserName + "$" + newName);
     broadcastAnnouncementToAll(helper + " has changed their nickname to " + clientUserName);
     try {
-      getLobby().getGame().getGameState().changeUsername(helper,newName);
+      getLobby().getGame().getGameState().changeUsername(helper, newName);
     } catch (NullPointerException e) {
     }
   }
@@ -153,8 +153,8 @@ public class ClientHandler implements Runnable {
   }
 
   /**
-   * Returns the Lobby this ClientHandler is in. If this ClientHandler is not in a Lobby,
-   * it returns null.
+   * Returns the Lobby this ClientHandler is in. If this ClientHandler is not in a Lobby, it returns
+   * null.
    */
   public Lobby getLobby() {
     try {
@@ -165,8 +165,9 @@ public class ClientHandler implements Runnable {
   }
 
   /**
-   * Broadcasts a chat Message to all clients in the same lobby in the form "Username: @msg"
-   * If this client isn't in a lobby, it instead sends the message to everyone not in a lobby
+   * Broadcasts a chat Message to all clients in the same lobby in the form "Username: @msg" If this
+   * client isn't in a lobby, it instead sends the message to everyone not in a lobby
+   *
    * @param msg the Message to be broadcast
    */
   public void broadcastChatMessageToLobby(String msg) {
@@ -177,7 +178,7 @@ public class ClientHandler implements Runnable {
       }
     } else {
       //send msg to all clients who are not in a lobby.
-      for (ClientHandler client: connectedClients) {
+      for (ClientHandler client : connectedClients) {
         if (Lobby.clientIsInLobby(client) == -1) {
           client.sendMsgToClient(Protocol.printToClientChat + "$" + clientUserName + ": " + msg);
         }
@@ -200,8 +201,9 @@ public class ClientHandler implements Runnable {
   }
 
   /**
-   * Broadcasts a chat Message to all clients across all lobbies & clients who are not in a lobby
-   * in the form "Username: @msg"
+   * Broadcasts a chat Message to all clients across all lobbies & clients who are not in a lobby in
+   * the form "Username: @msg"
+   *
    * @param msg the Message to be broadcast
    */
   public void broadcastChatMessageToAll(String msg) {
@@ -213,9 +215,11 @@ public class ClientHandler implements Runnable {
   /**
    * Broadcasts a non-chat Message to all active clients. This can be used for server messages /
    * announcements rather than chat messages. The message will be printed to the user exactly as it
-   * is given to this method. Unlike eg. broadcastChatMessageToLobby, it will also be printed onto the server
-   * console.
-   * @param msg the Message to be broadcast. Does not have to be protocol-formatted, this method will take care of that.
+   * is given to this method. Unlike eg. broadcastChatMessageToLobby, it will also be printed onto
+   * the server console.
+   *
+   * @param msg the Message to be broadcast. Does not have to be protocol-formatted, this method
+   *            will take care of that.
    */
   public static void broadcastAnnouncementToAll(String msg) {
     System.out.println(msg);
@@ -225,12 +229,13 @@ public class ClientHandler implements Runnable {
   }
 
   /**
-   * Broadcasts a non-chat Message to all clients in the same lobby. This can be used for server messages /
-   * announcements rather than chat messages. The message will be printed to the user exactly as it
-   * is given to this method. The announcement will not be printed on the server console.
-   * If this clienthandler is not in a lobby, it will instead broadcast to all clients.
+   * Broadcasts a non-chat Message to all clients in the same lobby. This can be used for server
+   * messages / announcements rather than chat messages. The message will be printed to the user
+   * exactly as it is given to this method. The announcement will not be printed on the server
+   * console. If this clienthandler is not in a lobby, it will instead broadcast to all clients.
    *
-   * @param msg the Message to be broadcast. Does not have to be protocol-formatted, this method will take care of that.
+   * @param msg the Message to be broadcast. Does not have to be protocol-formatted, this method
+   *            will take care of that.
    */
   public void broadcastAnnouncementToLobby(String msg) {
     Lobby l = getLobby();
@@ -247,13 +252,17 @@ public class ClientHandler implements Runnable {
   }
 
   /**
-   * Sends a message only to the specified user, as well as sending a confirmation to the user who sent the message
-   * that it has been sent. Syntax:
+   * Sends a message only to the specified user, as well as sending a confirmation to the user who
+   * sent the message that it has been sent. Syntax:
+   *
    * @param target MUST NOT BE NULL!
    */
   public void whisper(String msg, ClientHandler target) {
-    target.sendMsgToClient(Protocol.printToClientChat + "$" + this.getClientUserName() + " whispers: " + msg);
-    sendMsgToClient(Protocol.printToClientChat + "$You whispered to " + target.getClientUserName() + ": " + msg);
+    target.sendMsgToClient(
+        Protocol.printToClientChat + "$" + this.getClientUserName() + " whispers: " + msg);
+    sendMsgToClient(
+        Protocol.printToClientChat + "$You whispered to " + target.getClientUserName() + ": "
+            + msg);
   }
 
   /**
@@ -276,34 +285,56 @@ public class ClientHandler implements Runnable {
   }
 
   /**
-   * Takes a msg of the form position$vote and extracts vote and position from it and saves it
-   * in VoteHandler.getClientVoteData
-    * @param msg the messaged to decode
+   * Decode a whisper mesage
+   *
+   * @param msg to decode. the command has been removed from the front
+   * @return a String[] containing the target at index 0 and the message at index 1.
    */
-  public void decodeVote(String msg){
+  public String[] decodeWhisper(String msg) {
+    int msgIndex = msg.indexOf('$');
+    String target = "";
+    String chatMsg = "";
+    LOGGER.debug("incoming whisper to decode is:" + msg);
+    try {
+      target = msg.substring(0, msgIndex);
+      chatMsg = msg.substring(msgIndex + 1);
+      LOGGER.debug("whisper target is: " + target);
+      LOGGER.debug("whisper chatMsg is: " + chatMsg);
+    } catch (Exception e) {
+      LOGGER.warn("decode whisper issue: " + e.getMessage());
+    }
+    return new String[]{target, chatMsg};
+  }
+
+  /**
+   * Takes a msg of the form position$vote and extracts vote and position from it and saves it in
+   * VoteHandler.getClientVoteData
+   *
+   * @param msg the messaged to decode
+   */
+  public void decodeVote(String msg) {
     int msgIndex = msg.indexOf('$');
     int vote = Integer.MAX_VALUE;
     int position = 0;
     LOGGER.debug("Message is " + msg);
     try {
-      position = Integer.parseInt(msg.substring(0,msgIndex));
+      position = Integer.parseInt(msg.substring(0, msgIndex));
       vote = Integer.parseInt(msg.substring(msgIndex + 1));
       LOGGER.debug("Vote is:" + vote);
     } catch (Exception e) {
       LOGGER.warn("Invalid vote " + e.getMessage());
     }
     LOGGER.debug("Vote is:" + vote);
-    if(vote != Integer.MAX_VALUE) { //gets MAX_VALUE when the vote wasn't valid
-      getLobby().getGame().getGameState().getClientVoteData().setVote(position,vote);
+    if (vote != Integer.MAX_VALUE) { //gets MAX_VALUE when the vote wasn't valid
+      getLobby().getGame().getGameState().getClientVoteData().setVote(position, vote);
       LOGGER.debug("Player vote: " + vote);
-      getLobby().getGame().getGameState().getClientVoteData().setHasVoted(position,true);
+      getLobby().getGame().getGameState().getClientVoteData().setHasVoted(position, true);
     }
   }
 
   /**
-   * Initializes a new Game instance and starts its run method in a new thread.
-   * Puts the game in the corresponding lobby. Only the admin of this lobby can start a new
-   * game.
+   * Initializes a new Game instance and starts its run method in a new thread. Puts the game in the
+   * corresponding lobby. Only the admin of this lobby can start a new game.
    */
   public void startNewGame() {
     try {
@@ -329,9 +360,9 @@ public class ClientHandler implements Runnable {
   }
 
   /**
-   * Sends an announcement to just this client. Essentially the same as broadcastAnnouncementToAll except
-   * it only sends an announcement to just this client instead of everyone.
-   * Can be used for private non-chat messages (e.g. "You are now a ghost").
+   * Sends an announcement to just this client. Essentially the same as broadcastAnnouncementToAll
+   * except it only sends an announcement to just this client instead of everyone. Can be used for
+   * private non-chat messages (e.g. "You are now a ghost").
    */
   public void sendAnnouncementToClient(String msg) {
     sendMsgToClient(Protocol.printToClientConsole + "$" + msg);
@@ -348,7 +379,8 @@ public class ClientHandler implements Runnable {
     connectedClients.remove(this);
     disconnectClient();
     leaveLobby();
-    broadcastAnnouncementToAll(getClientUserName() + " has left the server due to a connection loss.");
+    broadcastAnnouncementToAll(
+        getClientUserName() + " has left the server due to a connection loss.");
     disconnectedClients.add(this);
   }
 
@@ -378,7 +410,9 @@ public class ClientHandler implements Runnable {
   }
 
   /**
-   * The client wants to join the lobby with the index i. If the lobby is closed, the client will be notified.
+   * The client wants to join the lobby with the index i. If the lobby is closed, the client will be
+   * notified.
+   *
    * @param i the number of the lobby to join
    */
   public void joinLobby(int i) {
@@ -387,7 +421,8 @@ public class ClientHandler implements Runnable {
       if (l.getLobbyIsOpen()) {
         l.addPlayer(this);
       } else {
-        sendAnnouncementToClient("The game in Lobby " + l.getLobbyID() + " has already started, or the lobby is already full.");
+        sendAnnouncementToClient("The game in Lobby " + l.getLobbyID()
+            + " has already started, or the lobby is already full.");
       }
     } else {
       sendAnnouncementToClient("Invalid Lobby nr.");
@@ -404,7 +439,7 @@ public class ClientHandler implements Runnable {
     if (l != null) {
       l.removePlayer(this);
       Game game = l.getGame();
-      if(game != null) {
+      if (game != null) {
         l.getGame().getGameState().handleClientDisconnect(this);
       }
     }
@@ -412,8 +447,8 @@ public class ClientHandler implements Runnable {
 
 
   /**
-   * Lists all lobbies and their members, along with players outside lobbies
-   * to this clientHandler's client as an announcement.
+   * Lists all lobbies and their members, along with players outside lobbies to this clientHandler's
+   * client as an announcement.
    */
   public void listLobbies() {
     if (Lobby.lobbies.isEmpty()) {
@@ -421,7 +456,7 @@ public class ClientHandler implements Runnable {
     } else {
       for (Lobby l : Lobby.lobbies) {
         String lobbyStatus = "closed";
-        if(l.getLobbyIsOpen()) {
+        if (l.getLobbyIsOpen()) {
           lobbyStatus = "open";
         }
         sendAnnouncementToClient("Lobby nr. " + l.getLobbyID() + ": (" + lobbyStatus + ")");
@@ -435,7 +470,7 @@ public class ClientHandler implements Runnable {
       }
     }
     boolean helper = false;           //used to print "Clients not in lobbies" only once, if needed.
-    for (ClientHandler c: connectedClients) {
+    for (ClientHandler c : connectedClients) {
       if (Lobby.clientIsInLobby(c) == -1) {
         if (!helper) {
           helper = true;
@@ -450,8 +485,8 @@ public class ClientHandler implements Runnable {
   }
 
   /**
-   * Lists all players in the client's lobby. If the client is not in a Lobby, it will say
-   * "You are not in a lobby."
+   * Lists all players in the client's lobby. If the client is not in a Lobby, it will say "You are
+   * not in a lobby."
    */
   public void listPlayersInLobby() {
     Lobby l = getLobby();
@@ -470,7 +505,8 @@ public class ClientHandler implements Runnable {
   }
 
   /**
-   * Lists all Games currenty running and already finished and displays it to the client handled by this
+   * Lists all Games currenty running and already finished and displays it to the client handled by
+   * this
    */
   public void listGames() {
     if (Lobby.runningGames.isEmpty() && Lobby.finishedGames.isEmpty()) {
@@ -479,7 +515,8 @@ public class ClientHandler implements Runnable {
       sendAnnouncementToClient("Running Games:");
       try {
         for (Game runningGame : Lobby.runningGames) {
-          sendAnnouncementToClient("  - " + runningGame.getName() + ", Lobby" + runningGame.getLobby().getLobbyID());
+          sendAnnouncementToClient(
+              "  - " + runningGame.getName() + ", Lobby" + runningGame.getLobby().getLobbyID());
         }
       } catch (Exception e) {
         sendAnnouncementToClient("  - No running Games");
@@ -487,7 +524,8 @@ public class ClientHandler implements Runnable {
       sendAnnouncementToClient("Finished Games:");
       try {
         for (Game finishedGame : Lobby.finishedGames) {
-          sendAnnouncementToClient("  - " + finishedGame.getName() + ", Lobby" + finishedGame.getLobby().getLobbyID());
+          sendAnnouncementToClient(
+              "  - " + finishedGame.getName() + ", Lobby" + finishedGame.getLobby().getLobbyID());
         }
       } catch (Exception e) {
         sendAnnouncementToClient("  - No finished Games");
@@ -502,8 +540,9 @@ public class ClientHandler implements Runnable {
     Lobby l = getLobby();
     if (l != null) {
       Game g = l.getGame();
-      if(g != null)
-      l.getGame().getGameState().handleClientDisconnect(this);
+      if (g != null) {
+        l.getGame().getGameState().handleClientDisconnect(this);
+      }
     }
     socket = this.getSocket();
     in = this.getIn();
