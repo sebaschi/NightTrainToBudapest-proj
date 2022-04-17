@@ -277,3 +277,7 @@ ToDo:
 
 14.04.2022 - Alex
 - Erste Version des Spiel-Manuals
+17.04.2022 - Sebastian
+- Dank Sereina kommuniziert die GUI nun mit dem Client und Nachrichten kommen korrekt an und werden korrekt verschickt.
+Im GUI funktioniert der Whisper nun. Folgendes Colorcoding: Eigene Nachrichten sind Lavendelfarben. Normale Chat nachrichten blau,
+und im Momentan Whisper Nachrichten violet.

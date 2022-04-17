@@ -187,7 +187,10 @@ public class Protocol {
    */
   public static final String serverDeliversLobbyList = "LLIST"; //todo: do we need this?
 
-
+  /**
+   * Informs Client, that their username has been changed
+   */
+  public static final String changedUserName = "CHNAM";
 
 
 }

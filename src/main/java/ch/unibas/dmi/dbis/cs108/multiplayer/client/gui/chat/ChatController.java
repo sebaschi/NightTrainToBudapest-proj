@@ -1,6 +1,7 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat;
 
 
+import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ClientModel;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
 import java.net.URL;
@@ -21,10 +22,16 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ChatController implements Initializable {
+
+  public static final Logger LOGGER = LogManager.getLogger(ChatController.class);
+  public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   @FXML
   private SplitPane chatPaneRoot;
@@ -37,7 +44,7 @@ public class ChatController implements Initializable {
   @FXML
   private TextArea chatMsgField;
 
-  private ClientModel client;
+  private static ClientModel client;
 
   private SimpleBooleanProperty whisperTargetChosen;
   private String cmd;
@@ -50,12 +57,14 @@ public class ChatController implements Initializable {
     super();
     whisperTargetChosen = new SimpleBooleanProperty();
     cmd = "";
+    LOGGER.info("ChatController empty constructor used");
   }
-  public ChatController(ClientModel client) {
-    this.client = client;
+
+  public ChatController(ClientModel c) {
+    client = c;
     whisperTargetChosen = new SimpleBooleanProperty();
     cmd = "";
-
+    LOGGER.info("ChatController single parameter constructor used");
   }
 
 
@@ -68,7 +77,8 @@ public class ChatController implements Initializable {
    */
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-
+    setClient(ChatApp.getClientModel());
+    ChatApp.setChatController(this);
     vBoxChatMessages.getChildren().addListener(new ListChangeListener<Node>() {
       @Override
       public void onChanged(Change<? extends Node> c) {
@@ -100,10 +110,13 @@ public class ChatController implements Initializable {
         String msg = chatMsgField.getText();
         if (!msg.isEmpty()) {
           client.getClient().sendMsgToServer(cmd.toString() + msg);
+          LOGGER.info("Message trying to send is: " + cmd.toString() + msg);
           Label l = new Label(client.getUsername() + " (you): " + msg);
           l.setBackground(Background.fill(Color.LAVENDER));
           vBoxChatMessages.getChildren().add(l);
           chatMsgField.clear();
+        } else {
+          LOGGER.debug("Trying to send an empty message.");
         }
       }
     });
@@ -119,30 +132,17 @@ public class ChatController implements Initializable {
       }
     });
 
-    //Bind the the fact if the whisper field contains a name to a boolean
-    whisperTargetChosen.bind(whisperTargetSelectField.textProperty().isEmpty());
-
-    /**
-     * change the chat command based on the whisper text field.
-     */
-    whisperTargetChosen.addListener(new ChangeListener<Boolean>() {
-      @Override
-      public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue,
-          Boolean newValue) {
-        //is true if {@code whisperTargetSelectedField} has content
-        if (!newValue) {
-          cmd = whisper + "$";
-        } else {
-          cmd = chatToLobby + "$";
-        }
-      }
-    });
-
+    //Possibly now the whisperTargetChosenProperty is obsolete
     whisperTargetSelectField.textProperty().addListener(new ChangeListener<String>() {
       @Override
       public void changed(ObservableValue<? extends String> observable, String oldValue,
           String newValue) {
         whisperTargetSelectField.setText(newValue);
+        if (newValue.isEmpty()) {
+          cmd = chatToLobby + "$";
+        } else {
+          cmd = whisper + "$" + whisperTargetSelectField.getText() + "$";
+        }
       }
     });
   }
@@ -150,7 +150,7 @@ public class ChatController implements Initializable {
   /**
    * @return the client who's chat controller this is
    */
-  public ClientModel getClient() {
+  public static ClientModel getClient() {
     return client;
   }
 
@@ -172,7 +172,11 @@ public class ChatController implements Initializable {
    */
   public void addChatMsgToView(String msg) {
     Label l = new Label(msg);
-    l.setBackground(Background.fill(Color.LIGHTSKYBLUE));
+    if (msg.contains("whispers")) {
+      l.setBackground(Background.fill(Color.SLATEBLUE));
+    } else {
+      l.setBackground(Background.fill(Color.LIGHTSKYBLUE));
+    }
     l.setTextFill(Color.BLACK);
     Platform.runLater(new Runnable() {
       @Override

@@ -4,6 +4,7 @@ import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ClientModel;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.GUI;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat.ChatApp;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat.ChatController;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.ClientPinger;
 
 
@@ -62,11 +63,16 @@ public class Client {
       sendMsgToServer(Protocol.clientLogin + "$" + systemName);
       this.chatApp = new ChatApp(new ClientModel(systemName, this));
       this.chatGUi = new GUI(this.chatApp);
+      chatGUi.setName(systemName);
       clientPinger = new ClientPinger(this, this.socket);
     } catch (IOException e) {
       e.printStackTrace();
     }
 
+  }
+
+  public void changeUsername (String newName) {
+    ChatController.getClient().setUsername(newName);
   }
 
   /**
@@ -220,8 +226,10 @@ public class Client {
       cP.start();
       client.userInputListener();     //this one blocks.
       //Start the GUI
-      Thread guiThread = new Thread(client.chatGUi);
+      GUI gui = new GUI(client.chatApp);
+      Thread guiThread = new Thread(gui);
       guiThread.start();
+      LOGGER.info("7");
     } catch (UnknownHostException e) {
       System.out.println("Invalid host IP");
     } catch (IOException e) {
@@ -240,14 +248,17 @@ public class Client {
       Thread cP = new Thread(client.clientPinger);
       cP.start();
       client.userInputListener();     //this one blocks.
-
+      LOGGER.info("7.1");
       Thread guiThread = new Thread(client.chatGUi);
+      LOGGER.info("8");
       guiThread.start();
+      LOGGER.info("9");
     } catch (UnknownHostException e) {
       System.out.println("Invalid host IP");
     } catch (IOException e) {
       e.printStackTrace();
     }
+    LOGGER.info("10");
   }
 
   public Socket getSocket() {
