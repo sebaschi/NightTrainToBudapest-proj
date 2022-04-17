@@ -18,7 +18,7 @@ public class ChatApp extends Application {
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   private  static ClientModel clientModel;
-  private ChatController chatController;
+  private static ChatController chatController;
 
   public ChatApp() {
     super();
@@ -31,9 +31,9 @@ public class ChatApp extends Application {
     this.chatController = new ChatController(clientModel);
   }
 
-  public void setChatController(
-      ChatController chatController) {
-    this.chatController = chatController;
+  public static void setChatController(
+      ChatController chatC) {
+    chatController = chatC;
   }
 
   public static void setClientModel(ClientModel clientM) {

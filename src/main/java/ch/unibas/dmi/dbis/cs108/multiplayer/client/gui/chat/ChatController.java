@@ -1,6 +1,7 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat;
 
 
+import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ClientModel;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
 import java.net.URL;
@@ -23,8 +24,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ChatController implements Initializable {
+  public static final Logger LOGGER = LogManager.getLogger(ChatController.class);
+  public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   @FXML
   private SplitPane chatPaneRoot;
@@ -49,12 +54,12 @@ public class ChatController implements Initializable {
   public ChatController() { //TODO: why does this get called
     super();
     whisperTargetChosen = new SimpleBooleanProperty();
-    cmd = "";
+    cmd = "CHATA$";
   }
   public ChatController(ClientModel client) {
     this.client = client;
     whisperTargetChosen = new SimpleBooleanProperty();
-    cmd = "";
+    cmd = "CHATA";
 
   }
 
@@ -69,6 +74,7 @@ public class ChatController implements Initializable {
   @Override
   public void initialize(URL location, ResourceBundle resources) {
   setClient(ChatApp.getClientModel());
+  ChatApp.setChatController(this);
     vBoxChatMessages.getChildren().addListener(new ListChangeListener<Node>() {
       @Override
       public void onChanged(Change<? extends Node> c) {
@@ -100,6 +106,7 @@ public class ChatController implements Initializable {
         String msg = chatMsgField.getText();
         if (!msg.isEmpty()) {
           client.getClient().sendMsgToServer(cmd.toString() + msg);
+          LOGGER.info("Message trying to send is: " + cmd.toString() + msg);
           Label l = new Label(client.getUsername() + " (you): " + msg);
           l.setBackground(Background.fill(Color.LAVENDER));
           vBoxChatMessages.getChildren().add(l);
