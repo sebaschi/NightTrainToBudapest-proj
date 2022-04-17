@@ -57,7 +57,6 @@ public class JClientProtocolParser {
         System.out.println("Human Vote:");
         c.positionSetter(msg.substring(6));
         break;
-      case Protocol.serverDeliversLobbyList:
       case Protocol.changedUserName:
         c.changeUsername(msg.substring(6));
         break;

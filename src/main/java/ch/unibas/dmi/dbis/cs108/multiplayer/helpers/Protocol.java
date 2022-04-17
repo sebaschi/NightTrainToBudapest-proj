@@ -18,9 +18,10 @@ public class Protocol {
    * Strings listed here). If additional information is necessary, it should be
    * given after a dollar sign, as such: {@code PRTCL$information}.
    * It should be noted that the server simply ignores the 6th character, however
-   * for clarity's sake it should always be a $.
-   * The client does not need to send who they are, since the server will receive
-   * any client message on its dedicated clientHandler thread.
+   * for clarity's sake it should always be a $. If more than one piece of information needs to be sent, the separate
+   * pieces of information should also be delimited with a dollar sign (see whisper for an example). In that case, it
+   * is very important that it is a $ and nothing else. Also, in such cases, we need to make sure the pieces of
+   * information between the $ do not contain $ themselves (for example, usernames cannot contain $).
    */
 
 
@@ -106,7 +107,6 @@ public class Protocol {
   /**
    * Client requests to join the Lobby with the given number, for example,
    * {@code JOINL$2} means the client wants to join lobby 2.
-   * todo: document handling when lobby is already full
    */
   public static final String joinLobby = "JOINL";
 
@@ -118,11 +118,11 @@ public class Protocol {
   /**
    * Whisper chat. Syntax: {@code WHISP$recipient's username$message}
    */
-  public static final String whisper ="WHISP";
+  public static final String whisper = "WHISP";
 
 
   /**
-   * A Client decides to start the game. The game is started in the lobby the message came from.
+   * A Client (lobby admin) decides to start the game. The game is started in the lobby the message came from.
    * Only one game can be started per lobby at a time.
    */
   public static final String startANewGame = "STGAM";
@@ -183,12 +183,7 @@ public class Protocol {
   public static final String serverRequestsHumanVote = "HVOTR";
 
   /**
-   * todo: doc
-   */
-  public static final String serverDeliversLobbyList = "LLIST"; //todo: do we need this?
-
-  /**
-   * Informs Client, that their username has been changed
+   * Informs Client that their username has been changed. Syntax {@code CHNAM$newname}
    */
   public static final String changedUserName = "CHNAM";
 
