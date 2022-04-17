@@ -143,6 +143,7 @@ public class ClientHandler implements Runnable {
    */
   public void setUsernameOnLogin(String name) {
     this.clientUserName = nameDuplicateChecker.checkName(name);
+    sendMsgToClient(Protocol.changedUserName + "$" + clientUserName);
     broadcastAnnouncementToAll(clientUserName + " has joined the Server");
 
     /*    The following lines could be un-commented to provide Lobby information on login
