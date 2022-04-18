@@ -10,7 +10,6 @@ import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.ClientPinger;
 
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
 
-import ch.unibas.dmi.dbis.cs108.multiplayer.server.JServerProtocolParser;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.io.*;
@@ -32,7 +31,7 @@ public class Client {
   public ClientPinger clientPinger;
 
   private ChatApp chatApp;
-  private GUI chatGUi;
+  private GUI chatGui;
 
   /**
    * Saves the position of the client, gets refreshed everytime the client gets a vote request.
@@ -62,8 +61,8 @@ public class Client {
       }
       sendMsgToServer(Protocol.clientLogin + "$" + systemName);
       this.chatApp = new ChatApp(new ClientModel(systemName, this));
-      this.chatGUi = new GUI(this.chatApp);
-      chatGUi.setName(systemName);
+      this.chatGui = new GUI(this.chatApp);
+      chatGui.setName(systemName);
       clientPinger = new ClientPinger(this, this.socket);
     } catch (IOException e) {
       e.printStackTrace();
@@ -251,7 +250,7 @@ public class Client {
       cP.start();
       client.userInputListener();     //this one blocks.
       LOGGER.info("7.1");
-      Thread guiThread = new Thread(client.chatGUi);
+      Thread guiThread = new Thread(client.chatGui);
       LOGGER.info("8");
       guiThread.start();
       LOGGER.info("9");

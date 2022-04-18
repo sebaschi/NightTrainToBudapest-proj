@@ -56,7 +56,7 @@ public class ChatController implements Initializable {
   public ChatController() { //TODO: why does this get called
     super();
     whisperTargetChosen = new SimpleBooleanProperty();
-    cmd = "CHATA$";
+    cmd = Protocol.chatMsgToLobby + "$";
     LOGGER.info("ChatController empty constructor used");
   }
 
@@ -102,19 +102,21 @@ public class ChatController implements Initializable {
     });
 
     /**
-     * Initialize what heppens when the sen button is pressed
+     * Initialize what happens when the sen button is pressed
      */
     sendButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
-        String msg = chatMsgField.getText();
+        String msg = chatMsgField.getText().split("\\R")[0];   //cut off extra lines, if present.
         if (!msg.isEmpty()) {
           client.getClient().sendMsgToServer(cmd.toString() + msg);
           LOGGER.info("Message trying to send is: " + cmd.toString() + msg);
-          Label l = new Label(client.getUsername() + " (you): " + msg);
-          if (cmd.contains(whisper)) {
+          Label l;
+          if (cmd.startsWith(whisper)) {
+            l = new Label("You whispered to " + whisperTargetSelectField.getText() + ": " + msg);
             l.setBackground(Background.fill(Color.LAVENDERBLUSH));
           } else {
+            l = new Label(client.getUsername() + " (you): " + msg);
             l.setBackground(Background.fill(Color.LAVENDER));
           }
           vBoxChatMessages.getChildren().add(l);
