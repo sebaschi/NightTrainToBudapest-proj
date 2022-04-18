@@ -1,7 +1,6 @@
 package ch.unibas.dmi.dbis.cs108.gamelogic;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
-import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Ghost;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Passenger;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -51,8 +50,8 @@ public class VoteHandler {
       }
     }
 
-    try { // waits 20 seconds before votes get collected
-      Thread.sleep(60*1000);
+    try { // waits 30 seconds before votes get collected
+      Thread.sleep(30*1000);
     } catch (InterruptedException e) {
       LOGGER.warn("Thread " + Thread.currentThread() + " was interrupted");
     }
@@ -143,7 +142,7 @@ public class VoteHandler {
       }
     }
 
-    try { // waits 20 seconds before votes get collected
+    try { // waits 60 seconds before votes get collected
       Thread.sleep(60*1000);
     } catch (InterruptedException e) {
       LOGGER.warn("Thread " + Thread.currentThread() + " was interrupted");

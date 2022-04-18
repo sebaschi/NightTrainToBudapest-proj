@@ -11,16 +11,13 @@ public class GUI implements Runnable {
   public static final Logger LOGGER = LogManager.getLogger(GUI.class);
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
-  ChatApp chatApp;
-  private String name;
+  private ChatApp chatApp;
+
 
   public GUI(ChatApp chatApp) {
     this.chatApp = chatApp;
   }
 
-  public void setName(String name) {
-    this.name = name;
-  }
 
   /**
    * When an object implementing interface {@code Runnable} is used to create a thread, starting the
@@ -32,11 +29,9 @@ public class GUI implements Runnable {
    * @see Thread#run()
    */
 
-
   @Override
   public void run() {
     LOGGER.info("here");
-    //String name =
     Application.launch(this.chatApp.getClass());
   }
 }

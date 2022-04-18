@@ -43,6 +43,9 @@ public class Server {
     }
   }
 
+  /**
+   * closes the Server socket of this server
+   */
   public void closeServerSocket() {
     try {
       if (serverSocket != null) {
@@ -53,6 +56,10 @@ public class Server {
     }
   }
 
+  /**
+   * The main method used for testing
+   * @param args not used in this method
+   */
   public static void main(String[] args) {
     ServerSocket serverSocket = null;
     gamePort = 1873;
@@ -65,6 +72,10 @@ public class Server {
     server.startServer();
   }
 
+  /**
+   * The main method of the Server that is used for the jar build of this project
+   * @param port the port the server will open on
+   */
   public static void main(int port) {
     gamePort = port;
     ServerSocket serverSocket = null;

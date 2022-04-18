@@ -115,12 +115,12 @@ Allerdings werden die Nachrichten noch als einfacher String übermittelt und noc
 
 Wer macht Was?
 
-Seraina: bis 25.4 Abends
+Seraina: bis 25.3 Abends
 • QA-Concept 
 • Fortfahren mit Spiellogik
 
 
-Sebastian: bis 25.4 Abends
+Sebastian: bis 25.3 Abends
 Protocol 
 • Formatter /Parser(Namingconvention überlegen)
 	o Format: COMND$parameter(i.e. Name)$parameter(i.e. msg)
@@ -130,7 +130,7 @@ Protocol
 • Enum: All Legal Protocol Commands
 
 
-Jonas: bis 25.4 Abends
+Jonas: bis 25.3 Abends
 • PingPong-Funktionalität 
 	o PingPong handler
 	o Every two seconds (what is the standard?)
@@ -142,7 +142,7 @@ Jonas: bis 25.4 Abends
 	o assign Ip (maybe port) method ?
 
 
-Alexandr: bis 26.4 Abends
+Alexandr: bis 26.3 Abends
 • Automatic username assignment
 • Username duplicate handler
 	o Login -> username? -> check -> username01
@@ -155,7 +155,7 @@ Alexandr: bis 26.4 Abends
 Rule: Alles was geht in eigene Klassen Methoden schreiben.
 Soviel wie möglich commiten mit Aufschlussreichen messages.
 
-Nächste Absprache Fr 25.4 Abends
+Nächste Absprache Fr 25.3 Abends
 
 
 
@@ -266,7 +266,8 @@ Stand 17:30 Uhr:
   auf Integration in einen grösseres GUI-Modul. Wir werden wohl JavaFX(openFX) verwenden.
 
 ToDo:
-	Spiellogik:		 - Send() methode von Passenger mit Client-Server verknüpfen(Seraina)
+	Spiellogik:
+	         - Send() methode von Passenger mit Client-Server verknüpfen(Seraina)
 					 - NoiseHandler (Alex)
 					 - Game Zyklus implementieren (Seraina)
 
@@ -275,9 +276,47 @@ ToDo:
 - Implementierung NoiseHandler, Verbindung mit VoteHandler
 - Verbesserung der Lesbarkeit von VoteHandler (Code-Duplikate in eine Methode zusammengefasst)
 
+11.04.2022 - Seraina
+Spiellogik: Es besteht eine basale Verknüpfung zwischen Client-Server und Spiellogik. Ein Client kann
+eine Stimme abgeben und sie wird gezählt, NPC können sehr stupide stimmen abgegen (randomisiert). Der
+Server schickt dem Client bei einem Voterequest immer seine Position im Zug mit, und der client schickt
+sie dem Server wieder zurück.
+
+13.04.2022 - Seraina
+Spiellogik: Habe Alexs noiseHandling in die restliche Spiellogik integriert und debugged. Ebenso musste
+ich den Input der Clients beim Abstimmen geben umstrukturieren. Anstatt dass eine speziefische Methode
+für das Voting aufgerufen wird, wird über ein Befehl '/v vote' gemacht der über die gleichen Kanäle geht
+wie alle anderen Konsolenbefehle.
+TODO: Vote enforcement von Serverseite. Momentan können Humans in der Nacht und umgekehrt reinfunken und
+ihre Stimmen werden gezählt.
+
 14.04.2022 - Alex
 - Erste Version des Spiel-Manuals
+
+14.04.2022 - Jonas, Seraina, Sebi, Alex
+Integration von Lobby und gamelogic.
+
+15.04.2022 - Seraina
+Die Spiellogik läuft nun mit Enforcment. Geister und Menschen können nur zu enstprechender Zeit voten,
+sonst werden ihre stimmen einfach nicht gewertet. Geister, die schon vom Zug geflogen sind, können nun
+auch nicht mehr mitspielen. Habe eine Spectator Klasse hinzugefügt für Spieler, die aus dem Spiel geflogen
+sind.
+
+16.04.2022 - Seraina, Sebi
+Es gibt ein Problem mit der Gui, irgendwie funktioniert die Verbindung von Application Klasse zu
+fxlm file nicht.
+
+17.04.2022 - Seraina, Sebi
+GUI-Troubleshooting: wir haben das Problem mit der GUI lokalisiert, es wird beim launch einer Application
+immer nur ein Objekt der Klasse erstellt, und zwar mit Konstruktor ohne Parametern. Um Parameter zu übergeben,
+müssen statische Felder und definiert und diese nach launch und Initialisierung (beim Controller) mittels
+Setter übergeben werden.
+
 17.04.2022 - Sebastian
-- Dank Sereina kommuniziert die GUI nun mit dem Client und Nachrichten kommen korrekt an und werden korrekt verschickt.
+- Dank Seraina kommuniziert die GUI nun mit dem Client und Nachrichten kommen korrekt an und werden korrekt verschickt.
 Im GUI funktioniert der Whisper nun. Folgendes Colorcoding: Eigene Nachrichten sind Lavendelfarben. Normale Chat nachrichten blau,
 und im Momentan Whisper Nachrichten violet.
+
+18.04.2022 - Seraina
+Nach etlichem lesen von Websites zu custom tasks in gradle habe ich entlich die build-cs108 task zum Laufen
+gebracht. Es war wie so oft die einfachste Lösung.

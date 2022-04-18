@@ -1,7 +1,6 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
-import ch.unibas.dmi.dbis.cs108.multiplayer.client.Client;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ClientModel;
 import java.net.URL;
 import java.util.Objects;
@@ -25,19 +24,28 @@ public class ChatApp extends Application {
   public ChatApp() {
     super();
     LOGGER.info("Empty ChatApp constructor got called: ");
-
   }
 
-  public ChatApp(ClientModel clientModel) {
-    this.clientModel = clientModel;
-    this.chatController = new ChatController(clientModel);
+  public ChatApp(ClientModel clientM) {
+    clientModel = clientM;
+    chatController = new ChatController(clientM);
   }
 
-  public static void setChatController(
-      ChatController chatC) {
+  /**
+   * Sets the ChatController for the Application, needs to be static, but only one application can
+   * be launched per programm
+   *
+   * @param chatC the ChatController to be linked to this chatApp
+   */
+  public static void setChatController(ChatController chatC) {
     chatController = chatC;
   }
 
+  /**
+   * Sets the non-static ClientModel field of this class
+   *
+   * @param cModel the non static ClientModel to be added
+   */
   public void setcModel(ClientModel cModel) {
     this.cModel = cModel;
   }
@@ -54,6 +62,11 @@ public class ChatApp extends Application {
     return clientModel;
   }
 
+  public ChatController getChatController() {
+    return chatController;
+  }
+
+
   /**
    * The main entry point for all JavaFX applications. The start method is called after the init
    * method has returned, and after the system is ready for the application to begin running.
@@ -69,11 +82,9 @@ public class ChatApp extends Application {
    */
   @Override
   public void start(Stage primaryStage) throws Exception {
-    LOGGER.info("made it here");
     this.setcModel(clientModel);
     URL resource = ChatApp.class.getResource(
         "splitPaneChatView.fxml");
-    LOGGER.info("1");
     if (resource == null) {
       System.out.println("File wasnt found");
     }
@@ -82,23 +93,16 @@ public class ChatApp extends Application {
       Parent root = FXMLLoader.load(
           Objects.requireNonNull(ChatApp.class.getResource(
               "splitPaneChatView.fxml")));
-      LOGGER.info("2");
-      // TODO bin chatController.getChatPaneRoot() border to root border for resizing
+      // TODO bin chatController.getChatPaneRoot() border to root border for rezising
       Scene scene = new Scene(root);
-      LOGGER.info("3");
       scene.setRoot(root);
-      LOGGER.info("4");
       primaryStage.setScene(scene);
-      LOGGER.info("5");
     } catch (Exception e) {
       e.printStackTrace();
     }
     primaryStage.setResizable(true);
-    LOGGER.info("6");
     primaryStage.setTitle("Chat");
-    LOGGER.info("7");
     primaryStage.show();
-    LOGGER.info("8");
 
 
   }
@@ -107,7 +111,4 @@ public class ChatApp extends Application {
     launch(args);
   }
 
-  public ChatController getChatController() {
-    return chatController;
-  }
 }

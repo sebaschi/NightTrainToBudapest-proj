@@ -2,9 +2,7 @@ package ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.gamelogic.Game;
-import ch.unibas.dmi.dbis.cs108.gamelogic.GameState;
 import ch.unibas.dmi.dbis.cs108.gamelogic.ServerGameInfoHandler;
-import ch.unibas.dmi.dbis.cs108.gamelogic.TrainOverflow;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -76,11 +74,5 @@ public class GhostNPC extends Ghost {
       LOGGER.info("GhostNPC at Position: " + this.getPosition() + " has voted for: " + vote);
     }
   }
-
-  /**
-   * Decides what to do when a noise ist heard, currently just always broadcasts it
-   * TODO: Make NPC smarter
-   */
-
 
 }

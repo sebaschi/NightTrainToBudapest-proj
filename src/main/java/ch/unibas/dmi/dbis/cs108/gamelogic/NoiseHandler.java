@@ -1,6 +1,6 @@
 package ch.unibas.dmi.dbis.cs108.gamelogic;
 
-import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Ghost;
+
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Passenger;
 
 /**

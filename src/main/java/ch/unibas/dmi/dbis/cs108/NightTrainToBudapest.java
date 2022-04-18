@@ -7,6 +7,11 @@ import java.net.InetAddress;
 
 public class NightTrainToBudapest {
 
+  /**
+   * The main Method of the jar build of this project. calls either the main method of the server or
+   * the main method of the client
+   * @param args the arguments are either client {@code <hostadress>:<port> [<username>] or  server <port>}
+   */
   public static void main(String[] args) {
     try {
       String clientOrServer = args[0];
