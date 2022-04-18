@@ -51,8 +51,8 @@ public class VoteHandler {
       }
     }
 
-    try { // waits 60 seconds before votes get collected
-      Thread.sleep(60*1000);
+    try { // waits 30 seconds before votes get collected
+      Thread.sleep(30*1000);
     } catch (InterruptedException e) {
       LOGGER.warn("Thread " + Thread.currentThread() + " was interrupted");
     }
