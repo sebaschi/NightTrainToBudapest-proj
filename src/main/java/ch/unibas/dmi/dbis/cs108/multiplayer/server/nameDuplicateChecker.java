@@ -3,11 +3,12 @@ package ch.unibas.dmi.dbis.cs108.multiplayer.server;
 import java.util.Random;
 
 /**
- * This class is responsible for checking names for duplicates and assigning suffixes in case
- * of duplicate names.
+ * This class is responsible for checking names for duplicates and assigning suffixes in case of
+ * duplicate names.
  */
 public class nameDuplicateChecker {
-  static final String[] suffixes = new String[] {
+
+  static final String[] suffixes = new String[]{
       " from London",
       " of Prussia",
       " of Zagreb",
@@ -48,19 +49,22 @@ public class nameDuplicateChecker {
   }
 
   /**
-   * Adjusts the name to avoid conflicts and returns it as a String. Namely:
-   * If that name is already used by some other ClientHandler, it returns the name with some suffix.
-   * Also, any ":" or "$" are removed, so they can be used for whisper chat.
-   * Also, if the name is empty, it assigns a default value ("U.N. Owen").
+   * Adjusts the name to avoid conflicts and returns it as a String. Namely: If that name is already
+   * used by some other ClientHandler, it returns the name with some suffix. Also, any ":" or "$"
+   * are removed, so they can be used for whisper chat. Also, if the name is empty, it assigns a
+   * default value ("U.N. Owen").
+   *
    * @param name the name that is checked for
    * @return returns either just the name or added some suffix
    */
   public static String checkName(String name) {
     String tempname = name;                 //if this line is used, only duplicate names get a suffix.
     //String tempname = extendName(name);     //if this line is used, all clients get a suffix
-    tempname = tempname.replace("$","");
-    tempname = tempname.replace(":","");
-    if (tempname.equalsIgnoreCase("")) {tempname = "U.N. Owen";}
+    tempname = tempname.replace("$", "");
+    tempname = tempname.replace(":", "");
+    if (tempname.equalsIgnoreCase("")) {
+      tempname = "U.N. Owen";
+    }
     String rtrn = tempname;
     while (isTaken(rtrn)) {        //todo: handle the (very unlikely) case that all names are taken.
       rtrn = extendName(tempname);

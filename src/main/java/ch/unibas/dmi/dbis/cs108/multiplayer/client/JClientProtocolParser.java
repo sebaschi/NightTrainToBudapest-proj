@@ -7,15 +7,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class JClientProtocolParser {
+
   public static final Logger LOGGER = LogManager.getLogger(JClientProtocolParser.class);
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
 
   /**
-   * Used by the client to parse an incoming protocol message.
-   * For documentation on the individual Protocol messages, view the Protocol.java
-   * class or hover over the commands (e.g. Protocol.chatMsgToAll) with your mouse
-   * in this class.
+   * Used by the client to parse an incoming protocol message. For documentation on the individual
+   * Protocol messages, view the Protocol.java class or hover over the commands (e.g.
+   * Protocol.chatMsgToAll) with your mouse in this class.
    *
    * @param msg the encoded message that needs to be parsed
    * @param c   this Client(required so this method can access the Client's methods)

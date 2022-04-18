@@ -26,10 +26,9 @@ public class Lobby {
 
 
   /**
-   * true by default
-   * true if game has not started yet, false if game has. If true, potential players can still join the game.
-   * Should be set to true again, after a game is finished.
-   * Games can only be started if Lobby is open.
+   * true by default true if game has not started yet, false if game has. If true, potential players
+   * can still join the game. Should be set to true again, after a game is finished. Games can only
+   * be started if Lobby is open.
    */
   private boolean lobbyIsOpen = true;
 
@@ -40,8 +39,8 @@ public class Lobby {
 
 
   /**
-   * The Person who created the game and can configure it and decide to start once enough lobbyClients
-   * have entered the lobby.
+   * The Person who created the game and can configure it and decide to start once enough
+   * lobbyClients have entered the lobby.
    */
   private final ClientHandler admin;
 
@@ -54,8 +53,8 @@ public class Lobby {
 
 
   /**
-   * Constructor. Sets the admin to who created the lobby. Adds the admin to the list of lobbyClients.
-   * Increases the number of lobbyClients from 0 to 1.
+   * Constructor. Sets the admin to who created the lobby. Adds the admin to the list of
+   * lobbyClients. Increases the number of lobbyClients from 0 to 1.
    *
    * @param admin the Client who called CRTGM
    */
@@ -83,6 +82,7 @@ public class Lobby {
 
   /**
    * getter for the lobby ID
+   *
    * @return lobbyID as set in constructor.
    */
   public int getLobbyID() {
@@ -99,14 +99,14 @@ public class Lobby {
   }
 
   /**
-   * Returns the lobby with the desired LobbyID.
-   * For example, getLobbyFromID(5) returns the lobby whose LobbyID is 5.
-   * If no such lobby exists, it returns null.
+   * Returns the lobby with the desired LobbyID. For example, getLobbyFromID(5) returns the lobby
+   * whose LobbyID is 5. If no such lobby exists, it returns null.
+   *
    * @param i the Lobby ID you are looking for
    * @return the Lobby with i as its ID
    */
   public static Lobby getLobbyFromID(int i) {
-    for (Lobby l: lobbies) {
+    for (Lobby l : lobbies) {
       if (l.getLobbyID() == i) {
         return l;
       }
@@ -125,7 +125,7 @@ public class Lobby {
   }
 
   public boolean getLobbyIsOpen() {
-    if (lobbyClients.size() >= MAX_NO_OF_CLIENTS || gameIsRunning ) {
+    if (lobbyClients.size() >= MAX_NO_OF_CLIENTS || gameIsRunning) {
       setLobbyIsOpen(false);
     } else {
       setLobbyIsOpen(true);
@@ -148,14 +148,15 @@ public class Lobby {
 
 
   /**
-   * Returns the ID of the lobby that the client is in. If the client is not in any
-   * lobby, it returns -1.
+   * Returns the ID of the lobby that the client is in. If the client is not in any lobby, it
+   * returns -1.
+   *
    * @param h ClientHandler that the corresponding Lobby is searched for
    * @return the Lobby ID
    */
   public static int clientIsInLobby(ClientHandler h) {
-    for (Lobby l: lobbies) {
-      for (ClientHandler clientHandler: l.getLobbyClients()) {
+    for (Lobby l : lobbies) {
+      for (ClientHandler clientHandler : l.getLobbyClients()) {
         if (h.equals(clientHandler)) {
           return l.getLobbyID();
         }
@@ -167,6 +168,7 @@ public class Lobby {
   /**
    * Adds a player to the lobby. Returns true if successful.
    * TODO: add an appropriate response. Currently hardcoded.
+   *
    * @param client who wants to join the lobby.
    * @return true if successful
    */
@@ -174,7 +176,8 @@ public class Lobby {
     if (getLobbyIsOpen()) {
       if (clientIsInLobby(client) == -1) {
         lobbyClients.add(client);
-        ClientHandler.broadcastAnnouncementToAll(client.getClientUserName() + " has joined lobby " + this.getLobbyID());
+        ClientHandler.broadcastAnnouncementToAll(
+            client.getClientUserName() + " has joined lobby " + this.getLobbyID());
         //LOGGER.debug(client.getClientUserName() + " has been added to Lobby with ID: " + lobbyID
         //    + ". Current number of lobbyClients in this lobby: " + lobbyClients.size());
         return true;
@@ -182,7 +185,8 @@ public class Lobby {
         client.sendAnnouncementToClient("You are already in lobby nr. " + clientIsInLobby(client));
       }
     } else {
-      client.sendAnnouncementToClient("This lobby is closed. Please try joining a different lobby or create a new lobby");
+      client.sendAnnouncementToClient(
+          "This lobby is closed. Please try joining a different lobby or create a new lobby");
     }
     return false;
   }
@@ -198,10 +202,12 @@ public class Lobby {
   public synchronized boolean removePlayer(ClientHandler player) {
     //if the player who leaves the lobby is the admin, the lobby is closed.
     if (player.equals(getAdmin())) {
-      ClientHandler.broadcastAnnouncementToAll(player.getClientUserName() + " has closed lobby nr. " + this.getLobbyID());
+      ClientHandler.broadcastAnnouncementToAll(
+          player.getClientUserName() + " has closed lobby nr. " + this.getLobbyID());
       closeLobby();
-    } else if (this.getLobbyClients().remove(player)){
-      ClientHandler.broadcastAnnouncementToAll(player.getClientUserName() + " has left lobby nr. " + this.getLobbyID());
+    } else if (this.getLobbyClients().remove(player)) {
+      ClientHandler.broadcastAnnouncementToAll(
+          player.getClientUserName() + " has left lobby nr. " + this.getLobbyID());
       return true;
     }
     return false;
@@ -209,6 +215,7 @@ public class Lobby {
 
   /**
    * Adds game to list of running games and sets its lobby's gameIsRunning to true.
+   *
    * @param game the game to be added
    */
   public void addGameToRunningGames(Game game) {
@@ -218,6 +225,7 @@ public class Lobby {
 
   /**
    * Removes game from list of running games and sets its lobby's gameIsRunning to false.
+   *
    * @param game the game to be removed
    */
   public void removeGameFromRunningGames(Game game) {
@@ -225,13 +233,12 @@ public class Lobby {
     runningGames.remove(game);
   }
 
-  public  void addGameToFinishedGames(Game game) {
+  public void addGameToFinishedGames(Game game) {
     finishedGames.add(game);
   }
 
   /**
    * Closes the lobby.
-   *
    */
   public void closeLobby() {
     lobbies.remove(this);

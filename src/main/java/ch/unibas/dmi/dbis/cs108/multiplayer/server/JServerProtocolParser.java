@@ -30,7 +30,8 @@ public class JServerProtocolParser {
     String header = "";             //"header" is the first 5 characters, i.e. the protocol part
     try {
       header = msg.substring(0, 5);
-      if(!header.equals(Protocol.pingBack) &&!header.equals(Protocol.pingFromClient)) { //for debuging without constant pings
+      if (!header.equals(Protocol.pingBack) && !header.equals(
+          Protocol.pingFromClient)) { //for debuging without constant pings
         LOGGER.debug("got message: " + msg + ".");
       }
     } catch (IndexOutOfBoundsException e) {

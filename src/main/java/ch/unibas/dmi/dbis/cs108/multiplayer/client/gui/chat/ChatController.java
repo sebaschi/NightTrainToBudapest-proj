@@ -112,7 +112,11 @@ public class ChatController implements Initializable {
           client.getClient().sendMsgToServer(cmd.toString() + msg);
           LOGGER.info("Message trying to send is: " + cmd.toString() + msg);
           Label l = new Label(client.getUsername() + " (you): " + msg);
-          l.setBackground(Background.fill(Color.LAVENDER));
+          if (cmd.contains(whisper)) {
+            l.setBackground(Background.fill(Color.LAVENDERBLUSH));
+          } else {
+            l.setBackground(Background.fill(Color.LAVENDER));
+          }
           vBoxChatMessages.getChildren().add(l);
           chatMsgField.clear();
         } else {
