@@ -62,7 +62,6 @@ public class Client {
       sendMsgToServer(Protocol.clientLogin + "$" + systemName);
       this.chatApp = new ChatApp(new ClientModel(systemName, this));
       this.chatGui = new GUI(this.chatApp);
-      chatGui.setName(systemName);
       clientPinger = new ClientPinger(this, this.socket);
     } catch (IOException e) {
       e.printStackTrace();
@@ -205,6 +204,10 @@ public class Client {
     }
   }
 
+  /**
+   * The main Method used for testing in IDE
+   * @param args not used in this main
+   */
   public static void main(String[] args) {
     Scanner sc = new Scanner(System.in);
     String hostname;
@@ -239,6 +242,12 @@ public class Client {
 
   }
 
+  /**
+   * The main-method used for the jar build of this project
+   * @param address the IP address of the Server (can be localhost)
+   * @param port the port for the connection
+   * @param username the username of this client
+   */
   public static void main(InetAddress address, int port, String username) {
     Scanner sc = new Scanner(System.in);
     Socket socket;

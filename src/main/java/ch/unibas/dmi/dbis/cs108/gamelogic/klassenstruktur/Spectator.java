@@ -3,7 +3,6 @@ package ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur;
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.gamelogic.Game;
 import ch.unibas.dmi.dbis.cs108.gamelogic.ServerGameInfoHandler;
-import ch.unibas.dmi.dbis.cs108.multiplayer.server.ClientHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,7 +22,11 @@ public class Spectator extends Passenger{
     isSpectator = true;
   }
 
-
+  /**
+   * Sends a message to the Client assosiated with this Spectator via ServerGameInfoHandler.spectatorFormat
+   * @param msg the message that is sent to this player.
+   * @param game the game the Passenger lives on
+   */
   @Override
   public void send(String msg, Game game) {
     clientHandler.sendMsgToClient(ServerGameInfoHandler.spectatorFormat(msg, this, game));

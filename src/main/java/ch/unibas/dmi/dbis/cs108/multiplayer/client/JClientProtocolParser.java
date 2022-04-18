@@ -31,7 +31,6 @@ public class JClientProtocolParser {
     }
     switch (header) {
       case Protocol.pingFromServer:
-
         c.sendMsgToServer(Protocol.pingBack);
         break;
       case Protocol.pingBack:

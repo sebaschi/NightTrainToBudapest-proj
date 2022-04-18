@@ -7,8 +7,6 @@ import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Human;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.HumanNPC;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Passenger;
 import ch.unibas.dmi.dbis.cs108.multiplayer.server.ClientHandler;
-import java.util.Arrays;
-import java.util.HashSet;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

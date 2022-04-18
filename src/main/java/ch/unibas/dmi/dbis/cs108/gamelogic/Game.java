@@ -81,7 +81,7 @@ public class Game implements Runnable {
 
 
     LOGGER.info(gameState.toString());
-    for (ClientHandler client : lobbyClients) {
+    for (ClientHandler client : lobbyClients) {//begins filling the train with clients
       int index = order[i];
       if (passengerTrain[index].getIsGhost()) { //if there is a ghost
         GhostPlayer ghostPlayer = new GhostPlayer(passengerTrain[index].getPosition(),
@@ -94,7 +94,7 @@ public class Game implements Runnable {
       }
       i++;
     }
-    while (i < order.length) {
+    while (i < order.length) {//fills the rest of the train with npcs
       int index = order[i];
       if (passengerTrain[index].getIsGhost()) { //if they are a ghost
         GhostNPC ghostNPC = new GhostNPC(passengerTrain[index].getPosition(), "NPC" + passengerTrain[index].getPosition(),passengerTrain[index].getIsOG());
@@ -109,7 +109,7 @@ public class Game implements Runnable {
     LOGGER.info(gameState.toString());
 
     i = 0;
-    while (isOngoing == true) {
+    while (isOngoing == true) {//game cycle
       if (!isDay) {
         LOGGER.info("NIGHT");
         gameOverCheck = voteHandler.ghostVote(gameState.getPassengerTrain(), this);

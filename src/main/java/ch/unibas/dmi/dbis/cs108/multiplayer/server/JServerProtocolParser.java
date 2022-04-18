@@ -2,11 +2,6 @@ package ch.unibas.dmi.dbis.cs108.multiplayer.server;
 
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
-import ch.unibas.dmi.dbis.cs108.gamelogic.ClientVoteData;
-import ch.unibas.dmi.dbis.cs108.gamelogic.Game;
-import ch.unibas.dmi.dbis.cs108.gamelogic.GameState;
-import ch.unibas.dmi.dbis.cs108.gamelogic.TrainOverflow;
-import ch.unibas.dmi.dbis.cs108.gamelogic.VoteHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;

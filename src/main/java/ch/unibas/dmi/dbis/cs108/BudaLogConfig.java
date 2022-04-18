@@ -8,7 +8,7 @@ import org.apache.logging.log4j.core.config.Configuration;
 import org.apache.logging.log4j.core.config.LoggerConfig;
 
 /**
- *
+ *A Class that lets us set the RootLogger Level of all Classes in this Project
  */
 public class BudaLogConfig {
 

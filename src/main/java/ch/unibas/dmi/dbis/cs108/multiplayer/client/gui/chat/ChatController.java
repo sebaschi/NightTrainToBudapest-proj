@@ -22,7 +22,6 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import org.apache.logging.log4j.LogManager;
@@ -53,7 +52,10 @@ public class ChatController implements Initializable {
   private static final String chatToAll = Protocol.chatMsgToAll;
   private static final String chatToLobby = Protocol.chatMsgToLobby;
 
-  public ChatController() { //TODO: why does this get called
+  /**
+   * Needs to stay, because it gets called in initialisation
+   */
+  public ChatController() {
     super();
     whisperTargetChosen = new SimpleBooleanProperty();
     cmd = Protocol.chatMsgToLobby + "$";
@@ -154,13 +156,15 @@ public class ChatController implements Initializable {
   }
 
   /**
-   * @return the client who's chat controller this is
+   * @return the ClientModel whose chat controller this is
    */
   public static ClientModel getClient() {
     return client;
   }
 
   /**
+   * Sets the ClientModel of this ChatController
+   *
    * @param client who's gui controller this should be
    */
   public void setClient(ClientModel client) {
@@ -172,7 +176,7 @@ public class ChatController implements Initializable {
   }
 
   /**
-   * The client calls this method to foreward a chat message to the chat gui
+   * The client calls this method to forward a chat message to the chat gui
    *
    * @param msg the message to be displayed
    */

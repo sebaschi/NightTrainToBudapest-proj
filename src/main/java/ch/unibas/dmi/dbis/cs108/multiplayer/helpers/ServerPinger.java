@@ -3,7 +3,6 @@ package ch.unibas.dmi.dbis.cs108.multiplayer.helpers;
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.multiplayer.server.ClientHandler;
 import java.io.BufferedWriter;
-import java.io.IOException;
 import java.net.Socket;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

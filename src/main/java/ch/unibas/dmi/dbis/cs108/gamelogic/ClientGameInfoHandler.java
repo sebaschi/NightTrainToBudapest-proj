@@ -1,6 +1,5 @@
 package ch.unibas.dmi.dbis.cs108.gamelogic;
 
-import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Passenger;
 
 /**
  * Handles all communication Client to Server concerning gamestate updates i.e. client a has voted
