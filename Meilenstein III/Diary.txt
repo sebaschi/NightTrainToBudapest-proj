@@ -322,5 +322,10 @@ Im GUI funktioniert der Whisper nun. Folgendes Colorcoding: Eigene Nachrichten s
 und im Momentan Whisper Nachrichten violet.
 
 18.04.2022 - Seraina
-Nach etlichem lesen von Websites zu custom tasks in gradle habe ich entlich die build-cs108 task zum Laufen
+Nach etlichem Lesen von Websites zu custom tasks in gradle habe ich endlich die build-cs108 task zum Laufen
 gebracht. Es war wie so oft die einfachste Lösung.
+
+18.04.2022 - Alex
+- Aktualisierung des Projektplans für Meilensteine 4 und 5 abgeschlossen (hochgeladen als pdf und xls)
+- Änderung des NoiseHandlers: Nun werden human players, selbst wenn nachts mehrmals Geister an ihnen vorbeilaufen, nur einmal benachrichtigt.
+- Abschliessende Arbeit am Manual.
