@@ -235,7 +235,11 @@ public class Lobby {
    */
   public void closeLobby() {
     lobbies.remove(this);
-    game.setOngoing(false); // ends game
+    try {
+      game.setOngoing(false); // ends game
+    } catch (NullPointerException e) {
+      LOGGER.info("No game has been started yet");
+    }
     //ClientHandler.broadcastAnnouncementToAll("Lobby nr. " + this.getLobbyID() + " has been closed.");
 
     /*
