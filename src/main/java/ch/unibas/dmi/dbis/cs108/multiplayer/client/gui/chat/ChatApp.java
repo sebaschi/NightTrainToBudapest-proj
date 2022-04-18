@@ -83,7 +83,7 @@ public class ChatApp extends Application {
           Objects.requireNonNull(ChatApp.class.getResource(
               "splitPaneChatView.fxml")));
       LOGGER.info("2");
-      // TODO bin chatController.getChatPaneRoot() border to root border for rezising
+      // TODO bin chatController.getChatPaneRoot() border to root border for resizing
       Scene scene = new Scene(root);
       LOGGER.info("3");
       scene.setRoot(root);

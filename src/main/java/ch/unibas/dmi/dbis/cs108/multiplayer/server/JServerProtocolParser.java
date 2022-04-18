@@ -31,7 +31,7 @@ public class JServerProtocolParser {
     try {
       header = msg.substring(0, 5);
       if (!header.equals(Protocol.pingBack) && !header.equals(
-          Protocol.pingFromClient)) { //for debuging without constant pings
+          Protocol.pingFromClient)) { //for debugging without constant pings
         LOGGER.debug("got message: " + msg + ".");
       }
     } catch (IndexOutOfBoundsException e) {

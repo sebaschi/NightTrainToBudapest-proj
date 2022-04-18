@@ -109,7 +109,7 @@ public class Game implements Runnable {
     LOGGER.info(gameState.toString());
 
     i = 0;
-    while (isOngoing == true) {
+    while (isOngoing) {
       if (!isDay) {
         LOGGER.info("NIGHT");
         gameOverCheck = voteHandler.ghostVote(gameState.getPassengerTrain(), this);
