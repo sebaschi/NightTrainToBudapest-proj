@@ -83,3 +83,7 @@ tasks.register('build-cs108', Jar) {
 task myJavadocs(type: Javadoc) {
     source = sourceSets.main.allJava
 }
+
+myJavadocs {
+    options.encoding = 'UTF-8'
+}
