@@ -22,6 +22,7 @@ java {
     }
 }
 
+
 //adds maven central as a maven repository
 repositories {
     mavenCentral()
@@ -55,6 +56,10 @@ jar {
         configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
+}
+
+javadoc {
+    options.encoding = 'UTF-8'
 }
 
 
