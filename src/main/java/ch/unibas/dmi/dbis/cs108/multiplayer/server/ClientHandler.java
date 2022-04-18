@@ -184,6 +184,9 @@ public class ClientHandler implements Runnable {
     } else {
       //send msg to all clients who are not in a lobby.
       for (ClientHandler client : connectedClients) {
+        if(client.getClientUserName().equals(this.getClientUserName())){
+          continue;
+        }
         if (Lobby.clientIsInLobby(client) == -1) {
           client.sendMsgToClient(Protocol.printToClientChat + "$" + clientUserName + ": " + msg);
         }
