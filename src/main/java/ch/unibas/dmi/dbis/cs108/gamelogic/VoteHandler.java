@@ -52,7 +52,7 @@ public class VoteHandler {
     }
 
     try { // waits 20 seconds before votes get collected
-      Thread.sleep(30*1000);
+      Thread.sleep(60*1000);
     } catch (InterruptedException e) {
       LOGGER.warn("Thread " + Thread.currentThread() + " was interrupted");
     }
@@ -82,7 +82,7 @@ public class VoteHandler {
       passengers[ghostPosition].send(
           ClientGameInfoHandler.youGotGhostyfied, game);
     }
-    try { // waits 20 seconds before votes get collected
+    try {
       Thread.sleep(10);
     } catch (InterruptedException e) {
       LOGGER.warn("Thread " + Thread.currentThread() + " was interrupted");
@@ -144,7 +144,7 @@ public class VoteHandler {
     }
 
     try { // waits 20 seconds before votes get collected
-      Thread.sleep(20*1000);
+      Thread.sleep(60*1000);
     } catch (InterruptedException e) {
       LOGGER.warn("Thread " + Thread.currentThread() + " was interrupted");
     }
