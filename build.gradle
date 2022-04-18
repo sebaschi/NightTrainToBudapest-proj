@@ -30,8 +30,8 @@ repositories {
 //adds all needed external libraries to gradle
 dependencies {
 
-    implementation 'org.apache.logging.log4j:log4j-api:2.17.1'
-    implementation 'org.apache.logging.log4j:log4j-core:2.17.1'
+    implementation 'org.apache.logging.log4j:log4j-api:2.17.2'
+    implementation 'org.apache.logging.log4j:log4j-core:2.17.2'
     implementation 'org.openjfx:javafx-controls:18'
     implementation 'org.apache.commons:commons-collections4:4.4'
     implementation 'org.openjfx:javafx:19-ea+5'
@@ -69,8 +69,12 @@ tasks.register('build-cs108', Jar) {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
     description 'Builds .jar & documentation. Or is supposed to do that, at least.'
-
+    dependsOn myJavadocs
     doLast {
-        println('Hello world')
+        println('done')
     }
+}
+
+task myJavadocs(type: Javadoc) {
+    source = sourceSets.main.allJava
 }
