@@ -275,7 +275,7 @@ public class ClientHandler implements Runnable {
         Protocol.printToClientChat + "$" + this.getClientUserName() + " whispers: " + msg);
     /*sendMsgToClient(
         Protocol.printToClientChat + "$You whispered to " + target.getClientUserName() + ": "
-            + msg);*/ // no confirmation messge needed. will be colorcoded in gui
+            + msg);*/ // no confirmation message needed. will be colorcoded in gui
     LOGGER.info(
         Protocol.printToClientChat + "$You whispered to " + target.getClientUserName() + ": "
             + msg);
@@ -301,7 +301,7 @@ public class ClientHandler implements Runnable {
   }
 
   /**
-   * Decode a whisper mesage
+   * Decode a whisper message
    *
    * @param msg to decode. the command has been removed from the front
    * @return a String[] containing the target at index 0 and the message at index 1.

@@ -51,8 +51,6 @@ public class JServerProtocolParser {
           String[] targetAndMsg = h.decodeWhisper(msg.substring(6));
           String targetName = targetAndMsg[0];
           String chatMsg = targetAndMsg[1];
-          System.out.println(targetName);
-          System.out.println(chatMsg);
           for (ClientHandler c : ClientHandler.getConnectedClients()) {
             if (c.getClientUserName().equals(targetName)) {
               target = c;
@@ -61,7 +59,7 @@ public class JServerProtocolParser {
           assert target != null;
           h.whisper(chatMsg, target);
         } catch (Exception ignored) {
-          h.sendAnnouncementToClient("Something went wrong.");
+          h.sendMsgToClient(Protocol.printToClientChat + "$Something went wrong while whispering.");
         }
         break;
       case Protocol.clientLogin:
