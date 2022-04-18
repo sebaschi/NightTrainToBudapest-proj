@@ -63,23 +63,8 @@ javadoc {
 }
 
 
-tasks.register('build-cs108', Jar) {
-    manifest {
-        attributes(
-                'Main-Class': mainClassName
-        )
-    }
-    from {
-        configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-    }
-    description 'Builds .jar & documentation. Or is supposed to do that, at least.'
-    dependsOn myJavadocs
-    doLast {
-        println('done')
-    }
+tasks.register('build-cs108') {
+    dependsOn jar
+    dependsOn javadoc
 }
 
-task myJavadocs(type: Javadoc) {
-    source = sourceSets.main.allJava
-}
