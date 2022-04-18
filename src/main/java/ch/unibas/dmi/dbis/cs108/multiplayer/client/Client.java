@@ -71,7 +71,7 @@ public class Client {
 
   }
 
-  public void changeUsername (String newName) {
+  public void changeUsername(String newName) {
     ChatController.getClient().setUsername(newName);
   }
 
@@ -105,6 +105,7 @@ public class Client {
 
   /**
    * Tells user to enter a position to vote for passenger at that position
+   *
    * @param msg the message containing the position
    */
   public void positionSetter(String msg) {

@@ -156,6 +156,7 @@ public class ClientHandler implements Runnable {
   /**
    * Returns the Lobby this ClientHandler is in. If this ClientHandler is not in a Lobby, it returns
    * null.
+   *
    * @return the Lobby this clientHandler lives in
    */
   public Lobby getLobby() {
@@ -176,7 +177,7 @@ public class ClientHandler implements Runnable {
     Lobby l = getLobby();
     if (l != null) {
       for (ClientHandler client : l.getLobbyClients()) {
-        if(client.getClientUserName().equals(this.getClientUserName())){
+        if (client.getClientUserName().equals(this.getClientUserName())) {
           continue;
         }
         client.sendMsgToClient(Protocol.printToClientChat + "$" + clientUserName + ": " + msg);
@@ -184,7 +185,7 @@ public class ClientHandler implements Runnable {
     } else {
       //send msg to all clients who are not in a lobby.
       for (ClientHandler client : connectedClients) {
-        if(client.getClientUserName().equals(this.getClientUserName())){
+        if (client.getClientUserName().equals(this.getClientUserName())) {
           continue;
         }
         if (Lobby.clientIsInLobby(client) == -1) {
@@ -209,14 +210,14 @@ public class ClientHandler implements Runnable {
   }
 
   /**
-   * Broadcasts a chat Message to all clients across all lobbies and clients who are not in a lobby in
-   * the form "Username: @msg"
+   * Broadcasts a chat Message to all clients across all lobbies and clients who are not in a lobby
+   * in the form "Username: @msg"
    *
    * @param msg the Message to be broadcast
    */
   public void broadcastChatMessageToAll(String msg) {
     for (ClientHandler client : connectedClients) {
-      if(client.getClientUserName().equals(this.getClientUserName())){
+      if (client.getClientUserName().equals(this.getClientUserName())) {
         continue;
       }
       client.sendMsgToClient(Protocol.printToClientChat + "$" + clientUserName + ": " + msg);
@@ -267,12 +268,15 @@ public class ClientHandler implements Runnable {
    * sent the message that it has been sent. Syntax:
    *
    * @param target MUST NOT BE NULL!
-   * @param msg the message being whisperd
+   * @param msg    the message being whisperd
    */
   public void whisper(String msg, ClientHandler target) {
     target.sendMsgToClient(
         Protocol.printToClientChat + "$" + this.getClientUserName() + " whispers: " + msg);
-    sendMsgToClient(
+    /*sendMsgToClient(
+        Protocol.printToClientChat + "$You whispered to " + target.getClientUserName() + ": "
+            + msg);*/ // no confirmation messge needed. will be colorcoded in gui
+    LOGGER.info(
         Protocol.printToClientChat + "$You whispered to " + target.getClientUserName() + ": "
             + msg);
   }
@@ -375,6 +379,7 @@ public class ClientHandler implements Runnable {
    * Sends an announcement to just this client. Essentially the same as broadcastAnnouncementToAll
    * except it only sends an announcement to just this client instead of everyone. Can be used for
    * private non-chat messages (e.g. "You are now a ghost").
+   *
    * @param msg the message being announced
    */
   public void sendAnnouncementToClient(String msg) {

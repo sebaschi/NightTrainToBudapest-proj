@@ -7,11 +7,11 @@ import java.net.InetAddress;
 
 public class NightTrainToBudapest {
 
-  public static void main(String[] args){
-    try{
+  public static void main(String[] args) {
+    try {
       String clientOrServer = args[0];
       if (clientOrServer.equalsIgnoreCase("client")) {
-        String addrString = args[1].substring(0,args[1].indexOf(":"));
+        String addrString = args[1].substring(0, args[1].indexOf(":"));
         InetAddress addr = InetAddress.getByName(addrString);
         int port = Integer.parseInt(args[1].substring(args[1].indexOf(":") + 1));
         String username = null;

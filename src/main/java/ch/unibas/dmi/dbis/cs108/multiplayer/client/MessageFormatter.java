@@ -11,10 +11,10 @@ public class MessageFormatter {
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   /**
-   * Takes a given client input and reformats it to where the JServerProtocolParser.parse() method can
-   * handle it (see Protocol.java). May need to be redesigned once the game uses a GUI.
+   * Takes a given client input and reformats it to where the JServerProtocolParser.parse() method
+   * can handle it (see Protocol.java). May need to be redesigned once the game uses a GUI.
    *
-   * @param msg the Messaged to be reformatted
+   * @param msg      the Messaged to be reformatted
    * @param position the position the client is in
    * @return the reformatted message in the form HEADR$msg
    */

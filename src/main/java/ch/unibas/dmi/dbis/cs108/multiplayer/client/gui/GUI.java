@@ -6,13 +6,15 @@ import javafx.application.Application;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class GUI implements Runnable{
+public class GUI implements Runnable {
+
   public static final Logger LOGGER = LogManager.getLogger(GUI.class);
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   ChatApp chatApp;
   private String name;
-  public GUI (ChatApp chatApp) {
+
+  public GUI(ChatApp chatApp) {
     this.chatApp = chatApp;
   }
 

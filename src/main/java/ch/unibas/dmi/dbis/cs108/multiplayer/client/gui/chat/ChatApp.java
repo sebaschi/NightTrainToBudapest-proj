@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class ChatApp extends Application {
+
   public static final Logger LOGGER = LogManager.getLogger(ChatApp.class);
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
