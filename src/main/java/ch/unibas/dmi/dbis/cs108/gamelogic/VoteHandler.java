@@ -88,14 +88,25 @@ public class VoteHandler {
     }
 
     /* notify passengers the ghosts passed by - for each ghost that ghostified a player, an instance of NoiseHandler
-    is being created and the passengers this ghost passed by are being notified. The player who's just been ghostified
-     is ignored since he didn't participate in this night's ghostification. */
+    is being created and the array containing the information about the amount of times each passenger heard a ghost
+    walk by is being updated. Finally, each passenger receives information about how often he heard something during
+    this night. The player who's just been ghostified is ignored since he didn't participate in this night's
+    ghostification. */
+
+    int[] noiseAmount = new int[6];
     for (int i = 0; i < passengers.length; i++) {
       if (passengers[i].getIsGhost() && i != ghostPosition) {
         NoiseHandler n = new NoiseHandler();
-        n.noiseNotifier(passengers, passengers[i], g, game);
+        noiseAmount = n.noiseNotifier(passengers, passengers[i], g, noiseAmount, game);
       }
     }
+    for (int i = 0; i < passengers.length; i++) {
+      if (!passengers[i].getIsGhost() && noiseAmount[i] != 0) { // passenger is human and someone walked by him
+        passengers[i].send(ClientGameInfoHandler.noiseNotification + noiseAmount[i] + " time(s)", game);
+      }
+    }
+
+    // no humans left in the game --> everyone has been ghostified, ghosts win
     int humanCounter = 0;
     for(Passenger passenger : passengers) {
       if(!passenger.getIsGhost()) { //if it is a human
@@ -108,7 +119,7 @@ public class VoteHandler {
     }
 
     LOGGER.info(game.getGameState().toString());
-    // set hasVoted to false for all passengers for future votings
+    // set hasVoted to false for all passengers for future voting
     for (Passenger passenger : passengers) {
       passenger.setHasVoted(false);
       passenger.setVote(Integer.MAX_VALUE);
