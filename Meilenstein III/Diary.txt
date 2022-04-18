@@ -282,6 +282,10 @@ eine Stimme abgeben und sie wird gezählt, NPC können sehr stupide stimmen abge
 Server schickt dem Client bei einem Voterequest immer seine Position im Zug mit, und der client schickt
 sie dem Server wieder zurück.
 
+11 & 12.04.2022 - Jonas
+Implementation aller notwendigen Lobby - funktionen, list-commands, sowie whisper chat.
+
+
 13.04.2022 - Seraina
 Spiellogik: Habe Alexs noiseHandling in die restliche Spiellogik integriert und debugged. Ebenso musste
 ich den Input der Clients beim Abstimmen geben umstrukturieren. Anstatt dass eine speziefische Methode
