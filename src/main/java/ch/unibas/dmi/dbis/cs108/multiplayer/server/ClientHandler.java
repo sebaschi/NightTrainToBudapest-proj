@@ -217,9 +217,13 @@ public class ClientHandler implements Runnable {
    */
   public void broadcastChatMessageToAll(String msg) {
     for (ClientHandler client : connectedClients) {
+
+      // we can un-comment this if we want broadcast to only send to everyone else, excluding the person who sent it.
+      /*
       if (client.getClientUserName().equals(this.getClientUserName())) {
         continue;
       }
+       */
       client.sendMsgToClient(Protocol.printToClientChat + "$" + clientUserName + ": " + msg);
     }
   }
@@ -459,6 +463,8 @@ public class ClientHandler implements Runnable {
       Game game = l.getGame();
       if (game != null) {
         l.getGame().getGameState().handleClientDisconnect(this);
+        l.removeGameFromRunningGames(game);
+        l.addGameToFinishedGames(game);
       }
     }
   }
@@ -523,13 +529,19 @@ public class ClientHandler implements Runnable {
   }
 
   /**
-   * Lists all Games currenty running and already finished and displays it to the client handled by
+   * Lists all Games currently running and already finished and displays it to the client handled by
    * this
    */
   public void listGames() {
-    if (Lobby.runningGames.isEmpty() && Lobby.finishedGames.isEmpty()) {
+    if (Lobby.runningGames.isEmpty() && Lobby.finishedGames.isEmpty() && Lobby.lobbies.isEmpty()) {
       sendAnnouncementToClient("No Games");
     } else {
+      sendAnnouncementToClient("Open Games (i.e. open Lobbies):");
+        for (Lobby l : Lobby.lobbies) {
+          if (l.getLobbyIsOpen()) {
+            sendAnnouncementToClient("  - Lobby Nr. " + l.getLobbyID());
+          }
+        }
       sendAnnouncementToClient("Running Games:");
       try {
         for (Game runningGame : Lobby.runningGames) {
