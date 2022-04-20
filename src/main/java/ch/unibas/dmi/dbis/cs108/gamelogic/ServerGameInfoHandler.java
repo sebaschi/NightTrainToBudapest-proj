@@ -104,7 +104,11 @@ public class ServerGameInfoHandler {
    */
   public static void ghostNpcParser(GhostNPC npc, String msg, Game game) {
     switch (msg) {
-      case ClientGameInfoHandler.noiseNotification:
+      case ClientGameInfoHandler.noiseNotification + 1 + " time(s)":
+      case ClientGameInfoHandler.noiseNotification + 2 + " time(s)":
+      case ClientGameInfoHandler.noiseNotification + 3 + " time(s)":
+      case ClientGameInfoHandler.noiseNotification + 4 + " time(s)":
+      case ClientGameInfoHandler.noiseNotification + 5 + " time(s)":
         String outMsg = npc.getName() + ": " + noiseRandomizer();
         game.getLobby().getAdmin().broadcastNpcChatMessageToLobby(outMsg);
         break;
@@ -122,9 +126,12 @@ public class ServerGameInfoHandler {
    */
   public static void humanNpcParser(HumanNPC npc, String msg, Game game) {
     switch (msg) {
-      case ClientGameInfoHandler.noiseNotification:
+      case ClientGameInfoHandler.noiseNotification + 1 + " time(s)":
+      case ClientGameInfoHandler.noiseNotification + 2 + " time(s)":
+      case ClientGameInfoHandler.noiseNotification + 3 + " time(s)":
+      case ClientGameInfoHandler.noiseNotification + 4 + " time(s)":
+      case ClientGameInfoHandler.noiseNotification + 5 + " time(s)":
         String outMsg = npc.getName() + ": " + noiseRandomizer();
-        ;
         game.getLobby().getAdmin().broadcastNpcChatMessageToLobby(outMsg);
         break;
       case ClientGameInfoHandler.humanVoteRequest:
