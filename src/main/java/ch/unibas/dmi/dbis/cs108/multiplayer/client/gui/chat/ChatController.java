@@ -104,7 +104,7 @@ public class ChatController implements Initializable {
     });
 
     /**
-     * Initialize what happens when the sen button is pressed
+     * Initialize what happens when the send button is pressed
      */
     sendButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override
