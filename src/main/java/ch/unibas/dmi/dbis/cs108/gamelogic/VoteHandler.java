@@ -101,7 +101,7 @@ public class VoteHandler {
       }
     }
     for (int i = 0; i < passengers.length; i++) {
-      if (!passengers[i].getIsGhost() && noiseAmount[i] != 0) { // passenger is human and someone walked by him
+      if (noiseAmount[i] != 0) { // someone walked by this player
         passengers[i].send(ClientGameInfoHandler.noiseNotification + noiseAmount[i] + " time(s)", game);
       }
     }
