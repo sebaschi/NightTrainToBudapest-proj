@@ -92,6 +92,20 @@ public class GameState {
   }
 
   /**
+   * Collects the current position of all ghosts and saves them in an array
+   * @return Boolean array, true if there is a ghost at that position
+   */
+  public boolean[] getPositionOfGhosts(){
+    boolean[] ghosts = new boolean[passengerTrain.length];
+    for(int i = 0; i < passengerTrain.length; i++) {
+      if(passengerTrain[i].getIsGhost()) {
+        ghosts[i] = true;
+      }
+    }
+    return ghosts;
+  }
+
+  /**
    * Changes the name of the passenger in the Array that has the oldName
    * @param oldName the old Name of the Passenger to be name-changed
    * @param newName the new name for the Passenger
