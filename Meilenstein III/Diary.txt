@@ -329,3 +329,6 @@ gebracht. Es war wie so oft die einfachste Lösung.
 - Aktualisierung des Projektplans für Meilensteine 4 und 5 abgeschlossen (hochgeladen als pdf und xls)
 - Änderung des NoiseHandlers: Nun werden human players, selbst wenn nachts mehrmals Geister an ihnen vorbeilaufen, nur einmal benachrichtigt.
 - Abschliessende Arbeit am Manual.
+
+25. & 26. 4.2022 - Jonas
+Erstellung der Prototyp-Sprites
