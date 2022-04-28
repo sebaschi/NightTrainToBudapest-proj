@@ -92,13 +92,13 @@ public class GameState {
   }
 
   /**
-   * Collects the current position of all ghosts and saves them in an array
+   * Collects the current position of all not kicked off ghosts and saves them in an array
    * @return Boolean array, true if there is a ghost at that position
    */
   public boolean[] getPositionOfGhosts(){
     boolean[] ghosts = new boolean[passengerTrain.length];
     for(int i = 0; i < passengerTrain.length; i++) {
-      if(passengerTrain[i].getIsGhost()) {
+      if(passengerTrain[i].getIsGhost() && !passengerTrain[i].getKickedOff()) {
         ghosts[i] = true;
       }
     }

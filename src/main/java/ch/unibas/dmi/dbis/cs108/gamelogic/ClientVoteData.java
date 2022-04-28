@@ -60,4 +60,5 @@ public class ClientVoteData {
       LOGGER.warn("Position is:" + position);
     }
   }
+
 }
