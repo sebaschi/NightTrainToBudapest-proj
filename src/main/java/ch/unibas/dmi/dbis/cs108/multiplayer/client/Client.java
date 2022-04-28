@@ -283,6 +283,10 @@ public class Client {
     return out;
   }
 
+  public int getPosition() {
+    return position;
+  }
+
   public void sendToChat(String substring) {
     chatApp.getChatController().addChatMsgToView(substring);
   }
