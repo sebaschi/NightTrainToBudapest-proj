@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane id="BG" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="812.0" prefWidth="1200.0" styleClass="theme" stylesheets="@GameDay.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="BG" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="812.0" prefWidth="1200.0" styleClass="theme" stylesheets="@GameDay.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game.GameController">
   <children>
       <Group fx:id="roomButtonGroupDay" layoutX="230.5" layoutY="220.0">
          <children>
@@ -74,7 +74,7 @@
               </ImageView>
             </graphic>
           </Button>
-          <Button id="room1" fx:id="buttonRoom6" accessibleRole="RADIO_BUTTON" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" layoutX="486.8499755859375" layoutY="99.99998474121094" minWidth="-Infinity" mnemonicParsing="false" prefHeight="110.0" prefWidth="90.0" text="room5">
+          <Button id="room1" fx:id="buttonRoom5" accessibleRole="RADIO_BUTTON" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" layoutX="486.8499755859375" layoutY="99.99998474121094" minWidth="-Infinity" mnemonicParsing="false" prefHeight="110.0" prefWidth="90.0" text="room5">
             <font>
               <Font size="25.0" />
             </font>
@@ -86,7 +86,7 @@
               </ImageView>
             </graphic>
           </Button>
-            <HBox alignment="CENTER" layoutX="10.0" layoutY="50.0" prefHeight="62.0" prefWidth="571.0" rotate="12.4">
+            <HBox fx:id="roomLables" alignment="CENTER" layoutX="10.0" layoutY="50.0" prefHeight="62.0" prefWidth="571.0" rotate="12.4">
                <children>
                   <TextField fx:id="lableRoom0" alignment="CENTER" editable="false" prefHeight="40.0" text="Seraina Ghost">
                      <font>
@@ -123,7 +123,6 @@
          </children>
       </Group>
       <Button fx:id="noiseButton" alignment="CENTER" layoutX="236.0" layoutY="606.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="128.0" text="I heard some noise" />
-      <HBox prefHeight="100.0" prefWidth="200.0" />
       <TextFlow fx:id="notificationText" layoutX="359.0" layoutY="14.0" prefHeight="200.0" prefWidth="500.0" textAlignment="CENTER" />
   </children>
 </AnchorPane>
