@@ -54,7 +54,7 @@ public class VoteHandler {
 
     int currentMax = ghostVoteEvaluation(passengers, votesForPlayers, game.getGameState().getClientVoteData(), game);
 
-    LOGGER.debug("Most votes: " + currentMax + " vote");
+    LOGGER.debug("Most votes: " + currentMax + " vote(s)");
 
     // ghostify the player with most votes
     int ghostPosition = 0;
