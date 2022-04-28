@@ -7,6 +7,7 @@ import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.GhostPlayer;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.HumanNPC;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.HumanPlayer;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Passenger;
+import ch.unibas.dmi.dbis.cs108.highscore.OgGhostHighScore;
 import ch.unibas.dmi.dbis.cs108.multiplayer.server.ClientHandler;
 import ch.unibas.dmi.dbis.cs108.multiplayer.server.Lobby;
 import java.util.HashSet;
@@ -62,6 +63,17 @@ public class Game implements Runnable {
 
   public void setOngoing(boolean ongoing) {
     isOngoing = ongoing;
+  }
+
+  Passenger getOgGhost(){
+    int[] order = gameState.getTrain().getOrderOfTrain();
+    Passenger[] passengerTrain = gameState.getPassengerTrain();
+    for (int i = 0; i < 6; i++) {
+      if (passengerTrain[i].getIsOG()) {
+        return passengerTrain[i];
+      }
+    }
+    return null;
   }
 
   /**
@@ -121,6 +133,9 @@ public class Game implements Runnable {
       }
       if (gameOverCheck.equals(ClientGameInfoHandler.gameOverGhostsWin) || gameOverCheck.equals(
           ClientGameInfoHandler.gameOverHumansWin)) {
+        if (gameOverCheck.equals(ClientGameInfoHandler.gameOverGhostsWin) && getOgGhost().getIsPlayer()) {
+          OgGhostHighScore.addOgGhostWinner(getOgGhost().getName());
+        }
         lobby.getAdmin().broadcastAnnouncementToLobby(gameOverCheck);
         lobby.removeGameFromRunningGames(this);
         lobby.addGameToFinishedGames(this);

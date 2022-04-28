@@ -2,6 +2,7 @@ package ch.unibas.dmi.dbis.cs108.multiplayer.server;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 
+import ch.unibas.dmi.dbis.cs108.highscore.OgGhostHighScore;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -30,6 +31,7 @@ public class Server {
   public void startServer() {
     try {
       System.out.println("Port " + gamePort + " is open.");
+      OgGhostHighScore.main(null);
       while (!serverSocket.isClosed()) {
         Socket socket = serverSocket.accept();
         ClientHandler nextClient = new ClientHandler(socket, socket.getInetAddress());

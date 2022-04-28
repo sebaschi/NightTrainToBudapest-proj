@@ -98,6 +98,9 @@ public class MessageFormatter {
       case "/s":
         stringBuilder.append(Protocol.startANewGame);
         break;
+      case "/h":
+        stringBuilder.append(Protocol.highScoreList);
+        break;
       default:
         s = msg;
     }

@@ -93,7 +93,7 @@ public class OgGhostHighScore {
   public static void main(String[] args) {
     try {
       ogGhostWinners = new ArrayList<>();
-      //if not already present, the following creates the file and enters the if statement.
+      //if not already present, the following creates the file.
       //if already present, it reads what's already in the file into the ogGhostWinners array.
       if (!ogGhostFile.createNewFile()) {
         BufferedReader buffreader = new BufferedReader(new FileReader(ogGhostFile));
@@ -103,17 +103,6 @@ public class OgGhostHighScore {
           line = buffreader.readLine();
         }
       }
-
-      /*
-      addOgGhostWinner("Seraina");
-      ogGhostWinners.add("Jonas, the ultimate winner");
-
-      writeOgGhostWinnersToFile();
-      System.out.println(formatGhostHighscoreList());
-      */
-
-
-
     } catch (IOException e) {
       e.printStackTrace();
     }
