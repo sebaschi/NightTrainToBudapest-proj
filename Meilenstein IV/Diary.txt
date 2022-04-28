@@ -1,0 +1,334 @@
+NOTE: Dies ist die .txt-Version des Diary, die .docx-Version ist im Ordner "documentation", allerdings unter dem namen "Protokoll" (Name hier geändert um Verwechslung mit client-server-Protokoll zu vermeiden).
+
+
+
+
+02.03.2022 – alle Gruppenmitglieder
+
+- Einrichtung Git und IntelliJ
+
+- Spielidee: Jonas: Werwolf-Spiel
+
+	6 Spieler, rundenbasiert
+
+	Grobe Idee: Es gibt einen Geist und 5 Personen, die in einem Nachtzug in benachbarten Kabinen fahren. Ein Geist kann in der Nacht einen anderen „gesunden“ Spieler (Person) infizieren. Dabei läuft der Geist neben anderen Personen und sie „hören“ den Geist (Benachrichtigung). Wenn die Nacht vorbei ist, müssen sich alle Spieler entscheiden, ob sie sagen, sie hätten etwas gehört oder nicht (mit Chat). Dann gibt es am Tag eine Abstimmung, wer der Geist ist (Stimme der Geister zählt nicht). Der Spieler mit den meisten Stimmen wird aus dem Spiel geworfen. In der nächsten Nacht stimmen die verbliebenen Geister ab, wen sie infizieren wollen. Anschliessend beginnt die Infektionsphase erneut.
+
+	Das Spiel ist vorbei, wenn nur Geister oder nur Personen übrig sind.
+	Schräge/isometrische Grafik, prerendered
+
+
+
+
+
+08.03.2022 – alle Gruppenmitglieder
+
+- Ziele für heute: Spieldesign/Spielregeln, Analyse, Projektplanung
+
+- Spieldesign: 
+
+- Mindestens 6 Spieler (bei weniger als 6 human players wird der Rest mit NPCs aufgefüllt)
+
+	- Zwei Arten/Rollen von Spielern: ghosts, humans
+
+	- Server kommuniziert Spielern, ob sie humans oder ghosts sind
+
+- Spieler, der neues Spiel kreiert, ist Admin (darf neues Spiel z.B. auch nur mit NPCs anfangen)
+
+- ghosts vs. humans: Geister können Menschen infizieren und zu Geistern machen. Sind nur Geister im Spiel übrig, haben Geister gewonnen. Haben die Menschen den ursprünglichen Geist aus dem Spiel geworfen, haben sie gewonnen.
+
+(- Versucht ein Geist, einen Menschen zu infizieren, ist nicht sicher, ob er es schafft)
+
+- Eine Runde = ein Tag-Nacht-Zyklus
+
+- Geister haben separaten Chat, in dem sie entscheiden können, wen sie in der nächsten Nacht infizieren
+	- Nacht: Geister aktiv, infizieren Menschen
+		- Infizierte wissen, wer sie infiziert hat
+		- Läuft der Geist neben Menschen, ohne sie zu infizieren, werden diese benachrichtigt
+	- Tag: anonyme Abstimmung, wer aus Spiel herausgekickt werden soll
+
+- time limit: Wenn man in einer bestimmten Zeit nicht abgestimmt hat, kriegt man eine Stimme für sich selbst
+
+- Spieler dürfen vor der Abstimmung sagen, ob sie einen Geist gehört haben oder nicht (Geister können Menschen dabei täuschen)
+
+		- Stimmen der Geistern zählen nicht
+
+		- Rausgeworfene Spieler werden Zuschauer
+
+- Nach Abstimmung wissen alle, wer ausgewählt worden ist, und ob der Spieler Geist war.
+
+
+Zusammenfassung: 
+
+- Spielbeginn: 6 Spielfelder. Erste Runde beginnt. Es ist Nacht, es gibt einen Geist. Geist stimmt für einen Menschen, den er infizieren will (Abstimmung mit time-limit; in möglichen späteren Runden stimmen mehrere Geister über zu infizierenden Menschen). Er infiziert diesen Menschen.
+
+- Infizierter wird benachrichtigt, dass er nun Geist ist; zudem Benachrichtigungen über Bewegung des Geistes
+
+- Es wird Tag: Menschen stimmen ab (mit Chat für Menschen, mit time limit), Geister-Stimmen zählen nicht. Wenn ein Geist die meisten Stimmen erhalten hat, wird er zum Zuschauer. Wenn Menschen für einen Menschen stimmen, werden sie benachrichtigt, dass er kein Geist ist (er wird nicht rausgeworfen) und das Spiel geht mit ihm weiter.
+
+- Spielende: entweder es gibt nur Geister (Geister gewonnen) oder erster Geist durch Menschen-Abstimmung aus dem Spiel geworfen (Menschen gewonnen). 
+
+- Spieltitel: “Night train to Budapest”
+
+- Durchspielen auf Papier
+
+- Softwareanforderungen:
+	- 2D-Grafik
+	- Event-Handler (kümmert sich um Input/Output)
+
+- Zustandsspeicherung/Zustandsverwaltung (ist Tag / Nacht / Abstimmungszeit / Infektionszeit?)
+
+- Client/Server-Kommunikation
+
+- Separate Chatfunktion
+
+
+- Grundlagen der Projektplanung
+	- Netzwerkprotokoll
+ 	- Client/-Serverstruktur
+	- Chatfunktion
+	- Spiellogik (Speicherung, Methoden für Veränderung)
+	- GUI
+	- Klassenstruktur (Datenstrukturen, Client/Server greifen darauf zu)
+
+
+
+
+
+11.03.2022 – alle Gruppenmitglieder
+
+- Einrichtung, Synchronisation GanttProject
+
+- Projektplanung: Anfang (parallelisierbar): Klassenstruktur (Human, Ghost, …), Spiellogik (Spielzustand, Voting), Client/Server (rundenbasiert), später: GUI (2D-Engine, Animation), Chat (mit speziellem Ghost-Modus)
+
+- Aufgabenaufteilung Meilenstein 1: Vorbereitung Präsentation (Jonas), Übersicht Netzwerk (Sebastian), Softwareanforderungen (Alex), detaillierter Projektplan (Seraina)
+
+- Netzwerktopologie für das Spiel: Stern
+
+
+
+24.03.2022 -alle Gruppenmitglieder
+
+Stand:
+Client und Server Skelette stehen, und ein Broadcast von Chatnachrichten ist möglich.
+Allerdings werden die Nachrichten noch als einfacher String übermittelt und noch nicht im richtigen Protokollformat
+(d.h. nur chatten ist möglich, es gibt noch keine Befehle). 
+
+Wer macht Was?
+
+Seraina: bis 25.3 Abends
+• QA-Concept 
+• Fortfahren mit Spiellogik
+
+
+Sebastian: bis 25.3 Abends
+Protocol 
+• Formatter /Parser(Namingconvention überlegen)
+	o Format: COMND$parameter(i.e. Name)$parameter(i.e. msg)
+	
+• Chat	
+• Encoding
+• Enum: All Legal Protocol Commands
+
+
+Jonas: bis 25.3 Abends
+• PingPong-Funktionalität 
+	o PingPong handler
+	o Every two seconds (what is the standard?)
+	o Listening for Answer
+	o Separate threads?
+	o What do you do when nothing comes back? (Log off? Wait? Ping again?)
+
+•Erweiterung von Localhost auf IP für Hamachi 
+	o assign Ip (maybe port) method ?
+
+
+Alexandr: bis 26.3 Abends
+• Automatic username assignment
+• Username duplicate handler
+	o Login -> username? -> check -> username01
+
+• Client logout handling
+	o Meaningful handling
+
+
+
+Rule: Alles was geht in eigene Klassen Methoden schreiben.
+Soviel wie möglich commiten mit Aufschlussreichen messages.
+
+Nächste Absprache Fr 25.3 Abends
+
+
+
+
+24 & 25.03.2022 -Jonas
+Zuhause pingpong & IP-auswahl implementiert. 
+Für PingPong brauche ich noch Hilfe von Sebastian bzgl. Protocol-Parser
+
+
+25.03.2022 - Seraina
+Das QA-Konzept steht, muss aber noch von allen Akzeptiert werden.
+Ebenfalls ist hierzu wohl bald ein Treffen nötig, bei welchem ich alle mit den notwenigen Tools
+vertraut machen kann.
+
+
+27.03.2022 - Seraina
+Kommunikationsschwierigkeiten haben zu einem hektischen letzten Entwicklungstag geführt.
+Wir mussten einiges nochmal komplett neu Aufbauen und einige Gruppenmietglieder waren kaum erreichbar.
+Fazit daraus für Meilenstein III:
+   o Wir brauchen fixe Besprechungstermine (-> QA-Konzept) um uns gegenseitig auf dem Laufenden
+     zu halten und um sicherzustellen, dass alle den Code der anderen zumindest grundlegend verstehen,
+     sodass nichts logistisch notwendig an einer Person hängen bleibt.
+   o Wir brauchen fixe deadlines die wir wohl am besten mittels treffen und Buddy-System umsetzten können.
+   o Wir müssen noch mehr Puffer enplanen und uns auch daran halten den Puffer nicht einfach als
+     mögliches Verschieben einer deadline zu betrachten.
+
+
+26-28.03.2022 - Alex
+- Implementierung eines random-name-Generators
+- Behandlung von Duplikaten bei Auswahl des Spielernamens
+- Wiederholter Versuch, Logout Handler zu implementieren, jedoch erfolglos
+	- Problem: broken pipe exceptions und stream closed exceptions beim Logout eines Clients
+
+31.03.2022 - alle Gruppenmitglieder
+- Fortschrittsbesprechung, Reflexion auf Meilenstein 2
+	- Was wurde erreicht, was nicht? Wenn nicht, warum nicht?
+		- Nicht erreicht: Ping-Pong-Funktionalität, Logout-Handling
+			- Unerwarteter Fehler bei Ping-Pong (beim Client-Logout)
+	- Diskussion über Kommunikationsschwierigkeiten: In Zukunft bessere Code-Dokumentation nötig, damit Gruppenmitglieder eigenen Code nachvollziehen können. 
+		- Auch: 1-2 Mal pro Woche Meeting zur Fortschrittsbesprechung (Do, Fr), zusätzlich während der Übungsstunde.
+		- Einführung eines Buddy-Systems: Zwei 2er-Gruppen (Seraina + Sebastian, Jonas + Alex, Teamswitch möglich), gegenseitige Unterstützung/Überprüfung beim Coden, Orientierung an QA-Konzept
+		- Logger-Implementierung
+	- Wer macht was für Meilenstein 3?
+		1a. Client/Server (Beheben bisheriger Probleme (Ping-Pong, Logout)) (Sebastian, Jonas)
+			Chat + Lobby
+		1b. Spiellogik (Seraina, Alex)
+			Verbindung 1a-1b: Wie werden Informationen gesammelt und verbreitet?
+		- Wichtig: Klare Arbeitsteilung innerhalb einer Gruppe
+			- Client/Server
+				- PingPong, Logout, Socket Handling, evtl. Protokoll in Enum übertragen, evtl. name suggestion verbressern (Jonas)
+				- Lobbies, evtl. Chat-GUI (Sebastian)
+			- Repo-Cleanup (Seraina, bis Mo)
+			- Spiellogik v.a. Sa, So
+
+01.04.2022 - Seraina, Jonas, Alex
+- Projektplan: Übertragung von TeamGantt (Web-Version) zu GanttProject
+- Spiellogik: Brainstorming - wie implementiert man Spiellogik in Java-Code?
+	- GhostifyHandler: Mensch-Spieler wird zu Geist
+	- Einteilung: Pre-Game, (night-day-Zyklus (GameStates day, night) bis Spielende)
+	- ServerGameInfoHandler: Server schickt GameStateInformation an Clients
+	- ClientGameInfoHandler: Clients senden Event results an Server
+	- NoiseHandler: Information an Menschen, an denen Geist(er) vorbeilief(en)
+--> Erstellen von Klassenskeletten basierend auf Brainstorming
+- Aufgabenverteilung:
+	- Seraina: ServerGameInfoHandler, ClientGameInfoHandler (auch: QA)
+	- Alex: VoteHandler, NoiseHandler, evtl. Erweiterung GhostifyHandler (auch: Manual)
+
+
+07.04.2022 - Seraina, Jonas, Alex
+Stand:
+	Server - Client: Quit funktioniert, Name Suggestion ist sinnvoller umgesetzt, Namen Duplikate werden thematisch verändert, Disconection Bug 					 am Anfang ist geflickt.
+	Lobby:			 ?
+	Spiellogik: 	 VoteHandler; GhostVote und HumanVote sind implementiert. GhostyfyHandler ist implementiert.
+
+
+ToDo:
+	Server - Client: Conection loss handling; wenn der Client keine Verbuindung merh hat, muss Server irgendwann Sockets schliessen, Server 						 verliert verbindung. Lösung evtl mit quit?
+	Lobby:			 ?
+	Spiellogik:		 Ende des Spiels implementieren, NoiseHandling, Server/ClientGameInfoHandler, Testen ob bisherige implementationen tun was 						 sie sollen.
+					 Ziel: SAMSTAG Abend
+
+08.04.2022 - Seraina, Jonas, Alex
+Stand:
+	Server - Client: Connection loss handling funktioniert nun.
+	Lobby: ?
+	Spiellogik: 	 VoteHandler wurde getestet und tut weitestgehenst was er soll
+
+08.04.2022 - Sebastian
+Stand Mittag:
+  Lobby: Es gibt eine Lobby Class. Sie verwaltet: LobbyID basierend darauf wieviele Lobbys/Spiele laufen;
+  Wieviele Spieler in der Lobby sind; Wer in der Lobby ist.
+Stand 15:00 Uhr:
+  Folgende Protocol Commands wurden hinzugefügt: LISTL, CRTGM(wurde implementiert, fürt aber noch nichts aus).
+  Testing: Wenn ich mich mit telnet auf einen Server der auf localhost läuft verbinde,
+  scheint der Server zu ignorieren, dass er keine Pings bekommt.
+  TODO: mit LISTL und CRTGM soll wirklich etwas getan werden. JOING muss noch implementiert werden.
+  Frage: Was ist mit einer Login Sequenz?
+  Versuch meine commits wieder richtig zuorden zu können indem ich die user.name und user.email
+  Variablen von git
+  auf meinem Rechner neu configuriere.
+Stand 17:30 Uhr:
+  Ich habe einen neuen Branch "BudaLobbySebastian" erstellt, worauf ich schaue wie und wo eigentlich eine "Lobby"
+  lebt. LISTL wurde auch implementiert aber noch nicht getestet.
+
+
+12.04.2022 - Sebastian
+  Nach dem durchstöbern vieler Literatur endlich die Grundidee für den Chat-GUI. Insbesondere mit Hinblick
+  auf Integration in einen grösseres GUI-Modul. Wir werden wohl JavaFX(openFX) verwenden.
+
+ToDo:
+	Spiellogik:
+	         - Send() methode von Passenger mit Client-Server verknüpfen(Seraina)
+					 - NoiseHandler (Alex)
+					 - Game Zyklus implementieren (Seraina)
+
+
+08.04.2022 - 11.04.2022 - Alex
+- Implementierung NoiseHandler, Verbindung mit VoteHandler
+- Verbesserung der Lesbarkeit von VoteHandler (Code-Duplikate in eine Methode zusammengefasst)
+
+11.04.2022 - Seraina
+Spiellogik: Es besteht eine basale Verknüpfung zwischen Client-Server und Spiellogik. Ein Client kann
+eine Stimme abgeben und sie wird gezählt, NPC können sehr stupide stimmen abgegen (randomisiert). Der
+Server schickt dem Client bei einem Voterequest immer seine Position im Zug mit, und der client schickt
+sie dem Server wieder zurück.
+
+11 & 12.04.2022 - Jonas
+Implementation aller notwendigen Lobby - funktionen, list-commands, sowie whisper chat.
+
+
+13.04.2022 - Seraina
+Spiellogik: Habe Alexs noiseHandling in die restliche Spiellogik integriert und debugged. Ebenso musste
+ich den Input der Clients beim Abstimmen geben umstrukturieren. Anstatt dass eine speziefische Methode
+für das Voting aufgerufen wird, wird über ein Befehl '/v vote' gemacht der über die gleichen Kanäle geht
+wie alle anderen Konsolenbefehle.
+TODO: Vote enforcement von Serverseite. Momentan können Humans in der Nacht und umgekehrt reinfunken und
+ihre Stimmen werden gezählt.
+
+14.04.2022 - Alex
+- Erste Version des Spiel-Manuals
+
+14.04.2022 - Jonas, Seraina, Sebi, Alex
+Integration von Lobby und gamelogic.
+
+15.04.2022 - Seraina
+Die Spiellogik läuft nun mit Enforcment. Geister und Menschen können nur zu enstprechender Zeit voten,
+sonst werden ihre stimmen einfach nicht gewertet. Geister, die schon vom Zug geflogen sind, können nun
+auch nicht mehr mitspielen. Habe eine Spectator Klasse hinzugefügt für Spieler, die aus dem Spiel geflogen
+sind.
+
+16.04.2022 - Seraina, Sebi
+Es gibt ein Problem mit der Gui, irgendwie funktioniert die Verbindung von Application Klasse zu
+fxlm file nicht.
+
+17.04.2022 - Seraina, Sebi
+GUI-Troubleshooting: wir haben das Problem mit der GUI lokalisiert, es wird beim launch einer Application
+immer nur ein Objekt der Klasse erstellt, und zwar mit Konstruktor ohne Parametern. Um Parameter zu übergeben,
+müssen statische Felder und definiert und diese nach launch und Initialisierung (beim Controller) mittels
+Setter übergeben werden.
+
+17.04.2022 - Sebastian
+- Dank Seraina kommuniziert die GUI nun mit dem Client und Nachrichten kommen korrekt an und werden korrekt verschickt.
+Im GUI funktioniert der Whisper nun. Folgendes Colorcoding: Eigene Nachrichten sind Lavendelfarben. Normale Chat nachrichten blau,
+und im Momentan Whisper Nachrichten violet.
+
+18.04.2022 - Seraina
+Nach etlichem Lesen von Websites zu custom tasks in gradle habe ich endlich die build-cs108 task zum Laufen
+gebracht. Es war wie so oft die einfachste Lösung.
+
+18.04.2022 - Alex
+- Aktualisierung des Projektplans für Meilensteine 4 und 5 abgeschlossen (hochgeladen als pdf und xls)
+- Änderung des NoiseHandlers: Nun werden human players, selbst wenn nachts mehrmals Geister an ihnen vorbeilaufen, nur einmal benachrichtigt.
+- Abschliessende Arbeit am Manual.
+
+25. & 26. 4.2022 - Jonas
+Erstellung der Prototyp-Sprites
