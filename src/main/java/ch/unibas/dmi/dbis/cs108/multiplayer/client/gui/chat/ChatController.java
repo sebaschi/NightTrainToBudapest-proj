@@ -32,6 +32,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -117,7 +118,7 @@ public class ChatController implements Initializable {
       public void changed(ObservableValue<? extends Number> observable, Number oldValue,
           Number newValue) {
         vBoxChatMessages.setMaxHeight(newValue.doubleValue());
-        ChatScrollPane.setMaxHeight(newValue.doubleValue()*2);
+        ChatScrollPane.setMaxHeight(newValue.doubleValue() * 2);
       }
     });
     /**
@@ -163,16 +164,20 @@ public class ChatController implements Initializable {
     });
   }
 
+  //TODO figure out if to use Text or Label & how to make wrapping work finally @Sebastian
   private void sendChatMsg() {
     String msg = chatMsgField.getText();//.split("\\R")[0];   //cut off extra lines, if present.
     if (!msg.isEmpty()) {
       client.getClient().sendMsgToServer(cmd.toString() + msg);
       LOGGER.info("Message trying to send is: " + cmd.toString() + msg);
+      Text t;
       Label l;
       if (cmd.startsWith(whisper)) {
+        t = new Text("You whispered to " + whisperTargetSelectField.getText() + ": " + msg);
         l = new Label("You whispered to " + whisperTargetSelectField.getText() + ": " + msg);
         l.setBackground(Background.fill(Color.LAVENDERBLUSH));
       } else {
+        t = new Text(client.getUsername() + " (you): " + msg);
         l = new Label(client.getUsername() + " (you): " + msg);
         l.setBackground(Background.fill(Color.LAVENDER));
         l.setWrapText(true);
