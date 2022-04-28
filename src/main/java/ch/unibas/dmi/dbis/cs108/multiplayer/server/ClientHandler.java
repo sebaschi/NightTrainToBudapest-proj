@@ -4,6 +4,7 @@ import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.gamelogic.Game;
 import ch.unibas.dmi.dbis.cs108.gamelogic.TrainOverflow;
 import ch.unibas.dmi.dbis.cs108.gamelogic.VoteHandler;
+import ch.unibas.dmi.dbis.cs108.highscore.OgGhostHighScore;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.ServerPinger;
 
@@ -594,4 +595,11 @@ public class ClientHandler implements Runnable {
   }
 
 
+  public void sendHighScoreList() {
+    String list = OgGhostHighScore.formatGhostHighscoreList();
+    String[] listarray = list.split("\\R");
+    for (String s: listarray) {
+      sendAnnouncementToClient(s);
+    }
+  }
 }

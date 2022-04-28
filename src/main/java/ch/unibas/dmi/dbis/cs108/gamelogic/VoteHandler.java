@@ -59,7 +59,7 @@ public class VoteHandler {
 
     int currentMax = ghostVoteEvaluation(passengers, votesForPlayers, game.getGameState().getClientVoteData(), game);
 
-    LOGGER.debug("Most votes: " + currentMax + " vote");
+    LOGGER.debug("Most votes: " + currentMax + " vote(s)");
 
     // ghostify the player with most votes
     int ghostPosition = 0;
@@ -98,7 +98,7 @@ public class VoteHandler {
     for (int i = 0; i < passengers.length; i++) {
       if (passengers[i].getIsGhost() && i != ghostPosition) {
         NoiseHandler n = new NoiseHandler();
-        noiseAmount = n.noiseNotifier(passengers, passengers[i], g, noiseAmount, game);
+        noiseAmount = n.noiseNotifier(passengers[i], g, noiseAmount);
       }
     }
     for (int i = 0; i < passengers.length; i++) {

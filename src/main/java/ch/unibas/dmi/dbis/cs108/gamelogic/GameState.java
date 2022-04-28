@@ -19,8 +19,8 @@ public class GameState {
    **/
   public final int nrOfPlayers; //sets the length of the train
   public final int nrOfGhosts; // sets how many Ghosts we start witch
-  public final int nrOfUsers; // safes how many clients are active in this Game
-  public final Train train; // safes who sits where
+  public final int nrOfUsers; // saves how many clients are active in this Game
+  public final Train train; // saves who sits where
   /**
    * contains all Passengers on train, needs to be updated
    */

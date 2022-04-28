@@ -15,15 +15,13 @@ public class NoiseHandler {
    * predator infecting a victim, so if there are already multiple ghosts in the game, the method
    * should be called for each of them individually.
 
-   * @param passengers passengers of the train the game is played in
    * @param predator ghost that has infected a human player during this night (called upon as
    *                 passenger for convenience reasons)
    * @param victim human player who has been turned into a ghost this night
    * @param noiseAmount array containing information about how many times each passenger heard a noise this night
-   * @param game current game instance
    * @return updated array with info on who heard how many noises
    */
-  public int[] noiseNotifier(Passenger[] passengers, Passenger predator, Passenger victim, int[] noiseAmount, Game game) {
+  public int[] noiseNotifier(Passenger predator, Passenger victim, int[] noiseAmount) {
     if (predator.getPosition() - victim.getPosition()
         > 0) { // if predator is to the right of victim
       for (int i = predator.getPosition() - 1; i > victim.getPosition(); i--) {

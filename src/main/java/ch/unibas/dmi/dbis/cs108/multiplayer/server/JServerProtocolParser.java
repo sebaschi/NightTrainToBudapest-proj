@@ -109,6 +109,9 @@ public class JServerProtocolParser {
       case Protocol.listGames:
         h.listGames();
         break;
+      case Protocol.highScoreList:
+        h.sendHighScoreList();
+        break;
       default:
         System.out.println("Received unknown command");
     }

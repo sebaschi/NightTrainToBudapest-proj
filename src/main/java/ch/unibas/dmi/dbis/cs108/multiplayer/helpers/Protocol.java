@@ -138,6 +138,13 @@ public class Protocol {
     */
   public static final String votedFor = "CVOTE";
 
+  /**
+   * Client requests high score list.
+   */
+  public static final String highScoreList = "HSCOR";
+
+
+
 
   //SERVER TO CLIENT COMMANDS
 
