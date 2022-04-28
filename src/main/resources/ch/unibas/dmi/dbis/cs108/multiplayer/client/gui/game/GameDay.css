@@ -1,0 +1,26 @@
+*{
+}
+
+.button{
+}
+
+
+.roomButtonGroup{
+  -fx-background-color: transparent;
+}
+
+.text-field{
+  -fx-text-fill: white;
+  -fx-background-color: transparent;
+  -fx-effect: null;
+  -fx-animated: null;
+}
+
+.notificationText{
+  -fx-alignment: center;
+  -fx-text-fill: black;
+  -fx-font-family: Bahnschrift;
+  -fx-font-weight: bold;
+}
+
+

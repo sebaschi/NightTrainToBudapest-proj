@@ -67,6 +67,7 @@ public class HumanNPC extends Human {
     int randomNr = (int) (Math.random() * inGamePositions.length);
     vote = inGamePositions[randomNr];
     hasVoted = true;
+    game.getGameState().getClientVoteData().setHasVoted(position,hasVoted);
     LOGGER.info("HumanNPC at Position: " + this.getPosition() + " has voted for: " + vote);
   }
 }

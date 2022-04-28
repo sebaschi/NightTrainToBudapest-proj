@@ -36,6 +36,7 @@ dependencies {
     implementation 'org.openjfx:javafx-controls:18'
     implementation 'org.apache.commons:commons-collections4:4.4'
     implementation 'org.openjfx:javafx:19-ea+5'
+    implementation 'org.testng:testng:7.1.0'
     testImplementation('org.junit.jupiter:junit-jupiter:5.8.2')
 }
 

@@ -84,7 +84,7 @@ public class ChatApp extends Application {
   public void start(Stage primaryStage) throws Exception {
     this.setcModel(clientModel);
     URL resource = ChatApp.class.getResource(
-        "splitPaneChatView.fxml");
+        "ChatView.fxml");
     if (resource == null) {
       System.out.println("File wasnt found");
     }
@@ -92,7 +92,7 @@ public class ChatApp extends Application {
     try {
       Parent root = FXMLLoader.load(
           Objects.requireNonNull(ChatApp.class.getResource(
-              "splitPaneChatView.fxml")));
+              "ChatView.fxml")));
       // TODO bin chatController.getChatPaneRoot() border to root border for rezising
       Scene scene = new Scene(root);
       scene.setRoot(root);

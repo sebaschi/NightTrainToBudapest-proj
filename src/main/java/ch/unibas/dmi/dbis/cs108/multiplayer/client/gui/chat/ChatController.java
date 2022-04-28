@@ -4,6 +4,8 @@ package ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat;
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ClientModel;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
+import com.sun.javafx.scene.control.Properties;
+import com.sun.javafx.scene.control.inputmap.KeyBinding;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -15,15 +17,22 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Background;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.TextFlow;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -33,7 +42,15 @@ public class ChatController implements Initializable {
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   @FXML
-  private SplitPane chatPaneRoot;
+  private Group vboxGroup;
+  @FXML
+  private GridPane vBoxGridPane;
+  @FXML
+  private ScrollPane ChatScrollPane;
+  @FXML
+  private VBox vBoxServerMessage;
+  @FXML
+  private Pane chatPaneRoot;
   @FXML
   private VBox vBoxChatMessages;
   @FXML
@@ -41,7 +58,7 @@ public class ChatController implements Initializable {
   @FXML
   private TextField whisperTargetSelectField;
   @FXML
-  private TextArea chatMsgField;
+  private TextField chatMsgField;
 
   private static ClientModel client;
 
@@ -100,32 +117,23 @@ public class ChatController implements Initializable {
       public void changed(ObservableValue<? extends Number> observable, Number oldValue,
           Number newValue) {
         vBoxChatMessages.setMaxHeight(newValue.doubleValue());
+        ChatScrollPane.setMaxHeight(newValue.doubleValue()*2);
       }
     });
-
     /**
      * Initialize what happens when the send button is pressed
      */
     sendButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
-        String msg = chatMsgField.getText().split("\\R")[0];   //cut off extra lines, if present.
-        if (!msg.isEmpty()) {
-          client.getClient().sendMsgToServer(cmd.toString() + msg);
-          LOGGER.info("Message trying to send is: " + cmd.toString() + msg);
-          Label l;
-          if (cmd.startsWith(whisper)) {
-            l = new Label("You whispered to " + whisperTargetSelectField.getText() + ": " + msg);
-            l.setBackground(Background.fill(Color.LAVENDERBLUSH));
-          } else {
-            l = new Label(client.getUsername() + " (you): " + msg);
-            l.setBackground(Background.fill(Color.LAVENDER));
-          }
-          vBoxChatMessages.getChildren().add(l);
-          chatMsgField.clear();
-        } else {
-          LOGGER.debug("Trying to send an empty message.");
-        }
+        sendChatMsg();
+      }
+    });
+
+    chatMsgField.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent event) {
+        sendChatMsg();
       }
     });
 
@@ -155,6 +163,29 @@ public class ChatController implements Initializable {
     });
   }
 
+  private void sendChatMsg() {
+    String msg = chatMsgField.getText();//.split("\\R")[0];   //cut off extra lines, if present.
+    if (!msg.isEmpty()) {
+      client.getClient().sendMsgToServer(cmd.toString() + msg);
+      LOGGER.info("Message trying to send is: " + cmd.toString() + msg);
+      Label l;
+      if (cmd.startsWith(whisper)) {
+        l = new Label("You whispered to " + whisperTargetSelectField.getText() + ": " + msg);
+        l.setBackground(Background.fill(Color.LAVENDERBLUSH));
+      } else {
+        l = new Label(client.getUsername() + " (you): " + msg);
+        l.setBackground(Background.fill(Color.LAVENDER));
+        l.setWrapText(true);
+        l.setMaxHeight(Double.MAX_VALUE);
+        l.setScaleShape(true);
+      }
+      vBoxChatMessages.getChildren().add(l);
+      chatMsgField.clear();
+    } else {
+      LOGGER.debug("Trying to send an empty message.");
+    }
+  }
+
   /**
    * @return the ClientModel whose chat controller this is
    */
@@ -171,7 +202,7 @@ public class ChatController implements Initializable {
     this.client = client;
   }
 
-  public SplitPane getChatPaneRoot() {
+  public Pane getChatPaneRoot() {
     return chatPaneRoot;
   }
 
@@ -182,6 +213,8 @@ public class ChatController implements Initializable {
    */
   public void addChatMsgToView(String msg) {
     Label l = new Label(msg);
+    l.setWrapText(true);
+    l.setMaxHeight(Double.MAX_VALUE);
     if (msg.contains("whispers")) {
       l.setBackground(Background.fill(Color.SLATEBLUE));
     } else {

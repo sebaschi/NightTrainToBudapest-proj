@@ -71,6 +71,7 @@ public class GhostNPC extends Ghost {
       int randomPosition = (int) (Math.random() * humanPositions.length);
       vote = humanPositions[randomPosition];
       hasVoted = true;
+      game.getGameState().getClientVoteData().setHasVoted(position,hasVoted);
       LOGGER.info("GhostNPC at Position: " + this.getPosition() + " has voted for: " + vote);
     }
   }
