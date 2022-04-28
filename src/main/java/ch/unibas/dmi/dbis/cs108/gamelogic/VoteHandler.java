@@ -50,7 +50,12 @@ public class VoteHandler {
       }
     }
 
-    Timer.ghostVoteTimer(game);
+    //Timer.ghostVoteTimer(game);
+    try {
+      Thread.sleep(10*1000);
+    } catch (InterruptedException e) {
+      LOGGER.warn("Thread " + Thread.currentThread() + " was interrupted");
+    }
 
     int currentMax = ghostVoteEvaluation(passengers, votesForPlayers, game.getGameState().getClientVoteData(), game);
 
