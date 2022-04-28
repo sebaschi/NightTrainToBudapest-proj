@@ -332,3 +332,9 @@ gebracht. Es war wie so oft die einfachste Lösung.
 
 25. & 26. 4.2022 - Jonas
 Erstellung der Prototyp-Sprites
+
+28.04.2022 - alle Gruppenmietglieder
+Paralleles Arbeiten an zugewiesenen Aufgaben, ggf. mit gegenseitiger Unterstützung:
+	Seraina, Sebastian: GUI
+	Jonas: high score list
+	Alex: unit tests
