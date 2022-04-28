@@ -22,6 +22,7 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Background;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import org.apache.logging.log4j.LogManager;
@@ -33,7 +34,9 @@ public class ChatController implements Initializable {
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   @FXML
-  private SplitPane chatPaneRoot;
+  private VBox vBoxServerMessage;
+  @FXML
+  private Pane chatPaneRoot;
   @FXML
   private VBox vBoxChatMessages;
   @FXML
@@ -41,7 +44,7 @@ public class ChatController implements Initializable {
   @FXML
   private TextField whisperTargetSelectField;
   @FXML
-  private TextArea chatMsgField;
+  private TextField chatMsgField;
 
   private static ClientModel client;
 
@@ -171,7 +174,7 @@ public class ChatController implements Initializable {
     this.client = client;
   }
 
-  public SplitPane getChatPaneRoot() {
+  public Pane getChatPaneRoot() {
     return chatPaneRoot;
   }
 
