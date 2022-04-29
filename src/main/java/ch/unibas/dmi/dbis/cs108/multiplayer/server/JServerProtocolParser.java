@@ -112,6 +112,9 @@ public class JServerProtocolParser {
       case Protocol.highScoreList:
         h.sendHighScoreList();
         break;
+      case Protocol.sendMessageToAllClients:
+        msg = msg.substring(6);
+        h.sendMsgToClient(msg);
       default:
         System.out.println("Received unknown command");
     }

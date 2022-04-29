@@ -326,8 +326,15 @@ public class Client {
         break;
       case GuiParameters.updateGameState:
         gameStateModel.setGSFromString(data);
+        gameController.updateRoomLabels();
         break;
       case GuiParameters.noiseHeardAtPosition:
+        try {
+          int position = Integer.parseInt(data);
+          determineNoiseDisplay(position);
+        } catch (Exception e) {
+          LOGGER.warn("Not a position given for noise");
+        }
         break;
       case GuiParameters.listOfLobbies:
         break;
@@ -339,7 +346,23 @@ public class Client {
 
     }
 
+  }
 
+  public void determineNoiseDisplay(int position) {
+    switch (position) {
+      case 0:
+        gameController.noiseDisplay0();
+      case 1:
+        gameController.noiseDisplay1();
+      case 2:
+        gameController.noiseDisplay2();
+      case 3:
+        gameController.noiseDisplay3();
+      case 4:
+        gameController.noiseDisplay4();
+      case 5:
+        gameController.noiseDisplay5();
+    }
   }
 
 

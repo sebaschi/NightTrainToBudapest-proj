@@ -70,7 +70,7 @@ public class JClientProtocolParser {
         } catch (Exception e) {
           LOGGER.warn("No parameter in PTGUI");
         }
-
+          c.sendToGUI(parameter,data);
         break;
       default:
         System.out.println("Received unknown command");

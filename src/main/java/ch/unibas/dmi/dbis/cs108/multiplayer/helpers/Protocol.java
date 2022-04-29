@@ -143,6 +143,12 @@ public class Protocol {
    */
   public static final String highScoreList = "HSCOR";
 
+  /**
+   * The client requests that a message in {@code STACL$msg} is sent to all clients but only the message
+   * without a specific Server message to be added.
+   */
+  public static final String sendMessageToAllClients = "STACL";
+
 
 
 

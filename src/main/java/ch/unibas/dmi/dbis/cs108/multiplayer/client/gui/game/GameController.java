@@ -1,6 +1,7 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game;
 
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.GameStateModel;
+import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.GuiParameters;
 import javafx.event.EventHandler;
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ClientModel;
@@ -150,7 +151,9 @@ public class GameController {
   * Sends a noise message, to the server, should be a gui message?
   */
  public void noise() {
-  client.getClient().sendMsgToServer("noise"); //TODO: Add message that server understands
+  client.getClient().sendMsgToServer(
+      Protocol.sendMessageToAllClients + "$" + Protocol.printToGUI + GuiParameters.noiseHeardAtPosition + "$"
+          + client.getClient().getPosition()); //TODO: Test!!
  }
 
  /**
