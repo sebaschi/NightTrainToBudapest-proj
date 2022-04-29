@@ -49,7 +49,6 @@ public class JClientProtocolParser {
         break;
       case Protocol.serverRequestsGhostVote:
         LOGGER.debug("Ghost received Vote request");
-        //c.sendToGUI(ClientGameInfoHandler.ghostVoteRequest);
         c.positionSetter(msg.substring(6));
         break;
       case Protocol.serverRequestsHumanVote:
@@ -63,8 +62,8 @@ public class JClientProtocolParser {
       case Protocol.printToGUI:
         String substring = msg.substring(6);
         int index = msg.indexOf("$");
-        String parameter;
-        String data;
+        String parameter = "";
+        String data = substring;
         try {
           parameter = msg.substring(0,index);
           data = msg.substring(index+1);
