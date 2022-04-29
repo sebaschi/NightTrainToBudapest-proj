@@ -65,6 +65,9 @@ public class Game implements Runnable {
     isOngoing = ongoing;
   }
 
+  /**
+   * Returns this game's OG ghost as a Passenger object
+   */
   Passenger getOgGhost(){
     int[] order = gameState.getTrain().getOrderOfTrain();
     Passenger[] passengerTrain = gameState.getPassengerTrain();

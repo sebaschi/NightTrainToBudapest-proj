@@ -1,11 +1,13 @@
 package ch.unibas.dmi.dbis.cs108.gamelogic;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
+import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Passenger;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * A class that handles all timed events in the game, such as vote times
+ * A class that handles all timed events in the game, such as vote times. This class essentially
+ * is used to pause the main game thread for a given time / until a given event.
  */
 public class Timer {
   public static final Logger LOGGER = LogManager.getLogger(Timer.class);
@@ -14,36 +16,68 @@ public class Timer {
   /**
    * The maximum length of the ghost vote in the night, in seconds
    */
-  public static final int ghostVote = 30;
+  public static final int ghostVoteTime = 30;
+
+  /**
+   * The length of time in seconds after the ghost vote during which the ghosts visually walk to /
+   * from their victim and the timespan within which humans will hear a noise. After this, the day starts.
+   */
+  public static final int ghostAfterVoteTime = 7;
   /**
    * The maximum length of the human vote in the day, in seconds
    */
-  public static final int humanVote = 60;
+  public static final int humanVoteTime = 60;
 
   /**
-   * The checking intervall in seconds
+   * The length of time in seconds after the human vote, as the 'winner' of the vote is announced,
+   * before the night begins
    */
-  public static final int intervall = 1;
+  public static final int humanAfterVoteTime = 5;
 
   /**
-   * The timer for the ghost vote. Checks every {@code intervall} seconds if every ghost has already voted.
-   * If all have voted or if the {@code ghostVote} value is reached, the timer ends
+   * The checking interval in seconds
+   */
+  public static final int interval = 1;
+
+  /**
+   * The timer for the ghost vote. Checks every {@code interval} seconds if every ghost has already voted.
+   * If all have voted or if the {@code ghostVoteTime} value is reached, the timer ends
    * @param game the game this Timer has been called in
    */
   public static void ghostVoteTimer(Game game) {
     int counter = 0;
-    while(counter < ghostVote) {
+    while(counter < ghostVoteTime) {
       if(haveAllGhostsVoted(game)) { //if all ghost have voted
         return;
       }
       try {
-        Thread.sleep(intervall*1000);
+        Thread.sleep(interval*1000);
       } catch (InterruptedException e) {
         LOGGER.warn("Thread " + Thread.currentThread() + " was interrupted");
       }
-      counter = counter + (intervall*1000);
+      counter += (interval);
     }
+  }
 
+  public static void humanVoteTimer(Game game) {
+    int counter = 0;
+    while (counter < humanVoteTime) {
+      if (haveAllHumansVoted(game)) return;
+      try {
+        Thread.sleep(interval*1000);
+      } catch (InterruptedException e) {
+        LOGGER.warn("Thread " + Thread.currentThread() + " was interrupted");
+      }
+      counter += interval;
+    }
+  }
+
+  public static void ghostAfterVoteTimer() {
+    try {
+      Thread.sleep(ghostAfterVoteTime *1000);
+    } catch (InterruptedException e) {
+      LOGGER.warn("Thread " + Thread.currentThread() + " was interrupted");
+    }
   }
 
   /**
@@ -71,5 +105,18 @@ public class Timer {
     return nrOfGhosts == j;
   }
 
+  /**
+   * Checks if all humans have already voted, returns true if so, else returns false
+   */
+  public static boolean haveAllHumansVoted(Game game) {
+    boolean[] whoHasVoted = game.getGameState().getClientVoteData().getHasVoted();
+    Passenger[] passengerArray = game.getGameState().getPassengerTrain();
+    for(int i = 0; i < whoHasVoted.length; i++) {
+      if(!passengerArray[i].getIsGhost() && !whoHasVoted[i]) {
+        return false;
+      }
+    }
+    return true;
+  }
 
 }
