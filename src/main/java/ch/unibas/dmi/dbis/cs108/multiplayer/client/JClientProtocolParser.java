@@ -1,6 +1,7 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.client;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
+import ch.unibas.dmi.dbis.cs108.gamelogic.ClientGameInfoHandler;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
 import java.io.OutputStreamWriter;
 import org.apache.logging.log4j.LogManager;
@@ -48,7 +49,7 @@ public class JClientProtocolParser {
         break;
       case Protocol.serverRequestsGhostVote:
         LOGGER.debug("Ghost received Vote request");
-        System.out.println("Ghost Vote:");
+        //c.sendToGUI(ClientGameInfoHandler.ghostVoteRequest);
         c.positionSetter(msg.substring(6));
         break;
       case Protocol.serverRequestsHumanVote:

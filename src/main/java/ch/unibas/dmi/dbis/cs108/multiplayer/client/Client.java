@@ -1,10 +1,13 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.client;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
+import ch.unibas.dmi.dbis.cs108.gamelogic.ClientGameInfoHandler;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ClientModel;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.GUI;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.GameStateModel;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat.ChatApp;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat.ChatController;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game.GameController;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.ClientPinger;
 
 
@@ -32,6 +35,8 @@ public class Client {
 
   private ChatApp chatApp;
   private GUI chatGui;
+  private GameStateModel gameStateModel;
+  private GameController gameController;
 
   /**
    * Saves the position of the client, gets refreshed everytime the client gets a vote request.
@@ -63,6 +68,8 @@ public class Client {
       this.chatApp = new ChatApp(new ClientModel(systemName, this));
       this.chatGui = new GUI(this.chatApp);
       clientPinger = new ClientPinger(this, this.socket);
+      this.gameStateModel = new GameStateModel();
+      this.gameController = new GameController(ChatApp.getClientModel(),gameStateModel);
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -122,6 +129,16 @@ public class Client {
     System.out.println("Please enter your vote");
 
     //LOGGER.debug("just checked next line");
+  }
+
+  /**
+   * Extracts infromation about names and positions and roles from string and adds it to
+   * the GameStateModel
+   * @param msg
+   */
+  public void gameStateModelSetter(String msg) {
+
+
   }
 
 
@@ -290,4 +307,38 @@ public class Client {
   public void sendToChat(String substring) {
     chatApp.getChatController().addChatMsgToView(substring);
   }
+
+  /**
+   * funnels a message to the gui, where depending on the message different functions/controls/methods
+   * of the gui are targeted. The message contains information on what to do, which are extracted
+   * @param msg a message of the form {@code parameter$msg}
+   *
+   */
+  public void sendToGUI(String msg) {
+    int indexFirstDollar = msg.indexOf('$');
+    String header = "";
+    try {
+      header = msg.substring(0,indexFirstDollar);
+    } catch (IndexOutOfBoundsException e) {
+      LOGGER.info(e.getMessage());
+    }
+
+    switch (header) {
+      case ClientGameInfoHandler.itsNightTime:
+        gameStateModel.setDayClone(false);
+        break;
+      case ClientGameInfoHandler.itsDayTime:
+        gameStateModel.setDayClone(true);
+        break;
+
+      default:
+        gameController.addMessageToNotificationText(msg); //TODO(Sebi,Seraina): should the gameController be in the Application just like the ChatController?
+
+
+    }
+
+
+  }
+
+
 }
