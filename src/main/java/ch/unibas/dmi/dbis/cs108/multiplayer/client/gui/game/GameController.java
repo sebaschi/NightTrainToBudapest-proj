@@ -23,6 +23,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
@@ -37,6 +39,8 @@ public class GameController {
  private static ClientModel client;
 
  private static GameStateModel gameStateModel;
+
+
 
  //TODO(Seraina, Sebi): Same issue as ChatController? do with setters?
  public GameController(ClientModel c, GameStateModel g) {
@@ -75,6 +79,20 @@ public class GameController {
  private TextFlow lableRoom4;
  @FXML
  private TextFlow lableRoom5;
+ @FXML
+ private HBox notificationHBox;
+ @FXML
+ private ImageView noiseImage0;
+ @FXML
+ private ImageView noiseImage1;
+ @FXML
+ private ImageView noiseImage2;
+ @FXML
+ private ImageView noiseImage3;
+ @FXML
+ private ImageView noiseImage4;
+ @FXML
+ private ImageView noiseImage5;
  @FXML
  private Button noiseButton;
  @FXML
@@ -132,7 +150,7 @@ public class GameController {
   * Sends a noise message, to the server, should be a gui message?
   */
  public void noise() {
-  client.getClient().sendMsgToServer("noise"); //TODO: Add message
+  client.getClient().sendMsgToServer("noise"); //TODO: Add message that server understands
  }
 
  /**
@@ -184,6 +202,55 @@ public class GameController {
   lableRoom5.getChildren().add(name5);
   lableRoom5.getChildren().add(role5);
  }
+
+ /**
+  * Adds an image of a bell on top of button0
+  */
+ public void noiseDisplay0(){
+  Image bell = new Image("ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game.DayOpen.bell.png");
+  noiseImage0.setImage(bell);
+ }
+
+ /**
+  * Adds an image of a bell on top of button1
+  */
+ public void noiseDisplay1(){
+  Image bell = new Image("ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game.DayOpen.bell.png");
+  noiseImage0.setImage(bell);
+ }
+
+ /**
+  * Adds an image of a bell on top of button2
+  */
+ public void noiseDisplay2(){
+  Image bell = new Image("ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game.DayOpen.bell.png");
+  noiseImage0.setImage(bell);
+ }
+
+ /**
+  * Adds an image of a bell on top of button3
+  */
+ public void noiseDisplay3(){
+  Image bell = new Image("ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game.DayOpen.bell.png");
+  noiseImage0.setImage(bell);
+ }
+
+ /**
+  * Adds an image of a bell on top of button4
+  */
+ public void noiseDisplay4(){
+  Image bell = new Image("ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game.DayOpen.bell.png");
+  noiseImage0.setImage(bell);
+ }
+
+ /**
+  * Adds an image of a bell on top of button5
+  */
+ public void noiseDisplay5(){
+  Image bell = new Image("ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game.DayOpen.bell.png");
+  noiseImage0.setImage(bell);
+ }
+
 
 
  public void setGameStateModel(
