@@ -194,5 +194,12 @@ public class Protocol {
    */
   public static final String changedUserName = "CHNAM";
 
+  /**
+   * Handles all information that the gui of the client needs. The Form is {@code PTGUI$parameters$msg}
+   * where the parameter tells the gui to do different things according to {@link GuiParameters} and the message
+   * contains a certain information i.e. who is where in the train
+   */
+  public static final String printToGUI = "PTGUI";
+
 
 }
