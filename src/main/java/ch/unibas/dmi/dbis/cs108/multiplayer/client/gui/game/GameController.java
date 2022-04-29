@@ -1,5 +1,6 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game;
 
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.GameStateModel;
 import javafx.event.EventHandler;
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ClientModel;
@@ -34,6 +35,14 @@ import javafx.scene.text.TextFlow;
 public class GameController {
 
  private static ClientModel client;
+
+ private static GameStateModel gameStateModel;
+
+ //TODO(Seraina, Sebi): Same issue as ChatController? do with setters?
+ public GameController(ClientModel c, GameStateModel g) {
+  client = c;
+  gameStateModel = g;
+ }
 
  @FXML
  private AnchorPane gameBG;
@@ -138,14 +147,47 @@ public class GameController {
  }
 
  /**
-  * Adds a msg to the room Lable at the specified position
-  * @param names a String array containing all the names
+  * Updates the labels of the rooms accordingly to the datastructures in GameStateModel
   */
- public void addRoomLabels(String[] names) {
+ public void updateRoomLabels() {
+  String[] names = gameStateModel.getPassengerTrainClone()[0];
+  String[] roles = gameStateModel.getPassengerTrainClone()[1];
+  Text name0 = new Text(names[0]);
+  Text name1 = new Text(names[1]);
+  Text name2 = new Text(names[2]);
+  Text name3 = new Text(names[3]);
+  Text name4 = new Text(names[4]);
+  Text name5 = new Text(names[5]);
+  Text role0 = new Text(roles[0]);
+  Text role1 = new Text(roles[1]);
+  Text role2 = new Text(roles[2]);
+  Text role3 = new Text(roles[3]);
+  Text role4 = new Text(roles[4]);
+  Text role5 = new Text(roles[5]);
 
+  lableRoom0.getChildren().clear();
+  lableRoom0.getChildren().add(name0);
+  lableRoom0.getChildren().add(role0);
+  lableRoom1.getChildren().clear();
+  lableRoom1.getChildren().add(name1);
+  lableRoom1.getChildren().add(role1);
+  lableRoom2.getChildren().clear();
+  lableRoom2.getChildren().add(name2);
+  lableRoom2.getChildren().add(role2);
+  lableRoom3.getChildren().clear();
+  lableRoom3.getChildren().add(name3);
+  lableRoom3.getChildren().add(role3);
+  lableRoom4.getChildren().clear();
+  lableRoom4.getChildren().add(name4);
+  lableRoom4.getChildren().add(role4);
+  lableRoom5.getChildren().clear();
+  lableRoom5.getChildren().add(name5);
+  lableRoom5.getChildren().add(role5);
  }
 
 
-
-
+ public void setGameStateModel(
+     GameStateModel gameStateModel) {
+  GameController.gameStateModel = gameStateModel;
+ }
 }

@@ -194,5 +194,13 @@ public class Protocol {
    */
   public static final String changedUserName = "CHNAM";
 
+  /**
+   * Sends a message to a client containing information for the gui. The command is structured {@code PTGUI$parameter$msg}
+   * where the parameter specifies what exactly to do in de gui (i.e. change scene) and the optional
+   * message contains information the gui needs from the server to execute the command specified in the parameter
+   *
+   */
+  public static final String printToGUI = "PTGUI";
+
 
 }

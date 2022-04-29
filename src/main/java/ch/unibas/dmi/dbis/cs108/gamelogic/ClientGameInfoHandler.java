@@ -13,18 +13,21 @@ public class ClientGameInfoHandler {
    * All messages that are used in VoteHandler
    * TODO(Seraina-Alex): Adjust strings to be more meaningful
    */
-  //relevant:
+  //relevant for game logic:
   public static final String ghostVoteRequest = "Vote on who to ghostify!";
   public static final String humanVoteRequest = "Vote for a ghost to kick off!";
   public static final String noiseNotification = "Someone passed by you ";
   public static final String gameOverHumansWin = "Game over: humans win!";
   public static final String gameOverGhostsWin = "Game over: ghosts win!";
 
-  //just messages
+  //relevant for gui
   public static final String itsNightTime = "Please wait, ghosts are active";
+  public static final String itsDayTime = "Please wait, humans are active";
+
+  //just messages
+
   public static final String youGotGhostyfied = "You are now a ghost!";
   public static final String youGotKickedOff = "Bye bye - you've been kicked off";
-  public static final String itsDayTime = "Please wait, humans are active";
   public static final String humansVotedFor = "Humans voted for: ";
   public static final String isAHuman = " but they're a human!";
   public static final String gotKickedOff = " is a Ghost and got kicked off";

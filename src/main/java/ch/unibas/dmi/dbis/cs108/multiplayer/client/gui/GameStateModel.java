@@ -12,19 +12,31 @@ public class GameStateModel {
   private boolean isDayClone;
 
   /**
+   * can take the values h/g/s for human/ghost/spectator. Safes the role the client this GamesStateModel
+   * lives on currently has
+   */
+  private String yourRole;
+
+  /**
    * A primitive clone of the passengerTrain in the GameState of the server.
    * in passengerTrainClone[0] the names of the passengers are stored, in passengerTrainClone[1] the roles
    * (human/ghost/spectator). The indices of the array correspond with the positions
    */
   private String[][] passengerTrainClone;
 
+  private boolean[] kickedOff;
+
   /**
-   * Constructs a GamesStateModel with the passengerTrainClone length at nrOfPlayers
-   * @param nrOfPlayers the amount of different objects to be saved
+   * Constructs a GamesStateModel with the passengerTrainClone
    */
-  public void GameStateModel(int nrOfPlayers) {
-    this.nrOfPlayers = nrOfPlayers;
+  public GameStateModel() {
+    this.nrOfPlayers = 6;
     passengerTrainClone  = new String[2][nrOfPlayers];
+    for(String role : passengerTrainClone[1]) {
+      role = "";
+    }
+    kickedOff = new boolean[nrOfPlayers];
+    isDayClone = false;
   }
 
   /**
@@ -36,5 +48,35 @@ public class GameStateModel {
     passengerTrainClone[0] = names;
     passengerTrainClone[1] = roles;
 
+  }
+
+  public String[][] getPassengerTrainClone() {
+    return passengerTrainClone;
+  }
+
+  /**
+   * Sets your current role to the specified role, must be h for human, g for ghost or s for spectator
+   * @param yourRole the role to set this role to
+   */
+  public void setYourRole(String yourRole) {
+    if(yourRole.equals("h") || yourRole.equals("g") || yourRole.equals("s")) {
+      this.yourRole = yourRole;
+    }
+  }
+
+  public String getYourRole() {
+    return yourRole;
+  }
+
+  public int getNrOfPlayers() {
+    return nrOfPlayers;
+  }
+
+  public void setDayClone(boolean dayClone) {
+    isDayClone = dayClone;
+  }
+
+  public boolean getDayClone() {
+    return isDayClone;
   }
 }

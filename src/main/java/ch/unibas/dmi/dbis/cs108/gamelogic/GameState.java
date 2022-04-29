@@ -162,27 +162,17 @@ public class GameState {
     StringBuilder stringBuilder = new StringBuilder();
     String[] print = new String[6];
     for (int i = 0; i < array.length; i++) {
-      if (array[i].getKickedOff()) {
-        print[i] = "| " + array[i].getName() + ", kicked off: " + array[i].getPosition() + " |";
+      if(array[i].getIsSpectator()) {
+        print[i] = array[i].getName() + ":s:" + array[i].getKickedOff();
+      } else if (array[i].getIsGhost()) {
+        print[i] = array[i].getName() + ":g:" + array[i].getKickedOff();
       } else {
-        if (array[i].getIsPlayer()) {
-          if (array[i].getIsGhost()) {
-            print[i] = "| " + array[i].getName() + "(ghostPlayer): " + array[i].getPosition() + " |";
-          } else {
-            print[i] = "| " + array[i].getName() + "(humanPlayer): " + array[i].getPosition() + " |";
-          }
-        } else {
-          if (array[i].getIsGhost()) {
-            print[i] = "| " + array[i].getName() + "(ghostNPC): " + array[i].getPosition() + " |";
-          } else {
-            print[i] = "| " + array[i].getName() + "(humanNPC): " + array[i].getPosition() + " |";
-          }
-        }
+        print[i] = "| " + array[i].getName() + ":h:" + array[i].getKickedOff();
       }
-    }
 
+    }
     for (int i = 0; i < array.length; i++) {
-      stringBuilder.append(print[i]);
+      stringBuilder.append("$").append(print[i]);
     }
     return stringBuilder.toString();
   }
@@ -198,11 +188,11 @@ public class GameState {
     StringBuilder stringBuilder = new StringBuilder();
     String[] print = new String[6];
     for (int i = 0; i < array.length; i++) {
-      print[i] = "| " + array[i].getName() + ": " + array[i].getPosition() + " |";
+      print[i] = array[i].getName() + "::" + array[i].getKickedOff();
     }
 
     for (int i = 0; i < array.length; i++) {
-      stringBuilder.append(print[i]);
+      stringBuilder.append("$").append(print[i]);
     }
     return stringBuilder.toString();
   }

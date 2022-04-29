@@ -97,7 +97,7 @@
             </HBox>
          </children>
       </Group>
-      <Button fx:id="noiseButton" alignment="CENTER" layoutX="267.0" layoutY="636.0" mnemonicParsing="false" prefHeight="114.0" prefWidth="217.0" text="I heard some noise">
+      <Button fx:id="noiseButton" alignment="CENTER" layoutX="267.0" layoutY="636.0" mnemonicParsing="false" onAction="#noise" prefHeight="114.0" prefWidth="217.0" text="I heard some noise">
          <font>
             <Font name="System Bold" size="21.0" />
          </font></Button>
