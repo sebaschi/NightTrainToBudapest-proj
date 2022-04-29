@@ -59,6 +59,19 @@ public class JClientProtocolParser {
       case Protocol.changedUserName:
         c.changeUsername(msg.substring(6));
         break;
+      case Protocol.printToGUI:
+        String substring = msg.substring(6);
+        int index = msg.indexOf("$");
+        String parameter;
+        String data;
+        try {
+          parameter = msg.substring(0,index);
+          data = msg.substring(index+1);
+        } catch (Exception e) {
+          LOGGER.warn("No parameter in PTGUI");
+        }
+
+        break;
       default:
         System.out.println("Received unknown command");
     }
