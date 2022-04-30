@@ -6,6 +6,7 @@ import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.events.LeaveServerButtonP
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
@@ -17,6 +18,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -47,6 +49,11 @@ public class LoungeSceneViewController implements Initializable {
 
   public static ClientModel client;
 
+  public LoungeSceneViewController() {
+    super();
+
+  }
+
 
   /**
    * Called to initialize a controller after its root element has been completely processed.
@@ -74,8 +81,27 @@ public class LoungeSceneViewController implements Initializable {
     this.ClientListView.setItems(names);
   }
 
-  public void addLobby(LobbyListItem lobby) {
-    //TODO
+  /**
+   * Adds a lobby to the view
+   * @param lobbyID
+   * @param admin
+   * @param players
+   */
+  public void addLobby(String lobbyID, String admin, String players) {
+    TitledPane lobbyObject = new TitledPane();
+    lobbyObject.setId(lobbyID+admin);
+    lobbyObject.textProperty().setValue("Lobby Nr: " + lobbyID + " Admin: " + admin);
+
+    ObservableList<SimpleStringProperty> listOfPlayersInLobby = new SimpleListProperty<>();
+
+    String[] playersArr = players.split(":");
+    int noOfPlayers = playersArr.length;
+    for(int i = 0; i < noOfPlayers; i++){
+      listOfPlayersInLobby.add(new SimpleStringProperty(playersArr[i]));
+    }
+    ListView view = new ListView(listOfPlayersInLobby);
+    lobbyObject.contentProperty().set(view);
+    LobbyListView.getItems().add(lobbyObject);
   }
 
   public void addClientToList(String s) {

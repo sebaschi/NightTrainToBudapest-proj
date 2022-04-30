@@ -70,6 +70,10 @@ public class ClientModel {
     this.allClients.add(nameAndId);
   }
 
+  public void updateClientList(ObservableList<SimpleStringProperty> clients) {
+
+  }
+
   public void removeClientFromList(String id){
     Iterator<SimpleStringProperty> it = allClients.iterator();
     while(it.hasNext()){

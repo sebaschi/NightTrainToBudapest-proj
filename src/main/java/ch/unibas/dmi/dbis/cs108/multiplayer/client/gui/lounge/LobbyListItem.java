@@ -1,19 +1,22 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge;
 
 import java.util.Set;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.ObservableSet;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ToggleButton;
 
-public class LobbyListItem {
+public class LobbyListItem extends ListCell {
 
-  private final Label lobbyID;
-  private final Label adminName;
-  private Set<StringProperty> clientsInLobby;
+  private final String lobbyID;
+  private final String adminName;
+  private ObservableSet<SimpleStringProperty> clientsInLobby;
   private final ToggleButton button;
 
-  public LobbyListItem(Label lobbyID, Label adminName,
-      Set<StringProperty> clientsInLobby, ToggleButton button) {
+  public LobbyListItem(String lobbyID, String adminName,
+      ObservableSet<SimpleStringProperty> clientsInLobby, ToggleButton button) {
     this.lobbyID = lobbyID;
     this.adminName = adminName;
     this.clientsInLobby = clientsInLobby;

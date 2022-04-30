@@ -8,6 +8,7 @@ import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.GameStateModel;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat.ChatApp;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat.ChatController;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game.GameController;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge.LoungeSceneViewController;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.ClientPinger;
 
 
@@ -42,6 +43,7 @@ public class Client {
   private ClientModel clientModel;
   private GameStateModel gameStateModel;
   private GameController gameController;
+  private LoungeSceneViewController loungeSceneViewController;
 
   /**
    * Saves the position of the client, gets refreshed everytime the client gets a vote request.
@@ -75,6 +77,8 @@ public class Client {
       clientPinger = new ClientPinger(this, this.socket);
       this.gameStateModel = new GameStateModel();
       this.gameController = new GameController(ChatApp.getClientModel(), gameStateModel);
+      this.loungeSceneViewController = new LoungeSceneViewController();
+      LoungeSceneViewController.setClient(ChatApp.getClientModel());
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -351,7 +355,7 @@ public class Client {
           //TODO
           break;
         case GuiParameters.listOfPLayers:
-          updateListOfClients(data);
+            updateListOfClients(data);
           //TODO
           break;
         //case GuiParameters.viewChangeToGame: (commented out due to compiling error)
@@ -380,7 +384,7 @@ public class Client {
     int n = arr.length;
     for (int i = 0; i < n; i = i + 2) {
       list.add(new SimpleStringProperty(arr[i]));
-      ChatController.getClient().addLobbyToList(new SimpleStringProperty(arr[i]));
+      loungeSceneViewController.addLobbyToList(new SimpleStringProperty(arr[i]));
     }
   }
 
@@ -388,10 +392,10 @@ public class Client {
     String[] arr = data.split(":");
     ObservableList<SimpleStringProperty> list = new SimpleListProperty<>();
     int n = arr.length;
-    for (int i = 0; i < n; i = i + 2) {
+    for (int i = 0; i < n; i = i + 1) {
       list.add(new SimpleStringProperty(arr[i]));
     }
-    ChatController.getClient().getAllClients().setAll();
+    loungeSceneViewController.updateClientListView(list);
   }
 
   /**
