@@ -1,5 +1,6 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game;
 
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.Client;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.GameStateModel;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.GuiParameters;
 import javafx.event.EventHandler;
@@ -34,8 +35,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class GameController {
+ public static final Logger LOGGER = LogManager.getLogger(GameController.class);
+ public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
  private static ClientModel client;
 
@@ -160,10 +165,14 @@ public class GameController {
   * Takes a given message and displays it in the notificationText Flow in the game Scene
   * @param msg the message to be displayed
   */
- public void addMessageToNotificationText(String msg) {
+ public void addMessageToNotificationText(String msg){
   Text notification = new Text(msg);
-  notificationText.getChildren().clear();
-  notificationText.getChildren().add(notification);
+  try {
+   notificationText.getChildren().clear();
+   notificationText.getChildren().add(notification);
+  } catch (Exception e) {
+   LOGGER.trace("Not yet initialized");
+  }
   //TODO: Wait for a certain time, then clear all again
  }
 
@@ -171,7 +180,11 @@ public class GameController {
   * Clears all children from notificationText TextFlow
   */
  public void clearNotificationText() {
-  notificationText.getChildren().clear();
+  try {
+   notificationText.getChildren().clear();
+  } catch (Exception e) {
+   LOGGER.trace("Not yet initialized");
+  }
  }
 
  /**
@@ -193,24 +206,28 @@ public class GameController {
   Text role4 = new Text(roles[4]);
   Text role5 = new Text(roles[5]);
 
-  lableRoom0.getChildren().clear();
-  lableRoom0.getChildren().add(name0);
-  lableRoom0.getChildren().add(role0);
-  lableRoom1.getChildren().clear();
-  lableRoom1.getChildren().add(name1);
-  lableRoom1.getChildren().add(role1);
-  lableRoom2.getChildren().clear();
-  lableRoom2.getChildren().add(name2);
-  lableRoom2.getChildren().add(role2);
-  lableRoom3.getChildren().clear();
-  lableRoom3.getChildren().add(name3);
-  lableRoom3.getChildren().add(role3);
-  lableRoom4.getChildren().clear();
-  lableRoom4.getChildren().add(name4);
-  lableRoom4.getChildren().add(role4);
-  lableRoom5.getChildren().clear();
-  lableRoom5.getChildren().add(name5);
-  lableRoom5.getChildren().add(role5);
+  try {
+   lableRoom0.getChildren().clear();
+   lableRoom0.getChildren().add(name0);
+   lableRoom0.getChildren().add(role0);
+   lableRoom1.getChildren().clear();
+   lableRoom1.getChildren().add(name1);
+   lableRoom1.getChildren().add(role1);
+   lableRoom2.getChildren().clear();
+   lableRoom2.getChildren().add(name2);
+   lableRoom2.getChildren().add(role2);
+   lableRoom3.getChildren().clear();
+   lableRoom3.getChildren().add(name3);
+   lableRoom3.getChildren().add(role3);
+   lableRoom4.getChildren().clear();
+   lableRoom4.getChildren().add(name4);
+   lableRoom4.getChildren().add(role4);
+   lableRoom5.getChildren().clear();
+   lableRoom5.getChildren().add(name5);
+   lableRoom5.getChildren().add(role5);
+  } catch (Exception e) {
+   LOGGER.trace("Not yet initialized");
+  }
  }
 
  /**
@@ -218,7 +235,11 @@ public class GameController {
   */
  public void noiseDisplay0(){
   Image bell = new Image("ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game.DayOpen.bell.png");
-  noiseImage0.setImage(bell);
+  try {
+   noiseImage0.setImage(bell);
+  } catch (Exception e) {
+   LOGGER.trace("Not yet initialized");
+  }
  }
 
  /**
@@ -226,7 +247,11 @@ public class GameController {
   */
  public void noiseDisplay1(){
   Image bell = new Image("ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game.DayOpen.bell.png");
-  noiseImage0.setImage(bell);
+  try {
+   noiseImage0.setImage(bell);
+  } catch (Exception e) {
+   LOGGER.trace("Not yet initialized");
+  }
  }
 
  /**
@@ -234,7 +259,11 @@ public class GameController {
   */
  public void noiseDisplay2(){
   Image bell = new Image("ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game.DayOpen.bell.png");
-  noiseImage0.setImage(bell);
+  try {
+   noiseImage0.setImage(bell);
+  } catch (Exception e) {
+   LOGGER.trace("Not yet initialized");
+  }
  }
 
  /**
@@ -242,7 +271,11 @@ public class GameController {
   */
  public void noiseDisplay3(){
   Image bell = new Image("ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game.DayOpen.bell.png");
-  noiseImage0.setImage(bell);
+  try {
+   noiseImage0.setImage(bell);
+  } catch (Exception e) {
+   LOGGER.trace("Not yet initialized");
+  }
  }
 
  /**
@@ -250,7 +283,11 @@ public class GameController {
   */
  public void noiseDisplay4(){
   Image bell = new Image("ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game.DayOpen.bell.png");
-  noiseImage0.setImage(bell);
+  try {
+   noiseImage0.setImage(bell);
+  } catch (Exception e) {
+   LOGGER.trace("Not yet initialized");
+  }
  }
 
  /**
@@ -258,7 +295,11 @@ public class GameController {
   */
  public void noiseDisplay5(){
   Image bell = new Image("ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game.DayOpen.bell.png");
-  noiseImage0.setImage(bell);
+  try {
+   noiseImage0.setImage(bell);
+  } catch (Exception e) {
+   LOGGER.trace("Not yet initialized");
+  }
  }
 
 

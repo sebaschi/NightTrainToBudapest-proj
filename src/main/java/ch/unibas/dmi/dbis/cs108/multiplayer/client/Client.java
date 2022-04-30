@@ -370,13 +370,13 @@ public class Client {
    */
   public void notificationTextDisplay(String data) {
     new Thread(() -> {
-      gameController.addMessageToNotificationText(data);
       try {
+        gameController.addMessageToNotificationText(data);
         Thread.sleep(3000);
+        gameController.clearNotificationText();
       } catch (InterruptedException e) {
-        e.printStackTrace();
+        LOGGER.warn(e.getMessage());
       }
-      gameController.clearNotificationText();
     }).start();
 
   }
