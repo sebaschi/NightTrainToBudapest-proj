@@ -27,7 +27,7 @@ public class ClientModel {
   private Client client;
   private String incomingChatMsg;
 
-  private ObservableList<ClientListItem> allClients;
+  private ObservableList<SimpleStringProperty> allClients;
   private ObservableMap<Integer, SimpleStringProperty> idToNameMap;
 
 
@@ -58,19 +58,20 @@ public class ClientModel {
     this.username = username;
   }
 
-  public ObservableList<ClientListItem> getAllClients() {
+  public ObservableList<SimpleStringProperty> getAllClients() {
     return allClients;
   }
 
-  public void addClientToList(ClientListItem nameAndId) {
+  public void addClientToList(SimpleStringProperty nameAndId) {
+    if(!allClients.contains(nameAndId))
     this.allClients.add(nameAndId);
   }
 
-  public void removeClientFromList(int id){
-    Iterator<ClientListItem> it = allClients.iterator();
+  public void removeClientFromList(String id){
+    Iterator<SimpleStringProperty> it = allClients.iterator();
     while(it.hasNext()){
-      int uid = it.next().getId();
-      if(uid == id){
+      String uid = it.next().getValue();
+      if(uid.equals(id)){
         it.remove();
         break;
       }

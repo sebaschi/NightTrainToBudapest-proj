@@ -1,7 +1,7 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.helpers;
 
 /**
- * This class contains parameters for the PTGUI protocol message
+ * This class contains all parameters for the PTGUI protocol message
  */
 public class GuiParameters {
 
@@ -15,7 +15,7 @@ public class GuiParameters {
   public static final String listOfLobbies = "LOBBIES";
 
   /**
-   * Tells Gui, that what follows is a list of players per Lobby
+   * Tells Gui, that what follows is a list of players (per Lobby?)
    */
   public static final String listOfPLayers = "PLAYERS";
 
@@ -25,21 +25,10 @@ public class GuiParameters {
    */
   public static final String noiseHeardAtPosition = "NOISE";
 
-  /**
-   * Tells Gui, that the start view should be displayed
-   */
-  public static final String viewChangeToStart = "VCSTART";
 
   /**
-   * Tells Gui, that the lobby view should be displayed
+   * Tells, Gui, who the members of a specified Lobby are.
+   * Form: {@code LMEMBS$<lobbyID>$<member names>$..}
    */
-  public static final String viewChangeToLobby = "VCLOBBY";
-
-  /**
-   * Tells Gui, that the game view should be displayed
-   */
-  public static final String viewChangeToGame = "VCGAME";
-
-
-
+  public static String viewChangeToLobby = "LMEMBS";
 }

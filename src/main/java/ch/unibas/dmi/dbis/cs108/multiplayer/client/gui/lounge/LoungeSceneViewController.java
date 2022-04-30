@@ -20,6 +20,7 @@ import javafx.scene.layout.HBox;
 public class LoungeSceneViewController implements Initializable {
 
 
+  public Button newGameButton;
   @FXML
   private TreeView LobbyTreeView;
   @FXML
@@ -51,6 +52,8 @@ public class LoungeSceneViewController implements Initializable {
   public void initialize(URL location, ResourceBundle resources) {
     ChangeNameButton.setOnAction(new ChangeNameButtonPressedEventHandler());
     LeaveServerButton.setOnAction(new LeaveServerButtonPressedEventHandler());
+
+    ClientListView.setItems(client.getAllClients());
   }
 
   public void updateLobbyListView(){
@@ -61,9 +64,12 @@ public class LoungeSceneViewController implements Initializable {
 
   }
 
+  public void addLobby(LobbyListItem lobby) {
+    LobbyTreeView.
+  }
+
   public void addClientToList(ClientListItem player) {
     ListCell<StringProperty> playerCell = new ListCell<>();
-    ClientListView.ite
   }
 
   /**

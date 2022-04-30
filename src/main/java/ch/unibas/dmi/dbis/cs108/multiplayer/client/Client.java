@@ -20,6 +20,7 @@ import java.io.*;
 import java.net.UnknownHostException;
 import java.util.Objects;
 import java.util.Scanner;
+import javafx.beans.property.SimpleStringProperty;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -36,6 +37,7 @@ public class Client {
 
   private ChatApp chatApp;
   private GUI chatGui;
+  private ClientModel clientModel;
   private GameStateModel gameStateModel;
   private GameController gameController;
 
@@ -70,7 +72,7 @@ public class Client {
       this.chatGui = new GUI(this.chatApp);
       clientPinger = new ClientPinger(this, this.socket);
       this.gameStateModel = new GameStateModel();
-      this.gameController = new GameController(ChatApp.getClientModel(),gameStateModel);
+      this.gameController = new GameController(ChatApp.getClientModel(), gameStateModel);
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -133,12 +135,12 @@ public class Client {
   }
 
   /**
-   * Extracts infromation about names and positions and roles from string and adds it to
-   * the GameStateModel
+   * Extracts infromation about names and positions and roles from string and adds it to the
+   * GameStateModel
+   *
    * @param msg
    */
   public void gameStateModelSetter(String msg) {
-
 
   }
 
@@ -224,6 +226,7 @@ public class Client {
 
   /**
    * The main Method used for testing in IDE
+   *
    * @param args not used in this main
    */
   public static void main(String[] args) {
@@ -262,8 +265,9 @@ public class Client {
 
   /**
    * The main-method used for the jar build of this project
-   * @param address the IP address of the Server (can be localhost)
-   * @param port the port for the connection
+   *
+   * @param address  the IP address of the Server (can be localhost)
+   * @param port     the port for the connection
    * @param username the username of this client
    */
   public static void main(InetAddress address, int port, String username) {
@@ -310,11 +314,14 @@ public class Client {
   }
 
   /**
-   * funnels a message to the gui, where depending on the parameter different functions/controls/methods
-   * of the gui are targeted. The data contains more information the gui needs
-   * @param parameter a string according to {@link GuiParameters} and {@link ClientGameInfoHandler} can be empty
-   * @param data some information in a string, separators can be $ or :
-   *TODO(Seraina&Sebi): evtl. auslagern?
+   * funnels a message to the gui, where depending on the parameter different
+   * functions/controls/methods of the gui are targeted. The data contains more information the gui
+   * needs
+   *
+   * @param parameter a string according to {@link GuiParameters} and {@link ClientGameInfoHandler}
+   *                  can be empty
+   * @param data      some information in a string, separators can be $ or :
+   *                  TODO(Seraina&Sebi): evtl. auslagern?
    */
   public void sendToGUI(String parameter, String data) {
     try {
@@ -338,9 +345,11 @@ public class Client {
           }
           break;
         case GuiParameters.listOfLobbies:
+          updateListOfLobbies(data);
           //TODO
           break;
         case GuiParameters.listOfPLayers:
+          updateListOfClients(data);
           //TODO
           break;
         case GuiParameters.viewChangeToGame:
@@ -354,7 +363,7 @@ public class Client {
           break;
         default:
           notificationTextDisplay(data);
-        //TODO(Sebi,Seraina): should the gameController be in the Application just like the ChatController?
+          //TODO(Sebi,Seraina): should the gameController be in the Application just like the ChatController?
       }
     } catch (Exception e) {
       LOGGER.warn("Communication with GUI currently not possible: " + e.getMessage());
@@ -363,9 +372,18 @@ public class Client {
 
   }
 
+  private void updateListOfClients(String data) {
+    String[] arr = data.split(":");
+    int n = arr.length;
+    for (int i = 0; i < n; i = i + 2) {
+      ChatController.getClient().addClientToList(new SimpleStringProperty(arr[i]));
+    }
+  }
+
   /**
-   * Starts a new thread, thad adds a message to notificationText in the gameController,
-   * waits 3 seconds and deletes it again.
+   * Starts a new thread, thad adds a message to notificationText in the gameController, waits 3
+   * seconds and deletes it again.
+   *
    * @param data the message to be added
    */
   public void notificationTextDisplay(String data) {
