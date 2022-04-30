@@ -37,7 +37,9 @@ public class GhostPlayer extends Ghost {
   }
 
   /**
-   * Sends a message to the client handled bye this client handler
+   * Sends a message to the client handled by this client handler. By default, it adds the
+   * protocol signature to print the given msg as is to the client console. For more detail on
+   * how the message gets formatted, look at the ServerGameInfoHandler.format() method.
    * @param msg the message that is sent to this player.
    * @param game the game the GhostPlayer lives on (in game.gameState.passengerTrain)
    */

@@ -3,9 +3,8 @@ package ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ClientModel;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.utils.ChatLabelConfigurator;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
-import com.sun.javafx.scene.control.Properties;
-import com.sun.javafx.scene.control.inputmap.KeyBinding;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -13,8 +12,6 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
@@ -22,18 +19,13 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.SplitPane;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -99,20 +91,14 @@ public class ChatController implements Initializable {
   public void initialize(URL location, ResourceBundle resources) {
     setClient(ChatApp.getClientModel());
     ChatApp.setChatController(this);
-    vBoxChatMessages.getChildren().addListener(new ListChangeListener<Node>() {
-      @Override
-      public void onChanged(Change<? extends Node> c) {
-        vBoxChatMessages.setMaxHeight(vBoxChatMessages.getMaxHeight() * 2);
-      }
-    });
+    vBoxChatMessages.getChildren().addListener(
+        (ListChangeListener<Node>) c -> vBoxChatMessages.setMaxHeight(
+            vBoxChatMessages.getMaxHeight() * 2));
 
-    vBoxChatMessages.heightProperty().addListener(new ChangeListener<Number>() {
+    vBoxChatMessages.heightProperty().addListener(new ChangeListener<>() {
       /**
        * TODO: implement
-       * Adjust the hight when new messages come in.
-       * @param observable
-       * @param oldValue
-       * @param newValue
+       * Adjust the height when new messages come in.
        */
       @Override
       public void changed(ObservableValue<? extends Number> observable, Number oldValue,
@@ -124,30 +110,15 @@ public class ChatController implements Initializable {
     /**
      * Initialize what happens when the send button is pressed
      */
-    sendButton.setOnAction(new EventHandler<ActionEvent>() {
-      @Override
-      public void handle(ActionEvent event) {
-        sendChatMsg();
-      }
-    });
+    sendButton.setOnAction(event -> sendChatMsg());
 
-    chatMsgField.setOnAction(new EventHandler<ActionEvent>() {
-      @Override
-      public void handle(ActionEvent event) {
-        sendChatMsg();
-      }
-    });
+    chatMsgField.setOnAction(event -> sendChatMsg());
 
     /**
      * Initialize the change of the TextArea field holding potential chat messages
      */
-    chatMsgField.textProperty().addListener(new ChangeListener<String>() {
-      @Override
-      public void changed(ObservableValue<? extends String> observable, String oldValue,
-          String newValue) {
-        chatMsgField.setText(newValue);
-      }
-    });
+    chatMsgField.textProperty().addListener(
+        (observable, oldValue, newValue) -> chatMsgField.setText(newValue));
 
     //Possibly now the whisperTargetChosenProperty is obsolete
     whisperTargetSelectField.textProperty().addListener(new ChangeListener<String>() {
@@ -171,19 +142,10 @@ public class ChatController implements Initializable {
       client.getClient().sendMsgToServer(cmd.toString() + msg);
       LOGGER.info("Message trying to send is: " + cmd.toString() + msg);
       Text t;
-      Label l;
-      if (cmd.startsWith(whisper)) {
-        t = new Text("You whispered to " + whisperTargetSelectField.getText() + ": " + msg);
-        l = new Label("You whispered to " + whisperTargetSelectField.getText() + ": " + msg);
-        l.setBackground(Background.fill(Color.LAVENDERBLUSH));
-      } else {
-        t = new Text(client.getUsername() + " (you): " + msg);
-        l = new Label(client.getUsername() + " (you): " + msg);
-        l.setBackground(Background.fill(Color.LAVENDER));
-        l.setWrapText(true);
-        l.setMaxHeight(Double.MAX_VALUE);
-        l.setScaleShape(true);
-      }
+
+      //Configure what to put in the Users ChatView
+      Label l = ChatLabelConfigurator.configure(cmd,msg,whisperTargetSelectField,client);
+
       vBoxChatMessages.getChildren().add(l);
       chatMsgField.clear();
     } else {
@@ -204,7 +166,7 @@ public class ChatController implements Initializable {
    * @param client who's gui controller this should be
    */
   public void setClient(ClientModel client) {
-    this.client = client;
+    ChatController.client = client;
   }
 
   public Pane getChatPaneRoot() {
