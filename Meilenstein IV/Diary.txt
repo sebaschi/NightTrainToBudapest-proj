@@ -338,3 +338,6 @@ Paralleles Arbeiten an zugewiesenen Aufgaben, ggf. mit gegenseitiger Unterstütz
 	Seraina, Sebastian: GUI
 	Jonas: high score list
 	Alex: unit tests
+
+30.04.2022 - Alex
+Finished creating unit tests for noise handling in the game (do players the ghosts walk by in the night receive the right amount of noise notifications?). Might be final version for milestone 4 if noone objects.
