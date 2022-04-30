@@ -3,7 +3,6 @@ package ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.Client;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.GameStateModel;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.GuiParameters;
-import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.GameStateModel;
 import javafx.event.EventHandler;
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ClientModel;
@@ -178,8 +177,18 @@ public class GameController {
  }
 
  /**
-  * Adds a msg to the room Lable at the specified position
-  * @param names a String array containing all the names
+  * Clears all children from notificationText TextFlow
+  */
+ public void clearNotificationText() {
+  try {
+   notificationText.getChildren().clear();
+  } catch (Exception e) {
+   LOGGER.trace("Not yet initialized");
+  }
+ }
+
+ /**
+  * Updates the labels of the rooms accordingly to the datastructures in GameStateModel
   */
  public void updateRoomLabels() {
   String[] names = gameStateModel.getPassengerTrainClone()[0];
