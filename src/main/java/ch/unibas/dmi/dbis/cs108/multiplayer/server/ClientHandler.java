@@ -238,7 +238,7 @@ public class ClientHandler implements Runnable {
    * @param msg the Message to be broadcast. Does not have to be protocol-formatted, this method
    *            will take care of that.
    */
-  public static void broadcastAnnouncementToAll(String msg) {
+  public static void broadcastAnnouncementToAll(String msg) { //TODO: Adjust to GUI command?
     System.out.println(msg);
     for (ClientHandler client : connectedClients) {
       client.sendMsgToClient(Protocol.printToClientConsole + "$" + msg);
@@ -254,7 +254,7 @@ public class ClientHandler implements Runnable {
    * @param msg the Message to be broadcast. Does not have to be protocol-formatted, this method
    *            will take care of that.
    */
-  public void broadcastAnnouncementToLobby(String msg) {
+  public void broadcastAnnouncementToLobby(String msg) { //TODO: Adjust to GUI command?
     Lobby l = getLobby();
     if (l != null) {
       //System.out.println(msg);    we can-comment this if you want lobby-announcements to print on the server console as well.
@@ -302,6 +302,35 @@ public class ClientHandler implements Runnable {
       //e.printStackTrace();
       LOGGER.warn("unable to send msg: " + msg);
       removeClientOnConnectionLoss();
+    }
+  }
+
+  /**
+   * Sends a given message to all connected client. The message has to already be protocol-formatted.
+   *
+   * @param msg the given message. Should already be protocol-formatted.
+   */
+  public void sendMsgToAllClients(String msg) {
+    for (ClientHandler client : connectedClients) {
+      client.sendMsgToClient(msg);
+    }
+  }
+
+  /**
+   * Sends a Message to all clients in the same lobby. The message has to already be protocol-formatted.
+   * @param msg the given message. Should already be protocol-formatted.
+   */
+  public void sendMsgToClientsInLobby(String msg) {
+    Lobby l = getLobby();
+    if (l != null) {
+      //System.out.println(msg);    we can-comment this if you want lobby-announcements to print on the server console as well.
+      for (ClientHandler client : l.getLobbyClients()) {
+        client.sendMsgToClient(msg);
+      }
+    } else {
+      LOGGER.debug("Could not send announcements; probably client isn't in a lobby."
+          + "Will send across all lobbies now.");
+      sendMsgToAllClients(msg);
     }
   }
 

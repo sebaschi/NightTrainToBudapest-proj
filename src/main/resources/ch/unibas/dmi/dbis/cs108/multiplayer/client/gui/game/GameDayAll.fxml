@@ -13,6 +13,16 @@
   <children>
       <Group fx:id="roomButtonGroupDay" layoutX="230.5" layoutY="220.0">
          <children>
+            <HBox fx:id="notificationHBox" layoutX="50.0" layoutY="-74.0" rotate="12.4">
+               <children>
+                  <ImageView fx:id="noiseImage0" fitHeight="150.0" fitWidth="125.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="noiseImage1" fitHeight="150.0" fitWidth="125.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="noiseImage2" fitHeight="150.0" fitWidth="125.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="noiseImage3" fitHeight="150.0" fitWidth="125.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="noiseImage4" fitHeight="150.0" fitWidth="125.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="noiseImage5" fitHeight="150.0" fitWidth="125.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </HBox>
           <Button id="room1" fx:id="buttonRoom0" accessibleRole="RADIO_BUTTON" alignment="TOP_CENTER" contentDisplay="GRAPHIC_ONLY" layoutX="21.5" minWidth="-Infinity" mnemonicParsing="false" onAction="#sendVote0" prefHeight="110.0" prefWidth="90.0" text="room0">
             <font>
               <Font size="25.0" />

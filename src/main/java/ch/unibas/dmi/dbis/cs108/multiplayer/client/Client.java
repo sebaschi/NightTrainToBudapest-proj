@@ -11,6 +11,7 @@ import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game.GameController;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.ClientPinger;
 
 
+import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.GuiParameters;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
 
 import java.net.InetAddress;
@@ -309,35 +310,92 @@ public class Client {
   }
 
   /**
-   * funnels a message to the gui, where depending on the message different functions/controls/methods
-   * of the gui are targeted. The message contains information on what to do, which are extracted
-   * @param msg a message of the form {@code parameter$msg}
-   *
+   * funnels a message to the gui, where depending on the parameter different functions/controls/methods
+   * of the gui are targeted. The data contains more information the gui needs
+   * @param parameter a string according to {@link GuiParameters} and {@link ClientGameInfoHandler} can be empty
+   * @param data some information in a string, separators can be $ or :
+   *TODO(Seraina&Sebi): evtl. auslagern?
    */
-  public void sendToGUI(String msg) {
-    int indexFirstDollar = msg.indexOf('$');
-    String header = "";
+  public void sendToGUI(String parameter, String data) {
     try {
-      header = msg.substring(0,indexFirstDollar);
-    } catch (IndexOutOfBoundsException e) {
-      LOGGER.info(e.getMessage());
+      switch (parameter) {
+        case ClientGameInfoHandler.itsNightTime: //ClientGameInfoHandler
+          gameStateModel.setDayClone(false);
+          break;
+        case ClientGameInfoHandler.itsDayTime: //ClientGameInfoHandler
+          gameStateModel.setDayClone(true);
+          break;
+        case GuiParameters.updateGameState:
+          gameStateModel.setGSFromString(data);
+          gameController.updateRoomLabels();
+          break;
+        case GuiParameters.noiseHeardAtPosition:
+          try {
+            int position = Integer.parseInt(data);
+            determineNoiseDisplay(position);
+          } catch (Exception e) {
+            LOGGER.warn("Not a position given for noise");
+          }
+          break;
+        case GuiParameters.listOfLobbies:
+          //TODO
+          break;
+        case GuiParameters.listOfPLayers:
+          //TODO
+          break;
+        case GuiParameters.viewChangeToGame:
+          //TODO
+          break;
+        case GuiParameters.viewChangeToStart:
+          //TODO
+          break;
+        case GuiParameters.viewChangeToLobby:
+          //TODO
+          break;
+        default:
+          notificationTextDisplay(data);
+        //TODO(Sebi,Seraina): should the gameController be in the Application just like the ChatController?
+      }
+    } catch (Exception e) {
+      LOGGER.warn("Communication with GUI currently not possible: " + e.getMessage());
+
     }
 
-    switch (header) {
-      case ClientGameInfoHandler.itsNightTime:
-        gameStateModel.setDayClone(false);
-        break;
-      case ClientGameInfoHandler.itsDayTime:
-        gameStateModel.setDayClone(true);
-        break;
+  }
 
-      default:
-        gameController.addMessageToNotificationText(msg); //TODO(Sebi,Seraina): should the gameController be in the Application just like the ChatController?
+  /**
+   * Starts a new thread, thad adds a message to notificationText in the gameController,
+   * waits 3 seconds and deletes it again.
+   * @param data the message to be added
+   */
+  public void notificationTextDisplay(String data) {
+    new Thread(() -> {
+      try {
+        gameController.addMessageToNotificationText(data);
+        Thread.sleep(3000);
+        gameController.clearNotificationText();
+      } catch (InterruptedException e) {
+        LOGGER.warn(e.getMessage());
+      }
+    }).start();
 
+  }
 
+  public void determineNoiseDisplay(int position) {
+    switch (position) {
+      case 0:
+        gameController.noiseDisplay0();
+      case 1:
+        gameController.noiseDisplay1();
+      case 2:
+        gameController.noiseDisplay2();
+      case 3:
+        gameController.noiseDisplay3();
+      case 4:
+        gameController.noiseDisplay4();
+      case 5:
+        gameController.noiseDisplay5();
     }
-
-
   }
 
 

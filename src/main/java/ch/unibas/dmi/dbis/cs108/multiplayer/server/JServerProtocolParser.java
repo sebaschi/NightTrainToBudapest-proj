@@ -2,6 +2,7 @@ package ch.unibas.dmi.dbis.cs108.multiplayer.server;
 
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
+import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.GuiParameters;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
@@ -81,6 +82,7 @@ public class JServerProtocolParser {
         try {
           int i = Integer.parseInt(msg.substring(6, 7));
           h.joinLobby(i);
+          h.sendMsgToClient(Protocol.printToGUI + "$" + GuiParameters.viewChangeToLobby + "$");
         } catch (Exception e) {
           h.sendMsgToClient(Protocol.printToClientConsole
               + "$Invalid input. Please use JOINL$1 to join Lobby 1, for example.");
@@ -88,6 +90,7 @@ public class JServerProtocolParser {
         break;
       case Protocol.createNewLobby:
         h.createNewLobby();
+        h.sendMsgToClient(Protocol.printToGUI + "$" + GuiParameters.viewChangeToLobby+ "$");
         break;
       case Protocol.listLobbies:
         h.listLobbies();
@@ -97,6 +100,7 @@ public class JServerProtocolParser {
         break;
       case Protocol.leaveLobby:
         h.leaveLobby();
+        h.sendMsgToClient(Protocol.printToGUI + "$" + GuiParameters.viewChangeToStart + "$");
         break;
       case Protocol.votedFor:
         LOGGER.debug("Made it here");
@@ -105,6 +109,7 @@ public class JServerProtocolParser {
         break;
       case Protocol.startANewGame:
         h.startNewGame();
+        h.sendMsgToClientsInLobby(Protocol.printToGUI + "$" + GuiParameters.viewChangeToGame + "$");
         break;
       case Protocol.listGames:
         h.listGames();
@@ -112,6 +117,9 @@ public class JServerProtocolParser {
       case Protocol.highScoreList:
         h.sendHighScoreList();
         break;
+      case Protocol.sendMessageToAllClients:
+        msg = msg.substring(6);
+        h.sendMsgToClient(msg);
       default:
         System.out.println("Received unknown command");
     }

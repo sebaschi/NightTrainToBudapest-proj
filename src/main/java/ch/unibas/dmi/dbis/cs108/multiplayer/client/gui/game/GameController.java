@@ -1,5 +1,8 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game;
 
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.Client;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.GameStateModel;
+import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.GuiParameters;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.GameStateModel;
 import javafx.event.EventHandler;
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
@@ -23,6 +26,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
@@ -31,12 +36,18 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class GameController {
+ public static final Logger LOGGER = LogManager.getLogger(GameController.class);
+ public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
  private static ClientModel client;
 
  private static GameStateModel gameStateModel;
+
+
 
  //TODO(Seraina, Sebi): Same issue as ChatController? do with setters?
  public GameController(ClientModel c, GameStateModel g) {
@@ -75,6 +86,20 @@ public class GameController {
  private TextFlow lableRoom4;
  @FXML
  private TextFlow lableRoom5;
+ @FXML
+ private HBox notificationHBox;
+ @FXML
+ private ImageView noiseImage0;
+ @FXML
+ private ImageView noiseImage1;
+ @FXML
+ private ImageView noiseImage2;
+ @FXML
+ private ImageView noiseImage3;
+ @FXML
+ private ImageView noiseImage4;
+ @FXML
+ private ImageView noiseImage5;
  @FXML
  private Button noiseButton;
  @FXML
@@ -132,22 +157,29 @@ public class GameController {
   * Sends a noise message, to the server, should be a gui message?
   */
  public void noise() {
-  client.getClient().sendMsgToServer("noise"); //TODO: Add message
+  client.getClient().sendMsgToServer(
+      Protocol.sendMessageToAllClients + "$" + Protocol.printToGUI + GuiParameters.noiseHeardAtPosition + "$"
+          + client.getClient().getPosition()); //TODO: Test!!
  }
 
  /**
   * Takes a given message and displays it in the notificationText Flow in the game Scene
   * @param msg the message to be displayed
   */
- public void addMessageToNotificationText(String msg) {
+ public void addMessageToNotificationText(String msg){
   Text notification = new Text(msg);
-  notificationText.getChildren().clear();
-  notificationText.getChildren().add(notification);
+  try {
+   notificationText.getChildren().clear();
+   notificationText.getChildren().add(notification);
+  } catch (Exception e) {
+   LOGGER.trace("Not yet initialized");
+  }
   //TODO: Wait for a certain time, then clear all again
  }
 
  /**
-  * Updates the labels of the rooms accordingly to the datastructures in GameStateModel
+  * Adds a msg to the room Lable at the specified position
+  * @param names a String array containing all the names
   */
  public void updateRoomLabels() {
   String[] names = gameStateModel.getPassengerTrainClone()[0];
@@ -165,25 +197,102 @@ public class GameController {
   Text role4 = new Text(roles[4]);
   Text role5 = new Text(roles[5]);
 
-  lableRoom0.getChildren().clear();
-  lableRoom0.getChildren().add(name0);
-  lableRoom0.getChildren().add(role0);
-  lableRoom1.getChildren().clear();
-  lableRoom1.getChildren().add(name1);
-  lableRoom1.getChildren().add(role1);
-  lableRoom2.getChildren().clear();
-  lableRoom2.getChildren().add(name2);
-  lableRoom2.getChildren().add(role2);
-  lableRoom3.getChildren().clear();
-  lableRoom3.getChildren().add(name3);
-  lableRoom3.getChildren().add(role3);
-  lableRoom4.getChildren().clear();
-  lableRoom4.getChildren().add(name4);
-  lableRoom4.getChildren().add(role4);
-  lableRoom5.getChildren().clear();
-  lableRoom5.getChildren().add(name5);
-  lableRoom5.getChildren().add(role5);
+  try {
+   lableRoom0.getChildren().clear();
+   lableRoom0.getChildren().add(name0);
+   lableRoom0.getChildren().add(role0);
+   lableRoom1.getChildren().clear();
+   lableRoom1.getChildren().add(name1);
+   lableRoom1.getChildren().add(role1);
+   lableRoom2.getChildren().clear();
+   lableRoom2.getChildren().add(name2);
+   lableRoom2.getChildren().add(role2);
+   lableRoom3.getChildren().clear();
+   lableRoom3.getChildren().add(name3);
+   lableRoom3.getChildren().add(role3);
+   lableRoom4.getChildren().clear();
+   lableRoom4.getChildren().add(name4);
+   lableRoom4.getChildren().add(role4);
+   lableRoom5.getChildren().clear();
+   lableRoom5.getChildren().add(name5);
+   lableRoom5.getChildren().add(role5);
+  } catch (Exception e) {
+   LOGGER.trace("Not yet initialized");
+  }
  }
+
+ /**
+  * Adds an image of a bell on top of button0
+  */
+ public void noiseDisplay0(){
+  Image bell = new Image("ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game.DayOpen.bell.png");
+  try {
+   noiseImage0.setImage(bell);
+  } catch (Exception e) {
+   LOGGER.trace("Not yet initialized");
+  }
+ }
+
+ /**
+  * Adds an image of a bell on top of button1
+  */
+ public void noiseDisplay1(){
+  Image bell = new Image("ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game.DayOpen.bell.png");
+  try {
+   noiseImage0.setImage(bell);
+  } catch (Exception e) {
+   LOGGER.trace("Not yet initialized");
+  }
+ }
+
+ /**
+  * Adds an image of a bell on top of button2
+  */
+ public void noiseDisplay2(){
+  Image bell = new Image("ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game.DayOpen.bell.png");
+  try {
+   noiseImage0.setImage(bell);
+  } catch (Exception e) {
+   LOGGER.trace("Not yet initialized");
+  }
+ }
+
+ /**
+  * Adds an image of a bell on top of button3
+  */
+ public void noiseDisplay3(){
+  Image bell = new Image("ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game.DayOpen.bell.png");
+  try {
+   noiseImage0.setImage(bell);
+  } catch (Exception e) {
+   LOGGER.trace("Not yet initialized");
+  }
+ }
+
+ /**
+  * Adds an image of a bell on top of button4
+  */
+ public void noiseDisplay4(){
+  Image bell = new Image("ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game.DayOpen.bell.png");
+  try {
+   noiseImage0.setImage(bell);
+  } catch (Exception e) {
+   LOGGER.trace("Not yet initialized");
+  }
+ }
+
+ /**
+  * Adds an image of a bell on top of button5
+  */
+ public void noiseDisplay5(){
+  Image bell = new Image("ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game.DayOpen.bell.png");
+  try {
+   noiseImage0.setImage(bell);
+  } catch (Exception e) {
+   LOGGER.trace("Not yet initialized");
+  }
+ }
+
 
 
  public void setGameStateModel(

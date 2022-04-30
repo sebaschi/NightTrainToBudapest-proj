@@ -49,7 +49,6 @@ public class JClientProtocolParser {
         break;
       case Protocol.serverRequestsGhostVote:
         LOGGER.debug("Ghost received Vote request");
-        //c.sendToGUI(ClientGameInfoHandler.ghostVoteRequest);
         c.positionSetter(msg.substring(6));
         break;
       case Protocol.serverRequestsHumanVote:
@@ -61,7 +60,17 @@ public class JClientProtocolParser {
         c.changeUsername(msg.substring(6));
         break;
       case Protocol.printToGUI:
-        c.sendToGUI(msg.substring(6));
+        String substring = msg.substring(6);
+        int index = msg.indexOf("$");
+        String parameter = "";
+        String data = substring;
+        try {
+          parameter = msg.substring(0,index);
+          data = msg.substring(index+1);
+        } catch (Exception e) {
+          LOGGER.warn("No parameter in PTGUI");
+        }
+          c.sendToGUI(parameter,data);
         break;
       default:
         System.out.println("Received unknown command");
