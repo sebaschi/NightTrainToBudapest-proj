@@ -327,7 +327,7 @@ public class Client {
    * @param parameter a string according to {@link GuiParameters} and {@link ClientGameInfoHandler}
    *                  can be empty
    * @param data      some information in a string, separators can be $ or :
-   *                  TODO(Seraina&Sebi): evtl. auslagern?
+   *                                   TODO(Seraina&Sebi): evtl. auslagern?
    */
   public void sendToGUI(String parameter, String data) {
     try {
@@ -355,18 +355,27 @@ public class Client {
           //TODO
           break;
         case GuiParameters.listOfPLayers:
-            updateListOfClients(data);
+          updateListOfClients(data);
           //TODO
           break;
+        case GuiParameters.getMembersInLobby:
+          updateLobbyMembers(data);
+          break;
         //case GuiParameters.viewChangeToGame: (commented out due to compiling error)
-          //TODO
-          //break; (commented out due to compiling error)
+        //TODO
+        //break; (commented out due to compiling error)
         //case GuiParameters.viewChangeToStart: (commented out due to compiling error)
-          //TODO
-          //break; (commented out due to compiling error)
+        //TODO
+        //break; (commented out due to compiling error)
         //case GuiParameters.viewChangeToLobby: (commented out due to compiling error)
-          //TODO
-          //break; (commented out due to compiling error)
+        //TODO
+        //break; (commented out due to compiling error)
+        case GuiParameters.addNewMemberToLobby:
+          addPlayerToLobby(data);
+          break;
+        case GuiParameters.newLobbyCreated:
+          makeNewLobby(data);
+          break;
         default:
           notificationTextDisplay(data);
           //TODO(Sebi,Seraina): should the gameController be in the Application just like the ChatController?
@@ -378,14 +387,30 @@ public class Client {
 
   }
 
+  private void makeNewLobby(String data) {
+    String[] params = data.split(":");
+    loungeSceneViewController.newLobby(params[0], params[1]);
+  }
+
+  private void addPlayerToLobby(String data) {
+    String[] params = data.split(":");
+    loungeSceneViewController.addPlayerToLobby(params[0], params[1]);
+  }
+
+  private void updateLobbyMembers(String data) {
+    String[] dataArr = data.split(":");
+    String lobbyID = dataArr[0];
+    String adminName = dataArr[1];
+  }
+
   private void updateListOfLobbies(String data) {
     String[] arr = data.split(":");
     ObservableList<SimpleStringProperty> list = new SimpleListProperty<>();
     int n = arr.length;
     for (int i = 0; i < n; i = i + 2) {
       list.add(new SimpleStringProperty(arr[i]));
-      loungeSceneViewController.addLobbyToList(new SimpleStringProperty(arr[i]));
     }
+    //TODO
   }
 
   private void updateListOfClients(String data) {
