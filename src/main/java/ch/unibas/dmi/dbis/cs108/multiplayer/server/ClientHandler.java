@@ -306,6 +306,35 @@ public class ClientHandler implements Runnable {
   }
 
   /**
+   * Sends a given message to all connected client. The message has to already be protocol-formatted.
+   *
+   * @param msg the given message. Should already be protocol-formatted.
+   */
+  public void sendMsgToAllClients(String msg) {
+    for (ClientHandler client : connectedClients) {
+      client.sendMsgToClient(msg);
+    }
+  }
+
+  /**
+   * Sends a Message to all clients in the same lobby. The message has to already be protocol-formatted.
+   * @param msg the given message. Should already be protocol-formatted.
+   */
+  public void sendMsgToClientsInLobby(String msg) {
+    Lobby l = getLobby();
+    if (l != null) {
+      //System.out.println(msg);    we can-comment this if you want lobby-announcements to print on the server console as well.
+      for (ClientHandler client : l.getLobbyClients()) {
+        client.sendMsgToClient(msg);
+      }
+    } else {
+      LOGGER.debug("Could not send announcements; probably client isn't in a lobby."
+          + "Will send across all lobbies now.");
+      sendMsgToAllClients(msg);
+    }
+  }
+
+  /**
    * Decode a whisper message
    *
    * @param msg to decode. the command has been removed from the front

@@ -1,7 +1,7 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.helpers;
 
 /**
- * This class contains all parameters for the PTGUI protocol message
+ * This class contains parameters for the PTGUI protocol message
  */
 public class GuiParameters {
 
@@ -15,7 +15,7 @@ public class GuiParameters {
   public static final String listOfLobbies = "LOBBIES";
 
   /**
-   * Tells Gui, that what follows is a list of players (per Lobby?)
+   * Tells Gui, that what follows is a list of players per Lobby
    */
   public static final String listOfPLayers = "PLAYERS";
 
