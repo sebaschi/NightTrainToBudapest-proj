@@ -317,32 +317,36 @@ public class Client {
    *TODO(Seraina&Sebi): evtl. auslagern?
    */
   public void sendToGUI(String parameter, String data) {
-    switch (parameter) {
-      case ClientGameInfoHandler.itsNightTime: //ClientGameInfoHandler
-        gameStateModel.setDayClone(false);
-        break;
-      case ClientGameInfoHandler.itsDayTime: //ClientGameInfoHandler
-        gameStateModel.setDayClone(true);
-        break;
-      case GuiParameters.updateGameState:
-        gameStateModel.setGSFromString(data);
-        gameController.updateRoomLabels();
-        break;
-      case GuiParameters.noiseHeardAtPosition:
-        try {
-          int position = Integer.parseInt(data);
-          determineNoiseDisplay(position);
-        } catch (Exception e) {
-          LOGGER.warn("Not a position given for noise");
-        }
-        break;
-      case GuiParameters.listOfLobbies:
-        break;
-      case GuiParameters.listOfPLayers:
-        break;
-      default:
-        gameController.addMessageToNotificationText(data); //TODO(Sebi,Seraina): should the gameController be in the Application just like the ChatController?
-
+    try {
+      switch (parameter) {
+        case ClientGameInfoHandler.itsNightTime: //ClientGameInfoHandler
+          gameStateModel.setDayClone(false);
+          break;
+        case ClientGameInfoHandler.itsDayTime: //ClientGameInfoHandler
+          gameStateModel.setDayClone(true);
+          break;
+        case GuiParameters.updateGameState:
+          gameStateModel.setGSFromString(data);
+          gameController.updateRoomLabels();
+          break;
+        case GuiParameters.noiseHeardAtPosition:
+          try {
+            int position = Integer.parseInt(data);
+            determineNoiseDisplay(position);
+          } catch (Exception e) {
+            LOGGER.warn("Not a position given for noise");
+          }
+          break;
+        case GuiParameters.listOfLobbies:
+          break;
+        case GuiParameters.listOfPLayers:
+          break;
+        default:
+          gameController.addMessageToNotificationText(
+              data); //TODO(Sebi,Seraina): should the gameController be in the Application just like the ChatController?
+      }
+    } catch (Exception e) {
+      LOGGER.warn("Communication with GUI currently not possible: " + e.getMessage());
 
     }
 
