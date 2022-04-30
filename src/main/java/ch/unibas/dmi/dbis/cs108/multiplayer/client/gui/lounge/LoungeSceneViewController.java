@@ -62,8 +62,6 @@ public class LoungeSceneViewController implements Initializable {
     LeaveServerButton.setOnAction(new LeaveServerButtonPressedEventHandler());
     newGameButton.setOnAction(event -> newGame());
 
-    ClientListView.se
-
     ClientListView.setItems(client.getAllClients());
     LobbyListView.setPlaceholder(new Text("No open lobbies!"));
   }
