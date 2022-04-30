@@ -238,7 +238,7 @@ public class ClientHandler implements Runnable {
    * @param msg the Message to be broadcast. Does not have to be protocol-formatted, this method
    *            will take care of that.
    */
-  public static void broadcastAnnouncementToAll(String msg) {
+  public static void broadcastAnnouncementToAll(String msg) { //TODO: Adjust to GUI command?
     System.out.println(msg);
     for (ClientHandler client : connectedClients) {
       client.sendMsgToClient(Protocol.printToClientConsole + "$" + msg);
@@ -254,7 +254,7 @@ public class ClientHandler implements Runnable {
    * @param msg the Message to be broadcast. Does not have to be protocol-formatted, this method
    *            will take care of that.
    */
-  public void broadcastAnnouncementToLobby(String msg) {
+  public void broadcastAnnouncementToLobby(String msg) { //TODO: Adjust to GUI command?
     Lobby l = getLobby();
     if (l != null) {
       //System.out.println(msg);    we can-comment this if you want lobby-announcements to print on the server console as well.
