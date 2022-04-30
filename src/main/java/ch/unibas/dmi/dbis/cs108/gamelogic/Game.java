@@ -92,7 +92,7 @@ public class Game implements Runnable {
           passenger.send(GuiParameters.updateGameState, getGame());
         }
         try {
-          Thread.sleep(1000); //TODO: Is this a good intervall?
+          Thread.sleep(4000); //TODO: Is this a good intervall?
         } catch (InterruptedException e) {
           e.printStackTrace();
         }
