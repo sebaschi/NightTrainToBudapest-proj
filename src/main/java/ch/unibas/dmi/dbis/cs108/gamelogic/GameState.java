@@ -167,7 +167,7 @@ public class GameState {
       } else if (array[i].getIsGhost()) {
         print[i] = array[i].getName() + ":g:" + array[i].getKickedOff();
       } else {
-        print[i] = "| " + array[i].getName() + ":h:" + array[i].getKickedOff();
+        print[i] = array[i].getName() + ":h:" + array[i].getKickedOff();
       }
 
     }

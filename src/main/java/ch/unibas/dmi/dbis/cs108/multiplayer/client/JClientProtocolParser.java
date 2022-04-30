@@ -2,6 +2,7 @@ package ch.unibas.dmi.dbis.cs108.multiplayer.client;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.gamelogic.ClientGameInfoHandler;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game.GameController;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
 import java.io.OutputStreamWriter;
 import org.apache.logging.log4j.LogManager;
@@ -61,17 +62,20 @@ public class JClientProtocolParser {
         break;
       case Protocol.printToGUI:
         String substring = msg.substring(6);
-        int index = msg.indexOf("$");
+        int index = substring.indexOf("$");
         String parameter = "";
         String data = substring;
         try {
-          parameter = msg.substring(0,index);
-          data = msg.substring(index+1);
+          parameter = substring.substring(0,index);
+          data = substring.substring(index+1);
         } catch (Exception e) {
           LOGGER.warn("No parameter in PTGUI");
         }
           c.sendToGUI(parameter,data);
         break;
+      case Protocol.positionOfClient:
+        int position = Integer.parseInt(msg.substring(6));
+        GameController.getClient().getClient().setPosition(position);
       default:
         System.out.println("Received unknown command");
     }

@@ -376,9 +376,13 @@ public class ClientHandler implements Runnable {
     }
     LOGGER.debug("Vote is:" + vote);
     if (vote != Integer.MAX_VALUE) { //gets MAX_VALUE when the vote wasn't valid
-      getLobby().getGame().getGameState().getClientVoteData().setVote(position, vote);
-      LOGGER.debug("Player vote: " + vote);
-      getLobby().getGame().getGameState().getClientVoteData().setHasVoted(position, true);
+      try {
+        getLobby().getGame().getGameState().getClientVoteData().setVote(position, vote);
+        LOGGER.debug("Player vote: " + vote);
+        getLobby().getGame().getGameState().getClientVoteData().setHasVoted(position, true);
+      } catch (NullPointerException e) {
+        LOGGER.info("Client not in Lobby");
+      }
     }
   }
 

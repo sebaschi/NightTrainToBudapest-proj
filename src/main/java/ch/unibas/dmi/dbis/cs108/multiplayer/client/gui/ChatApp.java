@@ -1,11 +1,14 @@
-package ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat;
+package ch.unibas.dmi.dbis.cs108.multiplayer.client.gui;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ClientModel;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat.ChatController;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game.GameController;
 import java.net.URL;
 import java.util.Objects;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -19,7 +22,9 @@ public class ChatApp extends Application {
 
   private static ClientModel clientModel;
   private static ChatController chatController;
+  private static GameController gameController;
   private ClientModel cModel;
+  private GameController gameC;
 
   public ChatApp() {
     super();
@@ -50,8 +55,25 @@ public class ChatApp extends Application {
     this.cModel = cModel;
   }
 
+  public void setGameC(GameController gameC) {
+    this.gameC = gameC;
+  }
+
   public ClientModel getcModel() {
     return cModel;
+  }
+
+  public static void setGameController(
+      GameController gameController) {
+    ChatApp.gameController = gameController;
+  }
+
+  public GameController getGameController() {
+    return gameController;
+  }
+
+  public GameController getGameC() {
+    return gameC;
   }
 
   public static void setClientModel(ClientModel clientM) {
@@ -83,16 +105,16 @@ public class ChatApp extends Application {
   @Override
   public void start(Stage primaryStage) throws Exception {
     this.setcModel(clientModel);
-    URL resource = ChatApp.class.getResource(
-        "ChatView.fxml");
-    if (resource == null) {
-      System.out.println("File wasnt found");
-    }
-    //ChatApp chatApp = new ChatApp(new ClientModel());
+    this.setGameC(gameController);
+    gameC.setClient(cModel);
+    gameC.setGameStateModel(GameController.getGameStateModel());
+    URL chatResource = ChatApp.class.getResource(
+        "chat/ChatView.fxml");
+    URL gameResource = ChatApp.class.getResource(
+        "game/GameDayAll.fxml");
     try {
       Parent root = FXMLLoader.load(
-          Objects.requireNonNull(ChatApp.class.getResource(
-              "ChatView.fxml")));
+          Objects.requireNonNull(gameResource));
       // TODO bin chatController.getChatPaneRoot() border to root border for rezising
       Scene scene = new Scene(root);
       scene.setRoot(root);
@@ -100,9 +122,13 @@ public class ChatApp extends Application {
     } catch (Exception e) {
       e.printStackTrace();
     }
+    primaryStage.setResizable(false);
+    Node chat = FXMLLoader.load(
+        Objects.requireNonNull(chatResource));
+    primaryStage.setTitle("Night Train To Budapest");
     primaryStage.setResizable(true);
-    primaryStage.setTitle("Chat");
     primaryStage.show();
+
 
 
   }
