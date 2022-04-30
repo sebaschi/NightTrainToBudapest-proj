@@ -38,7 +38,7 @@
             <ListView fx:id="ClientListView" prefHeight="681.0" prefWidth="661.0" BorderPane.alignment="CENTER" />
          </left>
          <right>
-            <TreeView fx:id="LobbyTreeView" prefHeight="681.0" prefWidth="641.0" BorderPane.alignment="CENTER" />
+            <ListView fx:id="LobbyListView" prefHeight="681.0" prefWidth="641.0" BorderPane.alignment="CENTER" />
          </right>
       </BorderPane>
    </children>

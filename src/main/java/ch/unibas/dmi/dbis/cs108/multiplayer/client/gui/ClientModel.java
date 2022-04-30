@@ -30,6 +30,8 @@ public class ClientModel {
   private ObservableList<SimpleStringProperty> allClients;
   private ObservableMap<Integer, SimpleStringProperty> idToNameMap;
 
+  private  ObservableList<SimpleStringProperty> lobbies;
+
 
   private HashSet<String> clientsOnServer;
 
@@ -38,6 +40,7 @@ public class ClientModel {
     this.client = client;
     this.allClients = FXCollections.observableArrayList();
     this.idToNameMap = FXCollections.observableHashMap();
+    this.lobbies = FXCollections.observableArrayList();
   }
 
   //private Number;

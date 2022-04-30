@@ -20,7 +20,9 @@ import java.io.*;
 import java.net.UnknownHostException;
 import java.util.Objects;
 import java.util.Scanner;
+import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.ObservableList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -372,12 +374,24 @@ public class Client {
 
   }
 
-  private void updateListOfClients(String data) {
+  private void updateListOfLobbies(String data) {
     String[] arr = data.split(":");
+    ObservableList<SimpleStringProperty> list = new SimpleListProperty<>();
     int n = arr.length;
     for (int i = 0; i < n; i = i + 2) {
-      ChatController.getClient().addClientToList(new SimpleStringProperty(arr[i]));
+      list.add(new SimpleStringProperty(arr[i]));
+      ChatController.getClient().addLobbyToList(new SimpleStringProperty(arr[i]));
     }
+  }
+
+  private void updateListOfClients(String data) {
+    String[] arr = data.split(":");
+    ObservableList<SimpleStringProperty> list = new SimpleListProperty<>();
+    int n = arr.length;
+    for (int i = 0; i < n; i = i + 2) {
+      list.add(new SimpleStringProperty(arr[i]));
+    }
+    ChatController.getClient().getAllClients().setAll();
   }
 
   /**
