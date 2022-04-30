@@ -50,42 +50,34 @@ public class VoteHandler {
       }
     }
 
-    //Timer.ghostVoteTimer(game);
-    try {
-      Thread.sleep(20*1000);
-    } catch (InterruptedException e) {
-      LOGGER.warn("Thread " + Thread.currentThread() + " was interrupted");
-    }
+    Timer.ghostVoteTimer(game);
+
 
     int currentMax = ghostVoteEvaluation(passengers, votesForPlayers, game.getGameState().getClientVoteData(), game);
 
     LOGGER.debug("Most votes: " + currentMax + " vote(s)");
 
     // ghostify the player with most votes
-    int ghostPosition = 0;
+    int newGhostPosition = 0;
     for (int i = 0; i < votesForPlayers.length; i++) {
       if (votesForPlayers[i] == currentMax) { // if player at position i has most votes
-        ghostPosition = i;
+        newGhostPosition = i;
         LOGGER.debug("Most votes for Passenger " + i);
       }
     }
-    LOGGER.info("Most votes for: " + ghostPosition);
+    LOGGER.info("Most votes for: " + newGhostPosition);
 
     for(Passenger passenger : passengers) {
       if(passenger.getIsGhost() || passenger.getIsSpectator()) {
-        passenger.send(passengers[ghostPosition].getName() + ClientGameInfoHandler.gotGhostyfied, game);
+        passenger.send(passengers[newGhostPosition].getName() + ClientGameInfoHandler.gotGhostyfied, game);
       }
     }
-    Passenger g = GhostifyHandler.ghost(passengers[ghostPosition], game);
-    passengers[ghostPosition] = g;
-    if (!passengers[ghostPosition].getIsSpectator()) {
-      passengers[ghostPosition].send(
+    Passenger g = GhostifyHandler.ghost(passengers[newGhostPosition], game);
+    passengers[newGhostPosition] = g;
+    if (!passengers[newGhostPosition].getIsSpectator()) {
+      passengers[newGhostPosition].send(
           ClientGameInfoHandler.youGotGhostyfied, game);
-    }
-    try {
-      Thread.sleep(10);
-    } catch (InterruptedException e) {
-      LOGGER.warn("Thread " + Thread.currentThread() + " was interrupted");
+      passengers[newGhostPosition].send(game.gameState.toString(), game);
     }
 
     /* notify passengers the ghosts passed by - for each ghost that ghostified a player, an instance of NoiseHandler
@@ -96,7 +88,7 @@ public class VoteHandler {
 
     int[] noiseAmount = new int[6];
     for (int i = 0; i < passengers.length; i++) {
-      if (passengers[i].getIsGhost() && i != ghostPosition) {
+      if (passengers[i].getIsGhost() && i != newGhostPosition) {
         NoiseHandler n = new NoiseHandler();
         noiseAmount = n.noiseNotifier(passengers[i], g, noiseAmount);
       }
@@ -106,6 +98,11 @@ public class VoteHandler {
         passengers[i].send(ClientGameInfoHandler.noiseNotification + noiseAmount[i] + " time(s)", game);
       }
     }
+
+    /* used to wait for some time so the humans have time to hear noises and so the ghosts (& victim)
+    can see the infection happen. */
+    Timer.ghostAfterVoteTimer();
+
 
     // no humans left in the game --> everyone has been ghostified, ghosts win
     int humanCounter = 0;
@@ -154,11 +151,7 @@ public class VoteHandler {
       }
     }
 
-    try { // waits 60 seconds before votes get collected
-      Thread.sleep(20*1000);
-    } catch (InterruptedException e) {
-      LOGGER.warn("Thread " + Thread.currentThread() + " was interrupted");
-    }
+    Timer.humanVoteTimer(game);
 
     int currentMax = humanVoteEvaluation(passengers, votesForPlayers, game.getGameState().getClientVoteData(), game);
 
