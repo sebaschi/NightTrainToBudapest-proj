@@ -25,10 +25,26 @@ public class GuiParameters {
    */
   public static final String noiseHeardAtPosition = "NOISE";
 
+  /**
+   * Tells Gui, that the start view should be displayed
+   */
+  public static final String viewChangeToStart = "VCSTART";
+
+  /**
+   * Tells Gui, that the lobby view should be displayed
+   */
+  public static final String viewChangeToLobby = "VCLOBBY";
+
+  /**
+   * Tells Gui, that the game view should be displayed
+   */
+  public static final String viewChangeToGame = "VCGAME";
+
+
 
   /**
    * Tells, Gui, who the members of a specified Lobby are.
    * Form: {@code LMEMBS$<lobbyID>$<member names>$..}
    */
-  public static String viewChangeToLobby = "LMEMBS";
+  public static String changeToLobby = "LMEMBS";
 }
