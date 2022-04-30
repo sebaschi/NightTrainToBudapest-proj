@@ -168,6 +168,13 @@ public class GameController {
  }
 
  /**
+  * Clears all children from notificationText TextFlow
+  */
+ public void clearNotificationText() {
+  notificationText.getChildren().clear();
+ }
+
+ /**
   * Updates the labels of the rooms accordingly to the datastructures in GameStateModel
   */
  public void updateRoomLabels() {

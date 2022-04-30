@@ -86,18 +86,15 @@ public class Game implements Runnable {
    * Initializes new thread that constantly sends a gameState update to all clients in this game
    */
   public void gameStateModelUpdater(){
-    new Thread(new Runnable() {
-      @Override
-      public void run() {
-        while (getGame().isOngoing) {
-          for (Passenger passenger : getGameState().getPassengerTrain()) {
-            passenger.send(GuiParameters.updateGameState, getGame());
-          }
-          try {
-            Thread.sleep(1000); //TODO: Is this a good intervall?
-          } catch (InterruptedException e) {
-            e.printStackTrace();
-          }
+    new Thread(() -> {
+      while (getGame().isOngoing) {
+        for (Passenger passenger : getGameState().getPassengerTrain()) {
+          passenger.send(GuiParameters.updateGameState, getGame());
+        }
+        try {
+          Thread.sleep(1000); //TODO: Is this a good intervall?
+        } catch (InterruptedException e) {
+          e.printStackTrace();
         }
       }
     }).start();

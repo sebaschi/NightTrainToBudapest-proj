@@ -342,13 +342,31 @@ public class Client {
         case GuiParameters.listOfPLayers:
           break;
         default:
-          gameController.addMessageToNotificationText(
-              data); //TODO(Sebi,Seraina): should the gameController be in the Application just like the ChatController?
+          notificationTextDisplay(data);
+        //TODO(Sebi,Seraina): should the gameController be in the Application just like the ChatController?
       }
     } catch (Exception e) {
       LOGGER.warn("Communication with GUI currently not possible: " + e.getMessage());
 
     }
+
+  }
+
+  /**
+   * Starts a new thread, thad adds a message to notificationText in the gameController,
+   * waits 3 seconds and deletes it again.
+   * @param data the message to be added
+   */
+  public void notificationTextDisplay(String data) {
+    new Thread(() -> {
+      gameController.addMessageToNotificationText(data);
+      try {
+        Thread.sleep(3000);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+      gameController.clearNotificationText();
+    }).start();
 
   }
 
