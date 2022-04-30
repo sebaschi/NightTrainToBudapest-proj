@@ -152,18 +152,19 @@ public class Game implements Runnable {
         LOGGER.info("NIGHT");
         gameOverCheck = voteHandler.ghostVote(gameState.getPassengerTrain(), this);
         setDay(true);
-        lobby.getAdmin().sendMsgToClientsInLobby(Protocol.printToGUI + "$" + ClientGameInfoHandler.itsDayTime);
+        lobby.getAdmin().sendMsgToClientsInLobby(Protocol.printToGUI + "$" + ClientGameInfoHandler.itsDayTime + "$");
       } else {
         LOGGER.info("DAY");
         gameOverCheck = voteHandler.humanVote(gameState.getPassengerTrain(), this);
         setDay(false);
-        lobby.getAdmin().sendMsgToClientsInLobby(Protocol.printToGUI + "$" + ClientGameInfoHandler.itsNightTime);
+        lobby.getAdmin().sendMsgToClientsInLobby(Protocol.printToGUI + "$" + ClientGameInfoHandler.itsNightTime + "$");
       }
       if (gameOverCheck.equals(ClientGameInfoHandler.gameOverGhostsWin) || gameOverCheck.equals(
           ClientGameInfoHandler.gameOverHumansWin)) {
         if (gameOverCheck.equals(ClientGameInfoHandler.gameOverGhostsWin) && getOgGhost().getIsPlayer()) {
           OgGhostHighScore.addOgGhostWinner(getOgGhost().getName());
         }
+        lobby.getAdmin().sendMsgToClientsInLobby(Protocol.printToGUI + "$" + GuiParameters.viewChangeToLobby + "$");
         lobby.getAdmin().broadcastAnnouncementToLobby(gameOverCheck);
         lobby.removeGameFromRunningGames(this);
         lobby.addGameToFinishedGames(this);

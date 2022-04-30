@@ -23,7 +23,7 @@ public class GameStateModel {
    * can take the values h/g/s for human/ghost/spectator. Safes the role the client this GamesStateModel
    * lives on currently has
    */
-  private String yourRole;
+  private String yourRole; //TODO: Maybe add a GUI field to show this in
 
   /**
    * A primitive clone of the passengerTrain in the GameState of the server.

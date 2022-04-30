@@ -338,8 +338,19 @@ public class Client {
           }
           break;
         case GuiParameters.listOfLobbies:
+          //TODO
           break;
         case GuiParameters.listOfPLayers:
+          //TODO
+          break;
+        case GuiParameters.viewChangeToGame:
+          //TODO
+          break;
+        case GuiParameters.viewChangeToStart:
+          //TODO
+          break;
+        case GuiParameters.viewChangeToLobby:
+          //TODO
           break;
         default:
           notificationTextDisplay(data);

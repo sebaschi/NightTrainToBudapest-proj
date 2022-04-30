@@ -25,6 +25,21 @@ public class GuiParameters {
    */
   public static final String noiseHeardAtPosition = "NOISE";
 
+  /**
+   * Tells Gui, that the start view should be displayed
+   */
+  public static final String viewChangeToStart = "VCSTART";
+
+  /**
+   * Tells Gui, that the lobby view should be displayed
+   */
+  public static final String viewChangeToLobby = "VCLOBBY";
+
+  /**
+   * Tells Gui, that the game view should be displayed
+   */
+  public static final String viewChangeToGame = "VCGAME";
+
 
 
 }
