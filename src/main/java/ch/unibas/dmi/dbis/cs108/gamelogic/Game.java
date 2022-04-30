@@ -8,6 +8,8 @@ import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.HumanNPC;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.HumanPlayer;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Passenger;
 import ch.unibas.dmi.dbis.cs108.highscore.OgGhostHighScore;
+import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.GuiParameters;
+import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
 import ch.unibas.dmi.dbis.cs108.multiplayer.server.ClientHandler;
 import ch.unibas.dmi.dbis.cs108.multiplayer.server.Lobby;
 import java.util.HashSet;
@@ -76,6 +78,32 @@ public class Game implements Runnable {
     return null;
   }
 
+  public Game getGame() {
+    return this;
+  }
+
+  /**
+   * Initializes new thread that constantly sends a gameState update to all clients in this game
+   */
+  public void gameStateModelUpdater(){
+    new Thread(new Runnable() {
+      @Override
+      public void run() {
+        while (getGame().isOngoing) {
+          for (Passenger passenger : getGameState().getPassengerTrain()) {
+            passenger.send(GuiParameters.updateGameState, getGame());
+          }
+          try {
+            Thread.sleep(1000); //TODO: Is this a good intervall?
+          } catch (InterruptedException e) {
+            e.printStackTrace();
+          }
+        }
+      }
+    }).start();
+
+  }
+
   /**
    * Starts a new game, creates a passenger array and saves it in gameState, sets the OG
    * currently at gameState.train[3] fills the passengerTrain moving from left to rigth in the
@@ -119,17 +147,20 @@ public class Game implements Runnable {
       i++;
     }
     LOGGER.info(gameState.toString());
+    gameStateModelUpdater(); //TODO: does that work?
 
     i = 0;
-    while (isOngoing) {//game cycle
+    while (isOngoing) {//game cycle TODO: maybe check that more often inside game loop?!
       if (!isDay) {
         LOGGER.info("NIGHT");
         gameOverCheck = voteHandler.ghostVote(gameState.getPassengerTrain(), this);
         setDay(true);
+        lobby.getAdmin().sendMsgToClientsInLobby(Protocol.printToGUI + "$" + ClientGameInfoHandler.itsDayTime);
       } else {
         LOGGER.info("DAY");
         gameOverCheck = voteHandler.humanVote(gameState.getPassengerTrain(), this);
         setDay(false);
+        lobby.getAdmin().sendMsgToClientsInLobby(Protocol.printToGUI + "$" + ClientGameInfoHandler.itsNightTime);
       }
       if (gameOverCheck.equals(ClientGameInfoHandler.gameOverGhostsWin) || gameOverCheck.equals(
           ClientGameInfoHandler.gameOverHumansWin)) {

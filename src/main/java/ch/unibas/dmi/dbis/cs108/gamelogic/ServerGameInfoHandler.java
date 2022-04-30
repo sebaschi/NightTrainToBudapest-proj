@@ -4,6 +4,7 @@ import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.GhostNPC;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.HumanNPC;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Passenger;
+import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.GuiParameters;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -48,11 +49,10 @@ public class ServerGameInfoHandler {
    * won't get bored Formartiert Nachrichten die für einen Spectator gedacht sind.
    *
    * @param msg       the message to be formatted
-   * @param passenger the passenger getting the message
    * @param game      the game in wich the passenger lives
    * @return a message in a protocol format
    */
-  public static String spectatorFormat(String msg, Passenger passenger, Game game) {
+  public static String spectatorFormat(String msg, Game game) {
     switch (msg) {
       case ClientGameInfoHandler.ghostVoteRequest:
       case ClientGameInfoHandler.itsNightTime:
@@ -62,6 +62,9 @@ public class ServerGameInfoHandler {
       case ClientGameInfoHandler.itsDayTime:
         msg = Protocol.printToClientConsole + "$Humans are voting:" + game.gameState.toString();
         break;
+      case GuiParameters.updateGameState:
+        msg = Protocol.printToGUI + "$" + GuiParameters.updateGameState + game.getGameState().toString();
+            break;
       default:
         msg = Protocol.printToClientConsole + "$" + msg;
     }
@@ -110,7 +113,10 @@ public class ServerGameInfoHandler {
       case ClientGameInfoHandler.noiseNotification + 4 + " time(s)":
       case ClientGameInfoHandler.noiseNotification + 5 + " time(s)":
         String outMsg = npc.getName() + ": " + noiseRandomizer();
+        //TODO: add likelyhood
         game.getLobby().getAdmin().broadcastNpcChatMessageToLobby(outMsg);
+        game.getLobby().getAdmin().sendMsgToClientsInLobby(Protocol.printToGUI + GuiParameters.noiseHeardAtPosition
+            + "$" + npc.getPosition() + "$");
         break;
       case ClientGameInfoHandler.ghostVoteRequest:
         npc.vote(game);
@@ -133,6 +139,8 @@ public class ServerGameInfoHandler {
       case ClientGameInfoHandler.noiseNotification + 5 + " time(s)":
         String outMsg = npc.getName() + ": " + noiseRandomizer();
         game.getLobby().getAdmin().broadcastNpcChatMessageToLobby(outMsg);
+        game.getLobby().getAdmin().sendMsgToClientsInLobby(Protocol.printToGUI + GuiParameters.noiseHeardAtPosition
+            + "$" + npc.getPosition() + "$");
         break;
       case ClientGameInfoHandler.humanVoteRequest:
         npc.vote(game);

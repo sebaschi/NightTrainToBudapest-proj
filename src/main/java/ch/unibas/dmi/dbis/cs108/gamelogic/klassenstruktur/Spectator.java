@@ -29,6 +29,6 @@ public class Spectator extends Passenger{
    */
   @Override
   public void send(String msg, Game game) {
-    clientHandler.sendMsgToClient(ServerGameInfoHandler.spectatorFormat(msg, this, game));
+    clientHandler.sendMsgToClient(ServerGameInfoHandler.spectatorFormat(msg, game));
   }
 }

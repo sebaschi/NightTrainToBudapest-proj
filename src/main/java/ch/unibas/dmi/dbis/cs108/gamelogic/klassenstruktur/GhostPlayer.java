@@ -4,6 +4,8 @@ import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.gamelogic.ClientVoteData;
 import ch.unibas.dmi.dbis.cs108.gamelogic.Game;
 import ch.unibas.dmi.dbis.cs108.gamelogic.ServerGameInfoHandler;
+import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.GuiParameters;
+import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
 import ch.unibas.dmi.dbis.cs108.multiplayer.server.ClientHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -41,7 +43,12 @@ public class GhostPlayer extends Ghost {
    */
   @Override
   public void send(String msg, Game game) {
-    String formattedMsg = ServerGameInfoHandler.format(msg, this, game);
+    String formattedMsg;
+    if (msg.equals(GuiParameters.updateGameState)) {
+      formattedMsg = Protocol.printToGUI + "$" + GuiParameters.updateGameState + game.getGameState().toString();
+    } else {
+      formattedMsg = ServerGameInfoHandler.format(msg, this, game);
+    }
     clientHandler.sendMsgToClient(formattedMsg);
   }
 
