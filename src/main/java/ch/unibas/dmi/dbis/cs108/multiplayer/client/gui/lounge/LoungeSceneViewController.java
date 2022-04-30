@@ -65,7 +65,7 @@ public class LoungeSceneViewController implements Initializable {
   }
 
   public void addLobby(LobbyListItem lobby) {
-    LobbyTreeView.
+    //TODO fix/complete following code: LobbyTreeView. (commented out due to compiling error)
   }
 
   public void addClientToList(ClientListItem player) {

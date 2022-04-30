@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Tests the noise handling of the game: will the passengers the ghost(s) walk(ed) by while going to
  * their victim receive the right amount of noise notifications? Since the noises heard by
  * passengers are stored in designated noiseAmount arrays, the following tests check if the content
- * of those arrays match expected values. Different cases are being analyzed: ghost infects victim
+ * of those arrays matches expected values. Different cases are being analyzed: ghost infects victim
  * while being on his right / on his left; two ghosts infect a victim while coming from the same
  * side / from different sides; four ghosts dispersed all over the train infect a victim.
  */

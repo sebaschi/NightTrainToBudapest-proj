@@ -345,22 +345,22 @@ public class Client {
           }
           break;
         case GuiParameters.listOfLobbies:
-          updateListOfLobbies(data);
+          //updateListOfLobbies(data); (commented out due to compiling error)
           //TODO
           break;
         case GuiParameters.listOfPLayers:
           updateListOfClients(data);
           //TODO
           break;
-        case GuiParameters.viewChangeToGame:
+        //case GuiParameters.viewChangeToGame: (commented out due to compiling error)
           //TODO
-          break;
-        case GuiParameters.viewChangeToStart:
+          //break; (commented out due to compiling error)
+        //case GuiParameters.viewChangeToStart: (commented out due to compiling error)
           //TODO
-          break;
-        case GuiParameters.viewChangeToLobby:
+          //break; (commented out due to compiling error)
+        //case GuiParameters.viewChangeToLobby: (commented out due to compiling error)
           //TODO
-          break;
+          //break; (commented out due to compiling error)
         default:
           notificationTextDisplay(data);
           //TODO(Sebi,Seraina): should the gameController be in the Application just like the ChatController?
