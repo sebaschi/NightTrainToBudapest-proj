@@ -49,8 +49,12 @@ public class LoungeSceneViewController implements Initializable {
   public static final Logger LOGGER = LogManager.getLogger(LoungeSceneViewController.class);
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
+
+
   @FXML
   private TextFlow highScore;
+  @FXML
+  public TextFlow lobbyPrint;
   @FXML
   private SplitPane chatSplitPane;
   @FXML
@@ -61,6 +65,8 @@ public class LoungeSceneViewController implements Initializable {
   public Button highScoreButton;
   @FXML
   private Button leaveLobbyButton;
+  @FXML
+  private Button lobbyPrintButton;
   @FXML
   private Button startGame;
   @FXML
@@ -495,6 +501,14 @@ public class LoungeSceneViewController implements Initializable {
     client.getClient().sendMsgToServer(Protocol.highScoreList);
   }
 
+  public void sendLilstle() {
+    client.getClient().sendMsgToServer(Protocol.listLobbies);
+  }
+
+  /**
+   * Adds a String to the highScore Text Flow
+   * @param data the String to be added
+   */
   public void addHighScore(String data) {
     String[] arguments = data.split("/n");
     LOGGER.debug(arguments.length);
@@ -508,6 +522,38 @@ public class LoungeSceneViewController implements Initializable {
           text.setFill(Color.BLACK);
           highScore.getChildren().add(text);
         }
+      }
+    });
+  }
+
+  /**
+   * Adds a String to the lobbyPrint TextFlow
+   * @param data the String to be added
+   * */
+  public void addLobbyPrint(String data) {
+    String[] arguments = data.split("/n");
+    LOGGER.debug(arguments.length);
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        for(String argument : arguments) {
+          LOGGER.debug("HighScore " + argument);
+          Text text = new Text(argument + System.lineSeparator());
+          text.setFill(Color.BLACK);
+          lobbyPrint.getChildren().add(text);
+        }
+      }
+    });
+  }
+
+  /**
+   * Clears the lobbyPrint TextFlow
+   */
+  public void clearLobbyPrint() {
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        lobbyPrint.getChildren().clear();
       }
     });
   }

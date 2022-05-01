@@ -86,5 +86,14 @@ public class GuiParameters {
    */
   public static final String removePlayerFromList = "RMVLST";
 
+  /**
+   * Tells Gui to update its HighScore TextFlow according to the following data
+   */
   public static final String updateHighScore = "HISCR";
+
+  /**
+   * Tells Gui to add a String to printLobby TextFlow - a provisory solution in case ListeView won't
+   * pan out
+   */
+  public static final String updatePrintLobby = "PRLOBB";
 }

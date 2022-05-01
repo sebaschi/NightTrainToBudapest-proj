@@ -564,6 +564,46 @@ public class ClientHandler implements Runnable {
   }
 
   /**
+   * Lists all lobbies and their members, along with players outside lobbies to this clientHandler's
+   * client a GUI message in a form, the gui can decode.
+   */
+  public void listLobbiesGuiFormat() {
+    StringBuilder stringBuilder = new StringBuilder();
+    if (Lobby.lobbies.isEmpty()) {
+      stringBuilder.append("No Lobbies.").append("/n");
+    } else {
+      for (Lobby l : Lobby.lobbies) {
+        String lobbyStatus = "closed";
+        if (l.getLobbyIsOpen()) {
+          lobbyStatus = "open";
+        }
+        stringBuilder.append("Lobby nr. " + l.getLobbyID() + ": (" + lobbyStatus + ")").append("/n");
+        for (ClientHandler c : l.getLobbyClients()) {
+          if (c.equals(l.getAdmin())) {
+            stringBuilder.append("  -" + c.getClientUserName() + " (admin)").append("/n");
+          } else {
+            stringBuilder.append("  -" + c.getClientUserName()).append("/n");
+          }
+        }
+      }
+    }
+    boolean helper = false;           //used to print "Clients not in lobbies" only once, if needed.
+    for (ClientHandler c : connectedClients) {
+      if (Lobby.clientIsInLobby(c) == -1) {
+        if (!helper) {
+          helper = true;
+          stringBuilder.append("Clients not in lobbies:").append("/n");
+        }
+        stringBuilder.append("  -").append(c.getClientUserName()).append("/n");
+      }
+    }
+    if (!helper) {
+      stringBuilder.append("No clients outside of lobbies").append("/n");
+    }
+    sendMsgToClient(Protocol.printToGUI + "$" + GuiParameters.updatePrintLobby + "$" + stringBuilder.toString());
+  }
+
+  /**
    * Lists all players in the client's lobby. If the client is not in a Lobby, it will say "You are
    * not in a lobby."
    */

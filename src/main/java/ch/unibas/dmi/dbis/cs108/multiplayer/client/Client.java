@@ -406,6 +406,10 @@ public class Client {
         case GuiParameters.updateHighScore:
           chatApp.getLoungeSceneViewController().addHighScore(data);
           break;
+        case GuiParameters.updatePrintLobby:
+          chatApp.getLoungeSceneViewController().clearLobbyPrint();
+          chatApp.getLoungeSceneViewController().addLobbyPrint(data);
+          break;
         default:
           notificationTextDisplay(data);
           //TODO(Sebi,Seraina): should the gameController be in the Application just like the ChatController?

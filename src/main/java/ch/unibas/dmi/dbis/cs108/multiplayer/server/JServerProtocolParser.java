@@ -99,6 +99,7 @@ public class JServerProtocolParser {
         break;
       case Protocol.listLobbies:
         h.listLobbies();
+        h.listLobbiesGuiFormat();
         break;
       case Protocol.listPlayersInLobby:
         h.listPlayersInLobby();
