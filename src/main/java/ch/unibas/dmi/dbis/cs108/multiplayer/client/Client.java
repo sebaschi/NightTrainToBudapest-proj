@@ -402,6 +402,9 @@ public class Client {
           chatApp.getLoungeSceneViewController().clearLobbyPrint();
           chatApp.getLoungeSceneViewController().addLobbyPrint(data);
           break;
+        case GuiParameters.removeLobby:
+          removeLobbyFromGui(data);
+          break;
         default:
           notificationTextDisplay(data);
           //TODO(Sebi,Seraina): should the gameController be in the Application just like the ChatController?
@@ -412,6 +415,11 @@ public class Client {
 
     }
 
+  }
+
+  private void removeLobbyFromGui(String data) {
+    loungeSceneViewController.removeLobbyFromView(data);
+    LOGGER.debug("Made it into removeLobbyFromGui()");
   }
 
   private void addNewPlayerToGui(String data) {

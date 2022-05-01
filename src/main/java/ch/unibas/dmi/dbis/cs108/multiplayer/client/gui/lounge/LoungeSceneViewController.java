@@ -50,7 +50,6 @@ public class LoungeSceneViewController implements Initializable {
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
 
-
   @FXML
   private TextFlow highScore;
   @FXML
@@ -312,7 +311,7 @@ public class LoungeSceneViewController implements Initializable {
     LobbyListView.setVisible(true);
   }
 
-  /** 
+  /**
    * Adds the gameView to the existing LobbyView
    */
   public void addGameView() {
@@ -365,10 +364,10 @@ public class LoungeSceneViewController implements Initializable {
   }
 
   /**
-   * Adds players to a lobby
-   * "NMEMB" {@link ch.unibas.dmi.dbis.cs108.multiplayer.helpers.GuiParameters}
+   * Adds players to a lobby "NMEMB" {@link ch.unibas.dmi.dbis.cs108.multiplayer.helpers.GuiParameters}
+   *
    * @param lobbyID the Id the Player belongs to
-   * @param player the player to be added
+   * @param player  the player to be added
    */
   public void addPlayerToLobby(String lobbyID, String player) {
     LOGGER.debug("Lobby ID: " + lobbyID + " player: " + player);
@@ -376,13 +375,13 @@ public class LoungeSceneViewController implements Initializable {
       @Override
       public void run() {
         Iterator<ClientListItem> itr = clients.iterator();
-            while(itr.hasNext()){
-              ClientListItem cl = itr.next();
-              if(cl.getName().equals(player)){
-                LobbyListItem li = lobbyIDtoLobbyMop.get(lobbyID);
-                li.getClientsInLobby().add(cl);
-              }
-            }
+        while (itr.hasNext()) {
+          ClientListItem cl = itr.next();
+          if (cl.getName().equals(player)) {
+            LobbyListItem li = lobbyIDtoLobbyMop.get(lobbyID);
+            li.getClientsInLobby().add(cl);
+          }
+        }
 
       }
     });
@@ -392,7 +391,7 @@ public class LoungeSceneViewController implements Initializable {
    * Used when a new lobby shall be added to the view. "NLOBBY" {@link
    * ch.unibas.dmi.dbis.cs108.multiplayer.helpers.GuiParameters}
    *
-   * @param lobbyID the ID of the new lobby
+   * @param lobbyID   the ID of the new lobby
    * @param adminName the name of the Lobby admin
    */
   public void newLobby(String lobbyID, String adminName) {
@@ -411,7 +410,7 @@ public class LoungeSceneViewController implements Initializable {
     }
     LobbyListItem item = new LobbyListItem(id, admin, new SimpleBooleanProperty(ownedByClient),
         new SimpleBooleanProperty(true), new SimpleIntegerProperty(0));
-    lobbyIDtoLobbyMop.put(lobbyID,item);
+    lobbyIDtoLobbyMop.put(lobbyID, item);
     LOGGER.debug("In newLobby()2  LobbyListView" + LobbyListView);
     Platform.runLater(new Runnable() {
       @Override
@@ -430,6 +429,7 @@ public class LoungeSceneViewController implements Initializable {
 
   /**
    * Send the joinLobby Protocol message
+   *
    * @param lobbyID the Lobby to be joinded
    */
   public void joinGame(String lobbyID) {
@@ -480,9 +480,10 @@ public class LoungeSceneViewController implements Initializable {
 
   /**
    * Sould remove a client of a certain name from the ListView
+   *
    * @param name the name of the client to be removed
    */
-  public void removeClientFromList(String name){
+  public void removeClientFromList(String name) {
     Iterator<ClientListItem> it = clients.iterator();
     while (it.hasNext()) {
       String uid = it.next().getName();
@@ -490,9 +491,10 @@ public class LoungeSceneViewController implements Initializable {
         it.remove();
         break;
       }
-    }  }
+    }
+  }
 
-  public void removeClientFromLobby(String s){
+  public void removeClientFromLobby(String s) {
     //todo
   }
 
@@ -544,6 +546,7 @@ public class LoungeSceneViewController implements Initializable {
 
   /**
    * Adds a String to the highScore Text Flow
+   *
    * @param data the String to be added
    */
   public void addHighScore(String data) {
@@ -553,7 +556,7 @@ public class LoungeSceneViewController implements Initializable {
       @Override
       public void run() {
         highScore.getChildren().clear();
-        for(String argument : arguments) {
+        for (String argument : arguments) {
           LOGGER.debug("HighScore " + argument);
           Text text = new Text(argument + System.lineSeparator());
           text.setFill(Color.BLACK);
@@ -565,15 +568,16 @@ public class LoungeSceneViewController implements Initializable {
 
   /**
    * Adds a String to the lobbyPrint TextFlow
+   *
    * @param data the String to be added
-   * */
+   */
   public void addLobbyPrint(String data) {
     String[] arguments = data.split("/n");
     LOGGER.debug(arguments.length);
     Platform.runLater(new Runnable() {
       @Override
       public void run() {
-        for(String argument : arguments) {
+        for (String argument : arguments) {
           LOGGER.debug("HighScore " + argument);
           Text text = new Text(argument + System.lineSeparator());
           text.setFill(Color.BLACK);
@@ -593,6 +597,19 @@ public class LoungeSceneViewController implements Initializable {
         lobbyPrint.getChildren().clear();
       }
     });
+  }
+
+  public void removeLobbyFromView(String data) {
+    Iterator<LobbyListItem> itr = lobbies.iterator();
+    while (itr.hasNext()) {
+      LobbyListItem item = itr.next();
+      if (item.getLobbyID().equals(data)) {
+        itr.remove();
+        LOGGER.debug(
+            "Made it into removeLobbyFromView if clause for lobby w/ ID: " + item.getLobbyID()
+                + " for data passed: " + data);
+      }
+    }
   }
 }
 

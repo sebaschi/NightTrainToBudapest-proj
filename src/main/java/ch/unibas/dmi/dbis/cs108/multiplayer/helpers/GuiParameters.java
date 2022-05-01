@@ -96,4 +96,9 @@ public class GuiParameters {
    * pan out
    */
   public static final String updatePrintLobby = "PRLOBB";
+
+  /**
+   * Tells gui to remove a lobby from view. Form: {@code RMVLBY$<LobbyID>}
+   */
+  public static final String removeLobby = "RMVLBY";
 }

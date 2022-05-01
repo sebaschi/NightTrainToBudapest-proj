@@ -516,6 +516,12 @@ public class ClientHandler implements Runnable {
     if (l != null) {
       l.removePlayer(this);
       Game game = l.getGame();
+      if(l.getAdmin().equals(getClientUserName())){
+        //Lobby closed because admin left. Lobby must be removed from gui view
+        guiUpdateAll(Protocol.printToGUI+"$"+GuiParameters.removeLobby+"$"+l.getLobbyID());
+      }else{
+        //client just leaves lobby
+      }
       if (game != null) {
         l.getGame().getGameState().handleClientDisconnect(this);
         l.removeGameFromRunningGames(game);
