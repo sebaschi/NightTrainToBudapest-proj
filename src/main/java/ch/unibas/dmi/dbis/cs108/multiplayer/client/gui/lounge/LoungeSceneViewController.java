@@ -335,7 +335,7 @@ public class LoungeSceneViewController implements Initializable {
     });
   }
 
-  public void updateClientListView(ObservableList<SimpleStringProperty> names) {
+  public void updateClientListView(ObservableList<ClientListItem> names) {
     ObservableList<ClientListItem> clientsLeft = ClientListView.getItems();
     clientsLeft.removeAll(names);
     this.ClientListView.setItems(names);
