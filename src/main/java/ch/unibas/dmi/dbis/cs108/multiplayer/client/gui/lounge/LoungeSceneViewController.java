@@ -127,7 +127,24 @@ public class LoungeSceneViewController implements Initializable {
       @Override
       public void run() {
         try {
+          newGameButton.setVisible(false);
+          startGame.setVisible(false);
           gameAnchorPane.getChildren().add(chatApp.game);
+        } catch (Exception e) {
+          LOGGER.debug("Not yet initialized");
+        }
+      }
+    });
+  }
+
+  public void removeGameView(){
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        try {
+          newGameButton.setVisible(true);
+          startGame.setVisible(true);
+          gameAnchorPane.getChildren().clear();
         } catch (Exception e) {
           LOGGER.debug("Not yet initialized");
         }
@@ -203,7 +220,7 @@ public class LoungeSceneViewController implements Initializable {
 
   public void startGame() {
     client.getClient().sendMsgToServer(Protocol.startANewGame);
-    addGameView();
+    //addGameView();
   }
 
   public void leaveLobby() {client.getClient().sendMsgToServer(Protocol.leaveLobby);}

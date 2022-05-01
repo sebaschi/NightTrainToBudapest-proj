@@ -99,6 +99,10 @@ public class ChatApp extends Application {
     return chatController;
   }
 
+  public LoungeSceneViewController getLoungeSceneViewController() {
+    return loungeSceneViewController;
+  }
+
   public LoungeSceneViewController getlSVController() {
     return lSVController;
   }

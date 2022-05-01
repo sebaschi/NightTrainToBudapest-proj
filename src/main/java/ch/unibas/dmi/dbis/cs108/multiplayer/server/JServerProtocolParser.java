@@ -104,7 +104,7 @@ public class JServerProtocolParser {
         break;
       case Protocol.leaveLobby:
         h.leaveLobby();
-        //h.sendMsgToClient(Protocol.printToGUI + "$" + GuiParameters.viewChangeToStart + "$"); (commented out due to compiling error)
+        h.sendMsgToClient(Protocol.printToGUI + "$" + GuiParameters.viewChangeToStart + "$");
         break;
       case Protocol.votedFor:
         LOGGER.debug("Made it here");
@@ -113,7 +113,7 @@ public class JServerProtocolParser {
         break;
       case Protocol.startANewGame:
         h.startNewGame();
-        //h.sendMsgToClientsInLobby(Protocol.printToGUI + "$" + GuiParameters.viewChangeToGame + "$"); (commented out due to compiling error)
+        h.sendMsgToClientsInLobby(Protocol.printToGUI + "$" + GuiParameters.viewChangeToGame + "$");
         break;
       case Protocol.listGames:
         h.listGames();
