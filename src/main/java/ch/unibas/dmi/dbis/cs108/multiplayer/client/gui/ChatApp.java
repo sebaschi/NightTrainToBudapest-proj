@@ -65,11 +65,19 @@ public class ChatApp extends Application {
     this.gameC = gameC;
   }
 
+  /**
+   * are u sure this is the field you want to get?
+   * @param lSVController a LoungeSceneViewController
+   */
   public void setlSVController(
       LoungeSceneViewController lSVController) {
     this.lSVController = lSVController;
   }
 
+  /**
+   * are u sure this is the field you want to get?
+   * @return the clientModel of this chatApp
+   */
   public ClientModel getcModel() {
     return cModel;
   }
@@ -79,6 +87,10 @@ public class ChatApp extends Application {
     ChatApp.gameController = gameController;
   }
 
+  /**
+   * needs to be called, if the gameController needs to be accessed from outside the application thread
+   * @return the relevant GameController
+   */
   public GameController getGameController() {
     return gameController;
   }
@@ -95,17 +107,30 @@ public class ChatApp extends Application {
     return clientModel;
   }
 
+  /**
+   * needs to be called, if the chatController needs to be accessed from outside the application thread
+   * @return the relevant ChatController
+   */
   public ChatController getChatController() {
     return chatController;
   }
 
+  /**
+   * needs to be called, if the LoungeSceneViewController needs to be accessed from outside the application thread
+   * @return the relevant LoungeSceneViewController
+   */
   public LoungeSceneViewController getLoungeSceneViewController() {
     return loungeSceneViewController;
   }
 
+  /**
+   * Sure this is the field u want? not the static one?
+   * @return a LoungeSceneViewController
+   */
   public LoungeSceneViewController getlSVController() {
     return lSVController;
   }
+
 
   public static void setLoungeSceneViewController(LoungeSceneViewController controller) {
     loungeSceneViewController = controller;

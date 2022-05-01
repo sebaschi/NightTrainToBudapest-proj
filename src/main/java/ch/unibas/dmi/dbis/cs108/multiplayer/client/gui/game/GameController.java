@@ -236,6 +236,7 @@ public class GameController implements Initializable {
 
   /**
    * Updates the labels of the rooms accordingly to the datastructures in GameStateModel
+   * TODO(Seraina): use a method to shorten, its madness
    */
   public void updateRoomLabels() {
     LOGGER.debug("roomlables update");
@@ -338,6 +339,10 @@ public class GameController implements Initializable {
     });
   }
 
+  /**
+   * loads the notification Bell from resource
+   * @return the Image node containing the BellImage
+   */
   public Image loadBellImage() {
     Image bell = new Image("ch/unibas/dmi/dbis/cs108/multiplayer/client/gui/game/DayOpen/bell.png");
     return bell;

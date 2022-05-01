@@ -312,6 +312,9 @@ public class LoungeSceneViewController implements Initializable {
     LobbyListView.setVisible(true);
   }
 
+  /** 
+   * Adds the gameView to the existing LobbyView
+   */
   public void addGameView() {
     Platform.runLater(new Runnable() {
       @Override
@@ -327,6 +330,9 @@ public class LoungeSceneViewController implements Initializable {
     });
   }
 
+  /**
+   * Removes the GameView again - needed when a game is over or a lobby is left
+   */
   public void removeGameView() {
     Platform.runLater(new Runnable() {
       @Override
@@ -342,6 +348,9 @@ public class LoungeSceneViewController implements Initializable {
     });
   }
 
+  /**
+   * Adds the ChatView to the LobbyView, should be done right in the initialisation
+   */
   public void addChatView() {
     Platform.runLater(new Runnable() {
       @Override
@@ -419,20 +428,33 @@ public class LoungeSceneViewController implements Initializable {
     LOGGER.debug("In newLobby()3  LobbyListView" + LobbyListView);
   }
 
+  /**
+   * Send the joinLobby Protocol message
+   * @param lobbyID the Lobby to be joinded
+   */
   public void joinGame(String lobbyID) {
     client.getClient().sendMsgToServer(Protocol.joinLobby + "$" + lobbyID);
   }
 
+  /**
+   * Sends the startNewGame Protocol message
+   */
   public void startGame() {
     client.getClient().sendMsgToServer(Protocol.startANewGame);
     //addGameView();
   }
 
+  /**
+   * Sends the leaveLobby protocol message
+   */
   public void leaveLobby() {
     client.getClient().sendMsgToServer(Protocol.leaveLobby);
     removeGameView();
   }
 
+  /**
+   * Sends the Quit protocol message
+   */
   public void leaveServer() {
     client.getClient().sendMsgToServer(Protocol.clientQuitRequest);
   }
@@ -456,6 +478,10 @@ public class LoungeSceneViewController implements Initializable {
 
   }
 
+  /**
+   * Sould remove a client of a certain name from the ListView
+   * @param name the name of the client to be removed
+   */
   public void removeClientFromList(String name){
     Iterator<ClientListItem> it = clients.iterator();
     while (it.hasNext()) {
@@ -470,11 +496,16 @@ public class LoungeSceneViewController implements Initializable {
     //todo
   }
 
+  /**
+   * Sends the create New Lobby Protocol message
+   */
   public void newGame() {
     client.getClient().sendMsgToServer(Protocol.createNewLobby);
   }
 
-
+  /**
+   * Sends the nameChange command, taking the new Name from the TextFlied
+   */
   public void changeName() {
     TextField name = new TextField();
     name.setPromptText("Enter new Nickname!");
@@ -497,10 +528,16 @@ public class LoungeSceneViewController implements Initializable {
     LoungeSceneViewController.client = client;
   }
 
+  /**
+   * Sends the highScore request message
+   */
   public void sendHIghScore() {
     client.getClient().sendMsgToServer(Protocol.highScoreList);
   }
 
+  /**
+   * Sends the listLobbies protocol message
+   */
   public void sendLilstle() {
     client.getClient().sendMsgToServer(Protocol.listLobbies);
   }
