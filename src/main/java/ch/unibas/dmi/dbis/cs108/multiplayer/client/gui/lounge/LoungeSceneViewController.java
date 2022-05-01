@@ -78,6 +78,9 @@ public class LoungeSceneViewController implements Initializable {
   @FXML
   private ToolBar NTtBToolBar;
 
+  public static ListView<LobbyListItem> lListView;
+  public static ListView<ClientListItem> cListView;
+
   public static ClientModel client;
   private static ChatApp chatApp;
   private ChatApp cApp;
@@ -116,6 +119,7 @@ public class LoungeSceneViewController implements Initializable {
     LeaveServerButton.setOnAction(event -> leaveServer());
     newGameButton.setOnAction(event -> newGame());
     LobbyListView.setVisible(true);
+    lListView = LobbyListView;
     LOGGER.debug("Lobby in initialize" + LobbyListView);
     ClientListView.setVisible(true);
     ClientListView.setItems(clients);
@@ -124,7 +128,6 @@ public class LoungeSceneViewController implements Initializable {
     ClientListView.setItems(clients);
     ClientListView.setCellFactory(param -> {
       ListCell<ClientListItem> cell = new ListCell<>() {
-
         Label name = new Label();
         Label id = new Label();
         HBox nameAndId = new HBox(name, id);
@@ -202,7 +205,6 @@ public class LoungeSceneViewController implements Initializable {
     LOGGER.debug("In Initialize 2 LobbyListView" + LobbyListView);
     LobbyListView.setCellFactory(param -> {
       ListCell<LobbyListItem> cell = new ListCell<>() {
-
         Label lobbyID = new Label();
         Label adminName = new Label();
         Label lobbyIsOpen = new Label();
@@ -364,7 +366,8 @@ public class LoungeSceneViewController implements Initializable {
    * @param adminName
    */
   public void newLobby(String lobbyID, String adminName) {
-    LOGGER.debug("In newLobby()0  LobbyListView" + LobbyListView);
+    LobbyListView = lListView;
+    LOGGER.debug("In newLobby()0  LobbyListView" + lListView);
     LOGGER.debug("New lobby with ID " + lobbyID + " and admin " + adminName);
     SimpleStringProperty id = new SimpleStringProperty(lobbyID);
     SimpleStringProperty admin = new SimpleStringProperty((adminName));
@@ -384,6 +387,7 @@ public class LoungeSceneViewController implements Initializable {
       @Override
       public void run() {
         lobbies.add(item);
+        LobbyListView.getItems().add(item);
         LOGGER.debug("within newLobby() run() thread");
         LOGGER.debug(item.toString());
         LOGGER.debug("In newLobby() run() " + LobbyListView);
