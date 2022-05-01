@@ -36,7 +36,11 @@ public class ServerGameInfoHandler {
         msg = Protocol.serverRequestsHumanVote + "$" + passenger.getPosition() + "$";
         break;
       default:
-        msg = Protocol.printToClientConsole + "$" + msg;
+        if(!msg.contains("$")) {
+          msg = Protocol.printToClientConsole + "$" + msg;
+        } else {
+          msg = msg;
+        }
     }
     LOGGER.debug(msg);
     return msg;
@@ -64,7 +68,11 @@ public class ServerGameInfoHandler {
         msg = Protocol.printToGUI + "$" + GuiParameters.updateGameState + game.getGameState().toString();
             break;
       default:
-        msg = Protocol.printToClientConsole + "$" + msg;
+        if(!msg.contains("$")) {
+          msg = Protocol.printToClientConsole + "$" + msg;
+        } else {
+          msg = msg;
+        }
     }
     LOGGER.debug(msg);
     return msg;
@@ -112,7 +120,6 @@ public class ServerGameInfoHandler {
       case ClientGameInfoHandler.noiseNotification + 5 + " time(s)":
         String outMsg = npc.getName() + ": " + noiseRandomizer();
         //TODO: add likelyhood
-        Timer.ghostAfterVoteTimer();
         game.getLobby().getAdmin().broadcastNpcChatMessageToLobby(outMsg);
         game.getLobby().getAdmin().sendMsgToClientsInLobby(Protocol.printToGUI + "$" + GuiParameters.noiseHeardAtPosition
             + "$" + npc.getPosition());
@@ -137,7 +144,6 @@ public class ServerGameInfoHandler {
       case ClientGameInfoHandler.noiseNotification + 4 + " time(s)":
       case ClientGameInfoHandler.noiseNotification + 5 + " time(s)":
         String outMsg = npc.getName() + ": " + noiseRandomizer();
-        Timer.ghostAfterVoteTimer();
         game.getLobby().getAdmin().broadcastNpcChatMessageToLobby(outMsg);
         game.getLobby().getAdmin().sendMsgToClientsInLobby(Protocol.printToGUI + "$" + GuiParameters.noiseHeardAtPosition
             + "$" + npc.getPosition());

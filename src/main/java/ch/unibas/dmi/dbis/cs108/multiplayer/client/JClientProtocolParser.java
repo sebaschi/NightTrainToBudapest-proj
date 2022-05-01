@@ -39,6 +39,7 @@ public class JClientProtocolParser {
         c.clientPinger.setGotPingBack(true);
         break;
       case Protocol.printToClientConsole:
+        LOGGER.debug(msg);
         System.out.println(msg.substring(6));
         if (!msg.substring(6).equals("Your vote was invalid")) {
           c.notificationTextDisplay(msg.substring(6));
@@ -83,8 +84,9 @@ public class JClientProtocolParser {
         } catch (Exception e) {
           LOGGER.warn(msg.substring(6));
         }
+        break;
         default:
-        System.out.println("Received unknown command");
+        System.out.println("Received unknown command: " + msg);
     }
   }
 }

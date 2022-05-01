@@ -68,7 +68,6 @@ public class VoteHandler {
       }
     }
     LOGGER.info("Most votes for: " + newGhostPosition);
-    Timer.ghostAfterVoteTimer();
     for(Passenger passenger : passengers) {
       if(passenger.getIsGhost() || passenger.getIsSpectator()) {
         passenger.send(passengers[newGhostPosition].getName() + ClientGameInfoHandler.gotGhostyfied, game);
@@ -87,7 +86,6 @@ public class VoteHandler {
     walk by is being updated. Finally, each passenger receives information about how often he heard something during
     this night. The player who's just been ghostified is ignored since he didn't participate in this night's
     ghostification. */
-    Timer.ghostAfterVoteTimer();
     int[] noiseAmount = new int[6];
     for (int i = 0; i < passengers.length; i++) {
       if (passengers[i].getIsGhost() && i != newGhostPosition) {

@@ -117,7 +117,6 @@ public class GameStateModel {
         j = right.indexOf(':');
         roles[i] = right.substring(0, j);
         kickedOff[i] = Boolean.parseBoolean(right.substring(j + 1));
-        LOGGER.info(kickedOff[i]);
         i++;
       }
       setPassengerTrainClone(names, roles);

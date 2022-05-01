@@ -268,7 +268,7 @@ public class GameController implements Initializable{
   if(kickedOff[1]) {
    role1 = new Text("\nkicked off");
   } else {
-   role1 = new Text("\n" + roles[0]);
+   role1 = new Text("\n" + roles[1]);
   }
   role1.setStyle("-fx-font: 25 arial;");
   role1.setFill(Color.WHITE);
@@ -276,7 +276,7 @@ public class GameController implements Initializable{
   if(kickedOff[2]) {
    role2 = new Text("\nkicked off");
   } else {
-   role2 = new Text("\n" + roles[0]);
+   role2 = new Text("\n" + roles[2]);
   }
   role2.setStyle("-fx-font: 25 arial;");
   role2.setFill(Color.WHITE);
@@ -284,7 +284,7 @@ public class GameController implements Initializable{
   if(kickedOff[3]) {
    role3 = new Text("\nkicked off");
   } else {
-   role3 = new Text("\n" + roles[0]);
+   role3 = new Text("\n" + roles[3]);
   }
   role3.setStyle("-fx-font: 25 arial;");
   role3.setFill(Color.WHITE);
@@ -292,7 +292,7 @@ public class GameController implements Initializable{
   if(kickedOff[4]) {
    role4 = new Text("\nkicked off");
   } else {
-   role4 = new Text("\n" + roles[0]);
+   role4 = new Text("\n" + roles[4]);
   }
   role4.setStyle("-fx-font: 25 arial;");
   role4.setFill(Color.WHITE);
@@ -300,7 +300,7 @@ public class GameController implements Initializable{
   if(kickedOff[5]) {
    role5 = new Text("\nkicked off");
   } else {
-   role5 = new Text("\n" + roles[0]);
+   role5 = new Text("\n" + roles[5]);
   }
   role5.setStyle("-fx-font: 25 arial;");
   role5.setFill(Color.WHITE);

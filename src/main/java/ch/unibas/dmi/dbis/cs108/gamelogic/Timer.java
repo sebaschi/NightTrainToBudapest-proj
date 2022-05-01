@@ -40,6 +40,11 @@ public class Timer {
   public static final int interval = 1;
 
   /**
+   * The minimal vote time, in seconds
+   */
+  public static final int minVoteTime = 5;
+
+  /**
    * The timer for the ghost vote. Checks every {@code interval} seconds if every ghost has already voted.
    * If all have voted or if the {@code ghostVoteTime} value is reached, the timer ends
    * @param game the game this Timer has been called in
@@ -47,7 +52,7 @@ public class Timer {
   public static void ghostVoteTimer(Game game) {
     int counter = 0;
     while(counter < ghostVoteTime) {
-      if(haveAllGhostsVoted(game)) { //if all ghost have voted
+      if(haveAllGhostsVoted(game) && counter > minVoteTime) { //if all ghost have voted
         return;
       }
       try {
@@ -62,7 +67,7 @@ public class Timer {
   public static void humanVoteTimer(Game game) {
     int counter = 0;
     while (counter < humanVoteTime) {
-      if (haveAllHumansVoted(game)) return;
+      if (haveAllHumansVoted(game) && counter > minVoteTime) return;
       try {
         Thread.sleep(interval*1000);
       } catch (InterruptedException e) {

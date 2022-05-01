@@ -346,6 +346,7 @@ public class Client {
           break;
         case GuiParameters.day: //ClientGameInfoHandler
           gameStateModel.setDayClone(true);
+          chatApp.getGameController().setNoiseButtonVisible();
           break;
         case GuiParameters.updateGameState:
           gameStateModel.setGSFromString(data);
