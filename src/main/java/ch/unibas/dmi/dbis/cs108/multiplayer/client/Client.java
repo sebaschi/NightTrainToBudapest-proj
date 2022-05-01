@@ -341,11 +341,11 @@ public class Client {
    * @param parameter a string according to {@link GuiParameters} and {@link ClientGameInfoHandler}
    *                  can be empty
    * @param data      some information in a string, separators can be $ or :
-   *                                   TODO(Seraina&Sebi): evtl. auslagern?
+   *                                                                     TODO(Seraina&Sebi): evtl. auslagern?
    */
   public void sendToGUI(String parameter, String data) {
     try {
-      if(!parameter.equals(GuiParameters.updateGameState)) {
+      if (!parameter.equals(GuiParameters.updateGameState)) {
         LOGGER.debug("GUI: PARAMETER:" + parameter + ", DATA: " + data);
       }
       switch (parameter) {
@@ -366,7 +366,7 @@ public class Client {
             int position = Integer.parseInt(data);
             determineNoiseDisplay(position);
           } catch (Exception e) {
-            LOGGER.warn("Not a position given for noise " +e.getMessage());
+            LOGGER.warn("Not a position given for noise " + e.getMessage());
           }
           break;
         case GuiParameters.listOfLobbies:
@@ -404,6 +404,7 @@ public class Client {
       }
     } catch (Exception e) {
       LOGGER.warn("Communication with GUI currently not possible: " + e.getMessage());
+      LOGGER.debug(e.getCause() + "  " + e.getStackTrace().toString());
 
     }
 
@@ -441,9 +442,8 @@ public class Client {
     ObservableList<SimpleStringProperty> list = new SimpleListProperty<>();
     int n = arr.length;
     for (int i = 0; i < n; i = i + 1) {
-      list.add(new SimpleStringProperty(arr[i]));
+      loungeSceneViewController.addClientToList(arr[i]);
     }
-    loungeSceneViewController.updateClientListView(list);
   }
 
   /**

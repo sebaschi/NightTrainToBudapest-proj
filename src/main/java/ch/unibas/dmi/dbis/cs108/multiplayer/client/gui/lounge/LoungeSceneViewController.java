@@ -1,10 +1,12 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge;
 
+import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ClientModel;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ChatApp;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.events.ChangeNameButtonPressedEventHandler;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.events.LeaveServerButtonPressedEventHandler;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
+import ch.unibas.dmi.dbis.cs108.multiplayer.server.JServerProtocolParser;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -12,6 +14,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.beans.binding.StringBinding;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleMapProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -24,6 +28,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -34,19 +39,24 @@ import javafx.scene.control.ToolBar;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class LoungeSceneViewController implements Initializable {
 
+  public static final Logger LOGGER = LogManager.getLogger(JServerProtocolParser.class);
+  public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   @FXML
   public Button leaveLobbyButton;
   @FXML
   public Button newGameButton;
   @FXML
-  private ListView<HBox> LobbyListView;
+  private ListView<LobbyListItem> LobbyListView;
   @FXML
-  private ListView<SimpleStringProperty> ClientListView;
+  private ListView<ClientListItem> ClientListView;
   @FXML
   private Button ChangeNameButton;
   @FXML
@@ -62,6 +72,9 @@ public class LoungeSceneViewController implements Initializable {
 
   public static ClientModel client;
   public static ChatApp chatApp;
+
+  ObservableList<ClientListItem> clients = FXCollections.observableArrayList();
+  ObservableList<LobbyListItem> lobbies = FXCollections.observableArrayList();
 
   private ObservableMap<String, ObservableList<String>> lobbyToMemberssMap;
   private HashMap<String, String> clientToLobbyMap;
@@ -85,81 +98,218 @@ public class LoungeSceneViewController implements Initializable {
     ChangeNameButton.setOnAction(event -> changeName());
     LeaveServerButton.setOnAction(event -> leaveServer());
     newGameButton.setOnAction(event -> newGame());
-    LobbyListView.setVisible(true);
-    ClientListView.setVisible(true);
-    ClientListView.setItems(client.getAllClients());
-    LobbyListView.setPlaceholder(new Text("No open lobbies!"));
-    client.getAllClients().addListener(new ListChangeListener<SimpleStringProperty>() {
-      @Override
-      public void onChanged(Change<? extends SimpleStringProperty> c) {
-        List<SimpleStringProperty> removed = (List<SimpleStringProperty>) c.getRemoved();
-        for(SimpleStringProperty player: removed) {
 
+    ClientListView.setItems(clients);
+    ClientListView.setCellFactory(param -> {
+      ListCell<ClientListItem> cell = new ListCell<>() {
+        Label name = new Label();
+        Label id = new Label();
+        HBox nameAndId = new HBox(name, id);
+
+        {
+          nameAndId.setAlignment(Pos.CENTER_LEFT);
         }
-      }
+
+        /**
+         * The updateItem method should not be called by developers, but it is the
+         * best method for developers to override to allow for them to customise the
+         * visuals of the cell. To clarify, developers should never call this method
+         * in their code (they should leave it up to the UI control, such as the
+         * {@link ListView} control) to call this method. However, the purpose of
+         * having the updateItem method is so that developers, when specifying
+         * custom cell factories (again, like the ListView {@link
+         * ListView#cellFactoryProperty() cell factory}), the updateItem method can
+         * be overridden to allow for complete customisation of the cell.
+         *
+         * <p>It is <strong>very important</strong> that subclasses
+         * of Cell override the updateItem method properly, as failure to do so will
+         * lead to issues such as blank cells or cells with unexpected content
+         * appearing within them. Here is an example of how to properly override the
+         * updateItem method:
+         *
+         * <pre>
+         * protected void updateItem(T item, boolean empty) {
+         *     super.updateItem(item, empty);
+         *
+         *     if (empty || item == null) {
+         *         setText(null);
+         *         setGraphic(null);
+         *     } else {
+         *         setText(item.toString());
+         *     }
+         * }
+         * </pre>
+         *
+         * <p>Note in this code sample two important points:
+         * <ol>
+         *     <li>We call the super.updateItem(T, boolean) method. If this is not
+         *     done, the item and empty properties are not correctly set, and you are
+         *     likely to end up with graphical issues.</li>
+         *     <li>We test for the <code>empty</code> condition, and if true, we
+         *     set the text and graphic properties to null. If we do not do this,
+         *     it is almost guaranteed that end users will see graphical artifacts
+         *     in cells unexpectedly.</li>
+         * </ol>
+         *  @param item The new item for the cell.
+         *
+         * @param empty whether or not this cell represents data from the list. If
+         *              it is empty, then it does not represent any domain data, but
+         *              is a cell
+         */
+        @Override
+        protected void updateItem(ClientListItem item, boolean empty) {
+          super.updateItem(item, empty);
+          if (empty) {
+            setText(null);
+            setGraphic(null);
+          } else {
+            LOGGER.debug("In updateItem(item, empty) Method. Else branch -> nonnull item");
+            name.setText(item.getName());
+            id.setText(String.valueOf(item.getId()));
+            setGraphic(nameAndId);
+          }
+        }
+      };
+      return cell;
     });
+
+    LobbyListView.setItems(lobbies);
+    LobbyListView.setCellFactory(param -> {
+      ListCell<LobbyListItem> cell = new ListCell<>() {
+
+        Label lobbyID = new Label();
+        Label adminName = new Label();
+        Label lobbyIsOpen = new Label();
+        Label noOfPlayersInLobby = new Label();
+        Button startOrJoin = new Button();
+        HBox head = new HBox(lobbyID, adminName, noOfPlayersInLobby, lobbyIsOpen, startOrJoin);
+        VBox playerList = new VBox();
+        TitledPane headParent = new TitledPane(head.toString(), playerList);
+
+        {
+          head.setAlignment(Pos.CENTER_LEFT);
+          playerList.setAlignment(Pos.CENTER_LEFT);
+          headParent.setCollapsible(true);
+        }
+
+        /**
+         * The updateItem method should not be called by developers, but it is the
+         * best method for developers to override to allow for them to customise the
+         * visuals of the cell. To clarify, developers should never call this method
+         * in their code (they should leave it up to the UI control, such as the
+         * {@link ListView} control) to call this method. However, the purpose of
+         * having the updateItem method is so that developers, when specifying
+         * custom cell factories (again, like the ListView {@link
+         * ListView#cellFactoryProperty() cell factory}), the updateItem method can
+         * be overridden to allow for complete customisation of the cell.
+         *
+         * <p>It is <strong>very important</strong> that subclasses
+         * of Cell override the updateItem method properly, as failure to do so will
+         * lead to issues such as blank cells or cells with unexpected content
+         * appearing within them. Here is an example of how to properly override the
+         * updateItem method:
+         *
+         * <pre>
+         * protected void updateItem(T item, boolean empty) {
+         *     super.updateItem(item, empty);
+         *
+         *     if (empty || item == null) {
+         *         setText(null);
+         *         setGraphic(null);
+         *     } else {
+         *         setText(item.toString());
+         *     }
+         * }
+         * </pre>
+         *
+         * <p>Note in this code sample two important points:
+         * <ol>
+         *     <li>We call the super.updateItem(T, boolean) method. If this is not
+         *     done, the item and empty properties are not correctly set, and you are
+         *     likely to end up with graphical issues.</li>
+         *     <li>We test for the <code>empty</code> condition, and if true, we
+         *     set the text and graphic properties to null. If we do not do this,
+         *     it is almost guaranteed that end users will see graphical artifacts
+         *     in cells unexpectedly.</li>
+         * </ol>
+         *  @param item The new item for the cell.
+         *
+         * @param empty whether or not this cell represents data from the list. If
+         *              it is empty, then it does not represent any domain data, but
+         *              is a cell
+         */
+        @Override
+        protected void updateItem(LobbyListItem item, boolean empty) {
+          super.updateItem(item, empty);
+          if (empty) {
+            setText(null);
+            setGraphic((null));
+          } else {
+            LOGGER.debug("In ELSE part of LobbyView Update item()");
+            lobbyID.setText(item.getLobbyID());
+            adminName.setText(item.getAdminName());
+            startOrJoin.setOnAction(event -> {
+              if (item.isOwnedByClient()) {
+                startGame();
+              } else {
+                joinGame(item.lobbyIDProperty().getName());
+              }
+            });
+            startOrJoin.setText(item.isOwnedByClient() ? "Start" : "Join");
+            setGraphic(headParent);
+          }
+        }
+      };
+      return cell;
+    });
+
+    LobbyListView.setPlaceholder(new Text("No open lobbies!"));
   }
 
-  public void updateClientListView(ObservableList<SimpleStringProperty> names) {
-    ObservableList<SimpleStringProperty> clientsLeft = ClientListView.getItems();
+  public void updateClientListView(ObservableList<ClientListItem> names) {
+    ObservableList<ClientListItem> clientsLeft = ClientListView.getItems();
     clientsLeft.removeAll(names);
     this.ClientListView.setItems(names);
-    for (SimpleStringProperty gone : clientsLeft) {
+    for (ClientListItem gone : clientsLeft) {
       //TODO
     }
   }
 
   /**
-   * Adds players to a lobby
-   * "NMEMB" {@link ch.unibas.dmi.dbis.cs108.multiplayer.helpers.GuiParameters}
+   * Adds players to a lobby "NMEMB" {@link ch.unibas.dmi.dbis.cs108.multiplayer.helpers.GuiParameters}
+   *
    * @param lobbyID
    * @param player
    */
   public void addPlayerToLobby(String lobbyID, String player) {
+    LOGGER.debug("Lobby ID: " + lobbyID + " player: " + player);
     ObservableList<String> members = lobbyToMemberssMap.get(lobbyID);
     members.add(player);
   }
 
   /**
-   * Used when a new lobby shall be added to the view.
-   * "NLOBBY" {@link ch.unibas.dmi.dbis.cs108.multiplayer.helpers.GuiParameters}
+   * Used when a new lobby shall be added to the view. "NLOBBY" {@link
+   * ch.unibas.dmi.dbis.cs108.multiplayer.helpers.GuiParameters}
+   *
    * @param lobbyID
    * @param adminName
    */
   public void newLobby(String lobbyID, String adminName) {
+    LOGGER.debug("New lobby with ID " + lobbyID + " and admin " + adminName);
     SimpleStringProperty id = new SimpleStringProperty(lobbyID);
     SimpleStringProperty admin = new SimpleStringProperty((adminName));
-    boolean ownedByClient = false;
+
     Button startOrJoin;
+    boolean ownedByClient = false;
     if (adminName.equals(client.getUsername())) {
+      LOGGER.debug("Client is admin. Name: " + adminName);
       ownedByClient = true;
-      startOrJoin = new Button("Start");
-      startOrJoin.setOnAction(event -> startGame());
     } else {
-      startOrJoin = new Button("Join");
-      startOrJoin.setOnAction(event -> joinGame(lobbyID));
+      LOGGER.debug("Different admin case. ADMIN Name: " + adminName);
     }
-    HBox lobby = new HBox();
-    Label idLabel = new Label();
-    Label adminLabel = new Label();
-    idLabel.setText(lobbyID);
-    adminLabel.setText(adminName);
-    startOrJoin.setVisible(true);
-    lobby.getChildren().add(idLabel);
-    lobby.getChildren().add(adminLabel);
-    lobby.getChildren().add(startOrJoin);
-    ListView<String> members = new ListView<>();
-    members.setId("membersOfLobby");
-    if (ownedByClient) {
-      members.getItems().add("(you are admin) " + adminName);
-    } else {
-      members.getItems().add("(admin)" + adminName);
-      members.getItems().add(client.getUsername());
-    }
-    lobby.setId(lobbyID);
-    lobbyToMemberssMap.put(lobbyID, members.getItems());
-    lobby.setVisible(true);
-    LobbyListView.getItems().add(lobby);
+    LobbyListItem item = new LobbyListItem(id, admin, new SimpleBooleanProperty(ownedByClient),
+        new SimpleBooleanProperty(true), new SimpleIntegerProperty(0));
+    LobbyListView.getItems().add(item);
   }
 
   private void joinGame(String lobbyID) {
@@ -170,16 +320,21 @@ public class LoungeSceneViewController implements Initializable {
     client.getClient().sendMsgToServer(Protocol.startANewGame);
   }
 
-  public void leaveLobby() {client.getClient().sendMsgToServer(Protocol.leaveLobby);}
+  public void leaveLobby() {
+    client.getClient().sendMsgToServer(Protocol.leaveLobby);
+  }
 
-  public void leaveServer() {client.getClient().sendMsgToServer(Protocol.clientQuitRequest);}
+  public void leaveServer() {
+    client.getClient().sendMsgToServer(Protocol.clientQuitRequest);
+  }
+
   /**
-   * Used to add a new player to the list of players.
-   * "NPLOS" {@link ch.unibas.dmi.dbis.cs108.multiplayer.helpers.GuiParameters}
+   * Used to add a new player to the list of players. "NPLOS" {@link ch.unibas.dmi.dbis.cs108.multiplayer.helpers.GuiParameters}
+   *
    * @param s
    */
   public void addClientToList(String s) {
-    ClientListView.getItems().add(new SimpleStringProperty(s));
+    ClientListView.getItems().add(new ClientListItem(s));
   }
 
   public void newGame() {

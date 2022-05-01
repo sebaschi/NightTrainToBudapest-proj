@@ -48,10 +48,6 @@ public class GuiParameters {
    */
   public static final String getMembersInLobby = "LMEMBS";
 
-  /**
-   * Tells Gui, that a new Lobby has been created. Form: {@code NLOBBY$<lobbyID>:<Admin Name>}
-   */
-  public static final String changeToLobby = "LMEMBS";
 
   /**
    * Informs the GUI, that a vote is over
