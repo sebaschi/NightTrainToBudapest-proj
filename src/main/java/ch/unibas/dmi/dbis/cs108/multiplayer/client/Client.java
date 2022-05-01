@@ -400,6 +400,8 @@ public class Client {
         case GuiParameters.newLobbyCreated:
           makeNewLobby(data);
           break;
+        case GuiParameters.newPlayerOnServer:
+          addNewPlayerToGui(data);
         default:
           notificationTextDisplay(data);
           //TODO(Sebi,Seraina): should the gameController be in the Application just like the ChatController?
@@ -412,17 +414,22 @@ public class Client {
 
   }
 
+  private void addNewPlayerToGui(String data) {
+    loungeSceneViewController.addClientToList(data);
+    LOGGER.debug("addNewPlayerToGui() seems to have finished");
+  }
+
   private void makeNewLobby(String data) {
     String[] params = data.split(":");
     loungeSceneViewController.newLobby(params[0], params[1]);
-    LOGGER.debug("makeNewLobby() seems to have finnished");
+    LOGGER.debug("makeNewLobby() seems to have finished");
 
   }
 
   private void addPlayerToLobby(String data) {
     String[] params = data.split(":");
     loungeSceneViewController.addPlayerToLobby(params[0], params[1]);
-    LOGGER.debug("addPlayerToLobby() seems to have finnished");
+    LOGGER.debug("addPlayerToLobby() seems to have finished");
   }
 
   private void updateLobbyMembers(String data) {
