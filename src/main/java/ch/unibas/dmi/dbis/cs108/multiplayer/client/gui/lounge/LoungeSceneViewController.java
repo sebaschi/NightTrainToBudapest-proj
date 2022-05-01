@@ -9,22 +9,27 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.ResourceBundle;
+import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToolBar;
@@ -41,6 +46,13 @@ public class LoungeSceneViewController implements Initializable {
 
   public static final Logger LOGGER = LogManager.getLogger(LoungeSceneViewController.class);
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
+
+  @FXML
+  private SplitPane chatSplitPane;
+  @FXML
+  private AnchorPane chatAnchorPane;
+  @FXML
+  private AnchorPane otherNotificationAnchorPane;
 
   @FXML
   private Button leaveLobbyButton;
@@ -60,8 +72,6 @@ public class LoungeSceneViewController implements Initializable {
   private Button LeaveServerButton;
   @FXML
   private AnchorPane ChatArea;
-  @FXML
-  private HBox ChatAreaHBox;
   @FXML
   private BorderPane LoungeSceneBorderPane;
   @FXML
@@ -104,6 +114,10 @@ public class LoungeSceneViewController implements Initializable {
     ChangeNameButton.setOnAction(event -> changeName());
     LeaveServerButton.setOnAction(event -> leaveServer());
     newGameButton.setOnAction(event -> newGame());
+    LobbyListView.setVisible(true);
+    ClientListView.setVisible(true);
+    ClientListView.setItems(clients);
+    addChatView();
 
     ClientListView.setItems(clients);
     ClientListView.setCellFactory(param -> {
@@ -278,8 +292,8 @@ public class LoungeSceneViewController implements Initializable {
     LobbyListView.setVisible(true);
   }
 
-  public void addGameView(){
-    Platform.runLater(new Runnable(){
+  public void addGameView() {
+    Platform.runLater(new Runnable() {
       @Override
       public void run() {
         try {
@@ -293,7 +307,7 @@ public class LoungeSceneViewController implements Initializable {
     });
   }
 
-  public void removeGameView(){
+  public void removeGameView() {
     Platform.runLater(new Runnable() {
       @Override
       public void run() {
@@ -308,6 +322,27 @@ public class LoungeSceneViewController implements Initializable {
     });
   }
 
+  public void addChatView() {
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        try {
+          chatAnchorPane.getChildren().add(chatApp.chat);
+        } catch (Exception e) {
+          LOGGER.debug("Not yet initialized: chatAnchorPane");
+        }
+      }
+    });
+  }
+
+  public void updateClientListView(ObservableList<SimpleStringProperty> names) {
+    ObservableList<ClientListItem> clientsLeft = ClientListView.getItems();
+    clientsLeft.removeAll(names);
+    this.ClientListView.setItems(names);
+    for (ClientListItem gone : clientsLeft) {
+      //TODO
+    }
+  }
 
   /**
    * Adds players to a lobby
@@ -366,6 +401,7 @@ public class LoungeSceneViewController implements Initializable {
 
   public void leaveLobby() {
     client.getClient().sendMsgToServer(Protocol.leaveLobby);
+    removeGameView();
   }
 
   public void leaveServer() {
@@ -427,12 +463,5 @@ public class LoungeSceneViewController implements Initializable {
   public static void setClient(ClientModel client) {
     LoungeSceneViewController.client = client;
   }
-
-  public HBox getChatAreaHBox() {
-    return ChatAreaHBox;
-  }
-
-  public void setChatAreaHBox(HBox chatAreaHBox) {
-    ChatAreaHBox = chatAreaHBox;
-  }
 }
+

@@ -129,7 +129,6 @@ public class ChatApp extends Application {
   public void start(Stage primaryStage) throws Exception {
     this.setcModel(clientModel);
     this.setGameC(gameController);
-
     gameC.setClient(cModel);
     gameC.setGameStateModel(GameController.getGameStateModel());
     try {
