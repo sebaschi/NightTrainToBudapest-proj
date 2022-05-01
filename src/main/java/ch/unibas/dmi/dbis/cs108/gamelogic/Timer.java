@@ -22,7 +22,7 @@ public class Timer {
    * The length of time in seconds after the ghost vote during which the ghosts visually walk to /
    * from their victim and the timespan within which humans will hear a noise. After this, the day starts.
    */
-  public static final int ghostAfterVoteTime = 7;
+  public static final int ghostAfterVoteTime = 4;
   /**
    * The maximum length of the human vote in the day, in seconds
    */
@@ -40,6 +40,11 @@ public class Timer {
   public static final int interval = 1;
 
   /**
+   * The minimal vote time, in seconds
+   */
+  public static final int minVoteTime = 5;
+
+  /**
    * The timer for the ghost vote. Checks every {@code interval} seconds if every ghost has already voted.
    * If all have voted or if the {@code ghostVoteTime} value is reached, the timer ends
    * @param game the game this Timer has been called in
@@ -47,7 +52,7 @@ public class Timer {
   public static void ghostVoteTimer(Game game) {
     int counter = 0;
     while(counter < ghostVoteTime) {
-      if(haveAllGhostsVoted(game)) { //if all ghost have voted
+      if(haveAllGhostsVoted(game) && counter > minVoteTime) { //if all ghost have voted
         return;
       }
       try {
@@ -62,7 +67,7 @@ public class Timer {
   public static void humanVoteTimer(Game game) {
     int counter = 0;
     while (counter < humanVoteTime) {
-      if (haveAllHumansVoted(game)) return;
+      if (haveAllHumansVoted(game) && counter > minVoteTime) return;
       try {
         Thread.sleep(interval*1000);
       } catch (InterruptedException e) {
@@ -107,6 +112,8 @@ public class Timer {
 
   /**
    * Checks if all humans have already voted, returns true if so, else returns false
+   * @param game the game this is called in
+   * @return returns true if all humans have voted
    */
   public static boolean haveAllHumansVoted(Game game) {
     boolean[] whoHasVoted = game.getGameState().getClientVoteData().getHasVoted();

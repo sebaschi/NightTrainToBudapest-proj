@@ -2,6 +2,7 @@ package ch.unibas.dmi.dbis.cs108.multiplayer.client;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.gamelogic.ClientGameInfoHandler;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game.GameController;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
 import java.io.OutputStreamWriter;
 import org.apache.logging.log4j.LogManager;
@@ -28,7 +29,6 @@ public class JClientProtocolParser {
       header = msg.substring(0, 5);
     } catch (IndexOutOfBoundsException e) {
       System.out.println("Received unknown command");
-      e.printStackTrace();
     }
     switch (header) {
       case Protocol.pingFromServer:
@@ -38,7 +38,11 @@ public class JClientProtocolParser {
         c.clientPinger.setGotPingBack(true);
         break;
       case Protocol.printToClientConsole:
+        LOGGER.debug(msg);
         System.out.println(msg.substring(6));
+        if (!msg.substring(6).equals("Your vote was invalid")) {
+          c.notificationTextDisplay(msg.substring(6));
+        }
         break;
       case Protocol.printToClientChat:
         //todo: handle chat separately from console.
@@ -60,20 +64,32 @@ public class JClientProtocolParser {
         c.changeUsername(msg.substring(6));
         break;
       case Protocol.printToGUI:
+        LOGGER.info("First line of printToGui case!");
         String substring = msg.substring(6);
-        int index = msg.indexOf("$");
+        LOGGER.debug("Following parameters where recieved: " + substring);
+        int index = substring.indexOf("$");
+        LOGGER.debug("Index of $: " + index);
         String parameter = "";
         String data = substring;
         try {
-          parameter = msg.substring(0,index);
-          data = msg.substring(index+1);
+          parameter = substring.substring(0, index);
+          data = substring.substring(index + 1);
+          LOGGER.debug("Parameter: " + parameter + ". Data: " + data);
         } catch (Exception e) {
           LOGGER.warn("No parameter in PTGUI");
         }
-          c.sendToGUI(parameter,data);
+        c.sendToGUI(parameter, data);
+        break;
+      case Protocol.positionOfClient:
+        try {
+          int position = Integer.parseInt(msg.substring(6));
+          GameController.getClient().getClient().setPosition(position);
+        } catch (Exception e) {
+          LOGGER.warn(msg.substring(6));
+        }
         break;
       default:
-        System.out.println("Received unknown command");
+        System.out.println("Received unknown command: " + msg);
     }
   }
 }

@@ -31,8 +31,9 @@ public class HumanNPC extends Human {
   }
 
   /**
-   * Sends a msg to the ServerGameInfoHandler.humanNpcParser to decide what has to happen now, if the
-   * npc hasn't been kicked off 8(should never happen to a human though)
+   * Sends a msg to the ServerGameInfoHandler.humanNpcParser to decide what has to happen now, if
+   * the npc hasn't been kicked off 8(should never happen to a human though)
+   *
    * @param msg  the message that is sent to this player.
    * @param game the game the HumanNPC lives on (in game.gameState.passengerTrain)
    */
@@ -44,22 +45,23 @@ public class HumanNPC extends Human {
   }
 
   /**
-   * Currently returns a random integer for voting, but only for passengers that haven't been
-   * kicked off yet
+   * Currently returns a random integer for voting, but only for passengers that haven't been kicked
+   * off yet
+   *
    * @param game the game this NPC lives on
    */
   public void vote(Game game) {
     Passenger[] passengers = game.getGameState().getPassengerTrain();
     int kickedOffCounter = 0;
-    for(Passenger passenger : passengers) {
-      if(passenger.getKickedOff()) {
+    for (Passenger passenger : passengers) {
+      if (passenger.getKickedOff()) {
         kickedOffCounter++;
       }
     }
     int[] inGamePositions = new int[passengers.length - kickedOffCounter];
     int i = 0;
-    for(Passenger passenger : passengers) {
-      if(!passenger.getKickedOff()) {
+    for (Passenger passenger : passengers) {
+      if (!passenger.getKickedOff()) {
         inGamePositions[i] = passenger.getPosition();
         i++;
       }
@@ -67,7 +69,7 @@ public class HumanNPC extends Human {
     int randomNr = (int) (Math.random() * inGamePositions.length);
     vote = inGamePositions[randomNr];
     hasVoted = true;
-    game.getGameState().getClientVoteData().setHasVoted(position,hasVoted);
+    game.getGameState().getClientVoteData().setHasVoted(position, hasVoted);
     LOGGER.info("HumanNPC at Position: " + this.getPosition() + " has voted for: " + vote);
   }
 }

@@ -95,7 +95,7 @@ public class Game implements Runnable {
           passenger.send(GuiParameters.updateGameState, getGame());
         }
         try {
-          Thread.sleep(4000); //TODO: Is this a good intervall?
+          Thread.sleep(2000); //TODO: Is this a good intervall?
         } catch (InterruptedException e) {
           e.printStackTrace();
         }
@@ -148,27 +148,33 @@ public class Game implements Runnable {
     }
     LOGGER.info(gameState.toString());
     gameStateModelUpdater(); //TODO: does that work?
-
+    for(Passenger passenger : gameState.getPassengerTrain()) {
+      passenger.send(Protocol.positionOfClient + "$" + passenger.getPosition(), this);
+    }
+    lobby.getAdmin().sendMsgToClientsInLobby(Protocol.printToGUI + "$" + GuiParameters.night + "$");
     i = 0;
     while (isOngoing) {//game cycle TODO: maybe check that more often inside game loop?!
       if (!isDay) {
         LOGGER.info("NIGHT");
         gameOverCheck = voteHandler.ghostVote(gameState.getPassengerTrain(), this);
         setDay(true);
-        lobby.getAdmin().sendMsgToClientsInLobby(Protocol.printToGUI + "$" + ClientGameInfoHandler.itsDayTime + "$");
+        lobby.getAdmin().sendMsgToClientsInLobby(Protocol.printToGUI + "$" + GuiParameters.day + "$");
       } else {
         LOGGER.info("DAY");
         gameOverCheck = voteHandler.humanVote(gameState.getPassengerTrain(), this);
         setDay(false);
-        lobby.getAdmin().sendMsgToClientsInLobby(Protocol.printToGUI + "$" + ClientGameInfoHandler.itsNightTime + "$");
+        lobby.getAdmin().sendMsgToClientsInLobby(Protocol.printToGUI + "$" + GuiParameters.night + "$");
       }
       if (gameOverCheck.equals(ClientGameInfoHandler.gameOverGhostsWin) || gameOverCheck.equals(
           ClientGameInfoHandler.gameOverHumansWin)) {
         if (gameOverCheck.equals(ClientGameInfoHandler.gameOverGhostsWin) && getOgGhost().getIsPlayer()) {
           OgGhostHighScore.addOgGhostWinner(getOgGhost().getName());
         }
-        lobby.getAdmin().sendMsgToClientsInLobby(Protocol.printToGUI + "$" + GuiParameters.viewChangeToLobby + "$");
         lobby.getAdmin().broadcastAnnouncementToLobby(gameOverCheck);
+        isOngoing = false;
+        Timer.ghostAfterVoteTimer();
+        lobby.getAdmin().sendMsgToClientsInLobby(Protocol.printToGUI + "$" + GuiParameters.viewChangeToLobby + "$");
+        isOngoing = true;
         lobby.removeGameFromRunningGames(this);
         lobby.addGameToFinishedGames(this);
         return;

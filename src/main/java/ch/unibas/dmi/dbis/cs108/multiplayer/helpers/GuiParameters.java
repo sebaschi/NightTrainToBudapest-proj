@@ -6,7 +6,8 @@ package ch.unibas.dmi.dbis.cs108.multiplayer.helpers;
 public class GuiParameters {
 
   /**
-   * Tells GUI to update the gameStateModel, in the form {@code UPDATE$name:role:kickedOff$name:role:kickedOff} ... usw.
+   * Tells GUI to update the gameStateModel, in the form {@code UPDATE$name:role:kickedOff$name:role:kickedOff}
+   * ... usw.
    */
   public static final String updateGameState = "UPDATE";
   /**
@@ -20,8 +21,8 @@ public class GuiParameters {
   public static final String listOfPLayers = "PLAYERS";
 
   /**
-   * Tells Gui, that the passenger at position {@code position} has heard some noise
-   * Form: {@code NOISE$position$}
+   * Tells Gui, that the passenger at position {@code position} has heard some noise Form: {@code
+   * NOISE$position$}
    */
   public static final String noiseHeardAtPosition = "NOISE";
 
@@ -41,10 +42,58 @@ public class GuiParameters {
   public static final String viewChangeToGame = "VCGAME";
 
 
+  /**
+   * Tells Gui, who the members of a specified Lobby are. Form: {@code LMEMBS$<lobbyID>:<ADMIN
+   * NAME>:<member names>:<..>}
+   */
+  public static final String getMembersInLobby = "LMEMBS";
+
 
   /**
-   * Tells, Gui, who the members of a specified Lobby are.
-   * Form: {@code LMEMBS$<lobbyID>$<member names>$..}
+   * Informs the GUI, that a vote is over
    */
-  public static String changeToLobby = "LMEMBS";
+  public static final String VoteIsOver = "VOTEOVER";
+
+  /**
+   * Informes Gui, that its the night
+   */
+  public static final String night = "NIGHT";
+  /**
+   * Informes Gui, that its the day
+   */
+  public static final String day = "DAY";
+
+  public static final String newLobbyCreated = "NLOBBY";
+
+  /**
+   * Tells Gui, to add a player to a lobby. Form: {@code NMEMB$<LobbyIS>:<PlayerNamse>}
+   */
+  public static final String addNewMemberToLobby = "NMEMB";
+
+  /**
+   * Indicates a player changed their username. Form: {@code NCHANG$<oldName>:<newName>}
+   */
+  public static final String nameChanged = "NCHANG";
+
+  /**
+   * Indicates a player has joined the server. Form: {@code NPLOS$<playerName>}
+   */
+  public static final String newPlayerOnServer = "NPLOS";
+
+  /**
+   * Tells gui to remove a certain player from the list of clients based on user name. Form: {@code
+   * RMVLST$<playerName>}
+   */
+  public static final String removePlayerFromList = "RMVLST";
+
+  /**
+   * Tells Gui to update its HighScore TextFlow according to the following data
+   */
+  public static final String updateHighScore = "HISCR";
+
+  /**
+   * Tells Gui to add a String to printLobby TextFlow - a provisory solution in case ListeView won't
+   * pan out
+   */
+  public static final String updatePrintLobby = "PRLOBB";
 }

@@ -5,15 +5,18 @@ import ch.unibas.dmi.dbis.cs108.gamelogic.ClientGameInfoHandler;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ClientModel;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.GUI;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.GameStateModel;
-import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat.ChatApp;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ChatApp;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat.ChatController;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game.GameController;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge.LoungeApp;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge.LoungeSceneViewController;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.ClientPinger;
 
 
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.GuiParameters;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
 
+import com.google.inject.Guice;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.io.*;
@@ -38,10 +41,16 @@ public class Client {
   public ClientPinger clientPinger;
 
   private ChatApp chatApp;
-  private GUI chatGui;
+  //private GUI chatGui;
   private ClientModel clientModel;
   private GameStateModel gameStateModel;
   private GameController gameController;
+
+  private GUI gui;
+
+  private LoungeApp loungeApp;
+  //private GUI loungeGui;
+  private LoungeSceneViewController loungeSceneViewController;
 
   /**
    * Saves the position of the client, gets refreshed everytime the client gets a vote request.
@@ -71,10 +80,16 @@ public class Client {
       }
       sendMsgToServer(Protocol.clientLogin + "$" + systemName);
       this.chatApp = new ChatApp(new ClientModel(systemName, this));
-      this.chatGui = new GUI(this.chatApp);
+      this.gui = new GUI(this.chatApp);
       clientPinger = new ClientPinger(this, this.socket);
       this.gameStateModel = new GameStateModel();
+      this.chatApp = new ChatApp(new ClientModel(systemName, this));
+      ChatApp.setGameController(new GameController(ChatApp.getClientModel(), gameStateModel));
+      this.gui = new GUI(this.chatApp);
       this.gameController = new GameController(ChatApp.getClientModel(), gameStateModel);
+      this.loungeApp = new LoungeApp(ChatApp.getClientModel());
+      this.loungeSceneViewController = new LoungeSceneViewController();
+      LoungeSceneViewController.setClient(ChatApp.getClientModel());
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -136,16 +151,11 @@ public class Client {
     //LOGGER.debug("just checked next line");
   }
 
-  /**
-   * Extracts infromation about names and positions and roles from string and adds it to the
-   * GameStateModel
-   *
-   * @param msg
-   */
-  public void gameStateModelSetter(String msg) {
 
+
+  public void setPosition(int position) {
+    this.position = position;
   }
-
 
   /**
    * Starts a thread which listens for incoming chat messages / other messages that the user has to
@@ -283,7 +293,7 @@ public class Client {
       cP.start();
       client.userInputListener();     //this one blocks.
       LOGGER.info("7.1");
-      Thread guiThread = new Thread(client.chatGui);
+      Thread guiThread = new Thread(client.gui);
       LOGGER.info("8");
       guiThread.start();
       LOGGER.info("9");
@@ -323,75 +333,129 @@ public class Client {
    * @param parameter a string according to {@link GuiParameters} and {@link ClientGameInfoHandler}
    *                  can be empty
    * @param data      some information in a string, separators can be $ or :
-   *                  TODO(Seraina&Sebi): evtl. auslagern?
+   *                                                                                      TODO(Seraina Sebi): evtl. auslagern?
    */
   public void sendToGUI(String parameter, String data) {
     try {
+      if (!parameter.equals(GuiParameters.updateGameState)) {
+        LOGGER.debug("GUI: PARAMETER:" + parameter + ", DATA: " + data);
+      }
       switch (parameter) {
-        case ClientGameInfoHandler.itsNightTime: //ClientGameInfoHandler
+        case GuiParameters.night: //ClientGameInfoHandler;
           gameStateModel.setDayClone(false);
+          chatApp.getGameController().setNoiseButtonInvisible();
           break;
-        case ClientGameInfoHandler.itsDayTime: //ClientGameInfoHandler
+        case GuiParameters.day: //ClientGameInfoHandler
           gameStateModel.setDayClone(true);
+          chatApp.getGameController().setNoiseButtonVisible();
           break;
         case GuiParameters.updateGameState:
           gameStateModel.setGSFromString(data);
-          gameController.updateRoomLabels();
+          chatApp.getGameController().updateRoomLabels();
           break;
         case GuiParameters.noiseHeardAtPosition:
           try {
             int position = Integer.parseInt(data);
             determineNoiseDisplay(position);
           } catch (Exception e) {
-            LOGGER.warn("Not a position given for noise");
+            LOGGER.warn("Not a position given for noise " + e.getMessage());
           }
           break;
         case GuiParameters.listOfLobbies:
-          //updateListOfLobbies(data); (commented out due to compiling error)
+          updateListOfLobbies(data);
           //TODO
+          break;
+        case GuiParameters.VoteIsOver:
+          chatApp.getGameController().clearAllNoiseDisplay();
           break;
         case GuiParameters.listOfPLayers:
           updateListOfClients(data);
           //TODO
           break;
-        //case GuiParameters.viewChangeToGame: (commented out due to compiling error)
+        case GuiParameters.getMembersInLobby:
+          updateLobbyMembers(data);
+          break;
+        case GuiParameters.viewChangeToGame:
+          chatApp.getLoungeSceneViewController().addGameView();
           //TODO
-          //break; (commented out due to compiling error)
-        //case GuiParameters.viewChangeToStart: (commented out due to compiling error)
+          break;
+        /*case GuiParameters.viewChangeToStart:
+        //TODO
+        break;*/
+        case GuiParameters.viewChangeToLobby:
+          chatApp.getLoungeSceneViewController().removeGameView();
           //TODO
-          //break; (commented out due to compiling error)
-        //case GuiParameters.viewChangeToLobby: (commented out due to compiling error)
-          //TODO
-          //break; (commented out due to compiling error)
+          break;
+        case GuiParameters.addNewMemberToLobby:
+          addPlayerToLobby(data);
+          break;
+        case GuiParameters.newLobbyCreated:
+          makeNewLobby(data);
+          break;
+        case GuiParameters.newPlayerOnServer:
+          addNewPlayerToGui(data);
+          break;
+        case GuiParameters.updateHighScore:
+          chatApp.getLoungeSceneViewController().addHighScore(data);
+          break;
+        case GuiParameters.updatePrintLobby:
+          chatApp.getLoungeSceneViewController().clearLobbyPrint();
+          chatApp.getLoungeSceneViewController().addLobbyPrint(data);
+          break;
         default:
           notificationTextDisplay(data);
           //TODO(Sebi,Seraina): should the gameController be in the Application just like the ChatController?
       }
     } catch (Exception e) {
       LOGGER.warn("Communication with GUI currently not possible: " + e.getMessage());
+      LOGGER.debug(e.getCause() + "  " + e.getStackTrace().toString());
 
     }
 
   }
-//TODO decide if necessary
-//  private void updateListOfLobbies(String data) {
-//    String[] arr = data.split(":");
-//    ObservableList<SimpleStringProperty> list = new SimpleListProperty<>();
-//    int n = arr.length;
-//    for (int i = 0; i < n; i = i + 2) {
-//      list.add(new SimpleStringProperty(arr[i]));
-//      ChatController.getClient().addLobbyToList(new SimpleStringProperty(arr[i]));
-//    }
-//  }
 
-  private void updateListOfClients(String data) {
+  private void addNewPlayerToGui(String data) {
+    loungeSceneViewController.addClientToList(data);
+    LOGGER.debug("addNewPlayerToGui() seems to have finished");
+  }
+
+  private void makeNewLobby(String data) {
+    String[] params = data.split(":");
+    loungeSceneViewController.newLobby(params[0], params[1]);
+    LOGGER.debug("makeNewLobby() seems to have finished");
+
+  }
+
+  private void addPlayerToLobby(String data) {
+    String[] params = data.split(":");
+    loungeSceneViewController.addPlayerToLobby(params[0], params[1]);
+    LOGGER.debug("addPlayerToLobby() seems to have finished");
+  }
+
+  private void updateLobbyMembers(String data) {
+    String[] dataArr = data.split(":");
+    String lobbyID = dataArr[0];
+    String adminName = dataArr[1];
+  }
+
+  private void updateListOfLobbies(String data) {
     String[] arr = data.split(":");
     ObservableList<SimpleStringProperty> list = new SimpleListProperty<>();
     int n = arr.length;
     for (int i = 0; i < n; i = i + 2) {
       list.add(new SimpleStringProperty(arr[i]));
+      //ChatController.getClient().addLobbyToList(new SimpleStringProperty(arr[i]));
     }
-    ChatController.getClient().getAllClients().setAll();
+    //TODO
+  }
+
+  private void updateListOfClients(String data) {
+    String[] arr = data.split(":");
+    ObservableList<SimpleStringProperty> list = new SimpleListProperty<>();
+    int n = arr.length;
+    for (int i = 0; i < n; i = i + 1) {
+      loungeSceneViewController.addClientToList(arr[i]);
+    }
   }
 
   /**
@@ -403,9 +467,9 @@ public class Client {
   public void notificationTextDisplay(String data) {
     new Thread(() -> {
       try {
-        gameController.addMessageToNotificationText(data);
-        Thread.sleep(3000);
-        gameController.clearNotificationText();
+        chatApp.getGameController().addMessageToNotificationText(data);
+        Thread.sleep(5000);
+        chatApp.getGameController().clearNotificationText();
       } catch (InterruptedException e) {
         LOGGER.warn(e.getMessage());
       }
@@ -414,19 +478,26 @@ public class Client {
   }
 
   public void determineNoiseDisplay(int position) {
+    LOGGER.debug(position);
     switch (position) {
       case 0:
-        gameController.noiseDisplay0();
+        chatApp.getGameController().noiseDisplay0();
+        break;
       case 1:
-        gameController.noiseDisplay1();
+        chatApp.getGameController().noiseDisplay1();
+        break;
       case 2:
-        gameController.noiseDisplay2();
+        chatApp.getGameController().noiseDisplay2();
+        break;
       case 3:
-        gameController.noiseDisplay3();
+        chatApp.getGameController().noiseDisplay3();
+        break;
       case 4:
-        gameController.noiseDisplay4();
+        chatApp.getGameController().noiseDisplay4();
+        break;
       case 5:
-        gameController.noiseDisplay5();
+        chatApp.getGameController().noiseDisplay5();
+        break;
     }
   }
 

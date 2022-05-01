@@ -65,6 +65,8 @@ public class JServerProtocolParser {
         } catch (Exception e) {
           h.setUsernameOnLogin("U.N. Owen");
         }
+        h.guiUpdateAll(Protocol.printToGUI + "$" + GuiParameters.newPlayerOnServer + "$"
+            + h.getClientUserName());
         break;
       case Protocol.nameChange:
         h.changeUsername(msg.substring(6));
@@ -82,7 +84,7 @@ public class JServerProtocolParser {
         try {
           int i = Integer.parseInt(msg.substring(6, 7));
           h.joinLobby(i);
-          h.sendMsgToClient(Protocol.printToGUI + "$" + GuiParameters.viewChangeToLobby + "$");
+          //h.guiUpdateAll(Protocol.printToGUI+"$"+GuiParameters.addNewMemberToLobby+"$"+i+":"+h.getClientUserName()); handled in joinLobby()
         } catch (Exception e) {
           h.sendMsgToClient(Protocol.printToClientConsole
               + "$Invalid input. Please use JOINL$1 to join Lobby 1, for example.");
@@ -90,17 +92,21 @@ public class JServerProtocolParser {
         break;
       case Protocol.createNewLobby:
         h.createNewLobby();
-        h.sendMsgToClient(Protocol.printToGUI + "$" + GuiParameters.viewChangeToLobby+ "$");
+        h.guiUpdateAll(
+            Protocol.printToGUI + "$" + GuiParameters.newLobbyCreated + "$" + h.getLobby()
+                .getLobbyID() + ":" + h.getClientUserName());
+        LOGGER.info("Here");
         break;
       case Protocol.listLobbies:
         h.listLobbies();
+        h.listLobbiesGuiFormat();
         break;
       case Protocol.listPlayersInLobby:
         h.listPlayersInLobby();
         break;
       case Protocol.leaveLobby:
         h.leaveLobby();
-        //h.sendMsgToClient(Protocol.printToGUI + "$" + GuiParameters.viewChangeToStart + "$"); (commented out due to compiling error)
+        h.sendMsgToClient(Protocol.printToGUI + "$" + GuiParameters.viewChangeToLobby + "$");
         break;
       case Protocol.votedFor:
         LOGGER.debug("Made it here");
@@ -109,7 +115,7 @@ public class JServerProtocolParser {
         break;
       case Protocol.startANewGame:
         h.startNewGame();
-        //h.sendMsgToClientsInLobby(Protocol.printToGUI + "$" + GuiParameters.viewChangeToGame + "$"); (commented out due to compiling error)
+        h.sendMsgToClientsInLobby(Protocol.printToGUI + "$" + GuiParameters.viewChangeToGame + "$");
         break;
       case Protocol.listGames:
         h.listGames();
@@ -119,7 +125,7 @@ public class JServerProtocolParser {
         break;
       case Protocol.sendMessageToAllClients:
         msg = msg.substring(6);
-        h.sendMsgToClient(msg);
+        h.sendMsgToClientsInLobby(msg);
       default:
         System.out.println("Received unknown command");
     }
