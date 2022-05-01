@@ -402,6 +402,10 @@ public class Client {
           break;
         case GuiParameters.newPlayerOnServer:
           addNewPlayerToGui(data);
+          break;
+        case GuiParameters.updateHighScore:
+          chatApp.getLoungeSceneViewController().addHighScore(data);
+          break;
         default:
           notificationTextDisplay(data);
           //TODO(Sebi,Seraina): should the gameController be in the Application just like the ChatController?

@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.TextFlow?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge.LoungeSceneViewController">
    <children>
@@ -13,6 +15,7 @@
          <top>
             <ToolBar fx:id="NTtBToolBar" prefHeight="77.0" BorderPane.alignment="CENTER">
               <items>
+                  <Button fx:id="highScoreButton" mnemonicParsing="false" onAction="#sendHIghScore" text="High Score" />
                 <Button fx:id="ChangeNameButton" mnemonicParsing="false" text="Change Name" />
                   <Button fx:id="LeaveServerButton" mnemonicParsing="false" text="Leave server" />
                   <Button fx:id="leaveLobbyButton" mnemonicParsing="false" onAction="#leaveLobby" text="Leave Lobby" />
@@ -24,17 +27,22 @@
                <children>
                   <Button fx:id="newGameButton" layoutX="68.0" layoutY="101.0" mnemonicParsing="false" text="New Lobby" />
                   <AnchorPane fx:id="gameAnchorPane" />
-                  <Button fx:id="startGame" layoutX="68.0" layoutY="156.0" mnemonicParsing="false" onAction="#startGame" text="Start Game" />
+                  <Button fx:id="startGame" layoutX="68.0" layoutY="156.0" mnemonicParsing="false" onAction="#startGame" opacity="0.0" text="Start Game" />
                </children>
             </AnchorPane>
          </center>
          <bottom>
-            <AnchorPane fx:id="ChatArea" minHeight="100.0" BorderPane.alignment="CENTER">
+            <AnchorPane fx:id="ChatArea" BorderPane.alignment="CENTER">
                <children>
-                  <SplitPane fx:id="chatSplitPane" dividerPositions="0.5" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <SplitPane fx:id="chatSplitPane" dividerPositions="0.5" minHeight="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <items>
                       <AnchorPane fx:id="chatAnchorPane" minHeight="0.0" minWidth="0.0" />
-                      <AnchorPane fx:id="otherNotificationAnchorPane" minHeight="0.0" minWidth="0.0" />
+                      <AnchorPane fx:id="otherNotificationAnchorPane" minHeight="0.0" minWidth="0.0">
+                           <children>
+                              <Label text="High Score:" />
+                              <TextFlow fx:id="highScore" layoutY="18.0" prefHeight="30.0" prefWidth="315.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="18.0" />
+                           </children>
+                        </AnchorPane>
                     </items>
                   </SplitPane>
                </children>

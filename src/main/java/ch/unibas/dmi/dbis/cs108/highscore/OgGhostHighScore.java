@@ -1,6 +1,7 @@
 package ch.unibas.dmi.dbis.cs108.highscore;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
+import ch.unibas.dmi.dbis.cs108.multiplayer.server.ClientHandler;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -83,8 +84,8 @@ public class OgGhostHighScore {
         hm.remove(firstplace);
       }
     }
-
     return sb.toString();
+
   }
 
   /**

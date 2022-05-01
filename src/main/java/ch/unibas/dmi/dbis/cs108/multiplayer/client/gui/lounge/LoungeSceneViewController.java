@@ -40,6 +40,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -49,12 +50,15 @@ public class LoungeSceneViewController implements Initializable {
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   @FXML
+  private TextFlow highScore;
+  @FXML
   private SplitPane chatSplitPane;
   @FXML
   private AnchorPane chatAnchorPane;
   @FXML
   private AnchorPane otherNotificationAnchorPane;
-
+  @FXML
+  public Button highScoreButton;
   @FXML
   private Button leaveLobbyButton;
   @FXML
@@ -485,6 +489,27 @@ public class LoungeSceneViewController implements Initializable {
    */
   public static void setClient(ClientModel client) {
     LoungeSceneViewController.client = client;
+  }
+
+  public void sendHIghScore() {
+    client.getClient().sendMsgToServer(Protocol.highScoreList);
+  }
+
+  public void addHighScore(String data) {
+    String[] arguments = data.split("/n");
+    LOGGER.debug(arguments.length);
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        highScore.getChildren().clear();
+        for(String argument : arguments) {
+          LOGGER.debug("HighScore " + argument);
+          Text text = new Text(argument + System.lineSeparator());
+          text.setFill(Color.BLACK);
+          highScore.getChildren().add(text);
+        }
+      }
+    });
   }
 }
 

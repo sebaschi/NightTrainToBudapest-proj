@@ -652,8 +652,15 @@ public class ClientHandler implements Runnable {
   public void sendHighScoreList() {
     String list = OgGhostHighScore.formatGhostHighscoreList();
     String[] listarray = list.split("\\R");
+    StringBuilder forGui = new StringBuilder();
     for (String s : listarray) {
       sendAnnouncementToClient(s);
+      forGui.append(s).append("/n");
     }
+    sendMsgToClient(Protocol.printToGUI + "$" + GuiParameters.updateHighScore + "$" + forGui.toString());
   }
+
+
 }
+
+

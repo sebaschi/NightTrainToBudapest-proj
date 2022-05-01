@@ -199,7 +199,7 @@ public class GameController implements Initializable {
    */
   public void addMessageToNotificationText(String msg) {
     LOGGER.trace("addMessage " + msg);
-    Text notification = new Text(msg);
+    Text notification = new Text("\\R" + msg);
     notification.setFill(Color.BLACK);
     notification.setStyle("-fx-font: 50 arial;");
     Platform.runLater(new Runnable() {

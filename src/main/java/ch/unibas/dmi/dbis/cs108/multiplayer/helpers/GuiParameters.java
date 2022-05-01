@@ -85,4 +85,6 @@ public class GuiParameters {
    * RMVLST$<playerName>}
    */
   public static final String removePlayerFromList = "RMVLST";
+
+  public static final String updateHighScore = "HISCR";
 }

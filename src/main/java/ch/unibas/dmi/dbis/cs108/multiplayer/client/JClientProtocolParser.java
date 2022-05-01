@@ -29,7 +29,6 @@ public class JClientProtocolParser {
       header = msg.substring(0, 5);
     } catch (IndexOutOfBoundsException e) {
       System.out.println("Received unknown command");
-      e.printStackTrace();
     }
     switch (header) {
       case Protocol.pingFromServer:
