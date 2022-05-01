@@ -44,6 +44,7 @@ public class OgGhostHighScore {
   /**
    * adds the given name to the list of og ghost winners and updates the file listing the og ghost
    * winners via writeOgGhostWinnersToFile
+   * @param name  the name of the OG Winner
    */
   public static void addOgGhostWinner(String name){
     ogGhostWinners.add(name);
@@ -52,7 +53,7 @@ public class OgGhostHighScore {
 
   /**
    * outputs the highscore list as it could be shown to clients.
-   * @return
+   * @return a well formated list in a String
    */
   public static String formatGhostHighscoreList() {
 
@@ -90,6 +91,7 @@ public class OgGhostHighScore {
 
   /**
    * reads the highscore file (or if not yet present create it) and reads the ogGhostWinners;
+   * @param args The system arguments, parsed as a string
    */
   public static void main(String[] args) {
     try {

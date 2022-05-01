@@ -358,8 +358,8 @@ public class LoungeSceneViewController implements Initializable {
   /**
    * Adds players to a lobby
    * "NMEMB" {@link ch.unibas.dmi.dbis.cs108.multiplayer.helpers.GuiParameters}
-   * @param lobbyID
-   * @param player
+   * @param lobbyID the Id the Player belongs to
+   * @param player the player to be added
    */
   public void addPlayerToLobby(String lobbyID, String player) {
     LOGGER.debug("Lobby ID: " + lobbyID + " player: " + player);
@@ -383,8 +383,8 @@ public class LoungeSceneViewController implements Initializable {
    * Used when a new lobby shall be added to the view. "NLOBBY" {@link
    * ch.unibas.dmi.dbis.cs108.multiplayer.helpers.GuiParameters}
    *
-   * @param lobbyID
-   * @param adminName
+   * @param lobbyID the ID of the new lobby
+   * @param adminName the name of the Lobby admin
    */
   public void newLobby(String lobbyID, String adminName) {
     LobbyListView = lListView;
@@ -440,7 +440,7 @@ public class LoungeSceneViewController implements Initializable {
   /**
    * Used to add a new player to the list of players. "NPLOS" {@link ch.unibas.dmi.dbis.cs108.multiplayer.helpers.GuiParameters}
    *
-   * @param s
+   * @param s the information corresponding to to the client in String from
    */
   public void addClientToList(String s) {
     ClientListItem cl = new ClientListItem(s);

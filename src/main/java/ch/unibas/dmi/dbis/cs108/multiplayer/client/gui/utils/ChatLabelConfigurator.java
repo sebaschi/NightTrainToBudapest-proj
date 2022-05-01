@@ -11,7 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 /**
- * Provides utilities to configure Labels for the ChatView {@see ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat.ChatView.fxml}
+ * Provides utilities to configure Labels for the ChatView {@code ChatView.fxml}
  * within {@link ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat.ChatController}
  */
 public class ChatLabelConfigurator {

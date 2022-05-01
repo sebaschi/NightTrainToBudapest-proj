@@ -112,6 +112,8 @@ public class Timer {
 
   /**
    * Checks if all humans have already voted, returns true if so, else returns false
+   * @param game the game this is called in
+   * @return returns true if all humans have voted
    */
   public static boolean haveAllHumansVoted(Game game) {
     boolean[] whoHasVoted = game.getGameState().getClientVoteData().getHasVoted();

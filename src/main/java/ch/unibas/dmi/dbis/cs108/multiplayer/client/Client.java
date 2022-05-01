@@ -151,15 +151,7 @@ public class Client {
     //LOGGER.debug("just checked next line");
   }
 
-  /**
-   * Extracts infromation about names and positions and roles from string and adds it to the
-   * GameStateModel
-   *
-   * @param msg
-   */
-  public void gameStateModelSetter(String msg) {
 
-  }
 
   public void setPosition(int position) {
     this.position = position;
@@ -341,7 +333,7 @@ public class Client {
    * @param parameter a string according to {@link GuiParameters} and {@link ClientGameInfoHandler}
    *                  can be empty
    * @param data      some information in a string, separators can be $ or :
-   *                                                                                      TODO(Seraina&Sebi): evtl. auslagern?
+   *                                                                                      TODO(Seraina Sebi): evtl. auslagern?
    */
   public void sendToGUI(String parameter, String data) {
     try {
@@ -349,7 +341,7 @@ public class Client {
         LOGGER.debug("GUI: PARAMETER:" + parameter + ", DATA: " + data);
       }
       switch (parameter) {
-        case GuiParameters.night: //ClientGameInfoHandler
+        case GuiParameters.night: //ClientGameInfoHandler;
           gameStateModel.setDayClone(false);
           chatApp.getGameController().setNoiseButtonInvisible();
           break;
