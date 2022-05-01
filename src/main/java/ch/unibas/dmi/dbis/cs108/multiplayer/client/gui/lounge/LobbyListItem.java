@@ -110,4 +110,17 @@ public class LobbyListItem {
   public void setNoOfPlayersInLobby(int noOfPlayersInLobby) {
     this.noOfPlayersInLobby.set(noOfPlayersInLobby);
   }
+
+  @Override
+  public String toString() {
+    return "LobbyListItem{" +
+        "lobbyID=" + lobbyID +
+        ", adminName=" + adminName +
+        ", clientsInLobby=" + clientsInLobby +
+        ", ownedByClient=" + ownedByClient +
+        ", isOpen=" + isOpen +
+        ", MAX_CAPACITY=" + MAX_CAPACITY +
+        ", noOfPlayersInLobby=" + noOfPlayersInLobby +
+        '}';
+  }
 }

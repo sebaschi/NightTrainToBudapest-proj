@@ -32,13 +32,14 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class LoungeSceneViewController implements Initializable {
 
-  public static final Logger LOGGER = LogManager.getLogger(JServerProtocolParser.class);
+  public static final Logger LOGGER = LogManager.getLogger(LoungeSceneViewController.class);
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   @FXML
@@ -170,7 +171,9 @@ public class LoungeSceneViewController implements Initializable {
           } else {
             LOGGER.debug("In updateItem(item, empty) Method. Else branch -> nonnull item");
             name.setText(item.getName());
+            name.setTextFill(Color.BLACK);
             id.setText(String.valueOf(item.getId()));
+            id.setTextFill(Color.BLACK);
             setGraphic(nameAndId);
           }
         }
@@ -261,7 +264,10 @@ public class LoungeSceneViewController implements Initializable {
               }
             });
             startOrJoin.setText(item.isOwnedByClient() ? "Start" : "Join");
-            setGraphic(headParent);
+            lobbyID.setTextFill(Color.BLACK);
+            adminName.setTextFill(Color.BLACK);
+            startOrJoin.setTextFill(Color.BLACK);
+            setGraphic(head);
           }
         }
       };
@@ -269,6 +275,7 @@ public class LoungeSceneViewController implements Initializable {
     });
 
     LobbyListView.setPlaceholder(new Text("No open lobbies!"));
+    LobbyListView.setVisible(true);
   }
 
   public void addGameView(){
@@ -336,7 +343,16 @@ public class LoungeSceneViewController implements Initializable {
     }
     LobbyListItem item = new LobbyListItem(id, admin, new SimpleBooleanProperty(ownedByClient),
         new SimpleBooleanProperty(true), new SimpleIntegerProperty(0));
-    lobbies.add(item);
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        lobbies.add(item);
+        LOGGER.debug("within newLobby() run() thread");
+        LOGGER.debug(item.toString());
+      }
+    });
+    LOGGER.debug("newLobby() in LoungeSceneViewController seems to have reached end.");
+    LOGGER.debug(lobbies.toString());
   }
 
   public void joinGame(String lobbyID) {
@@ -362,7 +378,16 @@ public class LoungeSceneViewController implements Initializable {
    * @param s
    */
   public void addClientToList(String s) {
-    clients.add(new ClientListItem(s));
+    ClientListItem cl = new ClientListItem(s);
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        clients.add(cl);
+        LOGGER.debug("in addClientToList() in run()");
+        LOGGER.debug(cl.toString() + " in run()");
+      }
+    });
+
   }
 
   public void newGame() {

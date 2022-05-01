@@ -415,11 +415,14 @@ public class Client {
   private void makeNewLobby(String data) {
     String[] params = data.split(":");
     loungeSceneViewController.newLobby(params[0], params[1]);
+    LOGGER.debug("makeNewLobby() seems to have finnished");
+
   }
 
   private void addPlayerToLobby(String data) {
     String[] params = data.split(":");
     loungeSceneViewController.addPlayerToLobby(params[0], params[1]);
+    LOGGER.debug("addPlayerToLobby() seems to have finnished");
   }
 
   private void updateLobbyMembers(String data) {
