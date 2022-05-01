@@ -118,7 +118,6 @@ public class LoungeSceneViewController implements Initializable {
     LobbyListView.setVisible(true);
     LOGGER.debug("Lobby in initialize" + LobbyListView);
     ClientListView.setVisible(true);
-    ClientListView.setItems(clients);
     addChatView();
 
     ClientListView.setItems(clients);
@@ -200,6 +199,7 @@ public class LoungeSceneViewController implements Initializable {
 
     LobbyListView.setItems(lobbies);
     LOGGER.debug("In Initialize 2 LobbyListView" + LobbyListView);
+    LOGGER.debug("In Initialize 2 LobbyListView" + LobbyListView.getId());
     LobbyListView.setCellFactory(param -> {
       ListCell<LobbyListItem> cell = new ListCell<>() {
 
