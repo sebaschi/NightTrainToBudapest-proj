@@ -125,7 +125,7 @@ public class JServerProtocolParser {
         break;
       case Protocol.sendMessageToAllClients:
         msg = msg.substring(6);
-        h.sendMsgToClient(msg);
+        h.sendMsgToClientsInLobby(msg);
       default:
         System.out.println("Received unknown command");
     }
