@@ -5,6 +5,7 @@ import ch.unibas.dmi.dbis.cs108.gamelogic.Game;
 import ch.unibas.dmi.dbis.cs108.gamelogic.TrainOverflow;
 import ch.unibas.dmi.dbis.cs108.gamelogic.VoteHandler;
 import ch.unibas.dmi.dbis.cs108.highscore.OgGhostHighScore;
+import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.GuiParameters;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.ServerPinger;
 
@@ -126,8 +127,12 @@ public class ClientHandler implements Runnable {
    */
   public void changeUsername(String newName) {
     String helper = this.getClientUserName();
+    String oldName = getClientUserName();
     this.clientUserName = nameDuplicateChecker.checkName(newName);
+    guiUpdateAll(Protocol.printToGUI + "$" + GuiParameters.nameChanged + "$" + oldName + ":"
+        + getClientUserName());
     sendMsgToClient(Protocol.changedUserName + "$" + newName);
+
     broadcastAnnouncementToAll(helper + " has changed their nickname to " + clientUserName);
     try {
       getLobby().getGame().getGameState().changeUsername(helper, newName);
@@ -245,6 +250,13 @@ public class ClientHandler implements Runnable {
     }
   }
 
+  public static void guiUpdateAll(String msg) {
+    System.out.println(msg);
+    for (ClientHandler client : connectedClients) {
+      client.sendMsgToClient(msg);
+    }
+  }
+
   /**
    * Broadcasts a non-chat Message to all clients in the same lobby. This can be used for server
    * messages / announcements rather than chat messages. The message will be printed to the user
@@ -306,7 +318,8 @@ public class ClientHandler implements Runnable {
   }
 
   /**
-   * Sends a given message to all connected client. The message has to already be protocol-formatted.
+   * Sends a given message to all connected client. The message has to already be
+   * protocol-formatted.
    *
    * @param msg the given message. Should already be protocol-formatted.
    */
@@ -317,7 +330,9 @@ public class ClientHandler implements Runnable {
   }
 
   /**
-   * Sends a Message to all clients in the same lobby. The message has to already be protocol-formatted.
+   * Sends a Message to all clients in the same lobby. The message has to already be
+   * protocol-formatted.
+   *
    * @param msg the given message. Should already be protocol-formatted.
    */
   public void sendMsgToClientsInLobby(String msg) {
@@ -460,6 +475,8 @@ public class ClientHandler implements Runnable {
   public void createNewLobby() {
     if (Lobby.clientIsInLobby(this) == -1) {
       Lobby newGame = new Lobby(this);
+      guiUpdateAll(Protocol.printToGUI + "$" + GuiParameters.newLobbyCreated + "$" + getLobby()
+          .getLobbyID() + ":" + getClientUserName());
     } else {
       sendAnnouncementToClient("You are already in lobby nr. " + Lobby.clientIsInLobby(this));
     }
@@ -476,6 +493,8 @@ public class ClientHandler implements Runnable {
     if (l != null) {
       if (l.getLobbyIsOpen()) {
         l.addPlayer(this);
+        guiUpdateAll(Protocol.printToGUI + "$" + GuiParameters.addNewMemberToLobby + "$" + i + ":"
+            + getClientUserName());
       } else {
         sendAnnouncementToClient("The game in Lobby " + l.getLobbyID()
             + " has already started, or the lobby is already full.");
@@ -571,11 +590,11 @@ public class ClientHandler implements Runnable {
       sendAnnouncementToClient("No Games");
     } else {
       sendAnnouncementToClient("Open Games (i.e. open Lobbies):");
-        for (Lobby l : Lobby.lobbies) {
-          if (l.getLobbyIsOpen()) {
-            sendAnnouncementToClient("  - Lobby Nr. " + l.getLobbyID());
-          }
+      for (Lobby l : Lobby.lobbies) {
+        if (l.getLobbyIsOpen()) {
+          sendAnnouncementToClient("  - Lobby Nr. " + l.getLobbyID());
         }
+      }
       sendAnnouncementToClient("Running Games:");
       try {
         for (Game runningGame : Lobby.runningGames) {
@@ -631,7 +650,7 @@ public class ClientHandler implements Runnable {
   public void sendHighScoreList() {
     String list = OgGhostHighScore.formatGhostHighscoreList();
     String[] listarray = list.split("\\R");
-    for (String s: listarray) {
+    for (String s : listarray) {
       sendAnnouncementToClient(s);
     }
   }

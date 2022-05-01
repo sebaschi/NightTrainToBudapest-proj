@@ -6,7 +6,8 @@ package ch.unibas.dmi.dbis.cs108.multiplayer.helpers;
 public class GuiParameters {
 
   /**
-   * Tells GUI to update the gameStateModel, in the form {@code UPDATE$name:role:kickedOff$name:role:kickedOff} ... usw.
+   * Tells GUI to update the gameStateModel, in the form {@code UPDATE$name:role:kickedOff$name:role:kickedOff}
+   * ... usw.
    */
   public static final String updateGameState = "UPDATE";
   /**
@@ -20,8 +21,8 @@ public class GuiParameters {
   public static final String listOfPLayers = "PLAYERS";
 
   /**
-   * Tells Gui, that the passenger at position {@code position} has heard some noise
-   * Form: {@code NOISE$position$}
+   * Tells Gui, that the passenger at position {@code position} has heard some noise Form: {@code
+   * NOISE$position$}
    */
   public static final String noiseHeardAtPosition = "NOISE";
 
@@ -40,15 +41,15 @@ public class GuiParameters {
    */
   public static final String viewChangeToGame = "VCGAME";
 
+
   /**
-   * Tells Gui, who the members of a specified Lobby are.
-   * Form: {@code LMEMBS$<lobbyID>:<ADMIN NAME>:<member names>:<..>}
+   * Tells Gui, who the members of a specified Lobby are. Form: {@code LMEMBS$<lobbyID>:<ADMIN
+   * NAME>:<member names>:<..>}
    */
   public static final String getMembersInLobby = "LMEMBS";
 
   /**
-   * Tells Gui, that a new Lobby has been created.
-   * Form: {@code NLOBBY$<lobbyID>:<Admin Name>}
+   * Tells Gui, that a new Lobby has been created. Form: {@code NLOBBY$<lobbyID>:<Admin Name>}
    */
   public static final String changeToLobby = "LMEMBS";
 
@@ -69,8 +70,17 @@ public class GuiParameters {
   public static final String newLobbyCreated = "NLOBBY";
 
   /**
-   * Tells Gui, to add a player to a lobby.
-   * Form: {@code NMEMB$<LobbyIS>:<PlayerNamse>}
+   * Tells Gui, to add a player to a lobby. Form: {@code NMEMB$<LobbyIS>:<PlayerNamse>}
    */
   public static final String addNewMemberToLobby = "NMEMB";
+
+  /**
+   * Indicates a player changed their username. Form: {@code NCHANG$<oldName>:<newName>}
+   */
+  public static final String nameChanged = "NCHANG";
+
+  /**
+   * Indicates a player has joined the server. Form: {@code NPLOS$<playerName>}
+   */
+  public static final String newPlayerOnServer = "NPLOS";
 }

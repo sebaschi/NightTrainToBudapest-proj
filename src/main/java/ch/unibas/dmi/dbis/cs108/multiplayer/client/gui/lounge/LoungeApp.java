@@ -1,37 +1,39 @@
-package ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat;
+package ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ClientModel;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat.ChatApp;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat.ChatController;
 import java.net.URL;
 import java.util.Objects;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class ChatApp extends Application {
+/**
+ * Class for debugging the lounge gui scene
+ */
+public class LoungeApp extends Application {
 
   public static final Logger LOGGER = LogManager.getLogger(ChatApp.class);
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   private static ClientModel clientModel;
   private static ChatController chatController;
-  private static GameController gameController;
   private ClientModel cModel;
-  private GameController gameC;
 
   private static LoungeSceneViewController loungeSceneViewController;
 
-  public ChatApp() {
+  public LoungeApp() {
     super();
     LOGGER.info("Empty ChatApp constructor got called: ");
   }
 
-  public ChatApp(ClientModel clientM) {
+  public LoungeApp(ClientModel clientM) {
     clientModel = clientM;
     chatController = new ChatController(clientM);
   }
@@ -55,25 +57,8 @@ public class ChatApp extends Application {
     this.cModel = cModel;
   }
 
-  public void setGameC(GameController gameC) {
-    this.gameC = gameC;
-  }
-
   public ClientModel getcModel() {
     return cModel;
-  }
-
-  public static void setGameController(
-      GameController gameController) {
-    ChatApp.gameController = gameController;
-  }
-
-  public GameController getGameController() {
-    return gameController;
-  }
-
-  public GameController getGameC() {
-    return gameC;
   }
 
   public static void setClientModel(ClientModel clientM) {
@@ -109,31 +94,28 @@ public class ChatApp extends Application {
   @Override
   public void start(Stage primaryStage) throws Exception {
     this.setcModel(clientModel);
-    this.setGameC(gameController);
-    gameC.setClient(cModel);
-    gameC.setGameStateModel(GameController.getGameStateModel());
-    URL chatResource = ChatApp.class.getResource(
-        "chat/ChatView.fxml");
-    URL gameResource = ChatApp.class.getResource(
-        "game/GameDayAll.fxml");
+    URL resource = ChatApp.class.getResource(
+        "LoungeSceneView.fxml");
+    if (resource == null) {
+      LOGGER.info("File wasnt found. Name: LoungeSceneView.fxml");
+    }
+    //ChatApp chatApp = new ChatApp(new ClientModel());
     try {
       Parent root = FXMLLoader.load(
-          Objects.requireNonNull(gameResource));
+          Objects.requireNonNull(LoungeApp.class.getResource(
+              "LoungeSceneView.fxml")));
       // TODO bin chatController.getChatPaneRoot() border to root border for rezising
+//      loungeSceneViewController.getChatAreaHBox().getChildren()
+//          .add(FXMLLoader.load(Objects.requireNonNull(ChatApp.class.getResource("ChatView.fxml"))));
       Scene scene = new Scene(root);
       scene.setRoot(root);
       primaryStage.setScene(scene);
     } catch (Exception e) {
       e.printStackTrace();
     }
-    primaryStage.setResizable(false);
-    Node chat = FXMLLoader.load(
-        Objects.requireNonNull(chatResource));
-    primaryStage.setTitle("Night Train To Budapest");
     primaryStage.setResizable(true);
-    primaryStage.setTitle("Chat");
+    primaryStage.setTitle("Lounge");
     primaryStage.show();
-
 
 
   }
@@ -143,3 +125,4 @@ public class ChatApp extends Application {
   }
 
 }
+
