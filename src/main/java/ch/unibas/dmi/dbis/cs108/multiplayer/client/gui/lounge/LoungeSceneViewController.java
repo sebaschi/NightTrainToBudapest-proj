@@ -21,6 +21,7 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -199,7 +200,6 @@ public class LoungeSceneViewController implements Initializable {
 
     LobbyListView.setItems(lobbies);
     LOGGER.debug("In Initialize 2 LobbyListView" + LobbyListView);
-    LOGGER.debug("In Initialize 2 LobbyListView" + LobbyListView.getId());
     LobbyListView.setCellFactory(param -> {
       ListCell<LobbyListItem> cell = new ListCell<>() {
 
@@ -384,6 +384,7 @@ public class LoungeSceneViewController implements Initializable {
       @Override
       public void run() {
         lobbies.add(item);
+        LobbyListView.refresh();
         LOGGER.debug("within newLobby() run() thread");
         LOGGER.debug(item.toString());
         LOGGER.debug("In newLobby() run() " + LobbyListView);
