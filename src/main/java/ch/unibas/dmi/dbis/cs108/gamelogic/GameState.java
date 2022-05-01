@@ -167,13 +167,14 @@ public class GameState {
       } else if (array[i].getIsGhost()) {
         print[i] = array[i].getName() + ":g:" + array[i].getKickedOff();
       } else {
-        print[i] = "| " + array[i].getName() + ":h:" + array[i].getKickedOff();
+        print[i] = array[i].getName() + ":h:" + array[i].getKickedOff();
       }
 
     }
     for (int i = 0; i < array.length; i++) {
       stringBuilder.append("$").append(print[i]);
     }
+    stringBuilder.append("$");
     return stringBuilder.toString();
   }
 
@@ -194,6 +195,7 @@ public class GameState {
     for (int i = 0; i < array.length; i++) {
       stringBuilder.append("$").append(print[i]);
     }
+    stringBuilder.append("$");
     return stringBuilder.toString();
   }
 

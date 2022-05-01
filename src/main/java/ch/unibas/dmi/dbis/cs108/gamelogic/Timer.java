@@ -22,7 +22,7 @@ public class Timer {
    * The length of time in seconds after the ghost vote during which the ghosts visually walk to /
    * from their victim and the timespan within which humans will hear a noise. After this, the day starts.
    */
-  public static final int ghostAfterVoteTime = 7;
+  public static final int ghostAfterVoteTime = 4;
   /**
    * The maximum length of the human vote in the day, in seconds
    */

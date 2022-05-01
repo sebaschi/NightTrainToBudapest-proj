@@ -51,6 +51,22 @@ public class GuiParameters {
   /**
    * Tells Gui, that a new Lobby has been created. Form: {@code NLOBBY$<lobbyID>:<Admin Name>}
    */
+  public static final String changeToLobby = "LMEMBS";
+
+  /**
+   * Informs the GUI, that a vote is over
+   */
+  public static final String VoteIsOver = "VOTEOVER";
+
+  /**
+   * Informes Gui, that its the night
+   */
+  public static final String night = "NIGHT";
+  /**
+   * Informes Gui, that its the day
+   */
+  public static final String day = "DAY";
+
   public static final String newLobbyCreated = "NLOBBY";
 
   /**

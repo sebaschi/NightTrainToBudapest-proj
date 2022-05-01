@@ -2,6 +2,8 @@ package ch.unibas.dmi.dbis.cs108.gamelogic;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Passenger;
+import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.GuiParameters;
+import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -66,7 +68,7 @@ public class VoteHandler {
       }
     }
     LOGGER.info("Most votes for: " + newGhostPosition);
-
+    Timer.ghostAfterVoteTimer();
     for(Passenger passenger : passengers) {
       if(passenger.getIsGhost() || passenger.getIsSpectator()) {
         passenger.send(passengers[newGhostPosition].getName() + ClientGameInfoHandler.gotGhostyfied, game);
@@ -85,7 +87,7 @@ public class VoteHandler {
     walk by is being updated. Finally, each passenger receives information about how often he heard something during
     this night. The player who's just been ghostified is ignored since he didn't participate in this night's
     ghostification. */
-
+    Timer.ghostAfterVoteTimer();
     int[] noiseAmount = new int[6];
     for (int i = 0; i < passengers.length; i++) {
       if (passengers[i].getIsGhost() && i != newGhostPosition) {
@@ -152,6 +154,7 @@ public class VoteHandler {
     }
 
     Timer.humanVoteTimer(game);
+    game.getLobby().getAdmin().sendMsgToClientsInLobby(Protocol.printToGUI + "$" + GuiParameters.VoteIsOver + "$");
 
     int currentMax = humanVoteEvaluation(passengers, votesForPlayers, game.getGameState().getClientVoteData(), game);
 
@@ -170,6 +173,7 @@ public class VoteHandler {
             ClientGameInfoHandler.humansVotedFor + voteIndex + ClientGameInfoHandler.isAHuman, game);
       }
     }
+    Timer.ghostAfterVoteTimer();
     if (passengers[voteIndex].getIsGhost()) { // if player is a ghost
       if (passengers[voteIndex].getIsOG()) { // if ghost is OG --> end game, humans win
         System.out.println(ClientGameInfoHandler.gameOverHumansWin);

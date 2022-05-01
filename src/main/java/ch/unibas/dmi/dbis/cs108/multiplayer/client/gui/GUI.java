@@ -2,7 +2,6 @@ package ch.unibas.dmi.dbis.cs108.multiplayer.client.gui;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat.ChatApp;
-import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge.LoungeApp;
 import javafx.application.Application;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

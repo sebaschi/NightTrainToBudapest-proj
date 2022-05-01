@@ -5,7 +5,7 @@ import ch.unibas.dmi.dbis.cs108.gamelogic.ClientGameInfoHandler;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ClientModel;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.GUI;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.GameStateModel;
-import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat.ChatApp;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ChatApp;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat.ChatController;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game.GameController;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge.LoungeApp;
@@ -16,6 +16,7 @@ import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.ClientPinger;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.GuiParameters;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
 
+import com.google.inject.Guice;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.io.*;
@@ -82,6 +83,9 @@ public class Client {
       //this.chatGui = new GUI(this.chatApp);
       clientPinger = new ClientPinger(this, this.socket);
       this.gameStateModel = new GameStateModel();
+      this.chatApp = new ChatApp(new ClientModel(systemName, this));
+      ChatApp.setGameController(new GameController(ChatApp.getClientModel(), gameStateModel));
+      this.chatGui = new GUI(this.chatApp);
       this.gameController = new GameController(ChatApp.getClientModel(), gameStateModel);
       this.loungeApp = new LoungeApp(ChatApp.getClientModel());
       //this.loungeGui = new GUI(this.loungeApp);
@@ -159,6 +163,9 @@ public class Client {
 
   }
 
+  public void setPosition(int position) {
+    this.position = position;
+  }
 
   /**
    * Starts a thread which listens for incoming chat messages / other messages that the user has to
@@ -340,28 +347,35 @@ public class Client {
    */
   public void sendToGUI(String parameter, String data) {
     try {
+      if(!parameter.equals(GuiParameters.updateGameState)) {
+        LOGGER.debug("GUI: PARAMETER:" + parameter + ", DATA: " + data);
+      }
       switch (parameter) {
-        case ClientGameInfoHandler.itsNightTime: //ClientGameInfoHandler
+        case GuiParameters.night: //ClientGameInfoHandler
           gameStateModel.setDayClone(false);
+          chatApp.getGameController().setNoiseButtonInvisible();
           break;
-        case ClientGameInfoHandler.itsDayTime: //ClientGameInfoHandler
+        case GuiParameters.day: //ClientGameInfoHandler
           gameStateModel.setDayClone(true);
           break;
         case GuiParameters.updateGameState:
           gameStateModel.setGSFromString(data);
-          gameController.updateRoomLabels();
+          chatApp.getGameController().updateRoomLabels();
           break;
         case GuiParameters.noiseHeardAtPosition:
           try {
             int position = Integer.parseInt(data);
             determineNoiseDisplay(position);
           } catch (Exception e) {
-            LOGGER.warn("Not a position given for noise");
+            LOGGER.warn("Not a position given for noise " +e.getMessage());
           }
           break;
         case GuiParameters.listOfLobbies:
           //updateListOfLobbies(data); (commented out due to compiling error)
           //TODO
+          break;
+        case GuiParameters.VoteIsOver:
+          chatApp.getGameController().clearAllNoiseDisplay();
           break;
         case GuiParameters.listOfPLayers:
           updateListOfClients(data);
@@ -418,6 +432,7 @@ public class Client {
     int n = arr.length;
     for (int i = 0; i < n; i = i + 2) {
       list.add(new SimpleStringProperty(arr[i]));
+      //ChatController.getClient().addLobbyToList(new SimpleStringProperty(arr[i]));
     }
     //TODO
   }
@@ -441,9 +456,9 @@ public class Client {
   public void notificationTextDisplay(String data) {
     new Thread(() -> {
       try {
-        gameController.addMessageToNotificationText(data);
-        Thread.sleep(3000);
-        gameController.clearNotificationText();
+        chatApp.getGameController().addMessageToNotificationText(data);
+        Thread.sleep(5000);
+        chatApp.getGameController().clearNotificationText();
       } catch (InterruptedException e) {
         LOGGER.warn(e.getMessage());
       }
@@ -452,19 +467,26 @@ public class Client {
   }
 
   public void determineNoiseDisplay(int position) {
+    LOGGER.debug(position);
     switch (position) {
       case 0:
-        gameController.noiseDisplay0();
+        chatApp.getGameController().noiseDisplay0();
+        break;
       case 1:
-        gameController.noiseDisplay1();
+        chatApp.getGameController().noiseDisplay1();
+        break;
       case 2:
-        gameController.noiseDisplay2();
+        chatApp.getGameController().noiseDisplay2();
+        break;
       case 3:
-        gameController.noiseDisplay3();
+        chatApp.getGameController().noiseDisplay3();
+        break;
       case 4:
-        gameController.noiseDisplay4();
+        chatApp.getGameController().noiseDisplay4();
+        break;
       case 5:
-        gameController.noiseDisplay5();
+        chatApp.getGameController().noiseDisplay5();
+        break;
     }
   }
 

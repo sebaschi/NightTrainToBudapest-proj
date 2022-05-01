@@ -2,6 +2,7 @@ package ch.unibas.dmi.dbis.cs108.multiplayer.client;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.gamelogic.ClientGameInfoHandler;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game.GameController;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
 import java.io.OutputStreamWriter;
 import org.apache.logging.log4j.LogManager;
@@ -39,6 +40,9 @@ public class JClientProtocolParser {
         break;
       case Protocol.printToClientConsole:
         System.out.println(msg.substring(6));
+        if (!msg.substring(6).equals("Your vote was invalid")) {
+          c.notificationTextDisplay(msg.substring(6));
+        }
         break;
       case Protocol.printToClientChat:
         //todo: handle chat separately from console.
@@ -72,7 +76,14 @@ public class JClientProtocolParser {
         }
           c.sendToGUI(parameter,data);
         break;
-      default:
+      case Protocol.positionOfClient:
+        try {
+          int position = Integer.parseInt(msg.substring(6));
+          GameController.getClient().getClient().setPosition(position);
+        } catch (Exception e) {
+          LOGGER.warn(msg.substring(6));
+        }
+        default:
         System.out.println("Received unknown command");
     }
   }
