@@ -3,27 +3,17 @@ package ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge;
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ClientModel;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ChatApp;
-import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.events.ChangeNameButtonPressedEventHandler;
-import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.events.LeaveServerButtonPressedEventHandler;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
 import ch.unibas.dmi.dbis.cs108.multiplayer.server.JServerProtocolParser;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
 import java.util.ResourceBundle;
-import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.binding.StringBinding;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleListProperty;
-import javafx.beans.property.SimpleMapProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
@@ -279,15 +269,6 @@ public class LoungeSceneViewController implements Initializable {
     });
 
     LobbyListView.setPlaceholder(new Text("No open lobbies!"));
-    client.getAllClients().addListener(new ListChangeListener<SimpleStringProperty>() {
-      @Override
-      public void onChanged(Change<? extends SimpleStringProperty> c) {
-        List<SimpleStringProperty> removed = (List<SimpleStringProperty>) c.getRemoved();
-        for(SimpleStringProperty player: removed) {
-
-        }
-      }
-    });
   }
 
   public void addGameView(){
@@ -355,7 +336,7 @@ public class LoungeSceneViewController implements Initializable {
     }
     LobbyListItem item = new LobbyListItem(id, admin, new SimpleBooleanProperty(ownedByClient),
         new SimpleBooleanProperty(true), new SimpleIntegerProperty(0));
-    LobbyListView.getItems().add(item);
+    lobbies.add(item);
   }
 
   public void joinGame(String lobbyID) {
@@ -381,7 +362,7 @@ public class LoungeSceneViewController implements Initializable {
    * @param s
    */
   public void addClientToList(String s) {
-    ClientListView.getItems().add(new ClientListItem(s));
+    clients.add(new ClientListItem(s));
   }
 
   public void newGame() {

@@ -104,7 +104,7 @@ public class JServerProtocolParser {
         break;
       case Protocol.leaveLobby:
         h.leaveLobby();
-        h.sendMsgToClient(Protocol.printToGUI + "$" + GuiParameters.viewChangeToStart + "$");
+        h.sendMsgToClient(Protocol.printToGUI + "$" + GuiParameters.viewChangeToLobby + "$");
         break;
       case Protocol.votedFor:
         LOGGER.debug("Made it here");
