@@ -63,9 +63,9 @@ public class LoungeSceneViewController implements Initializable {
   @FXML
   private AnchorPane gameAnchorPane;
   @FXML
-  private ListView<LobbyListItem> LobbyListView;
+  public ListView<LobbyListItem> LobbyListView;
   @FXML
-  private ListView<ClientListItem> ClientListView;
+  public ListView<ClientListItem> ClientListView;
   @FXML
   private Button ChangeNameButton;
   @FXML
@@ -336,8 +336,8 @@ public class LoungeSceneViewController implements Initializable {
   }
 
   /**
-   * Adds players to a lobby
-   * "NMEMB" {@link ch.unibas.dmi.dbis.cs108.multiplayer.helpers.GuiParameters}
+   * Adds players to a lobby "NMEMB" {@link ch.unibas.dmi.dbis.cs108.multiplayer.helpers.GuiParameters}
+   *
    * @param lobbyID
    * @param player
    */
@@ -417,7 +417,7 @@ public class LoungeSceneViewController implements Initializable {
 
   }
 
-  public void removeClientFromList(String name){
+  public void removeClientFromList(String name) {
     Iterator<ClientListItem> it = clients.iterator();
     while (it.hasNext()) {
       String uid = it.next().getName();
@@ -425,9 +425,10 @@ public class LoungeSceneViewController implements Initializable {
         it.remove();
         break;
       }
-    }  }
+    }
+  }
 
-  public void removeClientFromLobby(String s){
+  public void removeClientFromLobby(String s) {
     //todo
   }
 
