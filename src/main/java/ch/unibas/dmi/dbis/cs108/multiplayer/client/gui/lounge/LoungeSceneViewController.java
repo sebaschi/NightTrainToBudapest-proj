@@ -120,6 +120,7 @@ public class LoungeSceneViewController implements Initializable {
     newGameButton.setOnAction(event -> newGame());
     LobbyListView.setVisible(true);
     lListView = LobbyListView;
+    cListView = ClientListView;
     LOGGER.debug("Lobby in initialize" + LobbyListView);
     ClientListView.setVisible(true);
     ClientListView.setItems(clients);
@@ -216,6 +217,7 @@ public class LoungeSceneViewController implements Initializable {
 
         {
           head.setAlignment(Pos.CENTER_LEFT);
+          head.setSpacing(5);
           playerList.setAlignment(Pos.CENTER_LEFT);
           headParent.setCollapsible(true);
         }
@@ -372,7 +374,6 @@ public class LoungeSceneViewController implements Initializable {
     SimpleStringProperty id = new SimpleStringProperty(lobbyID);
     SimpleStringProperty admin = new SimpleStringProperty((adminName));
     LOGGER.debug("In newLobby()1  LobbyListView" + LobbyListView);
-    Button startOrJoin;
     boolean ownedByClient = false;
     if (adminName.equals(client.getUsername())) {
       LOGGER.debug("Client is admin. Name: " + adminName);
@@ -423,6 +424,7 @@ public class LoungeSceneViewController implements Initializable {
    */
   public void addClientToList(String s) {
     ClientListItem cl = new ClientListItem(s);
+    ClientListView = cListView;
     Platform.runLater(new Runnable() {
       @Override
       public void run() {

@@ -26,6 +26,7 @@ public class LobbyListItem {
   private final int MAX_CAPACITY = 6;
   private SimpleIntegerProperty noOfPlayersInLobby;
 
+
   public LobbyListItem(SimpleStringProperty lobbyID, SimpleStringProperty adminName,
       SimpleBooleanProperty ownedByClient, SimpleBooleanProperty isOpen,
       SimpleIntegerProperty noOfPlayersInLobby) {
