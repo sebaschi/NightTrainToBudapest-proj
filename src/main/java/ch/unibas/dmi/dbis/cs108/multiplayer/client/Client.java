@@ -8,6 +8,7 @@ import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.GameStateModel;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ChatApp;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat.ChatController;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game.GameController;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge.LoungeSceneViewController;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.ClientPinger;
 
 
@@ -42,6 +43,8 @@ public class Client {
   private GUI chatGui;
   private ClientModel clientModel;
   private GameStateModel gameStateModel;
+  private GameController gameController;
+  private LoungeSceneViewController loungeSceneViewController;
 
   /**
    * Saves the position of the client, gets refreshed everytime the client gets a vote request.
@@ -75,6 +78,9 @@ public class Client {
       this.chatApp = new ChatApp(new ClientModel(systemName, this));
       ChatApp.setGameController(new GameController(ChatApp.getClientModel(), gameStateModel));
       this.chatGui = new GUI(this.chatApp);
+      this.gameController = new GameController(ChatApp.getClientModel(), gameStateModel);
+      this.loungeSceneViewController = new LoungeSceneViewController();
+      LoungeSceneViewController.setClient(ChatApp.getClientModel());
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -326,7 +332,7 @@ public class Client {
    * @param parameter a string according to {@link GuiParameters} and {@link ClientGameInfoHandler}
    *                  can be empty
    * @param data      some information in a string, separators can be $ or :
-   *                  TODO(Seraina&Sebi): evtl. auslagern?
+   *                                   TODO(Seraina&Sebi): evtl. auslagern?
    */
   public void sendToGUI(String parameter, String data) {
     try {
@@ -340,7 +346,6 @@ public class Client {
           break;
         case GuiParameters.day: //ClientGameInfoHandler
           gameStateModel.setDayClone(true);
-          chatApp.getGameController().setNoiseButtonVisible();
           break;
         case GuiParameters.updateGameState:
           gameStateModel.setGSFromString(data);
@@ -365,15 +370,24 @@ public class Client {
           updateListOfClients(data);
           //TODO
           break;
+        case GuiParameters.getMembersInLobby:
+          updateLobbyMembers(data);
+          break;
         //case GuiParameters.viewChangeToGame: (commented out due to compiling error)
-          //TODO
-          //break; (commented out due to compiling error)
+        //TODO
+        //break; (commented out due to compiling error)
         //case GuiParameters.viewChangeToStart: (commented out due to compiling error)
-          //TODO
-          //break; (commented out due to compiling error)
+        //TODO
+        //break; (commented out due to compiling error)
         //case GuiParameters.viewChangeToLobby: (commented out due to compiling error)
-          //TODO
-          //break; (commented out due to compiling error)
+        //TODO
+        //break; (commented out due to compiling error)
+        case GuiParameters.addNewMemberToLobby:
+          addPlayerToLobby(data);
+          break;
+        case GuiParameters.newLobbyCreated:
+          makeNewLobby(data);
+          break;
         default:
           notificationTextDisplay(data);
           //TODO(Sebi,Seraina): should the gameController be in the Application just like the ChatController?
@@ -385,6 +399,22 @@ public class Client {
 
   }
 
+  private void makeNewLobby(String data) {
+    String[] params = data.split(":");
+    loungeSceneViewController.newLobby(params[0], params[1]);
+  }
+
+  private void addPlayerToLobby(String data) {
+    String[] params = data.split(":");
+    loungeSceneViewController.addPlayerToLobby(params[0], params[1]);
+  }
+
+  private void updateLobbyMembers(String data) {
+    String[] dataArr = data.split(":");
+    String lobbyID = dataArr[0];
+    String adminName = dataArr[1];
+  }
+
   private void updateListOfLobbies(String data) {
     String[] arr = data.split(":");
     ObservableList<SimpleStringProperty> list = new SimpleListProperty<>();
@@ -393,16 +423,17 @@ public class Client {
       list.add(new SimpleStringProperty(arr[i]));
       //ChatController.getClient().addLobbyToList(new SimpleStringProperty(arr[i]));
     }
+    //TODO
   }
 
   private void updateListOfClients(String data) {
     String[] arr = data.split(":");
     ObservableList<SimpleStringProperty> list = new SimpleListProperty<>();
     int n = arr.length;
-    for (int i = 0; i < n; i = i + 2) {
+    for (int i = 0; i < n; i = i + 1) {
       list.add(new SimpleStringProperty(arr[i]));
     }
-    ChatController.getClient().getAllClients().setAll();
+    loungeSceneViewController.updateClientListView(list);
   }
 
   /**

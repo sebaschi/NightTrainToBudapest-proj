@@ -41,8 +41,14 @@ public class GuiParameters {
   public static final String viewChangeToGame = "VCGAME";
 
   /**
-   * Tells, Gui, who the members of a specified Lobby are.
-   * Form: {@code LMEMBS$<lobbyID>$<member names>$..}
+   * Tells Gui, who the members of a specified Lobby are.
+   * Form: {@code LMEMBS$<lobbyID>:<ADMIN NAME>:<member names>:<..>}
+   */
+  public static final String getMembersInLobby = "LMEMBS";
+
+  /**
+   * Tells Gui, that a new Lobby has been created.
+   * Form: {@code NLOBBY$<lobbyID>:<Admin Name>}
    */
   public static final String changeToLobby = "LMEMBS";
 
@@ -60,4 +66,11 @@ public class GuiParameters {
    */
   public static final String day = "DAY";
 
+  public static final String newLobbyCreated = "NLOBBY";
+
+  /**
+   * Tells Gui, to add a player to a lobby.
+   * Form: {@code NMEMB$<LobbyIS>:<PlayerNamse>}
+   */
+  public static final String addNewMemberToLobby = "NMEMB";
 }
