@@ -13,14 +13,14 @@
   <children>
       <Group fx:id="roomButtonGroupDay" layoutX="230.5" layoutY="220.0">
          <children>
-            <HBox fx:id="notificationHBox" layoutX="50.0" layoutY="-74.0" rotate="12.4">
+            <HBox fx:id="notificationHBox" layoutX="20.0" layoutY="-55.0" rotate="12.4">
                <children>
-                  <ImageView fx:id="noiseImage0" fitHeight="150.0" fitWidth="125.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fx:id="noiseImage1" fitHeight="150.0" fitWidth="125.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fx:id="noiseImage2" fitHeight="150.0" fitWidth="125.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fx:id="noiseImage3" fitHeight="150.0" fitWidth="125.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fx:id="noiseImage4" fitHeight="150.0" fitWidth="125.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fx:id="noiseImage5" fitHeight="150.0" fitWidth="125.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="noiseImage0" fitHeight="150.0" fitWidth="125.0" pickOnBounds="true" preserveRatio="true" rotate="-12.4" />
+                  <ImageView fx:id="noiseImage1" fitHeight="150.0" fitWidth="125.0" pickOnBounds="true" preserveRatio="true" rotate="-12.4" />
+                  <ImageView fx:id="noiseImage2" fitHeight="150.0" fitWidth="125.0" pickOnBounds="true" preserveRatio="true" rotate="-12.4" />
+                  <ImageView fx:id="noiseImage3" fitHeight="150.0" fitWidth="125.0" pickOnBounds="true" preserveRatio="true" rotate="-12.4" />
+                  <ImageView fx:id="noiseImage4" fitHeight="150.0" fitWidth="125.0" pickOnBounds="true" preserveRatio="true" rotate="-12.4" />
+                  <ImageView fx:id="noiseImage5" fitHeight="150.0" fitWidth="125.0" pickOnBounds="true" preserveRatio="true" rotate="-12.4" />
                </children>
             </HBox>
           <Button id="room1" fx:id="buttonRoom0" accessibleRole="RADIO_BUTTON" alignment="TOP_CENTER" contentDisplay="GRAPHIC_ONLY" layoutX="21.5" minWidth="-Infinity" mnemonicParsing="false" onAction="#sendVote0" prefHeight="110.0" prefWidth="90.0" text="room0">
@@ -95,14 +95,14 @@
               </ImageView>
             </graphic>
           </Button>
-            <HBox fx:id="roomLables" alignment="CENTER" layoutY="80.0" prefHeight="62.0" prefWidth="747.0" rotate="12.4">
+            <HBox fx:id="roomLables" alignment="CENTER" layoutY="82.0" prefHeight="62.0" prefWidth="747.0" rotate="12.2">
                <children>
-                  <TextFlow fx:id="lableRoom0" prefHeight="200.0" prefWidth="200.0" />
-                  <TextFlow fx:id="lableRoom1" prefHeight="200.0" prefWidth="200.0" />
-                  <TextFlow fx:id="lableRoom2" prefHeight="200.0" prefWidth="200.0" />
-                  <TextFlow fx:id="lableRoom3" prefHeight="200.0" prefWidth="200.0" />
-                  <TextFlow fx:id="lableRoom4" prefHeight="200.0" prefWidth="200.0" />
-                  <TextFlow fx:id="lableRoom5" prefHeight="200.0" prefWidth="200.0" />
+                  <TextFlow fx:id="lableRoom0" prefHeight="200.0" prefWidth="200.0" textAlignment="CENTER" />
+                  <TextFlow fx:id="lableRoom1" prefHeight="200.0" prefWidth="200.0" textAlignment="CENTER" />
+                  <TextFlow fx:id="lableRoom2" prefHeight="200.0" prefWidth="200.0" textAlignment="CENTER" />
+                  <TextFlow fx:id="lableRoom3" prefHeight="200.0" prefWidth="200.0" textAlignment="CENTER" />
+                  <TextFlow fx:id="lableRoom4" prefHeight="200.0" prefWidth="200.0" textAlignment="CENTER" />
+                  <TextFlow fx:id="lableRoom5" prefHeight="200.0" prefWidth="200.0" textAlignment="CENTER" />
                </children>
             </HBox>
          </children>

@@ -40,6 +40,9 @@ public class JClientProtocolParser {
         break;
       case Protocol.printToClientConsole:
         System.out.println(msg.substring(6));
+        if (!msg.substring(6).equals("Your vote was invalid")) {
+          c.notificationTextDisplay(msg.substring(6));
+        }
         break;
       case Protocol.printToClientChat:
         //todo: handle chat separately from console.
@@ -74,9 +77,13 @@ public class JClientProtocolParser {
           c.sendToGUI(parameter,data);
         break;
       case Protocol.positionOfClient:
-        int position = Integer.parseInt(msg.substring(6));
-        GameController.getClient().getClient().setPosition(position);
-      default:
+        try {
+          int position = Integer.parseInt(msg.substring(6));
+          GameController.getClient().getClient().setPosition(position);
+        } catch (Exception e) {
+          LOGGER.warn(msg.substring(6));
+        }
+        default:
         System.out.println("Received unknown command");
     }
   }

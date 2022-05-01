@@ -40,11 +40,24 @@ public class GuiParameters {
    */
   public static final String viewChangeToGame = "VCGAME";
 
-
-
   /**
    * Tells, Gui, who the members of a specified Lobby are.
    * Form: {@code LMEMBS$<lobbyID>$<member names>$..}
    */
-  public static String changeToLobby = "LMEMBS";
+  public static final String changeToLobby = "LMEMBS";
+
+  /**
+   * Informs the GUI, that a vote is over
+   */
+  public static final String VoteIsOver = "VOTEOVER";
+
+  /**
+   * Informes Gui, that its the night
+   */
+  public static final String night = "NIGHT";
+  /**
+   * Informes Gui, that its the day
+   */
+  public static final String day = "DAY";
+
 }

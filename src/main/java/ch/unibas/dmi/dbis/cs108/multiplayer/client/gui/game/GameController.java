@@ -181,6 +181,14 @@ public class GameController implements Initializable{
           + client.getClient().getPosition()); //TODO: Test!!
  }
 
+ public void setNoiseButtonInvisible() {
+  noiseButton.setVisible(false);
+ }
+
+ public void setNoiseButtonVisible() {
+  noiseButton.setVisible(true);
+ }
+
  /**
   * Takes a given message and displays it in the notificationText Flow in the game Scene
   * @param msg the message to be displayed
@@ -197,7 +205,6 @@ public class GameController implements Initializable{
      notificationText.getChildren().add(notification);
     } catch (Exception e) {
      LOGGER.debug(e.getMessage());
-     e.printStackTrace();
     }
    }
   });
@@ -214,7 +221,7 @@ public class GameController implements Initializable{
    @Override
    public void run() {
      try {
-      notificationText.getChildren().clear();
+      notificationText.getChildren().remove(0);
      } catch (Exception e) {
       LOGGER.debug("Not yet initialized");
      }
@@ -230,18 +237,73 @@ public class GameController implements Initializable{
   LOGGER.debug("roomlables update");
   String[] names = gameStateModel.getPassengerTrainClone()[0];
   String[] roles = gameStateModel.getPassengerTrainClone()[1];
+  boolean[] kickedOff = gameStateModel.getKickedOff();
   Text name0 = new Text(names[0]);
+  name0.setStyle("-fx-font: 25 arial;");
+  name0.setFill(Color.WHITE);
   Text name1 = new Text(names[1]);
+  name1.setStyle("-fx-font: 25 arial;");
+  name1.setFill(Color.WHITE);
   Text name2 = new Text(names[2]);
+  name2.setStyle("-fx-font: 25 arial;");
+  name2.setFill(Color.WHITE);
   Text name3 = new Text(names[3]);
+  name3.setStyle("-fx-font: 25 arial;");
+  name3.setFill(Color.WHITE);
   Text name4 = new Text(names[4]);
+  name4.setStyle("-fx-font: 25 arial;");
+  name4.setFill(Color.WHITE);
   Text name5 = new Text(names[5]);
-  Text role0 = new Text(roles[0]);
-  Text role1 = new Text(roles[1]);
-  Text role2 = new Text(roles[2]);
-  Text role3 = new Text(roles[3]);
-  Text role4 = new Text(roles[4]);
-  Text role5 = new Text(roles[5]);
+  name5.setStyle("-fx-font: 25 arial;");
+  name5.setFill(Color.WHITE);
+  Text role0;
+  if(kickedOff[0]) {
+   role0 = new Text("\nkicked off");
+  } else {
+   role0 = new Text("\n" + roles[0]);
+  }
+  role0.setStyle("-fx-font: 25 arial;");
+  role0.setFill(Color.WHITE);
+  Text role1;
+  if(kickedOff[1]) {
+   role1 = new Text("\nkicked off");
+  } else {
+   role1 = new Text("\n" + roles[0]);
+  }
+  role1.setStyle("-fx-font: 25 arial;");
+  role1.setFill(Color.WHITE);
+  Text role2;
+  if(kickedOff[2]) {
+   role2 = new Text("\nkicked off");
+  } else {
+   role2 = new Text("\n" + roles[0]);
+  }
+  role2.setStyle("-fx-font: 25 arial;");
+  role2.setFill(Color.WHITE);
+  Text role3;
+  if(kickedOff[3]) {
+   role3 = new Text("\nkicked off");
+  } else {
+   role3 = new Text("\n" + roles[0]);
+  }
+  role3.setStyle("-fx-font: 25 arial;");
+  role3.setFill(Color.WHITE);
+  Text role4;
+  if(kickedOff[4]) {
+   role4 = new Text("\nkicked off");
+  } else {
+   role4 = new Text("\n" + roles[0]);
+  }
+  role4.setStyle("-fx-font: 25 arial;");
+  role4.setFill(Color.WHITE);
+  Text role5;
+  if(kickedOff[5]) {
+   role5 = new Text("\nkicked off");
+  } else {
+   role5 = new Text("\n" + roles[0]);
+  }
+  role5.setStyle("-fx-font: 25 arial;");
+  role5.setFill(Color.WHITE);
 
   Platform.runLater(new Runnable(){
    @Override
@@ -368,13 +430,34 @@ public class GameController implements Initializable{
  /**
   * Adds an image of a bell on top of button5
   */
- public void noiseDisplay5(){
+ public void noiseDisplay5() {
   LOGGER.debug("noise5 called");
   Platform.runLater(new Runnable(){
    @Override
    public void run() {
     try {
      noiseImage5.setImage(loadBellImage());
+    } catch (Exception e) {
+     LOGGER.debug(e.getMessage());
+    }
+   }
+  });
+ }
+
+ /**
+  * Clears all bells from the view
+  */
+ public void clearAllNoiseDisplay() {
+  Platform.runLater(new Runnable(){
+   @Override
+   public void run() {
+    try {
+     noiseImage0.setImage(null);
+     noiseImage1.setImage(null);
+     noiseImage2.setImage(null);
+     noiseImage3.setImage(null);
+     noiseImage4.setImage(null);
+     noiseImage5.setImage(null);
     } catch (Exception e) {
      LOGGER.debug(e.getMessage());
     }

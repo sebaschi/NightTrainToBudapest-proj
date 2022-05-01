@@ -17,8 +17,8 @@ public class ClientGameInfoHandler {
   public static final String ghostVoteRequest = "Vote on who to ghostify!";
   public static final String humanVoteRequest = "Vote for a ghost to kick off!";
   public static final String noiseNotification = "Someone passed by you ";
-  public static final String gameOverHumansWin = "Game over: humans win!";
-  public static final String gameOverGhostsWin = "Game over: ghosts win!";
+  public static final String gameOverHumansWin = "Game over, humans win!";
+  public static final String gameOverGhostsWin = "Game over, ghosts win!";
 
   //relevant for gui
   public static final String itsNightTime = "Please wait, ghosts are active";

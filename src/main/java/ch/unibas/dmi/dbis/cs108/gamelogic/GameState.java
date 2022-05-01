@@ -174,6 +174,7 @@ public class GameState {
     for (int i = 0; i < array.length; i++) {
       stringBuilder.append("$").append(print[i]);
     }
+    stringBuilder.append("$");
     return stringBuilder.toString();
   }
 
@@ -194,6 +195,7 @@ public class GameState {
     for (int i = 0; i < array.length; i++) {
       stringBuilder.append("$").append(print[i]);
     }
+    stringBuilder.append("$");
     return stringBuilder.toString();
   }
 
