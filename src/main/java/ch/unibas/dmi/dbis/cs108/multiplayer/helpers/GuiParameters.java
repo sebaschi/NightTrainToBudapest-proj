@@ -79,4 +79,10 @@ public class GuiParameters {
    * Indicates a player has joined the server. Form: {@code NPLOS$<playerName>}
    */
   public static final String newPlayerOnServer = "NPLOS";
+
+  /**
+   * Tells gui to remove a certain player from the list of clients based on user name. Form: {@code
+   * RMVLST$<playerName>}
+   */
+  public static final String removePlayerFromList = "RMVLST";
 }

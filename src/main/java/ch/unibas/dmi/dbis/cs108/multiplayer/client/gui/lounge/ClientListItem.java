@@ -9,6 +9,7 @@ public class ClientListItem {
   private final int id;
 
   private static int uid = 0;
+
   public ClientListItem(String name, int id) {
     this.name = new SimpleStringProperty(name);
     this.id = id;
@@ -19,7 +20,7 @@ public class ClientListItem {
   }
 
   @Override
-  public String toString(){
+  public String toString() {
     return name + " ID: " + id;
   }
 

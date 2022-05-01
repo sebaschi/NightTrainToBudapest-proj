@@ -341,7 +341,7 @@ public class Client {
    * @param parameter a string according to {@link GuiParameters} and {@link ClientGameInfoHandler}
    *                  can be empty
    * @param data      some information in a string, separators can be $ or :
-   *                                                                     TODO(Seraina&Sebi): evtl. auslagern?
+   *                                                                                      TODO(Seraina&Sebi): evtl. auslagern?
    */
   public void sendToGUI(String parameter, String data) {
     try {
@@ -385,15 +385,15 @@ public class Client {
           break;
         case GuiParameters.viewChangeToGame:
           chatApp.getLoungeSceneViewController().addGameView();
-        //TODO
-        break;
+          //TODO
+          break;
         /*case GuiParameters.viewChangeToStart:
         //TODO
         break;*/
         case GuiParameters.viewChangeToLobby:
           chatApp.getLoungeSceneViewController().removeGameView();
-        //TODO
-        break;
+          //TODO
+          break;
         case GuiParameters.addNewMemberToLobby:
           addPlayerToLobby(data);
           break;

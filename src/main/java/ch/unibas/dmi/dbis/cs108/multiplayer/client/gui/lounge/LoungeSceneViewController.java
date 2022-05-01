@@ -335,15 +335,6 @@ public class LoungeSceneViewController implements Initializable {
     });
   }
 
-  public void updateClientListView(ObservableList<ClientListItem> names) {
-    ObservableList<ClientListItem> clientsLeft = ClientListView.getItems();
-    clientsLeft.removeAll(names);
-    this.ClientListView.setItems(names);
-    for (ClientListItem gone : clientsLeft) {
-      //TODO
-    }
-  }
-
   /**
    * Adds players to a lobby
    * "NMEMB" {@link ch.unibas.dmi.dbis.cs108.multiplayer.helpers.GuiParameters}
@@ -426,6 +417,20 @@ public class LoungeSceneViewController implements Initializable {
 
   }
 
+  public void removeClientFromList(String name){
+    Iterator<ClientListItem> it = clients.iterator();
+    while (it.hasNext()) {
+      String uid = it.next().getName();
+      if (uid.equals(name)) {
+        it.remove();
+        break;
+      }
+    }  }
+
+  public void removeClientFromLobby(String s){
+    //todo
+  }
+
   public void newGame() {
     client.getClient().sendMsgToServer(Protocol.createNewLobby);
   }
@@ -442,17 +447,6 @@ public class LoungeSceneViewController implements Initializable {
         NTtBToolBar.getItems().remove(name);
       }
     });
-  }
-
-  public void removePlayer(String id) {
-    Iterator<SimpleStringProperty> it = client.getAllClients().iterator();
-    while (it.hasNext()) {
-      String uid = it.next().getValue();
-      if (uid.equals(id)) {
-        it.remove();
-        break;
-      }
-    }
   }
 
   /**

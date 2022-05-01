@@ -475,8 +475,9 @@ public class ClientHandler implements Runnable {
   public void createNewLobby() {
     if (Lobby.clientIsInLobby(this) == -1) {
       Lobby newGame = new Lobby(this);
-      guiUpdateAll(Protocol.printToGUI + "$" + GuiParameters.newLobbyCreated + "$" + getLobby()
-          .getLobbyID() + ":" + getClientUserName());
+      guiUpdateAll(
+          Protocol.printToGUI + "$" + GuiParameters.newLobbyCreated + "$" + getLobby().getLobbyID()
+              + ":" + getClientUserName());
       LOGGER.debug("Lobby: " + getLobby().getLobbyID() + ". In method createNewLobby()");
     } else {
       sendAnnouncementToClient("You are already in lobby nr. " + Lobby.clientIsInLobby(this));
