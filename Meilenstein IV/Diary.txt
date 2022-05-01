@@ -340,7 +340,7 @@ Paralleles Arbeiten an zugewiesenen Aufgaben, ggf. mit gegenseitiger Unterstütz
 	Alex: unit tests
 
 30.04.2022 - Alex
-Finished creating unit tests for noise handling in the game (do players the ghosts walk by in the night receive the right amount of noise notifications?). Might be final version for milestone 4 if noone objects.
+Habe Unit Tests zum NoiseHandler abgeschlossen (bekommen die Spieler, an denen nachts Geister vorbeilaufen, die richtige Anzahl an noise-Benachrichtigungen?).
 
 29.04.2022 - Seraina
 Habe die GUI View für das Game erstellt und die Controllerklasse mit allen relevanten methoden für das Spielen des Spiels via GUI ausgestattet.
