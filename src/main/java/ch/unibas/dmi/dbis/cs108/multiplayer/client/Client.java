@@ -341,7 +341,7 @@ public class Client {
    * @param parameter a string according to {@link GuiParameters} and {@link ClientGameInfoHandler}
    *                  can be empty
    * @param data      some information in a string, separators can be $ or :
-   *                                                                     TODO(Seraina&Sebi): evtl. auslagern?
+   *                                                                                      TODO(Seraina&Sebi): evtl. auslagern?
    */
   public void sendToGUI(String parameter, String data) {
     try {
@@ -385,21 +385,23 @@ public class Client {
           break;
         case GuiParameters.viewChangeToGame:
           chatApp.getLoungeSceneViewController().addGameView();
-        //TODO
-        break;
+          //TODO
+          break;
         /*case GuiParameters.viewChangeToStart:
         //TODO
         break;*/
         case GuiParameters.viewChangeToLobby:
           chatApp.getLoungeSceneViewController().removeGameView();
-        //TODO
-        break;
+          //TODO
+          break;
         case GuiParameters.addNewMemberToLobby:
           addPlayerToLobby(data);
           break;
         case GuiParameters.newLobbyCreated:
           makeNewLobby(data);
           break;
+        case GuiParameters.newPlayerOnServer:
+          addNewPlayerToGui(data);
         default:
           notificationTextDisplay(data);
           //TODO(Sebi,Seraina): should the gameController be in the Application just like the ChatController?
@@ -412,17 +414,22 @@ public class Client {
 
   }
 
+  private void addNewPlayerToGui(String data) {
+    loungeSceneViewController.addClientToList(data);
+    LOGGER.debug("addNewPlayerToGui() seems to have finished");
+  }
+
   private void makeNewLobby(String data) {
     String[] params = data.split(":");
     loungeSceneViewController.newLobby(params[0], params[1]);
-    LOGGER.debug("makeNewLobby() seems to have finnished");
+    LOGGER.debug("makeNewLobby() seems to have finished");
 
   }
 
   private void addPlayerToLobby(String data) {
     String[] params = data.split(":");
     loungeSceneViewController.addPlayerToLobby(params[0], params[1]);
-    LOGGER.debug("addPlayerToLobby() seems to have finnished");
+    LOGGER.debug("addPlayerToLobby() seems to have finished");
   }
 
   private void updateLobbyMembers(String data) {

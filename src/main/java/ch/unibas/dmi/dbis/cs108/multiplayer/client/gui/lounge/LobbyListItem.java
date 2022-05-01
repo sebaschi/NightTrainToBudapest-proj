@@ -26,8 +26,7 @@ public class LobbyListItem {
   private final int MAX_CAPACITY = 6;
   private SimpleIntegerProperty noOfPlayersInLobby;
 
-  public LobbyListItem(SimpleStringProperty lobbyID,
-      SimpleStringProperty adminName,
+  public LobbyListItem(SimpleStringProperty lobbyID, SimpleStringProperty adminName,
       SimpleBooleanProperty ownedByClient, SimpleBooleanProperty isOpen,
       SimpleIntegerProperty noOfPlayersInLobby) {
     this.lobbyID = lobbyID;
@@ -66,8 +65,7 @@ public class LobbyListItem {
     return clientsInLobby;
   }
 
-  public void setClientsInLobby(
-      ObservableList<SimpleStringProperty> clientsInLobby) {
+  public void setClientsInLobby(ObservableList<SimpleStringProperty> clientsInLobby) {
     this.clientsInLobby = clientsInLobby;
   }
 
@@ -113,14 +111,9 @@ public class LobbyListItem {
 
   @Override
   public String toString() {
-    return "LobbyListItem{" +
-        "lobbyID=" + lobbyID +
-        ", adminName=" + adminName +
-        ", clientsInLobby=" + clientsInLobby +
-        ", ownedByClient=" + ownedByClient +
-        ", isOpen=" + isOpen +
-        ", MAX_CAPACITY=" + MAX_CAPACITY +
-        ", noOfPlayersInLobby=" + noOfPlayersInLobby +
-        '}';
+    return "LobbyListItem{" + "lobbyID=" + lobbyID + ", adminName=" + adminName
+        + ", clientsInLobby=" + clientsInLobby + ", ownedByClient=" + ownedByClient + ", isOpen="
+        + isOpen + ", MAX_CAPACITY=" + MAX_CAPACITY + ", noOfPlayersInLobby=" + noOfPlayersInLobby
+        + '}';
   }
 }

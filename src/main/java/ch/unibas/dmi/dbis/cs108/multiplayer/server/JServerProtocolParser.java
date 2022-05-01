@@ -65,6 +65,7 @@ public class JServerProtocolParser {
         } catch (Exception e) {
           h.setUsernameOnLogin("U.N. Owen");
         }
+        h.guiUpdateAll(Protocol.printToGUI+"$"+GuiParameters.newPlayerOnServer+"$"+h.getClientUserName());
         break;
       case Protocol.nameChange:
         h.changeUsername(msg.substring(6));
