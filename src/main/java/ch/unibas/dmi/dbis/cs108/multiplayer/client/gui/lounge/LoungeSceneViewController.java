@@ -30,6 +30,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -319,14 +320,6 @@ public class LoungeSceneViewController implements Initializable {
     });
   }
 
-  public void updateClientListView(ObservableList<SimpleStringProperty> names) {
-    ObservableList<SimpleStringProperty> clientsLeft = ClientListView.getItems();
-    clientsLeft.removeAll(names);
-    this.ClientListView.setItems(names);
-    for (SimpleStringProperty gone : clientsLeft) {
-      //TODO
-    }
-  }
 
   /**
    * Adds players to a lobby
