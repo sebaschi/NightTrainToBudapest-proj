@@ -11,8 +11,10 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.beans.binding.StringBinding;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -28,7 +30,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -50,9 +51,13 @@ public class LoungeSceneViewController implements Initializable {
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   @FXML
-  public Button leaveLobbyButton;
+  private Button leaveLobbyButton;
   @FXML
-  public Button newGameButton;
+  private Button startGame;
+  @FXML
+  private Button newGameButton;
+  @FXML
+  private AnchorPane gameAnchorPane;
   @FXML
   private ListView<LobbyListItem> LobbyListView;
   @FXML
@@ -71,7 +76,8 @@ public class LoungeSceneViewController implements Initializable {
   private ToolBar NTtBToolBar;
 
   public static ClientModel client;
-  public static ChatApp chatApp;
+  private static ChatApp chatApp;
+  private ChatApp cApp;
 
   ObservableList<ClientListItem> clients = FXCollections.observableArrayList();
   ObservableList<LobbyListItem> lobbies = FXCollections.observableArrayList();
@@ -84,6 +90,13 @@ public class LoungeSceneViewController implements Initializable {
     lobbyToMemberssMap = FXCollections.observableHashMap();
   }
 
+  public void setChatApp(ChatApp chatApp) {
+    LoungeSceneViewController.chatApp = chatApp;
+  }
+
+  public void setcApp(ChatApp cApp) {
+    this.cApp = cApp;
+  }
 
   /**
    * Called to initialize a controller after its root element has been completely processed.
@@ -95,6 +108,7 @@ public class LoungeSceneViewController implements Initializable {
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     ChatApp.setLoungeSceneViewController(this);
+    setcApp(chatApp);
     ChangeNameButton.setOnAction(event -> changeName());
     LeaveServerButton.setOnAction(event -> leaveServer());
     newGameButton.setOnAction(event -> newGame());
@@ -264,20 +278,59 @@ public class LoungeSceneViewController implements Initializable {
     });
 
     LobbyListView.setPlaceholder(new Text("No open lobbies!"));
+    client.getAllClients().addListener(new ListChangeListener<SimpleStringProperty>() {
+      @Override
+      public void onChanged(Change<? extends SimpleStringProperty> c) {
+        List<SimpleStringProperty> removed = (List<SimpleStringProperty>) c.getRemoved();
+        for(SimpleStringProperty player: removed) {
+
+        }
+      }
+    });
   }
 
-  public void updateClientListView(ObservableList<ClientListItem> names) {
-    ObservableList<ClientListItem> clientsLeft = ClientListView.getItems();
+  public void addGameView(){
+    Platform.runLater(new Runnable(){
+      @Override
+      public void run() {
+        try {
+          newGameButton.setVisible(false);
+          startGame.setVisible(false);
+          gameAnchorPane.getChildren().add(chatApp.game);
+        } catch (Exception e) {
+          LOGGER.debug("Not yet initialized");
+        }
+      }
+    });
+  }
+
+  public void removeGameView(){
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        try {
+          newGameButton.setVisible(true);
+          startGame.setVisible(true);
+          gameAnchorPane.getChildren().clear();
+        } catch (Exception e) {
+          LOGGER.debug("Not yet initialized");
+        }
+      }
+    });
+  }
+
+  public void updateClientListView(ObservableList<SimpleStringProperty> names) {
+    ObservableList<SimpleStringProperty> clientsLeft = ClientListView.getItems();
     clientsLeft.removeAll(names);
     this.ClientListView.setItems(names);
-    for (ClientListItem gone : clientsLeft) {
+    for (SimpleStringProperty gone : clientsLeft) {
       //TODO
     }
   }
 
   /**
-   * Adds players to a lobby "NMEMB" {@link ch.unibas.dmi.dbis.cs108.multiplayer.helpers.GuiParameters}
-   *
+   * Adds players to a lobby
+   * "NMEMB" {@link ch.unibas.dmi.dbis.cs108.multiplayer.helpers.GuiParameters}
    * @param lobbyID
    * @param player
    */
@@ -312,12 +365,13 @@ public class LoungeSceneViewController implements Initializable {
     LobbyListView.getItems().add(item);
   }
 
-  private void joinGame(String lobbyID) {
+  public void joinGame(String lobbyID) {
     client.getClient().sendMsgToServer(Protocol.joinLobby + "$" + lobbyID);
   }
 
-  private void startGame() {
+  public void startGame() {
     client.getClient().sendMsgToServer(Protocol.startANewGame);
+    //addGameView();
   }
 
   public void leaveLobby() {

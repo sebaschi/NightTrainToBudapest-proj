@@ -383,15 +383,17 @@ public class Client {
         case GuiParameters.getMembersInLobby:
           updateLobbyMembers(data);
           break;
-        //case GuiParameters.viewChangeToGame: (commented out due to compiling error)
+        case GuiParameters.viewChangeToGame:
+          chatApp.getLoungeSceneViewController().addGameView();
         //TODO
-        //break; (commented out due to compiling error)
-        //case GuiParameters.viewChangeToStart: (commented out due to compiling error)
+        break;
+        /*case GuiParameters.viewChangeToStart:
         //TODO
-        //break; (commented out due to compiling error)
-        //case GuiParameters.viewChangeToLobby: (commented out due to compiling error)
+        break;*/
+        case GuiParameters.viewChangeToLobby:
+          chatApp.getLoungeSceneViewController().removeGameView();
         //TODO
-        //break; (commented out due to compiling error)
+        break;
         case GuiParameters.addNewMemberToLobby:
           addPlayerToLobby(data);
           break;

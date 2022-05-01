@@ -170,10 +170,10 @@ public class Game implements Runnable {
         if (gameOverCheck.equals(ClientGameInfoHandler.gameOverGhostsWin) && getOgGhost().getIsPlayer()) {
           OgGhostHighScore.addOgGhostWinner(getOgGhost().getName());
         }
-        lobby.getAdmin().sendMsgToClientsInLobby(Protocol.printToGUI + "$" + GuiParameters.viewChangeToLobby + "$");
         lobby.getAdmin().broadcastAnnouncementToLobby(gameOverCheck);
         isOngoing = false;
         Timer.ghostAfterVoteTimer();
+        lobby.getAdmin().sendMsgToClientsInLobby(Protocol.printToGUI + "$" + GuiParameters.viewChangeToLobby + "$");
         isOngoing = true;
         lobby.removeGameFromRunningGames(this);
         lobby.addGameToFinishedGames(this);

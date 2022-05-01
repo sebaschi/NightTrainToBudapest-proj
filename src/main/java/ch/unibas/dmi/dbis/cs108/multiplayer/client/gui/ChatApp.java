@@ -29,6 +29,9 @@ public class ChatApp extends Application {
   private static LoungeSceneViewController loungeSceneViewController;
   private LoungeSceneViewController lSVController;
 
+  public Node chat;
+  public Node game;
+
   public ChatApp() {
     super();
     LOGGER.info("Empty ChatApp constructor got called: ");
@@ -96,6 +99,10 @@ public class ChatApp extends Application {
     return chatController;
   }
 
+  public LoungeSceneViewController getLoungeSceneViewController() {
+    return loungeSceneViewController;
+  }
+
   public LoungeSceneViewController getlSVController() {
     return lSVController;
   }
@@ -122,20 +129,24 @@ public class ChatApp extends Application {
   public void start(Stage primaryStage) throws Exception {
     this.setcModel(clientModel);
     this.setGameC(gameController);
-    this.setlSVController(loungeSceneViewController);
+
     gameC.setClient(cModel);
     gameC.setGameStateModel(GameController.getGameStateModel());
-    URL chatResource = ChatApp.class.getResource(
-        "chat/ChatView.fxml");
-    URL gameResource = ChatApp.class.getResource(
-        "game/GameDayAll.fxml");
+    try {
+      URL chatResource = ChatApp.class.getResource("chat/ChatView.fxml");
+      URL gameResource = ChatApp.class.getResource("game/GameDayAll.fxml");
+      this.chat = FXMLLoader.load(Objects.requireNonNull(chatResource));
+      this.game = FXMLLoader.load(Objects.requireNonNull(gameResource));
+    } catch (Exception e) {
+      LOGGER.warn(e.getMessage());
+    }
     URL loungeResource = ChatApp.class.getResource(
         "lounge/LoungeSceneView.fxml");
     try {
       Parent lounge = FXMLLoader.load(
           Objects.requireNonNull(loungeResource));
-      Node chat = FXMLLoader.load(Objects.requireNonNull(chatResource));
-      Node game = FXMLLoader.load(Objects.requireNonNull(gameResource));
+      this.setlSVController(loungeSceneViewController);
+      lSVController.setChatApp(this);
       // TODO bin chatController.getChatPaneRoot() border to root border for rezising
       Scene scene = new Scene(lounge);
       scene.setRoot(lounge);

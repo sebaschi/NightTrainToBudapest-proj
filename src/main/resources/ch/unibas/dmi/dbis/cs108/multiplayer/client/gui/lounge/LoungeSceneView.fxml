@@ -22,7 +22,9 @@
          <center>
             <AnchorPane BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="newGameButton" layoutX="136.0" layoutY="105.0" mnemonicParsing="false" text="New Game" />
+                  <Button fx:id="newGameButton" layoutX="136.0" layoutY="105.0" mnemonicParsing="false" text="New Lobby" />
+                  <AnchorPane fx:id="gameAnchorPane" />
+                  <Button fx:id="startGame" layoutX="136.0" layoutY="141.0" mnemonicParsing="false" onAction="#startGame" text="Start Game" />
                </children>
             </AnchorPane>
          </center>
