@@ -34,7 +34,7 @@
          <bottom>
             <AnchorPane fx:id="ChatArea" BorderPane.alignment="CENTER">
                <children>
-                  <SplitPane fx:id="chatSplitPane" dividerPositions="0.5" minHeight="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <SplitPane fx:id="chatSplitPane" dividerPositions="0.8555729984301413" minHeight="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <items>
                       <AnchorPane fx:id="chatAnchorPane" minHeight="0.0" minWidth="0.0" />
                       <AnchorPane fx:id="otherNotificationAnchorPane" minHeight="0.0" minWidth="0.0">

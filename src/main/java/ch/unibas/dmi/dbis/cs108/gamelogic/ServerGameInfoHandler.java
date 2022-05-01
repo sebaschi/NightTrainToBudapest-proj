@@ -122,9 +122,12 @@ public class ServerGameInfoHandler {
       case ClientGameInfoHandler.noiseNotification + 5 + " time(s)":
         String outMsg = npc.getName() + ": " + noiseRandomizer();
         //TODO: add likelyhood
-        game.getLobby().getAdmin().broadcastNpcChatMessageToLobby(outMsg);
-        game.getLobby().getAdmin().sendMsgToClientsInLobby(Protocol.printToGUI + "$" + GuiParameters.noiseHeardAtPosition
-            + "$" + npc.getPosition());
+        if(!npc.getKickedOff()) {
+          game.getLobby().getAdmin().broadcastNpcChatMessageToLobby(outMsg);
+          game.getLobby().getAdmin().sendMsgToClientsInLobby(
+              Protocol.printToGUI + "$" + GuiParameters.noiseHeardAtPosition
+                  + "$" + npc.getPosition());
+        }
         break;
       case ClientGameInfoHandler.ghostVoteRequest:
         npc.vote(game);
@@ -146,9 +149,12 @@ public class ServerGameInfoHandler {
       case ClientGameInfoHandler.noiseNotification + 4 + " time(s)":
       case ClientGameInfoHandler.noiseNotification + 5 + " time(s)":
         String outMsg = npc.getName() + ": " + noiseRandomizer();
-        game.getLobby().getAdmin().broadcastNpcChatMessageToLobby(outMsg);
-        game.getLobby().getAdmin().sendMsgToClientsInLobby(Protocol.printToGUI + "$" + GuiParameters.noiseHeardAtPosition
-            + "$" + npc.getPosition());
+        if(!npc.getKickedOff()) {
+          game.getLobby().getAdmin().broadcastNpcChatMessageToLobby(outMsg);
+          game.getLobby().getAdmin().sendMsgToClientsInLobby(
+              Protocol.printToGUI + "$" + GuiParameters.noiseHeardAtPosition
+                  + "$" + npc.getPosition());
+        }
         break;
       case ClientGameInfoHandler.humanVoteRequest:
         npc.vote(game);

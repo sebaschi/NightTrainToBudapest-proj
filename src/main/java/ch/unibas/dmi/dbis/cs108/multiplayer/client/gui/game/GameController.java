@@ -199,7 +199,7 @@ public class GameController implements Initializable {
    */
   public void addMessageToNotificationText(String msg) {
     LOGGER.trace("addMessage " + msg);
-    Text notification = new Text("\\R" + msg);
+    Text notification = new Text(System.lineSeparator() + msg);
     notification.setFill(Color.BLACK);
     notification.setStyle("-fx-font: 50 arial;");
     Platform.runLater(new Runnable() {
@@ -352,7 +352,9 @@ public class GameController implements Initializable {
       @Override
       public void run() {
         try {
-          noiseImage0.setImage(loadBellImage());
+          if(!gameStateModel.getKickedOff()[0]) {
+            noiseImage0.setImage(loadBellImage());
+          }
         } catch (Exception e) {
           LOGGER.debug(e.getMessage());
         }
@@ -370,7 +372,9 @@ public class GameController implements Initializable {
       @Override
       public void run() {
         try {
-          noiseImage1.setImage(loadBellImage());
+          if(!gameStateModel.getKickedOff()[1]) {
+            noiseImage1.setImage(loadBellImage());
+          }
         } catch (Exception e) {
           LOGGER.debug(e.getMessage());
         }
@@ -387,7 +391,9 @@ public class GameController implements Initializable {
       @Override
       public void run() {
         try {
-          noiseImage2.setImage(loadBellImage());
+          if(!gameStateModel.getKickedOff()[2]) {
+            noiseImage2.setImage(loadBellImage());
+          }
         } catch (Exception e) {
           LOGGER.debug(e.getMessage());
           ;
@@ -405,8 +411,9 @@ public class GameController implements Initializable {
       @Override
       public void run() {
         try {
-          LOGGER.debug("hello");
-          noiseImage3.setImage(loadBellImage());
+          if(!gameStateModel.getKickedOff()[3]) {
+            noiseImage3.setImage(loadBellImage());
+          }
         } catch (Exception e) {
           LOGGER.debug(e.getMessage());
         }
@@ -423,8 +430,9 @@ public class GameController implements Initializable {
       @Override
       public void run() {
         try {
-          LOGGER.debug("hello");
-          noiseImage4.setImage(loadBellImage());
+          if(!gameStateModel.getKickedOff()[4]) {
+            noiseImage4.setImage(loadBellImage());
+          }
         } catch (Exception e) {
           LOGGER.debug(e.getMessage());
         }
@@ -441,7 +449,9 @@ public class GameController implements Initializable {
       @Override
       public void run() {
         try {
-          noiseImage5.setImage(loadBellImage());
+          if(!gameStateModel.getKickedOff()[5]) {
+            noiseImage5.setImage(loadBellImage());
+          }
         } catch (Exception e) {
           LOGGER.debug(e.getMessage());
         }
