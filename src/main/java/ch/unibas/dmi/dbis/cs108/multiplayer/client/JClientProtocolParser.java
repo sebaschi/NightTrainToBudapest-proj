@@ -65,17 +65,21 @@ public class JClientProtocolParser {
         c.changeUsername(msg.substring(6));
         break;
       case Protocol.printToGUI:
+        LOGGER.info("First line of printToGui case!");
         String substring = msg.substring(6);
+        LOGGER.debug("Following parameters where recieved: " + substring);
         int index = substring.indexOf("$");
+        LOGGER.debug("Index of $: " + index);
         String parameter = "";
         String data = substring;
         try {
-          parameter = substring.substring(0,index);
-          data = substring.substring(index+1);
+          parameter = substring.substring(0, index);
+          data = substring.substring(index + 1);
+          LOGGER.debug("Parameter: " + parameter + ". Data: " + data);
         } catch (Exception e) {
           LOGGER.warn("No parameter in PTGUI");
         }
-          c.sendToGUI(parameter,data);
+        c.sendToGUI(parameter, data);
         break;
       case Protocol.positionOfClient:
         try {
@@ -85,7 +89,7 @@ public class JClientProtocolParser {
           LOGGER.warn(msg.substring(6));
         }
         break;
-        default:
+      default:
         System.out.println("Received unknown command: " + msg);
     }
   }
