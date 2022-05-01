@@ -1,5 +1,6 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge;
 
+import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ClientModel;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ChatApp;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.events.ChangeNameButtonPressedEventHandler;
@@ -9,8 +10,10 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.beans.binding.StringBinding;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleMapProperty;
@@ -23,7 +26,9 @@ import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -35,14 +40,22 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class LoungeSceneViewController implements Initializable {
 
+  public static final Logger LOGGER = LogManager.getLogger(LoungeSceneViewController.class);
+  public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   @FXML
-  public Button leaveLobbyButton;
+  private Button leaveLobbyButton;
   @FXML
-  public Button newGameButton;
+  private Button startGame;
+  @FXML
+  private Button newGameButton;
+  @FXML
+  private AnchorPane gameAnchorPane;
   @FXML
   private ListView<HBox> LobbyListView;
   @FXML
@@ -61,7 +74,8 @@ public class LoungeSceneViewController implements Initializable {
   private ToolBar NTtBToolBar;
 
   public static ClientModel client;
-  public static ChatApp chatApp;
+  private static ChatApp chatApp;
+  private ChatApp cApp;
 
   private ObservableMap<String, ObservableList<String>> lobbyToMemberssMap;
   private HashMap<String, String> clientToLobbyMap;
@@ -71,6 +85,13 @@ public class LoungeSceneViewController implements Initializable {
     lobbyToMemberssMap = FXCollections.observableHashMap();
   }
 
+  public void setChatApp(ChatApp chatApp) {
+    LoungeSceneViewController.chatApp = chatApp;
+  }
+
+  public void setcApp(ChatApp cApp) {
+    this.cApp = cApp;
+  }
 
   /**
    * Called to initialize a controller after its root element has been completely processed.
@@ -82,6 +103,7 @@ public class LoungeSceneViewController implements Initializable {
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     ChatApp.setLoungeSceneViewController(this);
+    setcApp(chatApp);
     ChangeNameButton.setOnAction(event -> changeName());
     LeaveServerButton.setOnAction(event -> leaveServer());
     newGameButton.setOnAction(event -> newGame());
@@ -95,6 +117,19 @@ public class LoungeSceneViewController implements Initializable {
         List<SimpleStringProperty> removed = (List<SimpleStringProperty>) c.getRemoved();
         for(SimpleStringProperty player: removed) {
 
+        }
+      }
+    });
+  }
+
+  public void addGameView(){
+    Platform.runLater(new Runnable(){
+      @Override
+      public void run() {
+        try {
+          gameAnchorPane.getChildren().add(chatApp.game);
+        } catch (Exception e) {
+          LOGGER.debug("Not yet initialized");
         }
       }
     });
@@ -162,12 +197,13 @@ public class LoungeSceneViewController implements Initializable {
     LobbyListView.getItems().add(lobby);
   }
 
-  private void joinGame(String lobbyID) {
+  public void joinGame(String lobbyID) {
     client.getClient().sendMsgToServer(Protocol.joinLobby + "$" + lobbyID);
   }
 
-  private void startGame() {
+  public void startGame() {
     client.getClient().sendMsgToServer(Protocol.startANewGame);
+    addGameView();
   }
 
   public void leaveLobby() {client.getClient().sendMsgToServer(Protocol.leaveLobby);}
