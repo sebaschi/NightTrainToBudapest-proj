@@ -18,7 +18,7 @@ public class LobbyListItem {
 
   private final SimpleStringProperty lobbyID;
   private final SimpleStringProperty adminName;
-  private ObservableList<SimpleStringProperty> clientsInLobby;
+  private ObservableList<ClientListItem> clientsInLobby;
 
   private SimpleBooleanProperty ownedByClient;
   private SimpleBooleanProperty isOpen;
@@ -62,11 +62,11 @@ public class LobbyListItem {
     this.adminName.set(adminName);
   }
 
-  public ObservableList<SimpleStringProperty> getClientsInLobby() {
+  public ObservableList<ClientListItem> getClientsInLobby() {
     return clientsInLobby;
   }
 
-  public void setClientsInLobby(ObservableList<SimpleStringProperty> clientsInLobby) {
+  public void setClientsInLobby(ObservableList<ClientListItem> clientsInLobby) {
     this.clientsInLobby = clientsInLobby;
   }
 
@@ -109,6 +109,7 @@ public class LobbyListItem {
   public void setNoOfPlayersInLobby(int noOfPlayersInLobby) {
     this.noOfPlayersInLobby.set(noOfPlayersInLobby);
   }
+
 
   @Override
   public String toString() {

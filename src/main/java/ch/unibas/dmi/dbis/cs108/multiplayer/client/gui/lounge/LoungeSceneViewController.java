@@ -90,10 +90,12 @@ public class LoungeSceneViewController implements Initializable {
 
   private ObservableMap<String, ObservableList<String>> lobbyToMemberssMap;
   private HashMap<String, String> clientToLobbyMap;
+  private HashMap<String, LobbyListItem> lobbyIDtoLobbyMop;
 
   public LoungeSceneViewController() {
     super();
     lobbyToMemberssMap = FXCollections.observableHashMap();
+    lobbyIDtoLobbyMop = new HashMap<>();
   }
 
   public void setChatApp(ChatApp chatApp) {
@@ -282,7 +284,7 @@ public class LoungeSceneViewController implements Initializable {
               if (item.isOwnedByClient()) {
                 startGame();
               } else {
-                joinGame(item.lobbyIDProperty().getName());
+                joinGame(item.lobbyIDProperty().getValue());
               }
             });
             startOrJoin.setText(item.isOwnedByClient() ? "Start" : "Join");
@@ -354,8 +356,15 @@ public class LoungeSceneViewController implements Initializable {
     Platform.runLater(new Runnable() {
       @Override
       public void run() {
-        ObservableList<String> members = lobbyToMemberssMap.get(lobbyID);
-        members.add(player);
+        Iterator<ClientListItem> itr = clients.iterator();
+            while(itr.hasNext()){
+              ClientListItem cl = itr.next();
+              if(cl.getName().equals(player)){
+                LobbyListItem li = lobbyIDtoLobbyMop.get(lobbyID);
+                li.getClientsInLobby().add(cl);
+              }
+            }
+
       }
     });
   }
@@ -383,6 +392,7 @@ public class LoungeSceneViewController implements Initializable {
     }
     LobbyListItem item = new LobbyListItem(id, admin, new SimpleBooleanProperty(ownedByClient),
         new SimpleBooleanProperty(true), new SimpleIntegerProperty(0));
+    lobbyIDtoLobbyMop.put(lobbyID,item);
     LOGGER.debug("In newLobby()2  LobbyListView" + LobbyListView);
     Platform.runLater(new Runnable() {
       @Override
