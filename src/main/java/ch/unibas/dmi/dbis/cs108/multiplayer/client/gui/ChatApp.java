@@ -1,7 +1,10 @@
-package ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat;
+package ch.unibas.dmi.dbis.cs108.multiplayer.client.gui;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ClientModel;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat.ChatController;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game.GameController;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge.LoungeSceneViewController;
 import java.net.URL;
 import java.util.Objects;
 import javafx.application.Application;
@@ -23,8 +26,8 @@ public class ChatApp extends Application {
   private static GameController gameController;
   private ClientModel cModel;
   private GameController gameC;
-
   private static LoungeSceneViewController loungeSceneViewController;
+  private LoungeSceneViewController lSVController;
 
   public ChatApp() {
     super();
@@ -59,6 +62,11 @@ public class ChatApp extends Application {
     this.gameC = gameC;
   }
 
+  public void setlSVController(
+      LoungeSceneViewController lSVController) {
+    this.lSVController = lSVController;
+  }
+
   public ClientModel getcModel() {
     return cModel;
   }
@@ -88,6 +96,10 @@ public class ChatApp extends Application {
     return chatController;
   }
 
+  public LoungeSceneViewController getlSVController() {
+    return lSVController;
+  }
+
   public static void setLoungeSceneViewController(LoungeSceneViewController controller) {
     loungeSceneViewController = controller;
   }
@@ -110,33 +122,33 @@ public class ChatApp extends Application {
   public void start(Stage primaryStage) throws Exception {
     this.setcModel(clientModel);
     this.setGameC(gameController);
+    this.setlSVController(loungeSceneViewController);
     gameC.setClient(cModel);
     gameC.setGameStateModel(GameController.getGameStateModel());
     URL chatResource = ChatApp.class.getResource(
         "chat/ChatView.fxml");
     URL gameResource = ChatApp.class.getResource(
         "game/GameDayAll.fxml");
+    URL loungeResource = ChatApp.class.getResource(
+        "lounge/LoungeSceneView.fxml");
     try {
-      Parent root = FXMLLoader.load(
-          Objects.requireNonNull(gameResource));
+      Parent lounge = FXMLLoader.load(
+          Objects.requireNonNull(loungeResource));
+      Node chat = FXMLLoader.load(Objects.requireNonNull(chatResource));
+      Node game = FXMLLoader.load(Objects.requireNonNull(gameResource));
       // TODO bin chatController.getChatPaneRoot() border to root border for rezising
-      Scene scene = new Scene(root);
-      scene.setRoot(root);
+      Scene scene = new Scene(lounge);
+      scene.setRoot(lounge);
       primaryStage.setScene(scene);
     } catch (Exception e) {
       e.printStackTrace();
     }
     primaryStage.setResizable(false);
-    Node chat = FXMLLoader.load(
-        Objects.requireNonNull(chatResource));
+
     primaryStage.setTitle("Night Train To Budapest");
     primaryStage.setResizable(true);
-    primaryStage.setTitle("Chat");
     primaryStage.show();
-
-
-
-  }
+      }
 
   public static void main(String[] args) {
     launch(args);

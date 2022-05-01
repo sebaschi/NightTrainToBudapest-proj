@@ -1,7 +1,7 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.client.gui;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
-import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat.ChatApp;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ChatApp;
 import javafx.application.Application;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,21 +12,21 @@ public class GUI implements Runnable {
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   private ChatApp chatApp;
-  private LoungeApp loungeApp;
+  //private LoungeApp loungeApp;
 
   public GUI(ChatApp chatApp) {
     this.chatApp = chatApp;
   }
 
-  public GUI(LoungeApp loungeApp) {
+  /*public GUI(LoungeApp loungeApp) {
     this.loungeApp = loungeApp;
-  }
+  }*/
 
-  public GUI(ChatApp chatApp,
+  /*public GUI(ChatApp chatApp,
       LoungeApp loungeApp) {
     this.chatApp = chatApp;
     this.loungeApp = loungeApp;
-  }
+  }*/
 
   /**
    * When an object implementing interface {@code Runnable} is used to create a thread, starting the
@@ -42,6 +42,6 @@ public class GUI implements Runnable {
   public void run() {
     LOGGER.info("here");
     //Application.launch(this.chatApp.getClass());
-    Application.launch(this.loungeApp.getClass());
+    Application.launch(this.chatApp.getClass());
   }
 }

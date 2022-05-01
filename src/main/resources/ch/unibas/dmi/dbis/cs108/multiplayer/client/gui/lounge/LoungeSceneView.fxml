@@ -7,36 +7,37 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge.LoungeSceneViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge.LoungeSceneViewController">
    <children>
-      <BorderPane fx:id="LoungeSceneBorderPane" layoutX="860.0" layoutY="440.0" prefHeight="1080.0" prefWidth="1920.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <BorderPane fx:id="LoungeSceneBorderPane" layoutX="860.0" layoutY="440.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
-            <ToolBar fx:id="NTtBToolBar" prefHeight="77.0" prefWidth="1913.0" BorderPane.alignment="CENTER">
+            <ToolBar fx:id="NTtBToolBar" prefHeight="77.0" BorderPane.alignment="CENTER">
               <items>
                 <Button fx:id="ChangeNameButton" mnemonicParsing="false" text="Change Name" />
                   <Button fx:id="LeaveServerButton" mnemonicParsing="false" text="Leave server" />
+                  <Button fx:id="leaveLobbyButton" mnemonicParsing="false" onAction="#leaveLobby" text="Leave Lobby" />
               </items>
             </ToolBar>
          </top>
          <center>
-            <AnchorPane prefHeight="661.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+            <AnchorPane BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="newGameButton" layoutX="272.0" layoutY="103.0" mnemonicParsing="false" text="New Game" />
+                  <Button fx:id="newGameButton" layoutX="136.0" layoutY="105.0" mnemonicParsing="false" text="New Game" />
                </children>
             </AnchorPane>
          </center>
          <bottom>
-            <AnchorPane fx:id="ChatArea" prefHeight="342.0" prefWidth="1920.0" BorderPane.alignment="CENTER">
+            <AnchorPane fx:id="ChatArea" BorderPane.alignment="CENTER">
                <children>
-                  <HBox fx:id="ChatAreaHBox" layoutX="394.0" layoutY="-9.0" prefHeight="322.0" prefWidth="1920.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <HBox fx:id="ChatAreaHBox" layoutX="394.0" layoutY="-33.0" prefWidth="842.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-33.0" />
                </children>
             </AnchorPane>
          </bottom>
          <left>
-            <ListView fx:id="ClientListView" prefHeight="681.0" prefWidth="661.0" BorderPane.alignment="CENTER" />
+            <ListView fx:id="ClientListView" BorderPane.alignment="CENTER" />
          </left>
          <right>
-            <ListView fx:id="LobbyListView" prefHeight="681.0" prefWidth="641.0" BorderPane.alignment="CENTER" />
+            <ListView fx:id="LobbyListView" BorderPane.alignment="CENTER" />
          </right>
       </BorderPane>
    </children>

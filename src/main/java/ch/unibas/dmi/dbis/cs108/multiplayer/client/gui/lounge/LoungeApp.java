@@ -1,8 +1,8 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ChatApp;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ClientModel;
-import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat.ChatApp;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat.ChatController;
 import java.net.URL;
 import java.util.Objects;

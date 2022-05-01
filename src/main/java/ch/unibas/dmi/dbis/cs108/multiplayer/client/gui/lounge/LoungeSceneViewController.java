@@ -1,7 +1,7 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge;
 
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ClientModel;
-import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat.ChatApp;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ChatApp;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.events.ChangeNameButtonPressedEventHandler;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.events.LeaveServerButtonPressedEventHandler;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
@@ -38,8 +38,10 @@ import javafx.scene.text.Text;
 
 public class LoungeSceneViewController implements Initializable {
 
-  Protocol protocol;
 
+  @FXML
+  public Button leaveLobbyButton;
+  @FXML
   public Button newGameButton;
   @FXML
   private ListView<HBox> LobbyListView;
@@ -80,9 +82,8 @@ public class LoungeSceneViewController implements Initializable {
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     ChatApp.setLoungeSceneViewController(this);
-    this.protocol = new Protocol();
     ChangeNameButton.setOnAction(event -> changeName());
-    LeaveServerButton.setOnAction(new LeaveServerButtonPressedEventHandler());
+    LeaveServerButton.setOnAction(event -> leaveServer());
     newGameButton.setOnAction(event -> newGame());
     LobbyListView.setVisible(true);
     ClientListView.setVisible(true);
@@ -169,8 +170,9 @@ public class LoungeSceneViewController implements Initializable {
     client.getClient().sendMsgToServer(Protocol.startANewGame);
   }
 
-  ;
+  public void leaveLobby() {client.getClient().sendMsgToServer(Protocol.leaveLobby);}
 
+  public void leaveServer() {client.getClient().sendMsgToServer(Protocol.clientQuitRequest);}
   /**
    * Used to add a new player to the list of players.
    * "NPLOS" {@link ch.unibas.dmi.dbis.cs108.multiplayer.helpers.GuiParameters}

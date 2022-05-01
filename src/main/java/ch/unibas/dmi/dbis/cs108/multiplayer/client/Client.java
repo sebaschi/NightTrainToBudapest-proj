@@ -80,16 +80,14 @@ public class Client {
       }
       sendMsgToServer(Protocol.clientLogin + "$" + systemName);
       this.chatApp = new ChatApp(new ClientModel(systemName, this));
-      //this.chatGui = new GUI(this.chatApp);
+      this.gui = new GUI(this.chatApp);
       clientPinger = new ClientPinger(this, this.socket);
       this.gameStateModel = new GameStateModel();
       this.chatApp = new ChatApp(new ClientModel(systemName, this));
       ChatApp.setGameController(new GameController(ChatApp.getClientModel(), gameStateModel));
-      this.chatGui = new GUI(this.chatApp);
+      this.gui = new GUI(this.chatApp);
       this.gameController = new GameController(ChatApp.getClientModel(), gameStateModel);
       this.loungeApp = new LoungeApp(ChatApp.getClientModel());
-      //this.loungeGui = new GUI(this.loungeApp);
-      this.gui = new GUI(this.chatApp,this.loungeApp);
       this.loungeSceneViewController = new LoungeSceneViewController();
       LoungeSceneViewController.setClient(ChatApp.getClientModel());
     } catch (IOException e) {
@@ -273,7 +271,7 @@ public class Client {
       cP.start();
       client.userInputListener();     //this one blocks.
       //Start the GUI
-      GUI gui = new GUI(client.chatApp,client.loungeApp);
+      GUI gui = new GUI(client.chatApp);
       Thread guiThread = new Thread(gui);
       guiThread.start();
       LOGGER.info("7");
@@ -372,7 +370,7 @@ public class Client {
           }
           break;
         case GuiParameters.listOfLobbies:
-          //updateListOfLobbies(data); (commented out due to compiling error)
+          updateListOfLobbies(data);
           //TODO
           break;
         case GuiParameters.VoteIsOver:
