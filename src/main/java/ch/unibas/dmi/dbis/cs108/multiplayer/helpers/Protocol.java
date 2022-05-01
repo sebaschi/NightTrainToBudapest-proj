@@ -207,5 +207,11 @@ public class Protocol {
    */
   public static final String printToGUI = "PTGUI";
 
+  /**
+   * Sends an information to client at which position in the train from the game (0 to 5) they sit, as soon as the game starts
+   * {@code POSOF$position}
+   */
+  public static final String positionOfClient = "POSOF";
+
 
 }

@@ -1,11 +1,15 @@
-package ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat;
+package ch.unibas.dmi.dbis.cs108.multiplayer.client.gui;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ClientModel;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat.ChatController;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game.GameController;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge.LoungeSceneViewController;
 import java.net.URL;
 import java.util.Objects;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -19,7 +23,14 @@ public class ChatApp extends Application {
 
   private static ClientModel clientModel;
   private static ChatController chatController;
+  private static GameController gameController;
   private ClientModel cModel;
+  private GameController gameC;
+  private static LoungeSceneViewController loungeSceneViewController;
+  private LoungeSceneViewController lSVController;
+
+  public Node chat;
+  public Node game;
 
   public ChatApp() {
     super();
@@ -50,8 +61,30 @@ public class ChatApp extends Application {
     this.cModel = cModel;
   }
 
+  public void setGameC(GameController gameC) {
+    this.gameC = gameC;
+  }
+
+  public void setlSVController(
+      LoungeSceneViewController lSVController) {
+    this.lSVController = lSVController;
+  }
+
   public ClientModel getcModel() {
     return cModel;
+  }
+
+  public static void setGameController(
+      GameController gameController) {
+    ChatApp.gameController = gameController;
+  }
+
+  public GameController getGameController() {
+    return gameController;
+  }
+
+  public GameController getGameC() {
+    return gameC;
   }
 
   public static void setClientModel(ClientModel clientM) {
@@ -64,6 +97,18 @@ public class ChatApp extends Application {
 
   public ChatController getChatController() {
     return chatController;
+  }
+
+  public LoungeSceneViewController getLoungeSceneViewController() {
+    return loungeSceneViewController;
+  }
+
+  public LoungeSceneViewController getlSVController() {
+    return lSVController;
+  }
+
+  public static void setLoungeSceneViewController(LoungeSceneViewController controller) {
+    loungeSceneViewController = controller;
   }
 
 
@@ -83,29 +128,37 @@ public class ChatApp extends Application {
   @Override
   public void start(Stage primaryStage) throws Exception {
     this.setcModel(clientModel);
-    URL resource = ChatApp.class.getResource(
-        "ChatView.fxml");
-    if (resource == null) {
-      System.out.println("File wasnt found");
-    }
-    //ChatApp chatApp = new ChatApp(new ClientModel());
+    this.setGameC(gameController);
+    gameC.setClient(cModel);
+    gameC.setGameStateModel(GameController.getGameStateModel());
     try {
-      Parent root = FXMLLoader.load(
-          Objects.requireNonNull(ChatApp.class.getResource(
-              "ChatView.fxml")));
+      URL chatResource = ChatApp.class.getResource("chat/ChatView.fxml");
+      URL gameResource = ChatApp.class.getResource("game/GameDayAll.fxml");
+      this.chat = FXMLLoader.load(Objects.requireNonNull(chatResource));
+      this.game = FXMLLoader.load(Objects.requireNonNull(gameResource));
+    } catch (Exception e) {
+      LOGGER.warn(e.getMessage());
+    }
+    URL loungeResource = ChatApp.class.getResource(
+        "lounge/LoungeSceneView.fxml");
+    try {
+      Parent lounge = FXMLLoader.load(
+          Objects.requireNonNull(loungeResource));
+      this.setlSVController(loungeSceneViewController);
+      lSVController.setChatApp(this);
       // TODO bin chatController.getChatPaneRoot() border to root border for rezising
-      Scene scene = new Scene(root);
-      scene.setRoot(root);
+      Scene scene = new Scene(lounge);
+      scene.setRoot(lounge);
       primaryStage.setScene(scene);
     } catch (Exception e) {
       e.printStackTrace();
     }
+    primaryStage.setResizable(false);
+
+    primaryStage.setTitle("Night Train To Budapest");
     primaryStage.setResizable(true);
-    primaryStage.setTitle("Chat");
     primaryStage.show();
-
-
-  }
+      }
 
   public static void main(String[] args) {
     launch(args);

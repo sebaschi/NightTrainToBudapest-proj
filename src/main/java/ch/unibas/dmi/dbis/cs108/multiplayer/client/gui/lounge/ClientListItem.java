@@ -6,15 +6,21 @@ import javafx.beans.property.SimpleStringProperty;
 public class ClientListItem {
 
   private SimpleStringProperty name;
-  private final SimpleIntegerProperty id;
+  private final int id;
 
-  public ClientListItem(SimpleStringProperty name, SimpleIntegerProperty id) {
-    this.name = name;
+  private static int uid = 0;
+
+  public ClientListItem(String name, int id) {
+    this.name = new SimpleStringProperty(name);
     this.id = id;
   }
 
+  public ClientListItem(String name) {
+    this(name, uid++);
+  }
+
   @Override
-  public String toString(){
+  public String toString() {
     return name + " ID: " + id;
   }
 
@@ -31,10 +37,11 @@ public class ClientListItem {
   }
 
   public int getId() {
-    return id.get();
-  }
-
-  public SimpleIntegerProperty idProperty() {
     return id;
   }
+
+  public int clientID() {
+    return id;
+  }
+
 }
