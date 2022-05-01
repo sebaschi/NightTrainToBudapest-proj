@@ -599,15 +599,26 @@ public class LoungeSceneViewController implements Initializable {
     });
   }
 
+  /**
+   * Should remove the lobby from the lobby list view
+   *
+   * @param data
+   */
   public void removeLobbyFromView(String data) {
     Iterator<LobbyListItem> itr = lobbies.iterator();
     while (itr.hasNext()) {
       LobbyListItem item = itr.next();
       if (item.getLobbyID().equals(data)) {
-        itr.remove();
-        LOGGER.debug(
-            "Made it into removeLobbyFromView if clause for lobby w/ ID: " + item.getLobbyID()
-                + " for data passed: " + data);
+        Platform.runLater(new Runnable() {
+          @Override
+          public void run() {
+            itr.remove();
+            LOGGER.debug(
+                "Made it into removeLobbyFromView if clause for lobby w/ ID: " + item.getLobbyID()
+                    + " for data passed: " + data);
+          }
+        });
+
       }
     }
   }
