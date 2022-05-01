@@ -3,6 +3,7 @@ package ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge;
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ClientModel;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ChatApp;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.LobbyListView;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
 import ch.unibas.dmi.dbis.cs108.multiplayer.server.JServerProtocolParser;
 import java.net.URL;
@@ -115,6 +116,7 @@ public class LoungeSceneViewController implements Initializable {
     LeaveServerButton.setOnAction(event -> leaveServer());
     newGameButton.setOnAction(event -> newGame());
     LobbyListView.setVisible(true);
+    LOGGER.debug("Lobby in initialize" + LobbyListView);
     ClientListView.setVisible(true);
     ClientListView.setItems(clients);
     addChatView();
@@ -122,6 +124,7 @@ public class LoungeSceneViewController implements Initializable {
     ClientListView.setItems(clients);
     ClientListView.setCellFactory(param -> {
       ListCell<ClientListItem> cell = new ListCell<>() {
+
         Label name = new Label();
         Label id = new Label();
         HBox nameAndId = new HBox(name, id);
@@ -196,6 +199,7 @@ public class LoungeSceneViewController implements Initializable {
     });
 
     LobbyListView.setItems(lobbies);
+    LOGGER.debug("In Initialize 2 LobbyListView" + LobbyListView);
     LobbyListView.setCellFactory(param -> {
       ListCell<LobbyListItem> cell = new ListCell<>() {
 
@@ -287,7 +291,7 @@ public class LoungeSceneViewController implements Initializable {
       };
       return cell;
     });
-
+    LOGGER.debug("In Initialize 3 LobbyListView" + LobbyListView);
     LobbyListView.setPlaceholder(new Text("No open lobbies!"));
     LobbyListView.setVisible(true);
   }
@@ -343,8 +347,13 @@ public class LoungeSceneViewController implements Initializable {
    */
   public void addPlayerToLobby(String lobbyID, String player) {
     LOGGER.debug("Lobby ID: " + lobbyID + " player: " + player);
-    ObservableList<String> members = lobbyToMemberssMap.get(lobbyID);
-    members.add(player);
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        ObservableList<String> members = lobbyToMemberssMap.get(lobbyID);
+        members.add(player);
+      }
+    });
   }
 
   /**
@@ -355,10 +364,11 @@ public class LoungeSceneViewController implements Initializable {
    * @param adminName
    */
   public void newLobby(String lobbyID, String adminName) {
+    LOGGER.debug("In newLobby()0  LobbyListView" + LobbyListView);
     LOGGER.debug("New lobby with ID " + lobbyID + " and admin " + adminName);
     SimpleStringProperty id = new SimpleStringProperty(lobbyID);
     SimpleStringProperty admin = new SimpleStringProperty((adminName));
-
+    LOGGER.debug("In newLobby()1  LobbyListView" + LobbyListView);
     Button startOrJoin;
     boolean ownedByClient = false;
     if (adminName.equals(client.getUsername())) {
@@ -369,16 +379,19 @@ public class LoungeSceneViewController implements Initializable {
     }
     LobbyListItem item = new LobbyListItem(id, admin, new SimpleBooleanProperty(ownedByClient),
         new SimpleBooleanProperty(true), new SimpleIntegerProperty(0));
+    LOGGER.debug("In newLobby()2  LobbyListView" + LobbyListView);
     Platform.runLater(new Runnable() {
       @Override
       public void run() {
         lobbies.add(item);
         LOGGER.debug("within newLobby() run() thread");
         LOGGER.debug(item.toString());
+        LOGGER.debug("In newLobby() run() " + LobbyListView);
       }
     });
     LOGGER.debug("newLobby() in LoungeSceneViewController seems to have reached end.");
     LOGGER.debug(lobbies.toString());
+    LOGGER.debug("In newLobby()3  LobbyListView" + LobbyListView);
   }
 
   public void joinGame(String lobbyID) {
