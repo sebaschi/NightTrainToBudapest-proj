@@ -31,9 +31,11 @@ public class ServerGameInfoHandler {
     switch (msg) {
       case ClientGameInfoHandler.ghostVoteRequest:
         msg = Protocol.serverRequestsGhostVote + "$" + passenger.getPosition() + "$";
+        passenger.getClientHandler().sendMsgToClient(Protocol.printToClientConsole + "$" + ClientGameInfoHandler.ghostVoteRequest);
         break;
       case ClientGameInfoHandler.humanVoteRequest:
         msg = Protocol.serverRequestsHumanVote + "$" + passenger.getPosition() + "$";
+        passenger.getClientHandler().sendMsgToClient(Protocol.printToClientConsole + "$" + ClientGameInfoHandler.humanVoteRequest);
         break;
       default:
         if(!msg.contains("$")) {

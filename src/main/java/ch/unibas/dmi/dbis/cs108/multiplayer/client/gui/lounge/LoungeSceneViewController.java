@@ -33,6 +33,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToolBar;
@@ -47,6 +48,13 @@ public class LoungeSceneViewController implements Initializable {
 
   public static final Logger LOGGER = LogManager.getLogger(LoungeSceneViewController.class);
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
+
+  @FXML
+  private SplitPane chatSplitPane;
+  @FXML
+  private AnchorPane chatAnchorPane;
+  @FXML
+  private AnchorPane otherNotificationAnchorPane;
 
   @FXML
   private Button leaveLobbyButton;
@@ -66,8 +74,6 @@ public class LoungeSceneViewController implements Initializable {
   private Button LeaveServerButton;
   @FXML
   private AnchorPane ChatArea;
-  @FXML
-  private HBox ChatAreaHBox;
   @FXML
   private BorderPane LoungeSceneBorderPane;
   @FXML
@@ -110,20 +116,21 @@ public class LoungeSceneViewController implements Initializable {
     LobbyListView.setVisible(true);
     ClientListView.setVisible(true);
     ClientListView.setItems(client.getAllClients());
+    addChatView();
     LobbyListView.setPlaceholder(new Text("No open lobbies!"));
     client.getAllClients().addListener(new ListChangeListener<SimpleStringProperty>() {
       @Override
       public void onChanged(Change<? extends SimpleStringProperty> c) {
         List<SimpleStringProperty> removed = (List<SimpleStringProperty>) c.getRemoved();
-        for(SimpleStringProperty player: removed) {
+        for (SimpleStringProperty player : removed) {
 
         }
       }
     });
   }
 
-  public void addGameView(){
-    Platform.runLater(new Runnable(){
+  public void addGameView() {
+    Platform.runLater(new Runnable() {
       @Override
       public void run() {
         try {
@@ -137,7 +144,7 @@ public class LoungeSceneViewController implements Initializable {
     });
   }
 
-  public void removeGameView(){
+  public void removeGameView() {
     Platform.runLater(new Runnable() {
       @Override
       public void run() {
@@ -147,6 +154,19 @@ public class LoungeSceneViewController implements Initializable {
           gameAnchorPane.getChildren().clear();
         } catch (Exception e) {
           LOGGER.debug("Not yet initialized");
+        }
+      }
+    });
+  }
+
+  public void addChatView() {
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        try {
+          chatAnchorPane.getChildren().add(chatApp.chat);
+        } catch (Exception e) {
+          LOGGER.debug("Not yet initialized: chatAnchorPane");
         }
       }
     });
@@ -162,8 +182,8 @@ public class LoungeSceneViewController implements Initializable {
   }
 
   /**
-   * Adds players to a lobby
-   * "NMEMB" {@link ch.unibas.dmi.dbis.cs108.multiplayer.helpers.GuiParameters}
+   * Adds players to a lobby "NMEMB" {@link ch.unibas.dmi.dbis.cs108.multiplayer.helpers.GuiParameters}
+   *
    * @param lobbyID
    * @param player
    */
@@ -173,8 +193,9 @@ public class LoungeSceneViewController implements Initializable {
   }
 
   /**
-   * Used when a new lobby shall be added to the view.
-   * "NLOBBY" {@link ch.unibas.dmi.dbis.cs108.multiplayer.helpers.GuiParameters}
+   * Used when a new lobby shall be added to the view. "NLOBBY" {@link
+   * ch.unibas.dmi.dbis.cs108.multiplayer.helpers.GuiParameters}
+   *
    * @param lobbyID
    * @param adminName
    */
@@ -223,12 +244,18 @@ public class LoungeSceneViewController implements Initializable {
     //addGameView();
   }
 
-  public void leaveLobby() {client.getClient().sendMsgToServer(Protocol.leaveLobby);}
+  public void leaveLobby() {
+    client.getClient().sendMsgToServer(Protocol.leaveLobby);
+    removeGameView();
+  }
 
-  public void leaveServer() {client.getClient().sendMsgToServer(Protocol.clientQuitRequest);}
+  public void leaveServer() {
+    client.getClient().sendMsgToServer(Protocol.clientQuitRequest);
+  }
+
   /**
-   * Used to add a new player to the list of players.
-   * "NPLOS" {@link ch.unibas.dmi.dbis.cs108.multiplayer.helpers.GuiParameters}
+   * Used to add a new player to the list of players. "NPLOS" {@link ch.unibas.dmi.dbis.cs108.multiplayer.helpers.GuiParameters}
+   *
    * @param s
    */
   public void addClientToList(String s) {
@@ -272,12 +299,5 @@ public class LoungeSceneViewController implements Initializable {
   public static void setClient(ClientModel client) {
     LoungeSceneViewController.client = client;
   }
-
-  public HBox getChatAreaHBox() {
-    return ChatAreaHBox;
-  }
-
-  public void setChatAreaHBox(HBox chatAreaHBox) {
-    ChatAreaHBox = chatAreaHBox;
-  }
 }
+
