@@ -1,8 +1,9 @@
-package ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat;
+package ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ClientModel;
-import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge.LoungeSceneViewController;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat.ChatApp;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat.ChatController;
 import java.net.URL;
 import java.util.Objects;
 import javafx.application.Application;
@@ -13,7 +14,10 @@ import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class ChatApp extends Application {
+/**
+ * Class for debugging the lounge gui scene
+ */
+public class LoungeApp extends Application {
 
   public static final Logger LOGGER = LogManager.getLogger(ChatApp.class);
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
@@ -24,12 +28,12 @@ public class ChatApp extends Application {
 
   private static LoungeSceneViewController loungeSceneViewController;
 
-  public ChatApp() {
+  public LoungeApp() {
     super();
     LOGGER.info("Empty ChatApp constructor got called: ");
   }
 
-  public ChatApp(ClientModel clientM) {
+  public LoungeApp(ClientModel clientM) {
     clientModel = clientM;
     chatController = new ChatController(clientM);
   }
@@ -91,17 +95,18 @@ public class ChatApp extends Application {
   public void start(Stage primaryStage) throws Exception {
     this.setcModel(clientModel);
     URL resource = ChatApp.class.getResource(
-        "ChatView.fxml");
+        "LoungeSceneView.fxml");
     if (resource == null) {
-      System.out.println("File wasnt found");
+      LOGGER.info("File wasnt found. Name: LoungeSceneView.fxml");
     }
     //ChatApp chatApp = new ChatApp(new ClientModel());
     try {
       Parent root = FXMLLoader.load(
-          Objects.requireNonNull(ChatApp.class.getResource(
-              "ChatView.fxml")));
+          Objects.requireNonNull(LoungeApp.class.getResource(
+              "LoungeSceneView.fxml")));
       // TODO bin chatController.getChatPaneRoot() border to root border for rezising
-
+//      loungeSceneViewController.getChatAreaHBox().getChildren()
+//          .add(FXMLLoader.load(Objects.requireNonNull(ChatApp.class.getResource("ChatView.fxml"))));
       Scene scene = new Scene(root);
       scene.setRoot(root);
       primaryStage.setScene(scene);
@@ -120,3 +125,4 @@ public class ChatApp extends Application {
   }
 
 }
+

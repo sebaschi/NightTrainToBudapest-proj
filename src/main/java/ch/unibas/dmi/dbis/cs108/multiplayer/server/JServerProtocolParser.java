@@ -82,7 +82,6 @@ public class JServerProtocolParser {
         try {
           int i = Integer.parseInt(msg.substring(6, 7));
           h.joinLobby(i);
-          h.sendMsgToClient(Protocol.printToGUI + "$" + GuiParameters.viewChangeToLobby + "$");
         } catch (Exception e) {
           h.sendMsgToClient(Protocol.printToClientConsole
               + "$Invalid input. Please use JOINL$1 to join Lobby 1, for example.");
@@ -90,7 +89,12 @@ public class JServerProtocolParser {
         break;
       case Protocol.createNewLobby:
         h.createNewLobby();
-        h.sendMsgToClient(Protocol.printToGUI + "$" + GuiParameters.viewChangeToLobby+ "$");
+        h.sendMsgToClient(
+            Protocol.printToGUI + "$" + GuiParameters.newLobbyCreated + "$" + h.getLobby()
+                .getLobbyID() + ":" + h.getClientUserName());
+        h.guiUpdateAll(Protocol.printToGUI + "$" + GuiParameters.newLobbyCreated + "$" + h.getLobby()
+            .getLobbyID() + ":" + h.getClientUserName());
+        LOGGER.info("Here");
         break;
       case Protocol.listLobbies:
         h.listLobbies();

@@ -61,12 +61,12 @@ public class JClientProtocolParser {
         break;
       case Protocol.printToGUI:
         String substring = msg.substring(6);
-        int index = msg.indexOf("$");
+        int index = substring.indexOf("$");
         String parameter = "";
         String data = substring;
         try {
-          parameter = msg.substring(0,index);
-          data = msg.substring(index+1);
+          parameter = substring.substring(0,index);
+          data = substring.substring(index+1);
         } catch (Exception e) {
           LOGGER.warn("No parameter in PTGUI");
         }

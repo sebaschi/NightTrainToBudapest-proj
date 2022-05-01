@@ -8,6 +8,7 @@ import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.GameStateModel;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat.ChatApp;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat.ChatController;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game.GameController;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge.LoungeApp;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge.LoungeSceneViewController;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.ClientPinger;
 
@@ -39,10 +40,15 @@ public class Client {
   public ClientPinger clientPinger;
 
   private ChatApp chatApp;
-  private GUI chatGui;
+  //private GUI chatGui;
   private ClientModel clientModel;
   private GameStateModel gameStateModel;
   private GameController gameController;
+
+  private GUI gui;
+
+  private LoungeApp loungeApp;
+  //private GUI loungeGui;
   private LoungeSceneViewController loungeSceneViewController;
 
   /**
@@ -73,10 +79,13 @@ public class Client {
       }
       sendMsgToServer(Protocol.clientLogin + "$" + systemName);
       this.chatApp = new ChatApp(new ClientModel(systemName, this));
-      this.chatGui = new GUI(this.chatApp);
+      //this.chatGui = new GUI(this.chatApp);
       clientPinger = new ClientPinger(this, this.socket);
       this.gameStateModel = new GameStateModel();
       this.gameController = new GameController(ChatApp.getClientModel(), gameStateModel);
+      this.loungeApp = new LoungeApp(ChatApp.getClientModel());
+      //this.loungeGui = new GUI(this.loungeApp);
+      this.gui = new GUI(this.chatApp,this.loungeApp);
       this.loungeSceneViewController = new LoungeSceneViewController();
       LoungeSceneViewController.setClient(ChatApp.getClientModel());
     } catch (IOException e) {
@@ -257,7 +266,7 @@ public class Client {
       cP.start();
       client.userInputListener();     //this one blocks.
       //Start the GUI
-      GUI gui = new GUI(client.chatApp);
+      GUI gui = new GUI(client.chatApp,client.loungeApp);
       Thread guiThread = new Thread(gui);
       guiThread.start();
       LOGGER.info("7");
@@ -287,7 +296,7 @@ public class Client {
       cP.start();
       client.userInputListener();     //this one blocks.
       LOGGER.info("7.1");
-      Thread guiThread = new Thread(client.chatGui);
+      Thread guiThread = new Thread(client.gui);
       LOGGER.info("8");
       guiThread.start();
       LOGGER.info("9");

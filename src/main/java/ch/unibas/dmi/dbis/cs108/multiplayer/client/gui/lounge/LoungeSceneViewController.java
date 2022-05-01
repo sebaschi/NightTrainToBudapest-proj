@@ -1,6 +1,7 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge;
 
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ClientModel;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat.ChatApp;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.events.ChangeNameButtonPressedEventHandler;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.events.LeaveServerButtonPressedEventHandler;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
@@ -9,6 +10,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.application.Application;
 import javafx.beans.binding.StringBinding;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleMapProperty;
@@ -57,6 +59,7 @@ public class LoungeSceneViewController implements Initializable {
   private ToolBar NTtBToolBar;
 
   public static ClientModel client;
+  public static ChatApp chatApp;
 
   private ObservableMap<String, ObservableList<String>> lobbyToMemberssMap;
   private HashMap<String, String> clientToLobbyMap;
@@ -76,11 +79,13 @@ public class LoungeSceneViewController implements Initializable {
    */
   @Override
   public void initialize(URL location, ResourceBundle resources) {
+    ChatApp.setLoungeSceneViewController(this);
     this.protocol = new Protocol();
     ChangeNameButton.setOnAction(event -> changeName());
     LeaveServerButton.setOnAction(new LeaveServerButtonPressedEventHandler());
     newGameButton.setOnAction(event -> newGame());
-
+    LobbyListView.setVisible(true);
+    ClientListView.setVisible(true);
     ClientListView.setItems(client.getAllClients());
     LobbyListView.setPlaceholder(new Text("No open lobbies!"));
     client.getAllClients().addListener(new ListChangeListener<SimpleStringProperty>() {
@@ -136,8 +141,9 @@ public class LoungeSceneViewController implements Initializable {
     HBox lobby = new HBox();
     Label idLabel = new Label();
     Label adminLabel = new Label();
-    idLabel.textProperty().bind(id);
-    adminLabel.textProperty().bind(admin);
+    idLabel.setText(lobbyID);
+    adminLabel.setText(adminName);
+    startOrJoin.setVisible(true);
     lobby.getChildren().add(idLabel);
     lobby.getChildren().add(adminLabel);
     lobby.getChildren().add(startOrJoin);
@@ -151,6 +157,7 @@ public class LoungeSceneViewController implements Initializable {
     }
     lobby.setId(lobbyID);
     lobbyToMemberssMap.put(lobbyID, members.getItems());
+    lobby.setVisible(true);
     LobbyListView.getItems().add(lobby);
   }
 
@@ -164,6 +171,11 @@ public class LoungeSceneViewController implements Initializable {
 
   ;
 
+  /**
+   * Used to add a new player to the list of players.
+   * "NPLOS" {@link ch.unibas.dmi.dbis.cs108.multiplayer.helpers.GuiParameters}
+   * @param s
+   */
   public void addClientToList(String s) {
     ClientListView.getItems().add(new SimpleStringProperty(s));
   }
@@ -174,13 +186,14 @@ public class LoungeSceneViewController implements Initializable {
 
 
   public void changeName() {
-    TextField name = new TextField("Enter new name!");
+    TextField name = new TextField();
+    name.setPromptText("Enter new Nickname!");
     this.NTtBToolBar.getItems().add(name);
     name.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
         client.getClient().sendMsgToServer(Protocol.nameChange + "$" + name.getText());
-        NTtBToolBar.getItems().remove(NTtBToolBar.getItems().size());
+        NTtBToolBar.getItems().remove(name);
       }
     });
   }
@@ -203,5 +216,13 @@ public class LoungeSceneViewController implements Initializable {
    */
   public static void setClient(ClientModel client) {
     LoungeSceneViewController.client = client;
+  }
+
+  public HBox getChatAreaHBox() {
+    return ChatAreaHBox;
+  }
+
+  public void setChatAreaHBox(HBox chatAreaHBox) {
+    ChatAreaHBox = chatAreaHBox;
   }
 }
