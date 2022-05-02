@@ -602,7 +602,7 @@ public class LoungeSceneViewController implements Initializable {
   /**
    * Should remove the lobby from the lobby list view
    *
-   * @param data
+   * @param data to be removed
    */
   public void removeLobbyFromView(String data) {
     Iterator<LobbyListItem> itr = lobbies.iterator();
