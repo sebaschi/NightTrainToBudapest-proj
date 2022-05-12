@@ -31,6 +31,7 @@ public class ChatApp extends Application {
 
   public Node chat;
   public Node game;
+  public Node backgroundDay;
 
   public ChatApp() {
     super();
@@ -159,10 +160,14 @@ public class ChatApp extends Application {
     try {
       URL chatResource = ChatApp.class.getResource("chat/ChatView.fxml");
       URL gameResource = ChatApp.class.getResource("game/GameDayAll.fxml");
+      URL bgDayResource = ChatApp.class.getResource("TrainAnimationViewDay.fxml");
       this.chat = FXMLLoader.load(Objects.requireNonNull(chatResource));
       this.game = FXMLLoader.load(Objects.requireNonNull(gameResource));
+      this.backgroundDay = FXMLLoader.load(Objects.requireNonNull(bgDayResource));
+      LOGGER.debug(bgDayResource);
     } catch (Exception e) {
-      LOGGER.warn(e.getMessage());
+      LOGGER.warn("There was an Exception while loading");
+      e.printStackTrace();
     }
     URL loungeResource = ChatApp.class.getResource(
         "lounge/LoungeSceneView.fxml");

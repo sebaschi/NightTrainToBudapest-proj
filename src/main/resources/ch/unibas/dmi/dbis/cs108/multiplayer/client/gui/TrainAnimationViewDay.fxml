@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+
+<StackPane maxHeight="1080.0" maxWidth="1920.0" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@TrainAnimationDay.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.TrainAnimationDayController">
+   <children>
+      <ImageView fx:id="shadowTrain" fitHeight="843.75" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@game/Day/Shadow_Below_Train.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="wagonBGImageView" fitHeight="843.75" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@game/Day/Second_Wagon.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="wagonFloorImageView" fitHeight="843.75" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@game/Day/Empty_Wagon.png" />
+         </image>
+      </ImageView>
+      <AnchorPane fx:id="gameAnchorPane" />
+      <ImageView fx:id="wagonFullImageView" fitHeight="843.75" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@game/Day/Full_Wagon.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="lokiImageView" fitHeight="843.75" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@game/Day/Loki.png" />
+         </image>
+      </ImageView>
+      <AnchorPane fx:id="wheelsAnchorPane">
+         <children>
+            <ImageView fx:id="wheelsImageView" fitHeight="843.75" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true" />
+         </children></AnchorPane>
+   </children>
+</StackPane>

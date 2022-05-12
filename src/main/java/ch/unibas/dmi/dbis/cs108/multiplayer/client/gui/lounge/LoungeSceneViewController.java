@@ -4,6 +4,7 @@ import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ClientModel;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ChatApp;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.LobbyListView;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.TrainAnimationDayController;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
 import ch.unibas.dmi.dbis.cs108.multiplayer.server.JServerProtocolParser;
 import java.net.URL;
@@ -49,7 +50,10 @@ public class LoungeSceneViewController implements Initializable {
   public static final Logger LOGGER = LogManager.getLogger(LoungeSceneViewController.class);
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
-
+  @FXML
+  private AnchorPane backGroundAnchorPane;
+  @FXML
+  private AnchorPane gameDisplayAnchorPane;
   @FXML
   private TextFlow highScore;
   @FXML
@@ -136,6 +140,8 @@ public class LoungeSceneViewController implements Initializable {
     ClientListView.setVisible(true);
     ClientListView.setItems(clients);
     addChatView();
+    addBackgroundDay();
+    TrainAnimationDayController.setcApp(this.cApp);
 
     ClientListView.setItems(clients);
     ClientListView.setCellFactory(param -> {
@@ -358,6 +364,20 @@ public class LoungeSceneViewController implements Initializable {
           chatAnchorPane.getChildren().add(chatApp.chat);
         } catch (Exception e) {
           LOGGER.debug("Not yet initialized: chatAnchorPane");
+        }
+      }
+    });
+  }
+
+  public void addBackgroundDay() {
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        try {
+          LOGGER.debug("in addBackgroundDay() run()");
+          gameDisplayAnchorPane.getChildren().add(chatApp.backgroundDay);
+        } catch (Exception e) {
+          e.printStackTrace();
         }
       }
     });

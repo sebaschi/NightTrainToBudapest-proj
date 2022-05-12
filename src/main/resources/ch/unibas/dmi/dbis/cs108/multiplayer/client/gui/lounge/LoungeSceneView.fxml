@@ -10,9 +10,10 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge.LoungeSceneViewController">
+<AnchorPane fx:id="backGroundAnchorPane" stylesheets="@loungStyle.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge.LoungeSceneViewController">
    <children>
-      <BorderPane fx:id="LoungeSceneBorderPane" layoutX="860.0" layoutY="440.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane fx:id="gameDisplayAnchorPane" />
+      <BorderPane fx:id="LoungeSceneBorderPane" layoutX="860.0" layoutY="440.0" stylesheets="@boarderPane.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
             <ToolBar fx:id="NTtBToolBar" prefHeight="77.0" BorderPane.alignment="CENTER">
               <items>

@@ -1,0 +1,20 @@
+*{
+  -fx-background-color: transparent;
+}
+
+#NTtBToolBar{
+  -fx-border-color: grey;
+  -fx-background-color: rgba(255,255,255,0.05);
+}
+
+.button{
+  -fx-border-color: darkgrey;
+  -fx-background-color: grey;
+  -fx-text-fill: white;
+}
+
+.button:pressed{
+  -fx-border-color: grey;
+  -fx-background-color: lightgrey;
+  -fx-text-fill: black;
+}
