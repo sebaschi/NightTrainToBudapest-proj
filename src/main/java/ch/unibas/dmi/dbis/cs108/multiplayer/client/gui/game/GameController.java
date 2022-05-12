@@ -131,6 +131,73 @@ public class GameController implements Initializable {
     return chatAreaGame;
   }
 
+  public void setVoteButtonVisibilityDay(){
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        LOGGER.debug(buttonRoom0);
+        if (gameStateModel.getYourRole().equals("h")) {
+          try {
+            buttonRoom0.setVisible(true);
+            buttonRoom1.setVisible(true);
+            buttonRoom2.setVisible(true);
+            buttonRoom3.setVisible(true);
+            buttonRoom4.setVisible(true);
+            buttonRoom5.setVisible(true);
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
+
+        } else {
+          try {
+            buttonRoom0.setVisible(false);
+            buttonRoom1.setVisible(false);
+            buttonRoom2.setVisible(false);
+            buttonRoom3.setVisible(false);
+            buttonRoom4.setVisible(false);
+            buttonRoom5.setVisible(false);
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
+        }
+      }
+    });
+  }
+
+  public void setVoteButtonVisibilityNight(){
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        LOGGER.debug(buttonRoom0);
+        if (gameStateModel.getYourRole().equals("g")) {
+          try {
+            buttonRoom0.setVisible(true);
+            buttonRoom1.setVisible(true);
+            buttonRoom2.setVisible(true);
+            buttonRoom3.setVisible(true);
+            buttonRoom4.setVisible(true);
+            buttonRoom5.setVisible(true);
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
+
+        } else {
+          try {
+            buttonRoom0.setVisible(false);
+            buttonRoom1.setVisible(false);
+            buttonRoom2.setVisible(false);
+            buttonRoom3.setVisible(false);
+            buttonRoom4.setVisible(false);
+            buttonRoom5.setVisible(false);
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
+        }
+      }
+    });
+  }
+
+
   /**
    * If button 0 is clicked, send the vote message 0 to the server
    */

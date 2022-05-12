@@ -14,13 +14,13 @@
    <children>
       <BorderPane fx:id="LoungeSceneBorderPane" layoutX="860.0" layoutY="440.0" pickOnBounds="false" stylesheets="@boarderPane.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
-            <ToolBar fx:id="NTtBToolBar" pickOnBounds="false" prefHeight="77.0" BorderPane.alignment="CENTER">
+            <ToolBar fx:id="NTtBToolBar" pickOnBounds="false" prefHeight="30.0" BorderPane.alignment="CENTER">
               <items>
-                  <Button fx:id="highScoreButton" mnemonicParsing="false" onAction="#sendHIghScore" text="High Score" />
-                  <Button fx:id="lobbyPrintButton" mnemonicParsing="false" onAction="#sendLilstle" text="Lobby List" />
-                  <Button fx:id="LeaveServerButton" mnemonicParsing="false" text="Leave server" />
-                  <Button fx:id="leaveLobbyButton" mnemonicParsing="false" onAction="#leaveLobby" text="Leave Lobby" />
-                <Button fx:id="ChangeNameButton" mnemonicParsing="false" text="Change Name" />
+                  <Button fx:id="highScoreButton" mnemonicParsing="false" onAction="#sendHIghScore" pickOnBounds="false" text="High Score" />
+                  <Button fx:id="lobbyPrintButton" mnemonicParsing="false" onAction="#sendLilstle" pickOnBounds="false" text="Lobby List" />
+                  <Button fx:id="LeaveServerButton" mnemonicParsing="false" pickOnBounds="false" text="Leave server" />
+                  <Button fx:id="leaveLobbyButton" mnemonicParsing="false" onAction="#leaveLobby" pickOnBounds="false" text="Leave Lobby" />
+                <Button fx:id="ChangeNameButton" mnemonicParsing="false" pickOnBounds="false" text="Change Name" />
               </items>
             </ToolBar>
          </top>
@@ -60,6 +60,6 @@
             <ListView fx:id="LobbyListView" pickOnBounds="false" BorderPane.alignment="CENTER" />
          </right>
       </BorderPane>
-      <AnchorPane fx:id="gameDisplayAnchorPane" pickOnBounds="false" />
+      <AnchorPane fx:id="gameDisplayAnchorPane" layoutY="39.0" pickOnBounds="false" />
    </children>
 </AnchorPane>

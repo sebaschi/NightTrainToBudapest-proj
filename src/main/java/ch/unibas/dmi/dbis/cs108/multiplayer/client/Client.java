@@ -140,6 +140,7 @@ public class Client {
     String pos = msg.substring(0, msgIndex);
     try {
       position = Integer.parseInt(pos);
+      gameStateModel.setRoleFromPosition(position);
     } catch (NumberFormatException e) {
       LOGGER.warn("Position got scrabbled on the way here");
     }
@@ -155,6 +156,7 @@ public class Client {
 
   public void setPosition(int position) {
     this.position = position;
+    gameStateModel.setRoleFromPosition(position);
   }
 
   /**
@@ -343,11 +345,15 @@ public class Client {
       switch (parameter) {
         case GuiParameters.night: //ClientGameInfoHandler;
           gameStateModel.setDayClone(false);
+          LOGGER.debug("----------------Night, Your role is:" + gameStateModel.getYourRole() + gameStateModel);
           chatApp.getGameController().setNoiseButtonInvisible();
+          chatApp.getGameController().setVoteButtonVisibilityNight();
           break;
         case GuiParameters.day: //ClientGameInfoHandler
           gameStateModel.setDayClone(true);
+          LOGGER.debug("----------------Day, Your role is:" + gameStateModel.getYourRole()+ gameStateModel);
           chatApp.getGameController().setNoiseButtonVisible();
+          chatApp.getGameController().setVoteButtonVisibilityDay();
           break;
         case GuiParameters.updateGameState:
           gameStateModel.setGSFromString(data);

@@ -28,7 +28,7 @@ public class GameStateModel {
   /**
    * A primitive clone of the passengerTrain in the GameState of the server.
    * in passengerTrainClone[0] the names of the passengers are stored, in passengerTrainClone[1] the roles
-   * (human/ghost/spectator). The indices of the array correspond with the positions
+   * (h/g/s). The indices of the array correspond with the positions
    */
   private String[][] passengerTrainClone;
 
@@ -41,8 +41,9 @@ public class GameStateModel {
     this.nrOfPlayers = 6;
     passengerTrainClone  = new String[2][nrOfPlayers];
     for(String role : passengerTrainClone[1]) {
-      role = "";
+      role = "h";
     }
+    yourRole = "h";
     kickedOff = new boolean[nrOfPlayers];
     isDayClone = false;
   }
@@ -69,8 +70,11 @@ public class GameStateModel {
   public void setYourRole(String yourRole) {
     if(yourRole.equals("h") || yourRole.equals("g") || yourRole.equals("s")) {
       this.yourRole = yourRole;
+    } else {
+      this.yourRole = "h";
     }
   }
+
 
   public String getYourRole() {
     return yourRole;
@@ -124,5 +128,19 @@ public class GameStateModel {
     } catch (Exception e) {
       LOGGER.warn("data has wrong format");
     }
+  }
+
+  /**
+   * Gets an integer and extracts the string from the passengerTrain[1] string at the index of the integer
+   * @param position the index of the array
+   */
+  public void setRoleFromPosition(int position) {
+    String role = "h";
+    try {
+      role = passengerTrainClone[1][position];
+    } catch (Exception e) {
+      LOGGER.warn("Not an integer between 0-5");
+    }
+    setYourRole(role);
   }
 }
