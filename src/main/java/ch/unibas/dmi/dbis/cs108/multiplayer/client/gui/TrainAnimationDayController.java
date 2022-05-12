@@ -19,6 +19,8 @@ public class TrainAnimationDayController implements Initializable {
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   @FXML
+  private ImageView backGroundAnimationImageView;
+  @FXML
   private ImageView wheelsImageView;
   @FXML
   private ImageView shadowTrain;
@@ -61,7 +63,7 @@ public class TrainAnimationDayController implements Initializable {
     Platform.runLater(new Runnable() {
       @Override
       public void run() {
-        Animation wheels = new WheelsAnimation(Duration.millis(1000), wheelsImageView);
+        Animation wheels = new WheelsAnimation(Duration.millis(866.666), wheelsImageView);
         wheels.setCycleCount(Animation.INDEFINITE);
         wheels.play();
       }

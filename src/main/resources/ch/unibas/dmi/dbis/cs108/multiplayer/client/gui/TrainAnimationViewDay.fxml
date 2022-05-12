@@ -7,6 +7,11 @@
 
 <StackPane maxHeight="1080.0" maxWidth="1920.0" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@TrainAnimationDay.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.TrainAnimationDayController">
    <children>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <ImageView fx:id="backGroundAnimationImageView" fitHeight="843.75" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </AnchorPane>
       <ImageView fx:id="shadowTrain" fitHeight="843.75" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@game/Day/Shadow_Below_Train.png" />

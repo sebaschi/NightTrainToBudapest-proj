@@ -12,6 +12,10 @@ import javafx.util.Duration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * This class animates the wheels from the train from sprites
+ */
+
 public class WheelsAnimation extends Transition {
   public static final Logger LOGGER = LogManager.getLogger(WheelsAnimation.class);
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
@@ -24,7 +28,7 @@ public class WheelsAnimation extends Transition {
   WheelsAnimation(Duration duration, ImageView imageView) {
     this.imageView = imageView;
     setCycleDuration(duration);
-    setInterpolator(Interpolator.LINEAR);
+    setInterpolator(Interpolator.DISCRETE);
     index = 1;
     wheels[0] = new Image("ch/unibas/dmi/dbis/cs108/multiplayer/client/gui/game/Day/Wheels/Image0001.png");
     wheels[1] = new Image("ch/unibas/dmi/dbis/cs108/multiplayer/client/gui/game/Day/Wheels/Image0002.png");

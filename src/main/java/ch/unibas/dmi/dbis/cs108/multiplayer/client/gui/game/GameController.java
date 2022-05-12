@@ -36,7 +36,6 @@ public class GameController implements Initializable {
 
   private static GameStateModel gameStateModel;
 
-
   public GameController() {
     super();
   }
@@ -59,6 +58,18 @@ public class GameController implements Initializable {
     return gameStateModel;
   }
 
+  @FXML
+  private ImageView room0ImageView;
+  @FXML
+  private ImageView room1ImageView;
+  @FXML
+  private ImageView room2ImageView;
+  @FXML
+  private ImageView room3ImageView;
+  @FXML
+  private ImageView room4ImageView;
+  @FXML
+  private ImageView room5ImageView;
   @FXML
   private AnchorPane gameBG;
   @FXML
@@ -128,12 +139,47 @@ public class GameController implements Initializable {
         .sendMsgToServer(Protocol.votedFor + "$" + client.getClient().getPosition() + "$" + 0);
   }
 
+  public void moveRoom0Up() {
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        room0ImageView.setY(-20);
+      }
+    });
+  }
+
+  public void moveRoom0Down() {
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        room0ImageView.setY(0);
+      }
+    });
+  }
+
   /**
    * If button 1 is clicked, send the vote message 0 to the server
    */
   public void sendVote1() {
     client.getClient()
         .sendMsgToServer(Protocol.votedFor + "$" + client.getClient().getPosition() + "$" + 1);
+  }
+  public void moveRoom1Up() {
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        room1ImageView.setY(-20);
+      }
+    });
+  }
+
+  public void moveRoom1Down() {
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        room1ImageView.setY(0);
+      }
+    });
   }
 
   /**
@@ -144,12 +190,47 @@ public class GameController implements Initializable {
         .sendMsgToServer(Protocol.votedFor + "$" + client.getClient().getPosition() + "$" + 2);
   }
 
+  public void moveRoom2Up() {
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        room2ImageView.setY(-20);
+      }
+    });
+  }
+
+  public void moveRoom2Down() {
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        room2ImageView.setY(0);
+      }
+    });
+  }
+
   /**
    * If button 3 is clicked, send the vote message 0 to the server
    */
   public void sendVote3() {
     client.getClient()
         .sendMsgToServer(Protocol.votedFor + "$" + client.getClient().getPosition() + "$" + 3);
+  }
+  public void moveRoom3Up() {
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        room3ImageView.setY(-20);
+      }
+    });
+  }
+
+  public void moveRoom3Down() {
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        room3ImageView.setY(0);
+      }
+    });
   }
 
   /**
@@ -159,6 +240,23 @@ public class GameController implements Initializable {
     client.getClient()
         .sendMsgToServer(Protocol.votedFor + "$" + client.getClient().getPosition() + "$" + 4);
   }
+  public void moveRoom4Up() {
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        room4ImageView.setY(-20);
+      }
+    });
+  }
+
+  public void moveRoom4Down() {
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        room4ImageView.setY(0);
+      }
+    });
+  }
 
   /**
    * If button 5 is clicked, send the vote message 0 to the server
@@ -166,6 +264,23 @@ public class GameController implements Initializable {
   public void sendVote5() {
     client.getClient()
         .sendMsgToServer(Protocol.votedFor + "$" + client.getClient().getPosition() + "$" + 5);
+  }
+  public void moveRoom5Up() {
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        room5ImageView.setY(-20);
+      }
+    });
+  }
+
+  public void moveRoom5Down() {
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        room5ImageView.setY(0);
+      }
+    });
   }
 
   /**
