@@ -97,6 +97,7 @@ public class LoungeSceneViewController implements Initializable {
   public static ClientModel client;
   private static ChatApp chatApp;
   private ChatApp cApp;
+  private static TrainAnimationDayController trainAnimationDayController;
 
   ObservableList<ClientListItem> clients = FXCollections.observableArrayList();
   ObservableList<LobbyListItem> lobbies = FXCollections.observableArrayList();
@@ -117,6 +118,15 @@ public class LoungeSceneViewController implements Initializable {
 
   public void setcApp(ChatApp cApp) {
     this.cApp = cApp;
+  }
+
+  public static void setTrainAnimationDayController(
+      TrainAnimationDayController trainAnimationDayController) {
+    LoungeSceneViewController.trainAnimationDayController = trainAnimationDayController;
+  }
+
+  public static TrainAnimationDayController getTrainAnimationDayController() {
+    return trainAnimationDayController;
   }
 
   /**
@@ -141,7 +151,9 @@ public class LoungeSceneViewController implements Initializable {
     ClientListView.setItems(clients);
     addChatView();
     addBackgroundDay();
-    TrainAnimationDayController.setcApp(this.cApp);
+    LOGGER.debug("cApp = " + cApp);
+    LOGGER.debug("chatApp = " + chatApp);
+    TrainAnimationDayController.setcApp(cApp);
 
     ClientListView.setItems(clients);
     ClientListView.setCellFactory(param -> {
@@ -321,13 +333,15 @@ public class LoungeSceneViewController implements Initializable {
    * Adds the gameView to the existing LobbyView
    */
   public void addGameView() {
+
     Platform.runLater(new Runnable() {
       @Override
       public void run() {
         try {
+          LOGGER.debug(" in addGameView()" + chatApp);
           newGameButton.setVisible(false);
           startGame.setVisible(false);
-          gameAnchorPane.getChildren().add(chatApp.game);
+          trainAnimationDayController.addGameView(chatApp);
         } catch (Exception e) {
           LOGGER.debug("Not yet initialized");
         }
@@ -345,7 +359,7 @@ public class LoungeSceneViewController implements Initializable {
         try {
           newGameButton.setVisible(true);
           startGame.setVisible(true);
-          gameAnchorPane.getChildren().clear();
+          trainAnimationDayController.removeGameView(chatApp);
         } catch (Exception e) {
           LOGGER.debug("Not yet initialized");
         }

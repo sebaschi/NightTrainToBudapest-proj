@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -37,8 +38,11 @@ public class TrainAnimationDayController implements Initializable {
   @FXML
   private ImageView lokiImageView;
 
+
   private ChatApp chatApp;
   private static ChatApp cApp;
+  private static AnchorPane gamePane;
+  private static ImageView loki;
 
   public TrainAnimationDayController(){
     super();
@@ -57,15 +61,67 @@ public class TrainAnimationDayController implements Initializable {
     TrainAnimationDayController.cApp = cApp;
   }
 
+  public AnchorPane getGameAnchorPane() {
+    return gameAnchorPane;
+  }
+
+  public ImageView getWagonFullImageView() {
+    return wagonFullImageView;
+  }
+
   @Override
   public void initialize(URL location, ResourceBundle resources) {
+    LoungeSceneViewController.setTrainAnimationDayController(this);
+    LOGGER.debug(cApp);
     setChatApp(cApp);
+    LOGGER.debug(gameAnchorPane);
+    gamePane = gameAnchorPane;
+    loki = lokiImageView;
     Platform.runLater(new Runnable() {
       @Override
       public void run() {
         Animation wheels = new WheelsAnimation(Duration.millis(866.666), wheelsImageView);
         wheels.setCycleCount(Animation.INDEFINITE);
         wheels.play();
+      }
+    });
+  }
+
+  /**
+   * Adds the gameView to the existing LobbyView
+   */
+  public void addGameView(ChatApp c) {
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        try {
+          TrainAnimationDayController controller = new TrainAnimationDayController();
+          LOGGER.debug(gamePane);
+          LOGGER.debug(loki);
+          LOGGER.debug(cApp);
+          gameAnchorPane.getChildren().add(c.game);
+          wagonFullImageView.setVisible(false);
+        } catch (Exception e) {
+          LOGGER.debug("Not yet initialized");
+          e.printStackTrace();
+        }
+      }
+    });
+  }
+
+  /**
+   * Removes the GameView again - needed when a game is over or a lobby is left
+   */
+  public void removeGameView(ChatApp c) {
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        try {
+          gameAnchorPane.getChildren().clear();
+          wagonFullImageView.setVisible(true);
+        } catch (Exception e) {
+          LOGGER.debug("Not yet initialized");
+        }
       }
     });
   }
