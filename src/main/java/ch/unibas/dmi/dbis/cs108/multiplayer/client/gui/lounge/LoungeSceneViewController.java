@@ -310,6 +310,7 @@ public class LoungeSceneViewController implements Initializable {
       public void run() {
         try {
           ChatArea.getChildren().add(chatApp.chat);
+          LOGGER.debug("¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦ ChatArea: " + ChatArea);
         } catch (Exception e) {
           LOGGER.debug("Not yet initialized: chatAnchorPane");
         }
