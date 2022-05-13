@@ -1,16 +1,19 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.BGAnimation;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ClientModel;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ChatApp;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.LobbyListView;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.TrainAnimationDayController;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.WheelsAnimation;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
 import ch.unibas.dmi.dbis.cs108.multiplayer.server.JServerProtocolParser;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.ResourceBundle;
+import javafx.animation.Animation;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -35,6 +38,7 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToolBar;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -42,6 +46,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import javafx.util.Duration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -49,6 +54,9 @@ public class LoungeSceneViewController implements Initializable {
 
   public static final Logger LOGGER = LogManager.getLogger(LoungeSceneViewController.class);
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
+
+  @FXML
+  private AnchorPane backGroundAnimationPane;
 
   @FXML
   private AnchorPane backGroundAnchorPane;
@@ -154,6 +162,9 @@ public class LoungeSceneViewController implements Initializable {
     LOGGER.debug("cApp = " + cApp);
     LOGGER.debug("chatApp = " + chatApp);
     TrainAnimationDayController.setcApp(cApp);
+    ImageView bgAnimationView = new ImageView();
+    bgAnimationView.setFitHeight(1950);
+    bgAnimationView.setFitWidth(6667.968);
 
     ClientListView.setItems(clients);
     ClientListView.setCellFactory(param -> {
@@ -323,6 +334,15 @@ public class LoungeSceneViewController implements Initializable {
         }
       };
       return cell;
+    });
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        backGroundAnimationPane.getChildren().add(bgAnimationView);
+        Animation backGround = new BGAnimation(Duration.millis(17), bgAnimationView);
+        backGround.setCycleCount(Animation.INDEFINITE);
+        backGround.play();
+      }
     });
     LOGGER.debug("In Initialize 3 LobbyListView" + LobbyListView);
     LobbyListView.setPlaceholder(new Text("No open lobbies!"));
