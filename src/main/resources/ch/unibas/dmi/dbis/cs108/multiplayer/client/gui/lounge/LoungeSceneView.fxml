@@ -35,31 +35,30 @@
             </AnchorPane>
          </center>
          <bottom>
-            <AnchorPane fx:id="ChatArea" pickOnBounds="false" BorderPane.alignment="CENTER">
+            <AnchorPane fx:id="ChatArea" pickOnBounds="false" prefHeight="83.0" prefWidth="578.0" BorderPane.alignment="CENTER">
                <children>
-                  <SplitPane fx:id="chatSplitPane" dividerPositions="0.46467817896389324" minHeight="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                    <items>
-                      <AnchorPane fx:id="chatAnchorPane" minHeight="0.0" minWidth="0.0" />
-                      <AnchorPane fx:id="otherNotificationAnchorPane" minHeight="0.0" minWidth="0.0">
-                           <children>
-                              <Label text="High Score:" />
-                              <TextFlow fx:id="highScore" layoutY="18.0" prefHeight="30.0" prefWidth="99.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="239.0" AnchorPane.topAnchor="18.0" />
-                              <Label layoutX="120.0" text="Lobbies:" />
-                              <TextFlow fx:id="lobbyPrint" layoutX="120.0" layoutY="18.0" />
-                              <Line endX="-6.5" endY="-24.0" layoutX="120.0" layoutY="24.0" startX="-6.5" startY="48.5" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                           </children>
-                        </AnchorPane>
-                    </items>
-                  </SplitPane>
+                  <SplitPane fx:id="chatSplitPane" disable="true" dividerPositions="0.5" layoutY="-34.0" minHeight="50.0" prefHeight="46.0" prefWidth="578.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <items>
+                        <AnchorPane fx:id="ChatArea" prefHeight="200.0" prefWidth="200.0" />
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" />
+                     </items></SplitPane>
                </children>
             </AnchorPane>
          </bottom>
-         <left>
-            <ListView fx:id="ClientListView" pickOnBounds="false" BorderPane.alignment="CENTER" />
-         </left>
          <right>
             <ListView fx:id="LobbyListView" pickOnBounds="false" BorderPane.alignment="CENTER" />
          </right>
+         <left>
+            <AnchorPane prefHeight="316.0" prefWidth="181.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label layoutX="59.0" layoutY="200.0" text="High Score:" />
+                  <TextFlow fx:id="highScore" layoutX="62.0" layoutY="232.0" prefHeight="167.0" prefWidth="181.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="232.0" />
+                  <Label layoutX="67.0" layoutY="6.0" text="Players:" />
+                  <TextFlow fx:id="lobbyPrint" layoutX="5.0" layoutY="23.0" prefHeight="178.0" prefWidth="171.0" />
+                  <Line endX="72.5" layoutX="91.0" layoutY="201.0" startX="-79.5" />
+               </children>
+            </AnchorPane>
+         </left>
       </BorderPane>
       <AnchorPane fx:id="gameDisplayAnchorPane" maxHeight="843.75" maxWidth="1500.0" pickOnBounds="false" />
    </children>

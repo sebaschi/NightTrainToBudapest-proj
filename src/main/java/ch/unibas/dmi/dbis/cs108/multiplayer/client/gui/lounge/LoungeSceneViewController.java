@@ -69,10 +69,6 @@ public class LoungeSceneViewController implements Initializable {
   @FXML
   private SplitPane chatSplitPane;
   @FXML
-  private AnchorPane chatAnchorPane;
-  @FXML
-  private AnchorPane otherNotificationAnchorPane;
-  @FXML
   public Button highScoreButton;
   @FXML
   private Button leaveLobbyButton;
@@ -87,8 +83,6 @@ public class LoungeSceneViewController implements Initializable {
   @FXML
   public ListView<LobbyListItem> LobbyListView;
   @FXML
-  public ListView<ClientListItem> ClientListView;
-  @FXML
   private Button ChangeNameButton;
   @FXML
   private Button LeaveServerButton;
@@ -100,7 +94,6 @@ public class LoungeSceneViewController implements Initializable {
   private ToolBar NTtBToolBar;
 
   public static ListView<LobbyListItem> lListView;
-  public static ListView<ClientListItem> cListView;
 
   public static ClientModel client;
   private static ChatApp chatApp;
@@ -153,10 +146,7 @@ public class LoungeSceneViewController implements Initializable {
     newGameButton.setOnAction(event -> newGame());
     LobbyListView.setVisible(true);
     lListView = LobbyListView;
-    cListView = ClientListView;
     LOGGER.debug("Lobby in initialize" + LobbyListView);
-    ClientListView.setVisible(true);
-    ClientListView.setItems(clients);
     addChatView();
     addBackgroundDay();
     LOGGER.debug("cApp = " + cApp);
@@ -395,7 +385,7 @@ public class LoungeSceneViewController implements Initializable {
       @Override
       public void run() {
         try {
-          chatAnchorPane.getChildren().add(chatApp.chat);
+          ChatArea.getChildren().add(chatApp.chat);
         } catch (Exception e) {
           LOGGER.debug("Not yet initialized: chatAnchorPane");
         }
@@ -511,45 +501,6 @@ public class LoungeSceneViewController implements Initializable {
    */
   public void leaveServer() {
     client.getClient().sendMsgToServer(Protocol.clientQuitRequest);
-  }
-
-  /**
-   * Used to add a new player to the list of players. "NPLOS" {@link ch.unibas.dmi.dbis.cs108.multiplayer.helpers.GuiParameters}
-   *
-   * @param s the information corresponding to to the client in String from
-   */
-  public void addClientToList(String s) {
-    ClientListItem cl = new ClientListItem(s);
-    ClientListView = cListView;
-    Platform.runLater(new Runnable() {
-      @Override
-      public void run() {
-        clients.add(cl);
-        LOGGER.debug("in addClientToList() in run()");
-        LOGGER.debug(cl.toString() + " in run()");
-      }
-    });
-
-  }
-
-  /**
-   * Sould remove a client of a certain name from the ListView
-   *
-   * @param name the name of the client to be removed
-   */
-  public void removeClientFromList(String name) {
-    Iterator<ClientListItem> it = clients.iterator();
-    while (it.hasNext()) {
-      String uid = it.next().getName();
-      if (uid.equals(name)) {
-        it.remove();
-        break;
-      }
-    }
-  }
-
-  public void removeClientFromLobby(String s) {
-    //todo
   }
 
   /**
