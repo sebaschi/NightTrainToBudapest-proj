@@ -12,18 +12,20 @@ public class BellAnimation extends Transition {
   int index;
 
   public BellAnimation(ImageView imageView, Image[] bells) {
-    setCycleCount(17);
+    setCycleCount(16);
     index = 0;
     this.imageView = imageView;
     this.bells = bells;
-    setCycleDuration(new Duration(59));
+    setCycleDuration(new Duration(100));
     setInterpolator(Interpolator.DISCRETE);
   }
 
 
   @Override
   protected void interpolate(double frac) {
-    imageView.setImage(bells[index]);
+    if(index < 17) {
+      imageView.setImage(bells[index]);
+    }
     index++;
   }
 }
