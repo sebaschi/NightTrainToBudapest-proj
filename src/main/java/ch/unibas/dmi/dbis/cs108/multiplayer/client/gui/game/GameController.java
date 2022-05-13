@@ -10,6 +10,7 @@ import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ClientModel;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.animation.Animation;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -36,8 +37,24 @@ public class GameController implements Initializable {
 
   private static GameStateModel gameStateModel;
 
+  Image[] bells = new Image[17];
+
   public GameController() {
     super();
+    try {
+      for (int i = 1; i <= 17; i++) {
+        String url;
+        if (i < 10) {
+          url =
+              "ch/unibas/dmi/dbis/cs108/multiplayer/client/gui/game/Day/Bell/Image000" + i + ".png";
+        } else {
+          url = "ch/unibas/dmi/dbis/cs108/multiplayer/client/gui/game/Day/Bell/Image00" + i + ".png";
+        }
+        bells[i-1] = new Image(url);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   //TODO(Seraina, Sebi): Same issue as ChatController? do with setters?
@@ -540,7 +557,8 @@ public class GameController implements Initializable {
       public void run() {
         try {
           if(!gameStateModel.getKickedOff()[0]) {
-            noiseImage0.setImage(loadBellImage());
+            Animation bell = new BellAnimation(noiseImage5, bells);
+            bell.play();
           }
         } catch (Exception e) {
           LOGGER.debug(e.getMessage());
@@ -560,7 +578,8 @@ public class GameController implements Initializable {
       public void run() {
         try {
           if(!gameStateModel.getKickedOff()[1]) {
-            noiseImage1.setImage(loadBellImage());
+            Animation bell = new BellAnimation(noiseImage4, bells);
+            bell.play();
           }
         } catch (Exception e) {
           LOGGER.debug(e.getMessage());
@@ -579,7 +598,8 @@ public class GameController implements Initializable {
       public void run() {
         try {
           if(!gameStateModel.getKickedOff()[2]) {
-            noiseImage2.setImage(loadBellImage());
+            Animation bell = new BellAnimation(noiseImage3, bells);
+            bell.play();
           }
         } catch (Exception e) {
           LOGGER.debug(e.getMessage());
@@ -599,7 +619,8 @@ public class GameController implements Initializable {
       public void run() {
         try {
           if(!gameStateModel.getKickedOff()[3]) {
-            noiseImage3.setImage(loadBellImage());
+            Animation bell = new BellAnimation(noiseImage2, bells);
+            bell.play();
           }
         } catch (Exception e) {
           LOGGER.debug(e.getMessage());
@@ -618,7 +639,8 @@ public class GameController implements Initializable {
       public void run() {
         try {
           if(!gameStateModel.getKickedOff()[4]) {
-            noiseImage4.setImage(loadBellImage());
+            Animation bell = new BellAnimation(noiseImage1, bells);
+            bell.play();
           }
         } catch (Exception e) {
           LOGGER.debug(e.getMessage());
@@ -637,7 +659,8 @@ public class GameController implements Initializable {
       public void run() {
         try {
           if(!gameStateModel.getKickedOff()[5]) {
-            noiseImage5.setImage(loadBellImage());
+            Animation bell = new BellAnimation(noiseImage0, bells);
+            bell.play();
           }
         } catch (Exception e) {
           LOGGER.debug(e.getMessage());

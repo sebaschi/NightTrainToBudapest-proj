@@ -41,18 +41,14 @@
             <Image url="@Day/Room6.png" />
          </image>
       </ImageView>
+      <ImageView fx:id="noiseImage0" fitHeight="843.75" fitWidth="1500.0" preserveRatio="true" />
+      <ImageView fx:id="noiseImage1" fitHeight="843.75" fitWidth="1500.0" layoutX="-117.0" layoutY="-25.02" preserveRatio="true" />
+      <ImageView fx:id="noiseImage2" fitHeight="843.75" fitWidth="1500.0" layoutX="-234.0" layoutY="-50.04" preserveRatio="true" />
+      <ImageView fx:id="noiseImage3" fitHeight="843.75" fitWidth="1500.0" layoutX="-351.0" layoutY="-75.06" preserveRatio="true" />
+      <ImageView fx:id="noiseImage4" fitHeight="843.75" fitWidth="1500.0" layoutX="-468.0" layoutY="-100.08" preserveRatio="true" />
+      <ImageView fx:id="noiseImage5" fitHeight="843.75" fitWidth="1500.0" layoutX="-585.0" layoutY="-125.1" preserveRatio="true" />
       <Group fx:id="roomButtonGroupDay" layoutX="288.0" layoutY="220.0">
          <children>
-            <HBox fx:id="notificationHBox" layoutX="20.0" layoutY="-55.0" pickOnBounds="false" rotate="12.4">
-               <children>
-                  <ImageView fx:id="noiseImage0" fitHeight="150.0" fitWidth="125.0" preserveRatio="true" rotate="-12.4" />
-                  <ImageView fx:id="noiseImage1" fitHeight="150.0" fitWidth="125.0" preserveRatio="true" rotate="-12.4" />
-                  <ImageView fx:id="noiseImage2" fitHeight="150.0" fitWidth="125.0" preserveRatio="true" rotate="-12.4" />
-                  <ImageView fx:id="noiseImage3" fitHeight="150.0" fitWidth="125.0" preserveRatio="true" rotate="-12.4" />
-                  <ImageView fx:id="noiseImage4" fitHeight="150.0" fitWidth="125.0" preserveRatio="true" rotate="-12.4" />
-                  <ImageView fx:id="noiseImage5" fitHeight="150.0" fitWidth="125.0" preserveRatio="true" rotate="-12.4" />
-               </children>
-            </HBox>
             <HBox fx:id="roomLables" alignment="CENTER" layoutY="82.0" prefHeight="62.0" prefWidth="747.0" rotate="12.2">
                <children>
                   <TextFlow fx:id="lableRoom0" prefHeight="200.0" prefWidth="200.0" textAlignment="CENTER" />
