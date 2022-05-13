@@ -1,16 +1,19 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.BGAnimation;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ClientModel;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ChatApp;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.LobbyListView;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.TrainAnimationDayController;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.WheelsAnimation;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
 import ch.unibas.dmi.dbis.cs108.multiplayer.server.JServerProtocolParser;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.ResourceBundle;
+import javafx.animation.Animation;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -35,6 +38,7 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToolBar;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -42,6 +46,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import javafx.util.Duration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -49,6 +54,9 @@ public class LoungeSceneViewController implements Initializable {
 
   public static final Logger LOGGER = LogManager.getLogger(LoungeSceneViewController.class);
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
+
+  @FXML
+  private AnchorPane backGroundAnimationPane;
 
   @FXML
   private AnchorPane backGroundAnchorPane;
@@ -144,6 +152,86 @@ public class LoungeSceneViewController implements Initializable {
     LOGGER.debug("cApp = " + cApp);
     LOGGER.debug("chatApp = " + chatApp);
     TrainAnimationDayController.setcApp(cApp);
+    ImageView bgAnimationView = new ImageView();
+    bgAnimationView.setFitHeight(1950);
+    bgAnimationView.setFitWidth(6667.968);
+
+    ClientListView.setItems(clients);
+    ClientListView.setCellFactory(param -> {
+      ListCell<ClientListItem> cell = new ListCell<>() {
+        Label name = new Label();
+        Label id = new Label();
+        HBox nameAndId = new HBox(name, id);
+
+        {
+          nameAndId.setAlignment(Pos.CENTER_LEFT);
+        }
+
+        /**
+         * The updateItem method should not be called by developers, but it is the
+         * best method for developers to override to allow for them to customise the
+         * visuals of the cell. To clarify, developers should never call this method
+         * in their code (they should leave it up to the UI control, such as the
+         * {@link ListView} control) to call this method. However, the purpose of
+         * having the updateItem method is so that developers, when specifying
+         * custom cell factories (again, like the ListView {@link
+         * ListView#cellFactoryProperty() cell factory}), the updateItem method can
+         * be overridden to allow for complete customisation of the cell.
+         *
+         * <p>It is <strong>very important</strong> that subclasses
+         * of Cell override the updateItem method properly, as failure to do so will
+         * lead to issues such as blank cells or cells with unexpected content
+         * appearing within them. Here is an example of how to properly override the
+         * updateItem method:
+         *
+         * <pre>
+         * protected void updateItem(T item, boolean empty) {
+         *     super.updateItem(item, empty);
+         *
+         *     if (empty || item == null) {
+         *         setText(null);
+         *         setGraphic(null);
+         *     } else {
+         *         setText(item.toString());
+         *     }
+         * }
+         * </pre>
+         *
+         * <p>Note in this code sample two important points:
+         * <ol>
+         *     <li>We call the super.updateItem(T, boolean) method. If this is not
+         *     done, the item and empty properties are not correctly set, and you are
+         *     likely to end up with graphical issues.</li>
+         *     <li>We test for the <code>empty</code> condition, and if true, we
+         *     set the text and graphic properties to null. If we do not do this,
+         *     it is almost guaranteed that end users will see graphical artifacts
+         *     in cells unexpectedly.</li>
+         * </ol>
+         *  @param item The new item for the cell.
+         *
+         * @param empty whether or not this cell represents data from the list. If
+         *              it is empty, then it does not represent any domain data, but
+         *              is a cell
+         */
+        @Override
+        protected void updateItem(ClientListItem item, boolean empty) {
+          super.updateItem(item, empty);
+          if (empty) {
+            setText(null);
+            setGraphic(null);
+          } else {
+            LOGGER.debug("In updateItem(item, empty) Method. Else branch -> nonnull item");
+            name.setText(item.getName());
+            name.setTextFill(Color.BLACK);
+            id.setText(String.valueOf(item.getId()));
+            id.setTextFill(Color.BLACK);
+            setGraphic(nameAndId);
+          }
+        }
+      };
+      return cell;
+    });
+
     LobbyListView.setItems(lobbies);
     LOGGER.debug("In Initialize 2 LobbyListView" + LobbyListView);
     LobbyListView.setCellFactory(param -> {
@@ -236,6 +324,15 @@ public class LoungeSceneViewController implements Initializable {
         }
       };
       return cell;
+    });
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        backGroundAnimationPane.getChildren().add(bgAnimationView);
+        Animation backGround = new BGAnimation(Duration.millis(17), bgAnimationView);
+        backGround.setCycleCount(Animation.INDEFINITE);
+        backGround.play();
+      }
     });
     LOGGER.debug("In Initialize 3 LobbyListView" + LobbyListView);
     LobbyListView.setPlaceholder(new Text("No open lobbies!"));

@@ -74,6 +74,10 @@ public class ClientModel {
 
   }
 
+  public int getClientPosition() {
+    return client.getPosition();
+  }
+
   public void removeClientFromList(String id){
     Iterator<SimpleStringProperty> it = allClients.iterator();
     while(it.hasNext()){
