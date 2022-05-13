@@ -61,10 +61,6 @@ public class LoungeSceneViewController implements Initializable {
   @FXML
   private SplitPane chatSplitPane;
   @FXML
-  private AnchorPane chatAnchorPane;
-  @FXML
-  private AnchorPane otherNotificationAnchorPane;
-  @FXML
   public Button highScoreButton;
   @FXML
   private Button leaveLobbyButton;
@@ -79,8 +75,6 @@ public class LoungeSceneViewController implements Initializable {
   @FXML
   public ListView<LobbyListItem> LobbyListView;
   @FXML
-  public ListView<ClientListItem> ClientListView;
-  @FXML
   private Button ChangeNameButton;
   @FXML
   private Button LeaveServerButton;
@@ -92,7 +86,6 @@ public class LoungeSceneViewController implements Initializable {
   private ToolBar NTtBToolBar;
 
   public static ListView<LobbyListItem> lListView;
-  public static ListView<ClientListItem> cListView;
 
   public static ClientModel client;
   private static ChatApp chatApp;
@@ -145,92 +138,12 @@ public class LoungeSceneViewController implements Initializable {
     newGameButton.setOnAction(event -> newGame());
     LobbyListView.setVisible(true);
     lListView = LobbyListView;
-    cListView = ClientListView;
     LOGGER.debug("Lobby in initialize" + LobbyListView);
-    ClientListView.setVisible(true);
-    ClientListView.setItems(clients);
     addChatView();
     addBackgroundDay();
     LOGGER.debug("cApp = " + cApp);
     LOGGER.debug("chatApp = " + chatApp);
     TrainAnimationDayController.setcApp(cApp);
-
-    ClientListView.setItems(clients);
-    ClientListView.setCellFactory(param -> {
-      ListCell<ClientListItem> cell = new ListCell<>() {
-        Label name = new Label();
-        Label id = new Label();
-        HBox nameAndId = new HBox(name, id);
-
-        {
-          nameAndId.setAlignment(Pos.CENTER_LEFT);
-        }
-
-        /**
-         * The updateItem method should not be called by developers, but it is the
-         * best method for developers to override to allow for them to customise the
-         * visuals of the cell. To clarify, developers should never call this method
-         * in their code (they should leave it up to the UI control, such as the
-         * {@link ListView} control) to call this method. However, the purpose of
-         * having the updateItem method is so that developers, when specifying
-         * custom cell factories (again, like the ListView {@link
-         * ListView#cellFactoryProperty() cell factory}), the updateItem method can
-         * be overridden to allow for complete customisation of the cell.
-         *
-         * <p>It is <strong>very important</strong> that subclasses
-         * of Cell override the updateItem method properly, as failure to do so will
-         * lead to issues such as blank cells or cells with unexpected content
-         * appearing within them. Here is an example of how to properly override the
-         * updateItem method:
-         *
-         * <pre>
-         * protected void updateItem(T item, boolean empty) {
-         *     super.updateItem(item, empty);
-         *
-         *     if (empty || item == null) {
-         *         setText(null);
-         *         setGraphic(null);
-         *     } else {
-         *         setText(item.toString());
-         *     }
-         * }
-         * </pre>
-         *
-         * <p>Note in this code sample two important points:
-         * <ol>
-         *     <li>We call the super.updateItem(T, boolean) method. If this is not
-         *     done, the item and empty properties are not correctly set, and you are
-         *     likely to end up with graphical issues.</li>
-         *     <li>We test for the <code>empty</code> condition, and if true, we
-         *     set the text and graphic properties to null. If we do not do this,
-         *     it is almost guaranteed that end users will see graphical artifacts
-         *     in cells unexpectedly.</li>
-         * </ol>
-         *  @param item The new item for the cell.
-         *
-         * @param empty whether or not this cell represents data from the list. If
-         *              it is empty, then it does not represent any domain data, but
-         *              is a cell
-         */
-        @Override
-        protected void updateItem(ClientListItem item, boolean empty) {
-          super.updateItem(item, empty);
-          if (empty) {
-            setText(null);
-            setGraphic(null);
-          } else {
-            LOGGER.debug("In updateItem(item, empty) Method. Else branch -> nonnull item");
-            name.setText(item.getName());
-            name.setTextFill(Color.BLACK);
-            id.setText(String.valueOf(item.getId()));
-            id.setTextFill(Color.BLACK);
-            setGraphic(nameAndId);
-          }
-        }
-      };
-      return cell;
-    });
-
     LobbyListView.setItems(lobbies);
     LOGGER.debug("In Initialize 2 LobbyListView" + LobbyListView);
     LobbyListView.setCellFactory(param -> {
@@ -375,7 +288,7 @@ public class LoungeSceneViewController implements Initializable {
       @Override
       public void run() {
         try {
-          chatAnchorPane.getChildren().add(chatApp.chat);
+          ChatArea.getChildren().add(chatApp.chat);
         } catch (Exception e) {
           LOGGER.debug("Not yet initialized: chatAnchorPane");
         }
@@ -491,45 +404,6 @@ public class LoungeSceneViewController implements Initializable {
    */
   public void leaveServer() {
     client.getClient().sendMsgToServer(Protocol.clientQuitRequest);
-  }
-
-  /**
-   * Used to add a new player to the list of players. "NPLOS" {@link ch.unibas.dmi.dbis.cs108.multiplayer.helpers.GuiParameters}
-   *
-   * @param s the information corresponding to to the client in String from
-   */
-  public void addClientToList(String s) {
-    ClientListItem cl = new ClientListItem(s);
-    ClientListView = cListView;
-    Platform.runLater(new Runnable() {
-      @Override
-      public void run() {
-        clients.add(cl);
-        LOGGER.debug("in addClientToList() in run()");
-        LOGGER.debug(cl.toString() + " in run()");
-      }
-    });
-
-  }
-
-  /**
-   * Sould remove a client of a certain name from the ListView
-   *
-   * @param name the name of the client to be removed
-   */
-  public void removeClientFromList(String name) {
-    Iterator<ClientListItem> it = clients.iterator();
-    while (it.hasNext()) {
-      String uid = it.next().getName();
-      if (uid.equals(name)) {
-        it.remove();
-        break;
-      }
-    }
-  }
-
-  public void removeClientFromLobby(String s) {
-    //todo
   }
 
   /**

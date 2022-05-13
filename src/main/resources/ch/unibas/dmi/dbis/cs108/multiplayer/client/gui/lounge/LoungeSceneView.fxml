@@ -34,9 +34,13 @@
             </AnchorPane>
          </center>
          <bottom>
-            <AnchorPane fx:id="ChatArea" pickOnBounds="false" BorderPane.alignment="CENTER">
+            <AnchorPane fx:id="ChatArea" pickOnBounds="false" prefHeight="83.0" prefWidth="578.0" BorderPane.alignment="CENTER">
                <children>
-                  <SplitPane fx:id="chatSplitPane" minHeight="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <SplitPane fx:id="chatSplitPane" disable="true" dividerPositions="0.5" layoutY="-34.0" minHeight="50.0" prefHeight="46.0" prefWidth="578.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <items>
+                        <AnchorPane fx:id="ChatArea" prefHeight="200.0" prefWidth="200.0" />
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" />
+                     </items></SplitPane>
                </children>
             </AnchorPane>
          </bottom>
@@ -56,6 +60,5 @@
          </left>
       </BorderPane>
       <AnchorPane fx:id="gameDisplayAnchorPane" pickOnBounds="false" />
-      <Line endX="100.0" startX="-100.0" />
    </children>
 </AnchorPane>

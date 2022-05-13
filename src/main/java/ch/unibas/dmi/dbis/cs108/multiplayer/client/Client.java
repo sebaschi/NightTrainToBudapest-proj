@@ -368,10 +368,6 @@ public class Client {
         case GuiParameters.VoteIsOver:
           chatApp.getGameController().clearAllNoiseDisplay();
           break;
-        case GuiParameters.listOfPLayers:
-          updateListOfClients(data);
-          //TODO
-          break;
         case GuiParameters.getMembersInLobby:
           updateLobbyMembers(data);
           break;
@@ -391,9 +387,6 @@ public class Client {
           break;
         case GuiParameters.newLobbyCreated:
           makeNewLobby(data);
-          break;
-        case GuiParameters.newPlayerOnServer:
-          addNewPlayerToGui(data);
           break;
         case GuiParameters.updateHighScore:
           chatApp.getLoungeSceneViewController().addHighScore(data);
@@ -420,11 +413,6 @@ public class Client {
   private void removeLobbyFromGui(String data) {
     loungeSceneViewController.removeLobbyFromView(data);
     LOGGER.debug("Made it into removeLobbyFromGui()");
-  }
-
-  private void addNewPlayerToGui(String data) {
-    loungeSceneViewController.addClientToList(data);
-    LOGGER.debug("addNewPlayerToGui() seems to have finished");
   }
 
   private void makeNewLobby(String data) {
@@ -457,14 +445,6 @@ public class Client {
     //TODO
   }
 
-  private void updateListOfClients(String data) {
-    String[] arr = data.split(":");
-    ObservableList<SimpleStringProperty> list = new SimpleListProperty<>();
-    int n = arr.length;
-    for (int i = 0; i < n; i = i + 1) {
-      loungeSceneViewController.addClientToList(arr[i]);
-    }
-  }
 
   /**
    * Starts a new thread, thad adds a message to notificationText in the gameController, waits 3
