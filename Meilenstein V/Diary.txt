@@ -351,10 +351,15 @@ Gemeinsames arbeiten an Gui.
 	Seraina: Zu früh gefreut, fast alle der Methoden im GameController mussten überarbeitet werden. Habe nach etlichen Stunden aber alle 			wichtigen Funktionen zum Laufen gebracht. TODO: Glätte die Bugs v.A. in den noiseNotifications.
 	Sebi: Habe die implementation der LobbyView fast fertig TODO: Testen der Lobby
 
-01.04.2022 - Seraina & Sebi
+01.05.2022 - Seraina & Sebi
 Geimeinsames Troubleshooting der GUI.
 Alle Views sind verschmolzen und das Gameplay funktioniert soweit ganz gut. Hatten Probleme bei der darstellung der LobbyListView, war 
 wiedermal ein Problem das mit static gelöst werden konnte. Die ClientListe und die Aktualisierung der LobbyListe funktioniert aber noch nicht (TODO).
 
-01.04.2022 - Seraina
+01.05.2022 - Seraina
 Habe Highscore und Players in Lobbies auf die einfachst mögliche Art mit Textflow implementiret, falls die ListViews bis morgen nicht funktionieren sollten.
+
+13.05.2022 - Seraina, Jonas, Alex
+- Seraina: Animation von in-game-Hintergrund, GUI
+- Jonas: Sound design
+- Alex: Vorbereitung für Programmierung von unit tests mit Mockito
