@@ -3,11 +3,20 @@
 }
 
 .button{
+  -fx-background-color: transparent;
+  -fx-border-color: transparent;
+}
+
+#noiseButton{
+  -fx-background-color: midnightblue;
+  -fx-text-fill: lightgrey;
 }
 
 #roomButtonGroup{
   -fx-background-color: transparent;
 }
+
+
 
 .text-field{
   -fx-text-fill: white;
