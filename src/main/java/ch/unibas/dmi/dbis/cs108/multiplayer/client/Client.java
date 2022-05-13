@@ -100,6 +100,10 @@ public class Client {
     ChatController.getClient().setUsername(newName);
   }
 
+  public GameStateModel getGameStateModel() {
+    return gameStateModel;
+  }
+
   /**
    * Sends a message to the Server in a formatted way COMND$msg
    */
@@ -347,17 +351,18 @@ public class Client {
           gameStateModel.setDayClone(false);
           LOGGER.debug("----------------Night, Your role is:" + gameStateModel.getYourRole() + gameStateModel);
           chatApp.getGameController().setNoiseButtonInvisible();
-          chatApp.getGameController().setVoteButtonVisibilityNight();
+          chatApp.getGameController().setVoteButtonVisibilityNight(gameStateModel);
           break;
         case GuiParameters.day: //ClientGameInfoHandler
           gameStateModel.setDayClone(true);
           LOGGER.debug("----------------Day, Your role is:" + gameStateModel.getYourRole()+ gameStateModel);
           chatApp.getGameController().setNoiseButtonVisible();
-          chatApp.getGameController().setVoteButtonVisibilityDay();
+          chatApp.getGameController().setVoteButtonVisibilityDay(gameStateModel);
           break;
         case GuiParameters.updateGameState:
           gameStateModel.setGSFromString(data);
           chatApp.getGameController().updateRoomLabels();
+          gameStateModel.setRoleFromPosition(position);
           break;
         case GuiParameters.noiseHeardAtPosition:
           try {

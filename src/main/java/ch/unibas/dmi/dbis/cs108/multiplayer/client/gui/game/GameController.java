@@ -131,12 +131,12 @@ public class GameController implements Initializable {
     return chatAreaGame;
   }
 
-  public void setVoteButtonVisibilityDay(){
+  public void setVoteButtonVisibilityDay(GameStateModel g){
     Platform.runLater(new Runnable() {
       @Override
       public void run() {
         LOGGER.debug(buttonRoom0);
-        if (gameStateModel.getYourRole().equals("h")) {
+        if (g.getYourRole().equals("h")) {
           try {
             buttonRoom0.setVisible(true);
             buttonRoom1.setVisible(true);
@@ -164,12 +164,12 @@ public class GameController implements Initializable {
     });
   }
 
-  public void setVoteButtonVisibilityNight(){
+  public void setVoteButtonVisibilityNight(GameStateModel g){
     Platform.runLater(new Runnable() {
       @Override
       public void run() {
         LOGGER.debug(buttonRoom0);
-        if (gameStateModel.getYourRole().equals("g")) {
+        if (g.getYourRole().equals("g")) {
           try {
             buttonRoom0.setVisible(true);
             buttonRoom1.setVisible(true);

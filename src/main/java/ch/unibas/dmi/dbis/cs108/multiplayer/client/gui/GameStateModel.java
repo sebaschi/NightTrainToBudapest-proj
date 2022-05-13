@@ -138,6 +138,7 @@ public class GameStateModel {
     String role = "h";
     try {
       role = passengerTrainClone[1][position];
+      LOGGER.debug("-----------------------Role in Set role:" + role);
     } catch (Exception e) {
       LOGGER.warn("Not an integer between 0-5");
     }
