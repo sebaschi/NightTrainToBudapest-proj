@@ -49,6 +49,14 @@ public class TrainAnimationDayController implements Initializable {
     LOGGER.debug("Empty TrainAnimationDayController() constructor was called");
   }
 
+  public void updateSprites(){
+    shadowTrain.setImage(Sprites.getShadow());
+    wagonBGImageView.setImage(Sprites.getSecondWagon());
+    wagonFloorImageView.setImage(Sprites.getEmptyWagon());
+    wagonFullImageView.setImage(Sprites.getFullWagon());
+    lokiImageView.setImage(Sprites.getLoki());
+  }
+
   public ChatApp getChatApp() {
     return chatApp;
   }

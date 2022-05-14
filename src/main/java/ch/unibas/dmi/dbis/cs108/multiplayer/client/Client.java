@@ -352,7 +352,6 @@ public class Client {
           gameStateModel.setDayClone(false);
           LOGGER.debug("----------------Night, Your role is:" + gameStateModel.getYourRole() + gameStateModel);
           Sprites.setNightSprites(gameStateModel.getPassengerTrainClone()[1], GameController.getGameStateModel().getKickedOff());
-          chatApp.getGameController().updateGameSprites();
           chatApp.getGameController().setNoiseButtonInvisible();
           chatApp.getGameController().setVoteButtonVisibilityNight(gameStateModel);
           break;
@@ -360,12 +359,12 @@ public class Client {
           gameStateModel.setDayClone(true);
           LOGGER.debug("----------------Day, Your role is:" + gameStateModel.getYourRole()+ gameStateModel);
           Sprites.setDaySprites(gameStateModel.getPassengerTrainClone()[1], GameController.getGameStateModel().getKickedOff());
-          chatApp.getGameController().updateGameSprites();
           chatApp.getGameController().setNoiseButtonVisible();
           chatApp.getGameController().setVoteButtonVisibilityDay(gameStateModel);
           break;
         case GuiParameters.updateGameState:
           gameStateModel.setGSFromString(data);
+          chatApp.getGameController().updateGameSprites(LoungeSceneViewController.getTrainAnimationDayController());
           chatApp.getGameController().updateRoomLabels();
           gameStateModel.setRoleFromPosition(position);
           break;
