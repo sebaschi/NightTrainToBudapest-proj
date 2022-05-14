@@ -165,7 +165,7 @@ public class GameController implements Initializable {
       @Override
       public void run() {
         LOGGER.debug(buttonRoom0);
-        if (g.getYourRole().equals("h")) {
+        if (g.getYourRoleFromPosition(client.getClient().getPosition()).equals("")) { //human
           try {
             buttonRoom0.setVisible(true);
             buttonRoom1.setVisible(true);
@@ -177,7 +177,7 @@ public class GameController implements Initializable {
             e.printStackTrace();
           }
 
-        } else {
+        } else { //ghost
           try {
             buttonRoom0.setVisible(false);
             buttonRoom1.setVisible(false);
@@ -198,7 +198,7 @@ public class GameController implements Initializable {
       @Override
       public void run() {
         LOGGER.debug(buttonRoom0);
-        if (g.getYourRole().equals("g")) {
+        if (g.getYourRoleFromPosition(client.getClient().getPosition()).equals("g")) {//ghost
           try {
             buttonRoom0.setVisible(true);
             buttonRoom1.setVisible(true);

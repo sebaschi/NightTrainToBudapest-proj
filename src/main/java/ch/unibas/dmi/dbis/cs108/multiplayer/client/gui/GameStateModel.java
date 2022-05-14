@@ -30,6 +30,8 @@ public class GameStateModel {
    */
   private String yourRole; //TODO: Maybe add a GUI field to show this in
 
+  private int yourPosition;
+
   /**
    * A primitive clone of the passengerTrain in the GameState of the server.
    * in passengerTrainClone[0] the names of the passengers are stored, in passengerTrainClone[1] the roles
@@ -96,6 +98,10 @@ public class GameStateModel {
 
   public String getYourRole() {
     return yourRole;
+  }
+
+  public String getYourRoleFromPosition(int position) {
+    return passengerTrainClone[1][position];
   }
 
   public int getNrOfPlayers() {

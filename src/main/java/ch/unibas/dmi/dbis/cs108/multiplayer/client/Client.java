@@ -371,6 +371,7 @@ public class Client {
           //TODO
           break;
         case GuiParameters.VoteIsOver:
+          chatApp.getGameController().setNoiseButtonInvisible();
           chatApp.getGameController().clearAllNoiseDisplay();
           break;
         case GuiParameters.getMembersInLobby:

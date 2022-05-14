@@ -26,16 +26,24 @@ public class DayNightChangeListener implements Runnable {
       while(!gameStateModel.isGameOver()) {
         if(gameStateModel.getDayClone()) { //its Day
           LoungeSceneViewController.getTrainAnimationDayController().dontShowFullWagon();
-          Sprites.setDaySprites(gameStateModel.getPassengerTrainClone()[1], GameController.getGameStateModel().getKickedOff());
-          chatApp.getGameController().updateGameSprites(LoungeSceneViewController.getTrainAnimationDayController());
+          Sprites.setDaySprites(gameStateModel.getPassengerTrainClone()[1],
+              GameController.getGameStateModel().getKickedOff());
+          chatApp.getGameController()
+              .updateGameSprites(LoungeSceneViewController.getTrainAnimationDayController());
           chatApp.getGameController().setNoiseButtonVisible();
           chatApp.getGameController().setVoteButtonVisibilityDay(gameStateModel);
         } else { //its night
-          if (gameStateModel.getYourRole().equals("h")) {
-            LoungeSceneViewController.getTrainAnimationDayController().showFullWagon();
+          try {
+            if (gameStateModel.getYourRoleFromPosition(position).equals("")) {
+              LoungeSceneViewController.getTrainAnimationDayController().showFullWagon();
+            }
+          } catch (Exception e) {
+            e.getMessage();
           }
-          Sprites.setNightSprites(gameStateModel.getPassengerTrainClone()[1], GameController.getGameStateModel().getKickedOff());
-          chatApp.getGameController().updateGameSprites(LoungeSceneViewController.getTrainAnimationDayController());
+          Sprites.setNightSprites(gameStateModel.getPassengerTrainClone()[1],
+              GameController.getGameStateModel().getKickedOff());
+          chatApp.getGameController()
+              .updateGameSprites(LoungeSceneViewController.getTrainAnimationDayController());
           chatApp.getGameController().setNoiseButtonInvisible();
           chatApp.getGameController().setVoteButtonVisibilityNight(gameStateModel);
         }
