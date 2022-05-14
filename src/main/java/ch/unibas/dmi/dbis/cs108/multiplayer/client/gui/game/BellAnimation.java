@@ -16,7 +16,7 @@ public class BellAnimation extends Transition {
     index = 0;
     this.imageView = imageView;
     this.bells = bells;
-    setCycleDuration(new Duration(100));
+    setCycleDuration(new Duration(566.66));
     setInterpolator(Interpolator.DISCRETE);
   }
 
