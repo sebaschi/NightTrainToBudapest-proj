@@ -49,6 +49,8 @@ public class LoungeSceneViewController implements Initializable {
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   @FXML
+  public AnchorPane buttonPane;
+  @FXML
   private AnchorPane backGroundAnimationPane;
 
   @FXML

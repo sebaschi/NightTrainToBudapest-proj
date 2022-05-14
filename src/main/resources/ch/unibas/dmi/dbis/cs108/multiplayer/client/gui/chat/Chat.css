@@ -1,0 +1,29 @@
+#ChatScrollPane{
+}
+
+#vBoxChatMessages{
+  -fx-background-color: rgba(255,255,255,0.3);
+}
+
+.anchorPane{
+  -fx-background-color: transparent;
+}
+
+*{
+  -fx-background-color: transparent;
+}
+
+.button{
+  -fx-background-color: midnightblue;
+  -fx-text-fill: lightsteelblue;
+}
+
+.button:pressed{
+  -fx-background-color: lightsteelblue;
+  -fx-text-fill: midnightblue;
+}
+
+.button:hover{
+  -fx-effect: innershadow(gaussian, lightsteelblue, 10, 0.5 , 2, 2);
+}
+

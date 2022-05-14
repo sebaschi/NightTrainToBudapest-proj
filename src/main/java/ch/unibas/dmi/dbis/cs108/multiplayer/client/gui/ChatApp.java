@@ -187,6 +187,7 @@ public class ChatApp extends Application {
 
     primaryStage.setTitle("Night Train To Budapest");
     primaryStage.setResizable(true);
+    primaryStage.setMaximized(true);
     primaryStage.show();
       }
 

@@ -1,5 +1,17 @@
 
-#backGroundAnchorPane{
-  /*-fx-background-color: black;*/
-  /*-fx-background-image: url(../game/Day/Full_Wagon.png);*/
+#highScore{
+  -fx-background-color: midnightblue;
+}
+
+#lobbyPrint{
+  -fx-background-color: midnightblue;
+}
+
+#buttonPane{
+  -fx-background-color: midnightblue;
+  -fx-alignment: center;
+}
+
+.anchorPane{
+  -fx-alignment: center;
 }

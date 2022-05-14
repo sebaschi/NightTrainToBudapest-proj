@@ -12,9 +12,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="chatPaneRoot" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat.ChatController">
+<AnchorPane fx:id="chatPaneRoot" pickOnBounds="false" stylesheets="@Chat.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat.ChatController">
    <children>
-      <GridPane alignment="CENTER" layoutY="149.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <GridPane alignment="CENTER" layoutY="149.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" pickOnBounds="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="100.0" />
          </columnConstraints>
@@ -23,16 +23,12 @@
             <RowConstraints maxHeight="-Infinity" minHeight="10.0" percentHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
          </rowConstraints>
          <children>
-            <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
-               <children>
-                  <ScrollPane fx:id="ChatScrollPane" fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="176.0" prefWidth="343.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <content>
-                        <VBox fx:id="vBoxChatMessages" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="170.0" spacing="2.0" />
-                     </content>
-                  </ScrollPane>
-               </children>
-            </AnchorPane>
-            <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.rowIndex="1">
+            <ScrollPane fx:id="ChatScrollPane" fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="176.0" prefWidth="343.0">
+               <content>
+                  <VBox fx:id="vBoxChatMessages" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="170.0" spacing="2.0" />
+               </content>
+            </ScrollPane>
+            <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" pickOnBounds="false" GridPane.rowIndex="1">
                <children>
                   <GridPane alignment="CENTER" layoutX="10.0" layoutY="20.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="82.0" prefWidth="2072.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <columnConstraints>
@@ -65,7 +61,7 @@
                         </AnchorPane>
                         <AnchorPane fx:id="chatinputAnchor" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="92.0" prefWidth="366.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                            <children>
-                              <TextField fx:id="chatMsgField" layoutX="-420.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="56.0" prefWidth="1372.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                              <TextField fx:id="chatMsgField" layoutX="-420.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="56.0" prefWidth="1372.0" promptText="message..." AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                            </children>
                            <GridPane.margin>
                               <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
@@ -86,7 +82,7 @@
             </AnchorPane>
          </children>
       </GridPane>
-      <GridPane fx:id="vBoxGridPane" alignment="CENTER" disable="true" layoutX="-14.0" layoutY="-235.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+      <GridPane fx:id="vBoxGridPane" alignment="CENTER" disable="true" layoutX="-14.0" layoutY="-235.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" pickOnBounds="false">
         <columnConstraints>
           <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" percentWidth="73.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" percentWidth="66.0" prefWidth="100.0" />
@@ -96,8 +92,8 @@
           <RowConstraints fillHeight="false" maxHeight="1.7976931348623157E308" minHeight="10.0" percentHeight="100.0" vgrow="ALWAYS" />
         </rowConstraints>
          <children>
-            <ScrollBar orientation="VERTICAL" prefHeight="196.0" prefWidth="16.0" GridPane.columnIndex="2" />
-            <VBox fx:id="vBoxServerMessage" alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="184.0" spacing="2.0" GridPane.columnIndex="1" />
+            <ScrollBar mouseTransparent="true" orientation="VERTICAL" pickOnBounds="false" prefHeight="196.0" prefWidth="16.0" GridPane.columnIndex="2" />
+            <VBox fx:id="vBoxServerMessage" alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mouseTransparent="true" pickOnBounds="false" prefHeight="184.0" spacing="2.0" GridPane.columnIndex="1" />
          </children>
       </GridPane>
    </children>

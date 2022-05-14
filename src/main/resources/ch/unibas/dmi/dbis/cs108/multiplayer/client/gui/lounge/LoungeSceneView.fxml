@@ -10,45 +10,37 @@
 
 <AnchorPane fx:id="backGroundAnchorPane" pickOnBounds="false" stylesheets="@loungStyle.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge.LoungeSceneViewController">
    <children>
-      <AnchorPane fx:id="backGroundAnimationPane" maxHeight="843.75" maxWidth="1500.0" />
       <BorderPane fx:id="LoungeSceneBorderPane" layoutX="860.0" layoutY="440.0" pickOnBounds="false" stylesheets="@boarderPane.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <top>
-            <ToolBar fx:id="NTtBToolBar" pickOnBounds="false" prefHeight="30.0" BorderPane.alignment="CENTER">
-              <items>
-                  <Button fx:id="highScoreButton" mnemonicParsing="false" onAction="#sendHIghScore" pickOnBounds="false" text="High Score" />
-                  <Button fx:id="lobbyPrintButton" mnemonicParsing="false" onAction="#sendLilstle" pickOnBounds="false" text="Lobby List" />
-                  <Button fx:id="LeaveServerButton" mnemonicParsing="false" pickOnBounds="false" text="Leave server" />
-                  <Button fx:id="leaveLobbyButton" mnemonicParsing="false" onAction="#leaveLobby" pickOnBounds="false" text="Leave Lobby" />
-                <Button fx:id="ChangeNameButton" mnemonicParsing="false" pickOnBounds="false" text="Change Name" />
-              </items>
-            </ToolBar>
-         </top>
-         <center>
-            <AnchorPane pickOnBounds="false" BorderPane.alignment="CENTER">
-               <children>
-                  <Button fx:id="newGameButton" layoutX="36.0" layoutY="105.0" mnemonicParsing="false" pickOnBounds="false" text="New Lobby" />
-                  <AnchorPane fx:id="gameAnchorPane" pickOnBounds="false" />
-                  <Button fx:id="startGame" layoutX="36.0" layoutY="142.0" mnemonicParsing="false" onAction="#startGame" pickOnBounds="false" text="Start Game" />
-               </children>
-            </AnchorPane>
-         </center>
-         <bottom>
-            <AnchorPane fx:id="ChatArea" pickOnBounds="false" prefHeight="83.0" prefWidth="578.0" BorderPane.alignment="CENTER" />
-         </bottom>
          <right>
             <ListView fx:id="LobbyListView" opacity="0.0" pickOnBounds="false" BorderPane.alignment="CENTER" />
          </right>
-         <left>
-            <AnchorPane prefHeight="316.0" prefWidth="181.0" BorderPane.alignment="CENTER">
-               <children>
-                  <Label layoutX="59.0" layoutY="200.0" pickOnBounds="false" text="High Score:" />
-                  <TextFlow fx:id="highScore" layoutX="62.0" layoutY="232.0" pickOnBounds="false" prefHeight="167.0" prefWidth="181.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="232.0" />
-                  <Label layoutX="67.0" layoutY="6.0" pickOnBounds="false" text="Players:" />
-                  <TextFlow fx:id="lobbyPrint" layoutX="5.0" layoutY="23.0" pickOnBounds="false" prefHeight="178.0" prefWidth="171.0" />
-               </children>
-            </AnchorPane>
-         </left>
       </BorderPane>
+      <AnchorPane fx:id="backGroundAnimationPane" maxHeight="843.75" maxWidth="1500.0" />
       <AnchorPane fx:id="gameDisplayAnchorPane" maxHeight="843.75" maxWidth="1500.0" pickOnBounds="false" />
+      <ToolBar fx:id="NTtBToolBar" pickOnBounds="false" prefHeight="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+            <Button fx:id="highScoreButton" mnemonicParsing="false" onAction="#sendHIghScore" pickOnBounds="false" text="High Score" />
+            <Button fx:id="lobbyPrintButton" mnemonicParsing="false" onAction="#sendLilstle" pickOnBounds="false" text="Lobby List" />
+            <Button fx:id="LeaveServerButton" mnemonicParsing="false" pickOnBounds="false" text="Leave server" />
+            <Button fx:id="leaveLobbyButton" mnemonicParsing="false" onAction="#leaveLobby" pickOnBounds="false" text="Leave Lobby" />
+          <Button fx:id="ChangeNameButton" mnemonicParsing="false" pickOnBounds="false" text="Change Name" />
+        </items>
+      </ToolBar>
+      <AnchorPane prefHeight="316.0" prefWidth="181.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="35.0">
+         <children>
+            <Label layoutX="59.0" layoutY="200.0" pickOnBounds="false" text="High Score:" />
+            <TextFlow fx:id="highScore" layoutX="62.0" layoutY="232.0" pickOnBounds="false" prefHeight="167.0" prefWidth="181.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="232.0" />
+            <Label layoutX="67.0" layoutY="6.0" pickOnBounds="false" text="Players:" />
+            <TextFlow fx:id="lobbyPrint" layoutX="5.0" layoutY="23.0" pickOnBounds="false" prefHeight="178.0" prefWidth="171.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane pickOnBounds="false" prefHeight="122.0" prefWidth="85.0" AnchorPane.bottomAnchor="200.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="35.0">
+         <children>
+            <Button fx:id="newGameButton" layoutX="9.0" layoutY="109.0" mnemonicParsing="false" pickOnBounds="false" text="New Lobby" AnchorPane.rightAnchor="0.0" />
+            <AnchorPane fx:id="gameAnchorPane" pickOnBounds="false" />
+            <Button fx:id="startGame" alignment="BASELINE_CENTER" layoutX="9.0" layoutY="140.0" mnemonicParsing="false" onAction="#startGame" pickOnBounds="false" text="Start Game" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="ChatArea" pickOnBounds="false" prefHeight="83.0" prefWidth="578.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
    </children>
 </AnchorPane>
