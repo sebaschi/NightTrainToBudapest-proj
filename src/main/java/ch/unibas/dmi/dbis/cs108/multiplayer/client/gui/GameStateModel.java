@@ -20,6 +20,11 @@ public class GameStateModel {
   private boolean isDayClone;
 
   /**
+   * true if the game is over
+   */
+  private boolean gameOver = false;
+
+  /**
    * can take the values h/g/s for human/ghost/spectator. Safes the role the client this GamesStateModel
    * lives on currently has
    */
@@ -47,6 +52,15 @@ public class GameStateModel {
     kickedOff = new boolean[nrOfPlayers];
     isDayClone = false;
   }
+
+  public void setGameOver(boolean gameOver) {
+    this.gameOver = gameOver;
+  }
+
+  public boolean isGameOver() {
+    return gameOver;
+  }
+
 
   /**
    * Updates the passengerTrainClone

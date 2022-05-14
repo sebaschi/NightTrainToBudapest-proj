@@ -94,6 +94,24 @@ public class TrainAnimationDayController implements Initializable {
       }
     });
   }
+  
+  public void showFullWagon() {
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        wagonFullImageView.setVisible(true);
+      }
+    });
+  }
+  
+  public void dontShowFullWagon() {
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        wagonFullImageView.setVisible(false);
+      }
+    });
+  }
 
   /**
    * Adds the gameView to the existing LobbyView

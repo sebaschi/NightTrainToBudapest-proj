@@ -3,6 +3,7 @@ package ch.unibas.dmi.dbis.cs108.multiplayer.client;
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.gamelogic.ClientGameInfoHandler;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ClientModel;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.DayNightChangeListener;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.GUI;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.GameStateModel;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ChatApp;
@@ -350,23 +351,12 @@ public class Client {
       switch (parameter) {
         case GuiParameters.night: //ClientGameInfoHandler;
           gameStateModel.setDayClone(false);
-          LOGGER.debug("----------------Night, Your role is:" + gameStateModel.getYourRole() + gameStateModel);
-          Sprites.setNightSprites(gameStateModel.getPassengerTrainClone()[1], GameController.getGameStateModel().getKickedOff());
-          chatApp.getGameController().setNoiseButtonInvisible();
-          chatApp.getGameController().setVoteButtonVisibilityNight(gameStateModel);
           break;
         case GuiParameters.day: //ClientGameInfoHandler
           gameStateModel.setDayClone(true);
-          LOGGER.debug("----------------Day, Your role is:" + gameStateModel.getYourRole()+ gameStateModel);
-          Sprites.setDaySprites(gameStateModel.getPassengerTrainClone()[1], GameController.getGameStateModel().getKickedOff());
-          chatApp.getGameController().setNoiseButtonVisible();
-          chatApp.getGameController().setVoteButtonVisibilityDay(gameStateModel);
           break;
         case GuiParameters.updateGameState:
           gameStateModel.setGSFromString(data);
-          chatApp.getGameController().updateGameSprites(LoungeSceneViewController.getTrainAnimationDayController());
-          chatApp.getGameController().updateRoomLabels();
-          gameStateModel.setRoleFromPosition(position);
           break;
         case GuiParameters.noiseHeardAtPosition:
           try {
@@ -388,13 +378,12 @@ public class Client {
           break;
         case GuiParameters.viewChangeToGame:
           chatApp.getLoungeSceneViewController().addGameView();
-          //TODO
+          gameStateModel.setGameOver(false);
+          new Thread(new DayNightChangeListener(gameStateModel, chatApp, position)).start();
           break;
-        /*case GuiParameters.viewChangeToStart:
-        //TODO
-        break;*/
         case GuiParameters.viewChangeToLobby:
           chatApp.getLoungeSceneViewController().removeGameView();
+          gameStateModel.setGameOver(true);
           //TODO
           break;
         case GuiParameters.addNewMemberToLobby:
