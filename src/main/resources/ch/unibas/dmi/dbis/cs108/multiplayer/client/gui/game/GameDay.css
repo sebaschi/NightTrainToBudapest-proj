@@ -18,10 +18,11 @@
 
 
 
-.text-field{
+.textField{
   -fx-text-fill: white;
   -fx-background-color: transparent;
   -fx-effect: null;
+  -fx-highlight-text-fill: black;
   -fx-animated: null;
 }
 

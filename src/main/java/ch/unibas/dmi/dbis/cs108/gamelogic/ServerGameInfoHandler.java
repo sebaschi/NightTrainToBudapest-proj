@@ -67,7 +67,7 @@ public class ServerGameInfoHandler {
         msg = Protocol.printToClientConsole + "$Humans are voting";
         break;
       case GuiParameters.updateGameState:
-        msg = Protocol.printToGUI + "$" + GuiParameters.updateGameState + game.getGameState().toString();
+        msg = Protocol.printToGUI + "$" + GuiParameters.updateGameState + game.getGameState().toGhostString();
             break;
       default:
         if(!msg.contains("$")) {

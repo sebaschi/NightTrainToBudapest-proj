@@ -396,11 +396,21 @@ public class GameController implements Initializable {
   }
 
   public void setNoiseButtonInvisible() {
-    noiseButton.setVisible(false);
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        noiseButton.setVisible(false);
+      }
+    });
   }
 
   public void setNoiseButtonVisible() {
-    noiseButton.setVisible(true);
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        noiseButton.setVisible(true);
+      }
+    });
   }
 
   /**

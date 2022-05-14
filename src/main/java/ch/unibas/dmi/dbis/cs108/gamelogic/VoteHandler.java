@@ -78,7 +78,7 @@ public class VoteHandler {
     if (!passengers[newGhostPosition].getIsSpectator()) {
       passengers[newGhostPosition].send(
           ClientGameInfoHandler.youGotGhostyfied, game);
-      passengers[newGhostPosition].send(game.gameState.toString(), game);
+      passengers[newGhostPosition].send(GuiParameters.updateGameState, game);
     }
 
     /* notify passengers the ghosts passed by - for each ghost that ghostified a player, an instance of NoiseHandler

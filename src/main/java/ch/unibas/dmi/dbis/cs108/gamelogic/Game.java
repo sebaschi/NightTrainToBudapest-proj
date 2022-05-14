@@ -95,7 +95,7 @@ public class Game implements Runnable {
           passenger.send(GuiParameters.updateGameState, getGame());
         }
         try {
-          Thread.sleep(2000); //TODO: Is this a good intervall?
+          Thread.sleep(1000); //TODO: Is this a good intervall?
         } catch (InterruptedException e) {
           e.printStackTrace();
         }
@@ -120,7 +120,7 @@ public class Game implements Runnable {
     Passenger[] passengerTrain = gameState.getPassengerTrain();
 
 
-    LOGGER.info(gameState.toString());
+    LOGGER.info(gameState.toGhostString());
     for (ClientHandler client : lobbyClients) {//begins filling the train with clients
       int index = order[i];
       if (passengerTrain[index].getIsGhost()) { //if there is a ghost
@@ -146,7 +146,7 @@ public class Game implements Runnable {
       }
       i++;
     }
-    LOGGER.info(gameState.toString());
+    LOGGER.info(gameState.toGhostString());
     gameStateModelUpdater(); //TODO: does that work?
     for(Passenger passenger : gameState.getPassengerTrain()) {
       passenger.send(Protocol.positionOfClient + "$" + passenger.getPosition(), this);

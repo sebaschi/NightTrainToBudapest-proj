@@ -157,7 +157,7 @@ public class GameState {
    * where one can see who is a ghost and who is a human, who is a player and who an NPC
    * @return a String that displays passengerTrain
    */
-  public String toString() {
+  public String toGhostString() {
     Passenger[] array = passengerTrain;
     StringBuilder stringBuilder = new StringBuilder();
     String[] print = new String[6];

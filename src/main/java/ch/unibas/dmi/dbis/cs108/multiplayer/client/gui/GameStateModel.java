@@ -101,11 +101,17 @@ public class GameStateModel {
   }
 
   public String getYourRoleFromPosition(int position) {
-    return passengerTrainClone[1][position];
+    try {
+      return passengerTrainClone[1][position];
+    } catch (Exception e) {
+      LOGGER.info(e.getMessage());
+    }
+    return "";
   }
 
   public int getNrOfPlayers() {
-    return nrOfPlayers;
+    return
+        nrOfPlayers;
   }
 
   public void setDayClone(boolean dayClone) {

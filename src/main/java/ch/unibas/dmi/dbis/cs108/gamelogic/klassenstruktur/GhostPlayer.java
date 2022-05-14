@@ -47,7 +47,7 @@ public class GhostPlayer extends Ghost {
   public void send(String msg, Game game) {
     String formattedMsg;
     if (msg.equals(GuiParameters.updateGameState)) {
-      formattedMsg = Protocol.printToGUI + "$" + GuiParameters.updateGameState + game.getGameState().toString();
+      formattedMsg = Protocol.printToGUI + "$" + GuiParameters.updateGameState + game.getGameState().toGhostString();
     } else {
       formattedMsg = ServerGameInfoHandler.format(msg, this, game);
     }
