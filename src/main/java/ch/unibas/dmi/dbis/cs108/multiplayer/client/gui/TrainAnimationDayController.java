@@ -49,6 +49,14 @@ public class TrainAnimationDayController implements Initializable {
     LOGGER.debug("Empty TrainAnimationDayController() constructor was called");
   }
 
+  public void updateSprites(){
+    shadowTrain.setImage(Sprites.getShadow());
+    wagonBGImageView.setImage(Sprites.getSecondWagon());
+    wagonFloorImageView.setImage(Sprites.getEmptyWagon());
+    wagonFullImageView.setImage(Sprites.getFullWagon());
+    lokiImageView.setImage(Sprites.getLoki());
+  }
+
   public ChatApp getChatApp() {
     return chatApp;
   }
@@ -83,6 +91,24 @@ public class TrainAnimationDayController implements Initializable {
         Animation wheels = new WheelsAnimation(Duration.millis(866.666), wheelsImageView);
         wheels.setCycleCount(Animation.INDEFINITE);
         wheels.play();
+      }
+    });
+  }
+  
+  public void showFullWagon() {
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        wagonFullImageView.setVisible(true);
+      }
+    });
+  }
+  
+  public void dontShowFullWagon() {
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        wagonFullImageView.setVisible(false);
       }
     });
   }

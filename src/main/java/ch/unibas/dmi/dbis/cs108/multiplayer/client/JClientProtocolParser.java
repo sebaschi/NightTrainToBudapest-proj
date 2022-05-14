@@ -50,6 +50,7 @@ public class JClientProtocolParser {
         break;
       case Protocol.serverConfirmQuit:
         c.disconnectFromServer();
+        c.getGameStateModel().setGameOver(true);
         break;
       case Protocol.serverRequestsGhostVote:
         LOGGER.debug("Ghost received Vote request");

@@ -78,9 +78,7 @@ public class Sprites {
       shadow = SpritesDay.shadow;
       secondWagon = SpritesDay.secondWagon;
       emptyWagon = SpritesDay.emptyWagon;
-      for (int i = 0; i < roles.length; i++) {
-        rooms[i] = getRoomDay(i, roles[i], kickedOff);
-      }
+      updateDayRoomSprites(roles,kickedOff);
       emptyWagonWall = SpritesDay.emptyWagonWall;
       fullWagon = SpritesDay.fullWagon;
       loki = SpritesDay.loki;
@@ -90,6 +88,11 @@ public class Sprites {
     } catch (Exception e) {
       System.out.println(e.getMessage());
       e.printStackTrace();
+    }
+  }
+  public static void updateDayRoomSprites(String[] roles, boolean[] kickedOff) {
+    for (int i = 0; i < roles.length; i++) {
+      rooms[i] = getRoomDay(i, roles[i], kickedOff);
     }
   }
 
@@ -104,15 +107,19 @@ public class Sprites {
     shadow = SpritesNight.shadow;
     secondWagon = SpritesNight.secondWagon;
     emptyWagon = SpritesNight.emptyWagon;
-    for (int i = 0; i < roles.length; i++) {
-      rooms[i] = getRoomNight(i, roles[i], kickedOff);
-    }
+    updateNightRoomSprites(roles,kickedOff);
     emptyWagonWall = SpritesNight.emptyWagonWall;
     fullWagon = SpritesNight.fullWagon;
     loki = SpritesNight.loki;
     wheels = SpritesNight.wheels;
     bells = SpritesNight.bells;
     fg = SpritesNight.fg;
+  }
+
+  public static void updateNightRoomSprites(String[] roles, boolean[] kickedOff) {
+    for (int i = 0; i < roles.length; i++) {
+      rooms[i] = getRoomNight(i, roles[i], kickedOff);
+    }
   }
 
   /**

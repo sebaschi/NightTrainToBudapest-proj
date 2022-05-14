@@ -5,6 +5,8 @@ import static javafx.scene.AccessibleRole.PARENT;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ChatApp;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.GameStateModel;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.Sprites;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.SpritesDay;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.TrainAnimationDayController;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.GuiParameters;
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ClientModel;
@@ -126,17 +128,23 @@ public class GameController implements Initializable {
   @FXML
   private AnchorPane chatAreaGame;
 
-  public void updateGameSprites(){
+  public void updateGameSprites(TrainAnimationDayController trainAnimation){
     Platform.runLater(new Runnable() {
       @Override
       public void run() {
         try{
+          if(gameStateModel.getDayClone()) {
+            Sprites.updateDayRoomSprites(gameStateModel.getPassengerTrainClone()[1], gameStateModel.getKickedOff());
+          } else {
+            Sprites.updateNightRoomSprites(gameStateModel.getPassengerTrainClone()[1], gameStateModel.getKickedOff());
+          }
           room0ImageView.setImage(Sprites.getARoom(0));
           room1ImageView.setImage(Sprites.getARoom(1));
           room2ImageView.setImage(Sprites.getARoom(2));
           room3ImageView.setImage(Sprites.getARoom(3));
           room4ImageView.setImage(Sprites.getARoom(4));
           room5ImageView.setImage(Sprites.getARoom(5));
+          trainAnimation.updateSprites();
         } catch (Exception e) {
           LOGGER.info(e.getMessage());
         }
@@ -157,7 +165,7 @@ public class GameController implements Initializable {
       @Override
       public void run() {
         LOGGER.debug(buttonRoom0);
-        if (g.getYourRole().equals("h")) {
+        if (g.getYourRoleFromPosition(client.getClient().getPosition()).equals("")) { //human
           try {
             buttonRoom0.setVisible(true);
             buttonRoom1.setVisible(true);
@@ -169,7 +177,7 @@ public class GameController implements Initializable {
             e.printStackTrace();
           }
 
-        } else {
+        } else { //ghost
           try {
             buttonRoom0.setVisible(false);
             buttonRoom1.setVisible(false);
@@ -190,7 +198,7 @@ public class GameController implements Initializable {
       @Override
       public void run() {
         LOGGER.debug(buttonRoom0);
-        if (g.getYourRole().equals("g")) {
+        if (g.getYourRoleFromPosition(client.getClient().getPosition()).equals("g")) {//ghost
           try {
             buttonRoom0.setVisible(true);
             buttonRoom1.setVisible(true);
