@@ -27,6 +27,7 @@ public class DayNightChangeListener implements Runnable {
         if(gameStateModel.getDayClone()) { //its Day
           LoungeSceneViewController.getTrainAnimationDayController().dontShowFullWagon();
           Sprites.setDaySprites(gameStateModel.getPassengerTrainClone()[1], GameController.getGameStateModel().getKickedOff());
+          chatApp.getGameController().updateGameSprites(LoungeSceneViewController.getTrainAnimationDayController());
           chatApp.getGameController().setNoiseButtonVisible();
           chatApp.getGameController().setVoteButtonVisibilityDay(gameStateModel);
         } else { //its night
@@ -34,6 +35,7 @@ public class DayNightChangeListener implements Runnable {
             LoungeSceneViewController.getTrainAnimationDayController().showFullWagon();
           }
           Sprites.setNightSprites(gameStateModel.getPassengerTrainClone()[1], GameController.getGameStateModel().getKickedOff());
+          chatApp.getGameController().updateGameSprites(LoungeSceneViewController.getTrainAnimationDayController());
           chatApp.getGameController().setNoiseButtonInvisible();
           chatApp.getGameController().setVoteButtonVisibilityNight(gameStateModel);
         }
@@ -49,6 +51,5 @@ public class DayNightChangeListener implements Runnable {
     } catch (Exception e) {
       e.printStackTrace();
     }
-
   }
 }

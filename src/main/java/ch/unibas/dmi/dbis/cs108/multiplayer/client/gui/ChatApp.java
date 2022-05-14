@@ -157,6 +157,7 @@ public class ChatApp extends Application {
     this.setGameC(gameController);
     gameC.setClient(cModel);
     gameC.setGameStateModel(GameController.getGameStateModel());
+    Sprites.setNightSprites(GameController.getGameStateModel().getPassengerTrainClone()[1], GameController.getGameStateModel().getKickedOff());
     Sprites.setDaySprites(GameController.getGameStateModel().getPassengerTrainClone()[1], GameController.getGameStateModel().getKickedOff());
     SpritesDay.setBells();
     SpritesDay.setWheels();
