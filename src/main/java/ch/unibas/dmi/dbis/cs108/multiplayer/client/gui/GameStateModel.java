@@ -68,10 +68,14 @@ public class GameStateModel {
    * @param yourRole the role to set this role to
    */
   public void setYourRole(String yourRole) {
-    if(yourRole.equals("h") || yourRole.equals("g") || yourRole.equals("s")) {
-      this.yourRole = yourRole;
-    } else {
-      this.yourRole = "h";
+    try {
+      if (yourRole.equals("h") || yourRole.equals("g") || yourRole.equals("s")) {
+        this.yourRole = yourRole;
+      } else {
+        this.yourRole = "h";
+      }
+    } catch (Exception e) {
+      LOGGER.warn("YourRole:" + e.getMessage());
     }
   }
 

@@ -6,6 +6,7 @@ import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ClientModel;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.GUI;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.GameStateModel;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ChatApp;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.Sprites;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat.ChatController;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game.GameController;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge.LoungeApp;
@@ -350,12 +351,16 @@ public class Client {
         case GuiParameters.night: //ClientGameInfoHandler;
           gameStateModel.setDayClone(false);
           LOGGER.debug("----------------Night, Your role is:" + gameStateModel.getYourRole() + gameStateModel);
+          Sprites.setNightSprites(gameStateModel.getPassengerTrainClone()[1], GameController.getGameStateModel().getKickedOff());
+          chatApp.getGameController().updateGameSprites();
           chatApp.getGameController().setNoiseButtonInvisible();
           chatApp.getGameController().setVoteButtonVisibilityNight(gameStateModel);
           break;
         case GuiParameters.day: //ClientGameInfoHandler
           gameStateModel.setDayClone(true);
           LOGGER.debug("----------------Day, Your role is:" + gameStateModel.getYourRole()+ gameStateModel);
+          Sprites.setDaySprites(gameStateModel.getPassengerTrainClone()[1], GameController.getGameStateModel().getKickedOff());
+          chatApp.getGameController().updateGameSprites();
           chatApp.getGameController().setNoiseButtonVisible();
           chatApp.getGameController().setVoteButtonVisibilityDay(gameStateModel);
           break;

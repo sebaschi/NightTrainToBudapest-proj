@@ -157,6 +157,9 @@ public class ChatApp extends Application {
     this.setGameC(gameController);
     gameC.setClient(cModel);
     gameC.setGameStateModel(GameController.getGameStateModel());
+    Sprites.setDaySprites(GameController.getGameStateModel().getPassengerTrainClone()[1], GameController.getGameStateModel().getKickedOff());
+    SpritesDay.setBells();
+    SpritesDay.setWheels();
     try {
       URL chatResource = ChatApp.class.getResource("chat/ChatView.fxml");
       URL gameResource = ChatApp.class.getResource("game/GameDayAll.fxml");
