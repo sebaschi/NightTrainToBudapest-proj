@@ -127,10 +127,12 @@ public class Game implements Runnable {
         GhostPlayer ghostPlayer = new GhostPlayer(passengerTrain[index].getPosition(),
             client.getClientUserName(), client, passengerTrain[index].getIsOG());
         gameState.getPassengerTrain()[index] = ghostPlayer;
+        client.sendMsgToClient(Protocol.printToGUI + "$" + GuiParameters.yourPosition + "$" + ghostPlayer.getPosition());
       } else {
         HumanPlayer humanPlayer = new HumanPlayer(passengerTrain[index].getPosition(),
             client.getClientUserName(), client, passengerTrain[index].getIsOG());
         gameState.getPassengerTrain()[index] = humanPlayer;
+        client.sendMsgToClient(Protocol.printToGUI + "$" + GuiParameters.yourPosition + "$" + humanPlayer.getPosition());
       }
       i++;
     }

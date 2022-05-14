@@ -119,7 +119,7 @@ public class Timer {
     boolean[] whoHasVoted = game.getGameState().getClientVoteData().getHasVoted();
     Passenger[] passengerArray = game.getGameState().getPassengerTrain();
     for(int i = 0; i < whoHasVoted.length; i++) {
-      if(!passengerArray[i].getIsGhost() && !whoHasVoted[i]) {
+      if(!passengerArray[i].getIsGhost() && ! passengerArray[i].getKickedOff() && !whoHasVoted[i]) {
         return false;
       }
     }

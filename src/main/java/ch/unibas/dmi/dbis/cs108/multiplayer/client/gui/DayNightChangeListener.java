@@ -12,13 +12,20 @@ public class DayNightChangeListener implements Runnable {
   private GameStateModel gameStateModel;
   private ChatApp chatApp;
   private int position;
+  private boolean noiseButtonInvisible;
 
   public DayNightChangeListener(GameStateModel gameStateModel, ChatApp chatApp, int position) {
     this.gameStateModel = gameStateModel;
     this.chatApp = chatApp;
-    this.position = position;
   }
 
+  public void setNoiseButtonInvisible(boolean visible) {
+    noiseButtonInvisible = visible;
+  }
+
+  public void setPosition(int position) {
+    this.position = position;
+  }
 
   @Override
   public void run() {
@@ -30,7 +37,9 @@ public class DayNightChangeListener implements Runnable {
               GameController.getGameStateModel().getKickedOff());
           chatApp.getGameController()
               .updateGameSprites(LoungeSceneViewController.getTrainAnimationDayController());
-          chatApp.getGameController().setNoiseButtonVisible();
+          if(!noiseButtonInvisible) {
+            chatApp.getGameController().setNoiseButtonVisible();
+          }
           chatApp.getGameController().setVoteButtonVisibilityDay(gameStateModel);
         } else { //its night
           try {

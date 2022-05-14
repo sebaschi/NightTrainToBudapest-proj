@@ -47,6 +47,7 @@ public class Client {
   private ClientModel clientModel;
   private GameStateModel gameStateModel;
   private GameController gameController;
+  private DayNightChangeListener dayNightChangeListener;
 
   private GUI gui;
 
@@ -147,6 +148,7 @@ public class Client {
     try {
       position = Integer.parseInt(pos);
       gameStateModel.setRoleFromPosition(position);
+      dayNightChangeListener.setPosition(position);
     } catch (NumberFormatException e) {
       LOGGER.warn("Position got scrabbled on the way here");
     }
@@ -351,9 +353,11 @@ public class Client {
       switch (parameter) {
         case GuiParameters.night: //ClientGameInfoHandler;
           gameStateModel.setDayClone(false);
+          dayNightChangeListener.setNoiseButtonInvisible(true);
           break;
         case GuiParameters.day: //ClientGameInfoHandler
           gameStateModel.setDayClone(true);
+          dayNightChangeListener.setNoiseButtonInvisible(false);
           break;
         case GuiParameters.updateGameState:
           gameStateModel.setGSFromString(data);
@@ -373,6 +377,7 @@ public class Client {
         case GuiParameters.VoteIsOver:
           chatApp.getGameController().setNoiseButtonInvisible();
           chatApp.getGameController().clearAllNoiseDisplay();
+          dayNightChangeListener.setNoiseButtonInvisible(true);
           break;
         case GuiParameters.getMembersInLobby:
           updateLobbyMembers(data);
@@ -380,7 +385,8 @@ public class Client {
         case GuiParameters.viewChangeToGame:
           chatApp.getLoungeSceneViewController().addGameView();
           gameStateModel.setGameOver(false);
-          new Thread(new DayNightChangeListener(gameStateModel, chatApp, position)).start();
+          dayNightChangeListener = new DayNightChangeListener(gameStateModel, chatApp, Integer.MAX_VALUE);
+          new Thread(dayNightChangeListener).start();
           break;
         case GuiParameters.viewChangeToLobby:
           chatApp.getLoungeSceneViewController().removeGameView();
@@ -395,6 +401,9 @@ public class Client {
           break;
         case GuiParameters.updateHighScore:
           chatApp.getLoungeSceneViewController().addHighScore(data);
+          break;
+        case GuiParameters.yourPosition:
+          dayNightChangeListener.setPosition(Integer.parseInt(data));
           break;
         case GuiParameters.updatePrintLobby:
           chatApp.getLoungeSceneViewController().clearLobbyPrint();

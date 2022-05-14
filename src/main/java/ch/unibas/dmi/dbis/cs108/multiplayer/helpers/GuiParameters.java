@@ -101,4 +101,8 @@ public class GuiParameters {
    * Tells gui to remove a lobby from view. Form: {@code RMVLBY$<LobbyID>}
    */
   public static final String removeLobby = "RMVLBY";
+  /**
+   * Tells the GUI at which position you are sitting {@code POSITION$integer}
+   */
+  public static final String yourPosition = "POSITION";
 }
