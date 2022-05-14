@@ -9,7 +9,6 @@ import javafx.util.Duration;
 
 public class BGAnimation extends Transition {
   ImageView imageView;
-  private static final Image bgFull = new Image("ch/unibas/dmi/dbis/cs108/multiplayer/client/gui/game/Day/BG_small.jpg");
   int index;
   int lastIndex;
 
@@ -19,7 +18,7 @@ public class BGAnimation extends Transition {
     this.imageView = imageView;
     imageView.setFitHeight(1950);
     imageView.setFitWidth(6667.968);
-    imageView.setImage(bgFull);
+    imageView.setImage(Sprites.getBg());
     setCycleDuration(duration);
     setInterpolator(Interpolator.DISCRETE);
 
@@ -27,6 +26,7 @@ public class BGAnimation extends Transition {
 
   @Override
   protected void interpolate(double frac) {
+    imageView.setImage(Sprites.getBg());
     if(index == lastIndex) {
       index = 0;
       imageView.setX(0);
