@@ -1,6 +1,7 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.client.gui;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.Sound;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ChatApp;
 import javafx.application.Application;
 import org.apache.logging.log4j.LogManager;
@@ -42,6 +43,7 @@ public class GUI implements Runnable {
   public void run() {
     LOGGER.info("here");
     //Application.launch(this.chatApp.getClass());
+    Sound.startPlayingBackgroundSounds();
     Application.launch(this.chatApp.getClass());
   }
 }
