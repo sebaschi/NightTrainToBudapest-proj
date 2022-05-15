@@ -49,7 +49,9 @@ public class LoungeSceneViewController implements Initializable {
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   @FXML
-  public AnchorPane buttonPane;
+  private AnchorPane buttonPane;
+  @FXML
+  private AnchorPane buttonLobbyPane;
   @FXML
   private AnchorPane backGroundAnimationPane;
 
@@ -264,10 +266,9 @@ public class LoungeSceneViewController implements Initializable {
       @Override
       public void run() {
         try {
-          LOGGER.debug(" in addGameView()" + chatApp);
-          newGameButton.setVisible(false);
-          startGame.setVisible(false);
-          trainAnimationDayController.addGameView(chatApp);
+          LOGGER.debug(" in GameView()" + chatApp);
+          buttonLobbyPane.setVisible(false);
+          gameDisplayAnchorPane.getChildren().add(chatApp.game);
         } catch (Exception e) {
           LOGGER.debug("Not yet initialized");
         }
@@ -283,9 +284,8 @@ public class LoungeSceneViewController implements Initializable {
       @Override
       public void run() {
         try {
-          newGameButton.setVisible(true);
-          startGame.setVisible(true);
-          trainAnimationDayController.removeGameView(chatApp);
+          buttonLobbyPane.setVisible(true);
+          gameDisplayAnchorPane.getChildren().clear();
         } catch (Exception e) {
           LOGGER.debug("Not yet initialized");
         }
@@ -316,7 +316,7 @@ public class LoungeSceneViewController implements Initializable {
       public void run() {
         try {
           LOGGER.debug("in addBackgroundDay() run()");
-          gameDisplayAnchorPane.getChildren().add(chatApp.backgroundDay);
+          backGroundAnimationPane.getChildren().add(chatApp.backgroundDay);
         } catch (Exception e) {
           e.printStackTrace();
         }
@@ -402,7 +402,6 @@ public class LoungeSceneViewController implements Initializable {
    */
   public void startGame() {
     client.getClient().sendMsgToServer(Protocol.startANewGame);
-    //addGameView();
   }
 
   /**

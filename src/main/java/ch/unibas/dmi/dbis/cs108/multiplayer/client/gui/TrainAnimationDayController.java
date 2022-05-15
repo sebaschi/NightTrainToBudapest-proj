@@ -1,6 +1,7 @@
 package ch.unibas.dmi.dbis.cs108.multiplayer.client.gui;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game.GameController;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge.LoungeSceneViewController;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -20,9 +21,21 @@ public class TrainAnimationDayController implements Initializable {
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   @FXML
-  public ImageView wagonWallImageView;
+  private ImageView wagonWallImageView;
   @FXML
-  public ImageView foreGroundAnimationImageView1;
+  private ImageView foreGroundAnimationImageView1;
+  @FXML
+  private ImageView room0ImageView;
+  @FXML
+  private ImageView room1ImageView;
+  @FXML
+  private ImageView room2ImageView;
+  @FXML
+  private ImageView room3ImageView;
+  @FXML
+  private ImageView room4ImageView;
+  @FXML
+  private ImageView room5ImageView;
   @FXML
   private ImageView backGroundAnimationImageView;
   @FXML
@@ -54,11 +67,31 @@ public class TrainAnimationDayController implements Initializable {
   }
 
   public void updateSprites(){
-    shadowTrain.setImage(Sprites.getShadow());
-    wagonBGImageView.setImage(Sprites.getSecondWagon());
-    wagonFloorImageView.setImage(Sprites.getEmptyWagon());
-    wagonFullImageView.setImage(Sprites.getFullWagon());
-    lokiImageView.setImage(Sprites.getLoki());
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        try{
+          shadowTrain.setImage(Sprites.getShadow());
+          wagonBGImageView.setImage(Sprites.getSecondWagon());
+          wagonFloorImageView.setImage(Sprites.getEmptyWagon());
+          wagonFullImageView.setImage(Sprites.getFullWagon());
+          lokiImageView.setImage(Sprites.getLoki());
+          if(GameController.getGameStateModel().getDayClone()) {
+            Sprites.updateDayRoomSprites(GameController.getGameStateModel().getPassengerTrainClone()[1], GameController.getGameStateModel().getKickedOff());
+          } else {
+            Sprites.updateNightRoomSprites(GameController.getGameStateModel().getPassengerTrainClone()[1], GameController.getGameStateModel().getKickedOff());
+          }
+          room0ImageView.setImage(Sprites.getARoom(0));
+          room1ImageView.setImage(Sprites.getARoom(1));
+          room2ImageView.setImage(Sprites.getARoom(2));
+          room3ImageView.setImage(Sprites.getARoom(3));
+          room4ImageView.setImage(Sprites.getARoom(4));
+          room5ImageView.setImage(Sprites.getARoom(5));
+        } catch (Exception e) {
+          LOGGER.info(e.getMessage());
+        }
+      }
+    });
   }
 
   public ChatApp getChatApp() {
@@ -81,26 +114,114 @@ public class TrainAnimationDayController implements Initializable {
     return wagonFullImageView;
   }
 
-  @Override
-  public void initialize(URL location, ResourceBundle resources) {
-    LoungeSceneViewController.setTrainAnimationDayController(this);
-    LOGGER.debug(cApp);
-    setChatApp(cApp);
-    LOGGER.debug(gameAnchorPane);
-    gamePane = gameAnchorPane;
-    loki = lokiImageView;
+  public void moveRoom0Up() {
     Platform.runLater(new Runnable() {
       @Override
       public void run() {
-        Animation wheels = new WheelsAnimation(Duration.millis(866.666), wheelsImageView);
-        wheels.setCycleCount(Animation.INDEFINITE);
-        wheels.play();
-        Animation backGround = new BGAnimation(Duration.millis(17), backGroundAnimationImageView, foreGroundAnimationImageView1);
-        backGround.setCycleCount(Animation.INDEFINITE);
-        backGround.play();
+        room0ImageView.setY(-20);
       }
     });
   }
+
+  public void moveRoom0Down() {
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        room0ImageView.setY(0);
+      }
+    });
+  }
+
+  public void moveRoom1Up() {
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        room1ImageView.setY(-20);
+      }
+    });
+  }
+
+  public void moveRoom1Down() {
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        room1ImageView.setY(0);
+      }
+    });
+  }
+
+  public void moveRoom2Up() {
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        room2ImageView.setY(-20);
+      }
+    });
+  }
+
+  public void moveRoom2Down() {
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        room2ImageView.setY(0);
+      }
+    });
+  }
+
+  public void moveRoom3Up() {
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        room3ImageView.setY(-20);
+      }
+    });
+  }
+
+  public void moveRoom3Down() {
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        room3ImageView.setY(0);
+      }
+    });
+  }
+
+  public void moveRoom4Up() {
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        room4ImageView.setY(-20);
+      }
+    });
+  }
+
+  public void moveRoom4Down() {
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        room4ImageView.setY(0);
+      }
+    });
+  }
+
+  public void moveRoom5Up() {
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        room5ImageView.setY(-20);
+      }
+    });
+  }
+
+  public void moveRoom5Down() {
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        room5ImageView.setY(0);
+      }
+    });
+  }
+
   
   public void showFullWagon() {
     Platform.runLater(new Runnable() {
@@ -120,41 +241,23 @@ public class TrainAnimationDayController implements Initializable {
     });
   }
 
-  /**
-   * Adds the gameView to the existing LobbyView
-   */
-  public void addGameView(ChatApp c) {
+  @Override
+  public void initialize(URL location, ResourceBundle resources) {
+    LoungeSceneViewController.setTrainAnimationDayController(this);
+    LOGGER.debug(cApp);
+    setChatApp(cApp);
+    LOGGER.debug(gameAnchorPane);
+    gamePane = gameAnchorPane;
+    loki = lokiImageView;
     Platform.runLater(new Runnable() {
       @Override
       public void run() {
-        try {
-          TrainAnimationDayController controller = new TrainAnimationDayController();
-          LOGGER.debug(gamePane);
-          LOGGER.debug(loki);
-          LOGGER.debug(cApp);
-          gameAnchorPane.getChildren().add(c.game);
-          wagonFullImageView.setVisible(false);
-        } catch (Exception e) {
-          LOGGER.debug("Not yet initialized");
-          e.printStackTrace();
-        }
-      }
-    });
-  }
-
-  /**
-   * Removes the GameView again - needed when a game is over or a lobby is left
-   */
-  public void removeGameView(ChatApp c) {
-    Platform.runLater(new Runnable() {
-      @Override
-      public void run() {
-        try {
-          gameAnchorPane.getChildren().clear();
-          wagonFullImageView.setVisible(true);
-        } catch (Exception e) {
-          LOGGER.debug("Not yet initialized");
-        }
+        Animation wheels = new WheelsAnimation(Duration.millis(866.666), wheelsImageView);
+        wheels.setCycleCount(Animation.INDEFINITE);
+        wheels.play();
+        Animation backGround = new BGAnimation(Duration.millis(17), backGroundAnimationImageView, foreGroundAnimationImageView1);
+        backGround.setCycleCount(Animation.INDEFINITE);
+        backGround.play();
       }
     });
   }

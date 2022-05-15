@@ -7,6 +7,7 @@ import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.GameStateModel;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.Sprites;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.SpritesDay;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.TrainAnimationDayController;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge.LoungeSceneViewController;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.GuiParameters;
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ClientModel;
@@ -138,12 +139,12 @@ public class GameController implements Initializable {
           } else {
             Sprites.updateNightRoomSprites(gameStateModel.getPassengerTrainClone()[1], gameStateModel.getKickedOff());
           }
-          room0ImageView.setImage(Sprites.getARoom(0));
+          /*room0ImageView.setImage(Sprites.getARoom(0));
           room1ImageView.setImage(Sprites.getARoom(1));
           room2ImageView.setImage(Sprites.getARoom(2));
           room3ImageView.setImage(Sprites.getARoom(3));
           room4ImageView.setImage(Sprites.getARoom(4));
-          room5ImageView.setImage(Sprites.getARoom(5));
+          room5ImageView.setImage(Sprites.getARoom(5));*/
           trainAnimation.updateSprites();
         } catch (Exception e) {
           LOGGER.info(e.getMessage());
@@ -159,6 +160,7 @@ public class GameController implements Initializable {
   public AnchorPane getChatAreaGame() {
     return chatAreaGame;
   }
+
 
   public void setVoteButtonVisibilityDay(GameStateModel g){
     Platform.runLater(new Runnable() {
@@ -236,21 +238,11 @@ public class GameController implements Initializable {
   }
 
   public void moveRoom0Up() {
-    Platform.runLater(new Runnable() {
-      @Override
-      public void run() {
-        room0ImageView.setY(-20);
-      }
-    });
+    LoungeSceneViewController.getTrainAnimationDayController().moveRoom0Up();
   }
 
   public void moveRoom0Down() {
-    Platform.runLater(new Runnable() {
-      @Override
-      public void run() {
-        room0ImageView.setY(0);
-      }
-    });
+    LoungeSceneViewController.getTrainAnimationDayController().moveRoom0Down();
   }
 
   /**
@@ -261,21 +253,11 @@ public class GameController implements Initializable {
         .sendMsgToServer(Protocol.votedFor + "$" + client.getClient().getPosition() + "$" + 1);
   }
   public void moveRoom1Up() {
-    Platform.runLater(new Runnable() {
-      @Override
-      public void run() {
-        room1ImageView.setY(-20);
-      }
-    });
+    LoungeSceneViewController.getTrainAnimationDayController().moveRoom1Up();
   }
 
   public void moveRoom1Down() {
-    Platform.runLater(new Runnable() {
-      @Override
-      public void run() {
-        room1ImageView.setY(0);
-      }
-    });
+    LoungeSceneViewController.getTrainAnimationDayController().moveRoom1Down();
   }
 
   /**
@@ -287,21 +269,11 @@ public class GameController implements Initializable {
   }
 
   public void moveRoom2Up() {
-    Platform.runLater(new Runnable() {
-      @Override
-      public void run() {
-        room2ImageView.setY(-20);
-      }
-    });
+    LoungeSceneViewController.getTrainAnimationDayController().moveRoom2Up();
   }
 
   public void moveRoom2Down() {
-    Platform.runLater(new Runnable() {
-      @Override
-      public void run() {
-        room2ImageView.setY(0);
-      }
-    });
+    LoungeSceneViewController.getTrainAnimationDayController().moveRoom2Down();
   }
 
   /**
@@ -312,21 +284,11 @@ public class GameController implements Initializable {
         .sendMsgToServer(Protocol.votedFor + "$" + client.getClient().getPosition() + "$" + 3);
   }
   public void moveRoom3Up() {
-    Platform.runLater(new Runnable() {
-      @Override
-      public void run() {
-        room3ImageView.setY(-20);
-      }
-    });
+    LoungeSceneViewController.getTrainAnimationDayController().moveRoom3Up();
   }
 
   public void moveRoom3Down() {
-    Platform.runLater(new Runnable() {
-      @Override
-      public void run() {
-        room3ImageView.setY(0);
-      }
-    });
+    LoungeSceneViewController.getTrainAnimationDayController().moveRoom3Down();
   }
 
   /**
@@ -337,21 +299,11 @@ public class GameController implements Initializable {
         .sendMsgToServer(Protocol.votedFor + "$" + client.getClient().getPosition() + "$" + 4);
   }
   public void moveRoom4Up() {
-    Platform.runLater(new Runnable() {
-      @Override
-      public void run() {
-        room4ImageView.setY(-20);
-      }
-    });
+    LoungeSceneViewController.getTrainAnimationDayController().moveRoom4Up();
   }
 
   public void moveRoom4Down() {
-    Platform.runLater(new Runnable() {
-      @Override
-      public void run() {
-        room4ImageView.setY(0);
-      }
-    });
+    LoungeSceneViewController.getTrainAnimationDayController().moveRoom4Down();
   }
 
   /**
@@ -362,21 +314,11 @@ public class GameController implements Initializable {
         .sendMsgToServer(Protocol.votedFor + "$" + client.getClient().getPosition() + "$" + 5);
   }
   public void moveRoom5Up() {
-    Platform.runLater(new Runnable() {
-      @Override
-      public void run() {
-        room5ImageView.setY(-20);
-      }
-    });
+    LoungeSceneViewController.getTrainAnimationDayController().moveRoom5Up();
   }
 
   public void moveRoom5Down() {
-    Platform.runLater(new Runnable() {
-      @Override
-      public void run() {
-        room5ImageView.setY(0);
-      }
-    });
+    LoungeSceneViewController.getTrainAnimationDayController().moveRoom5Down();
   }
 
   /**
@@ -423,16 +365,20 @@ public class GameController implements Initializable {
     Text notification = new Text(System.lineSeparator() + msg);
     notification.setFill(Color.BLACK);
     notification.setStyle("-fx-font: 50 arial;");
-    Platform.runLater(new Runnable() {
-      @Override
-      public void run() {
-        try {
-          notificationText.getChildren().add(notification);
-        } catch (Exception e) {
-          LOGGER.debug(e.getMessage());
+    try {
+      Platform.runLater(new Runnable() {
+        @Override
+        public void run() {
+          try {
+            notificationText.getChildren().add(notification);
+          } catch (Exception e) {
+            LOGGER.debug(e.getMessage());
+          }
         }
-      }
-    });
+      });
+    } catch (Exception e) {
+      LOGGER.warn(e.getMessage());
+    }
 
     //TODO: Wait for a certain time, then clear all again
   }
@@ -709,6 +655,7 @@ public class GameController implements Initializable {
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
+    noiseButton.toFront();
     ChatApp.setGameController(this);
   }
 }

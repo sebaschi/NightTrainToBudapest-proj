@@ -26,6 +26,36 @@
             <Image url="@game/Day/Empty_Wagon.png" />
          </image>
       </ImageView>
+      <ImageView fx:id="room0ImageView" fitHeight="843.75" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@game/Day/Room1.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="room1ImageView" fitHeight="843.75" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@game/Day/Room2.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="room2ImageView" fitHeight="843.75" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@game/Day/Room3.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="room3ImageView" fitHeight="843.75" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@game/Day/Room4.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="room4ImageView" fitHeight="843.75" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@game/Day/Room5.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="room5ImageView" fitHeight="843.75" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@game/Day/Room6.png" />
+         </image>
+      </ImageView>
       <AnchorPane fx:id="gameAnchorPane" pickOnBounds="false" />
       <ImageView fx:id="wagonWallImageView" fitHeight="843.75" fitWidth="1500.0" mouseTransparent="true" preserveRatio="true">
          <image>
