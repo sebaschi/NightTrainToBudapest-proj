@@ -3,22 +3,27 @@ package ch.unibas.dmi.dbis.cs108.multiplayer.client.gui;
 
 import javafx.animation.Interpolator;
 import javafx.animation.Transition;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
 public class BGAnimation extends Transition {
-  ImageView imageView;
-  int index;
-  int lastIndex;
+  private ImageView bgView;
+  private ImageView fgView;
+  private int index;
+  private int lastIndex;
 
-  public BGAnimation(Duration duration, ImageView imageView) {
+  public BGAnimation(Duration duration, ImageView bgView, ImageView fgView) {
     index = 0;
     lastIndex = 1034;
-    this.imageView = imageView;
-    imageView.setFitHeight(1950);
-    imageView.setFitWidth(6667.968);
-    imageView.setImage(Sprites.getBg());
+    this.bgView = bgView;
+    this.fgView = fgView;
+    bgView.setFitHeight(1950);
+    bgView.setFitWidth(6667.968);
+    bgView.setImage(Sprites.getBg());
+    fgView.setFitHeight(1950);
+    fgView.setFitWidth(6667.968);
+    fgView.setImage(Sprites.getFg());
+
     setCycleDuration(duration);
     setInterpolator(Interpolator.DISCRETE);
 
@@ -26,14 +31,19 @@ public class BGAnimation extends Transition {
 
   @Override
   protected void interpolate(double frac) {
-    imageView.setImage(Sprites.getBg());
+    bgView.setImage(Sprites.getBg());
+    fgView.setImage(Sprites.getFg());
     if(index == lastIndex) {
       index = 0;
-      imageView.setX(0);
-      imageView.setY(0);
+      bgView.setX(0);
+      fgView.setX(0);
+      bgView.setY(0);
+      fgView.setY(0);
     }
-    imageView.setX(index * -5);
-    imageView.setY(index * -1.07);
+    bgView.setX(index * -5);
+    fgView.setX(index * -5);
+    bgView.setY(index * -1.07);
+    fgView.setY(index * -1.07);
     index++;
 
   }

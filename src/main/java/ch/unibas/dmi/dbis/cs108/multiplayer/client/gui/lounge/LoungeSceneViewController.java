@@ -247,10 +247,7 @@ public class LoungeSceneViewController implements Initializable {
     Platform.runLater(new Runnable() {
       @Override
       public void run() {
-        backGroundAnimationPane.getChildren().add(bgAnimationView);
-        Animation backGround = new BGAnimation(Duration.millis(17), bgAnimationView);
-        backGround.setCycleCount(Animation.INDEFINITE);
-        backGround.play();
+        //TODO(SERAINA): bgAnimation?
       }
     });
     LOGGER.debug("In Initialize 3 LobbyListView" + LobbyListView);
