@@ -24,15 +24,20 @@ public class ChatLabelConfigurator {
     if (cmd.startsWith(whisper)) {
       //t = new Text("You whispered to " + whisperTargetSelectField.getText() + ": " + msg);
       l = new Label("You whispered to " + whisperTargetSelectField.getText() + ": " + msg);
-      l.setBackground(Background.fill(Color.LAVENDERBLUSH));
-    } else {
-      //t = new Text(client.getUsername() + " (you): " + msg);
-      l = new Label(client.getUsername() + " (you): " + msg);
-      l.setBackground(Background.fill(Color.LAVENDER));
+      l.setBackground(Background.fill(Color.TRANSPARENT));
       l.setAlignment(Pos.CENTER_RIGHT);
       l.setWrapText(true);
       l.setMaxHeight(Double.MAX_VALUE);
-      l.setPrefWidth(1150);
+      l.setPrefWidth(1135);
+      l.setScaleShape(false);
+    } else {
+      //t = new Text(client.getUsername() + " (you): " + msg);
+      l = new Label(client.getUsername() + " (you): " + msg);
+      l.setBackground(Background.fill(Color.TRANSPARENT));
+      l.setAlignment(Pos.CENTER_RIGHT);
+      l.setWrapText(true);
+      l.setMaxHeight(Double.MAX_VALUE);
+      l.setPrefWidth(1135);
       l.setScaleShape(false);
     }
     return l;

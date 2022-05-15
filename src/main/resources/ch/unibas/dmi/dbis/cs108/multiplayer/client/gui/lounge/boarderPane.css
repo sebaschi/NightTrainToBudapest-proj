@@ -21,3 +21,7 @@
 .button:hover{
   -fx-effect: innershadow(gaussian, lightsteelblue, 10, 0.5 , 2, 2);
 }
+
+*{
+  -fx-background-color: transparent;
+}

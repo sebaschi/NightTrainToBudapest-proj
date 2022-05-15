@@ -1,4 +1,6 @@
-#ChatScrollPane{
+
+.scroll-pane{
+  -fx-background-color: transparent;
 }
 
 #vBoxChatMessages{

@@ -21,7 +21,7 @@
             <Image url="@images/chatwindow.png" />
          </image>
       </ImageView>
-      <AnchorPane layoutX="105.0" layoutY="100.0" prefHeight="215.0" prefWidth="1150.0">
+      <AnchorPane layoutX="115.0" layoutY="95.0" prefHeight="220.0" prefWidth="1128.0">
          <children>
             <GridPane alignment="CENTER" maxWidth="-Infinity" pickOnBounds="false" prefWidth="1300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <columnConstraints>
@@ -32,9 +32,9 @@
                   <RowConstraints maxHeight="-Infinity" minHeight="10.0" percentHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
                </rowConstraints>
                <children>
-                  <ScrollPane fx:id="ChatScrollPane" fitToHeight="true" fitToWidth="true" hbarPolicy="ALWAYS" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="151.0" prefWidth="1150.0" vbarPolicy="ALWAYS">
+                  <ScrollPane fx:id="ChatScrollPane" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity">
                      <content>
-                        <VBox fx:id="vBoxChatMessages" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="1300.0" spacing="2.0" />
+                        <VBox fx:id="vBoxChatMessages" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="1128.0" spacing="2.0" />
                      </content>
                   </ScrollPane>
                   <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="-Infinity" pickOnBounds="false" prefWidth="1300.0" GridPane.rowIndex="1">

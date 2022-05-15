@@ -7,7 +7,17 @@
   -fx-border-color: transparent;
 }
 
+.button:pressed{
+  -fx-background-color: transparent;
+  -fx-border-color: transparent;
+}
+
 #noiseButton{
+  -fx-background-color: midnightblue;
+  -fx-text-fill: lightgrey;
+}
+
+#noiseButton:pressed{
   -fx-background-color: midnightblue;
   -fx-text-fill: lightgrey;
 }

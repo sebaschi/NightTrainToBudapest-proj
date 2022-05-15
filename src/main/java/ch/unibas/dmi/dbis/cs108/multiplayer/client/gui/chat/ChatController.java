@@ -15,6 +15,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -185,9 +186,13 @@ public class ChatController implements Initializable {
     l.setWrapText(true);
     l.setMaxHeight(Double.MAX_VALUE);
     if (msg.contains("whispers")) {
-      l.setBackground(Background.fill(Color.SLATEBLUE));
+      l.setBackground(Background.fill(Color.TRANSPARENT));
+      l.setPrefWidth(1135);
+      l.setScaleShape(false);
     } else {
-      l.setBackground(Background.fill(Color.LIGHTSKYBLUE));
+      l.setBackground(Background.fill(Color.TRANSPARENT));
+      l.setPrefWidth(1135);
+      l.setScaleShape(false);
     }
     l.setTextFill(Color.BLACK);
     Platform.runLater(new Runnable() {
