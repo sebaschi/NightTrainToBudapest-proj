@@ -30,7 +30,7 @@ public class DayNightChangeListener implements Runnable {
   @Override
   public void run() {
     try{
-      Thread.sleep(1000); //TODO(Seraina): test!
+      gameStateModel.setDayClone(false);
       while(!gameStateModel.isGameOver()) {
         if(gameStateModel.getDayClone()) { //its Day
           LoungeSceneViewController.getTrainAnimationDayController().dontShowFullWagon();
@@ -46,6 +46,8 @@ public class DayNightChangeListener implements Runnable {
           try {
             if (gameStateModel.getYourRoleFromPosition(position).equals("")) {
               LoungeSceneViewController.getTrainAnimationDayController().showFullWagon();
+            } else if (gameStateModel.getYourRoleFromPosition(position).equals("g")) {
+              LoungeSceneViewController.getTrainAnimationDayController().dontShowFullWagon();
             }
           } catch (Exception e) {
             e.getMessage();

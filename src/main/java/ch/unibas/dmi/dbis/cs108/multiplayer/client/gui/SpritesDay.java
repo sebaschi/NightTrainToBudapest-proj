@@ -27,6 +27,7 @@ public class SpritesDay {
   public static final Image[] wheels = new Image[26];
   public static final Image[] bells = new Image[17];
   public static final Image fg = new Image(path + "Foreground_small.png");
+  public static final Image crop = new Image("ch/unibas/dmi/dbis/cs108/multiplayer/client/gui/game/background_crop.png");
 
   public static void setWheels() {
     try {
