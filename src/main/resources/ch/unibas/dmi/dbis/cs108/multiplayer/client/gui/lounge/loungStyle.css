@@ -3,6 +3,10 @@
   -fx-background-color: midnightblue;
 }
 
+#LobbyListView{
+  -fx-background-color: transparent;
+}
+
 #lobbyPrint{
   -fx-background-color: midnightblue;
 }
@@ -14,4 +18,22 @@
 
 .anchorPane{
   -fx-alignment: center;
+}
+
+.button{
+  -fx-background-color: midnightblue;
+  -fx-text-fill: lightsteelblue;
+}
+
+.button:pressed{
+  -fx-background-color: lightsteelblue;
+  -fx-text-fill: midnightblue;
+}
+
+.button:hover{
+  -fx-effect: innershadow(gaussian, lightsteelblue, 10, 0.5 , 2, 2);
+}
+
+.label{
+  -fx-all: unset;
 }

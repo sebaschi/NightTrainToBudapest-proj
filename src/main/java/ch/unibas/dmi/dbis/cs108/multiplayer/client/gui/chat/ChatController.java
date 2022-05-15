@@ -106,6 +106,7 @@ public class ChatController implements Initializable {
           Number newValue) {
         vBoxChatMessages.setMaxHeight(newValue.doubleValue());
         ChatScrollPane.setMaxHeight(newValue.doubleValue() * 2);
+        ChatScrollPane.setVvalue((Double) newValue);
       }
     });
     /**

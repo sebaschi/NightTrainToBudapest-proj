@@ -1,5 +1,6 @@
-*{
-  -fx-background-color: transparent;
+
+.label{
+  -fx-all: unset;
 }
 
 #NTtBToolBar{
@@ -8,13 +9,15 @@
 }
 
 .button{
-  -fx-border-color: darkgrey;
-  -fx-background-color: grey;
-  -fx-text-fill: white;
+  -fx-background-color: midnightblue;
+  -fx-text-fill: lightsteelblue;
 }
 
 .button:pressed{
-  -fx-border-color: grey;
-  -fx-background-color: lightgrey;
-  -fx-text-fill: black;
+  -fx-background-color: lightsteelblue;
+  -fx-text-fill: midnightblue;
+}
+
+.button:hover{
+  -fx-effect: innershadow(gaussian, lightsteelblue, 10, 0.5 , 2, 2);
 }

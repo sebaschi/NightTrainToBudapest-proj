@@ -17,7 +17,6 @@
 }
 
 
-
 .textField{
   -fx-text-fill: white;
   -fx-background-color: transparent;
@@ -27,6 +26,12 @@
 }
 
 #notificationText{
+  -fx-alignment: center;
+  -fx-text-fill: black;
+  -fx-font-family: Bahnschrift;
+  -fx-font-weight: bold;
+}
+.textFlow{
   -fx-alignment: center;
   -fx-text-fill: black;
   -fx-font-family: Bahnschrift;

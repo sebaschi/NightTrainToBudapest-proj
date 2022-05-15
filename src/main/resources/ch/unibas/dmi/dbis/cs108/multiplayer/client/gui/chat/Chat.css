@@ -2,16 +2,17 @@
 }
 
 #vBoxChatMessages{
-  -fx-background-color: rgba(255,255,255,0.3);
+  -fx-background-color: transparent;
 }
 
 .anchorPane{
   -fx-background-color: transparent;
 }
 
-*{
-  -fx-background-color: transparent;
+.label{
+  -fx-all: unset;
 }
+
 
 .button{
   -fx-background-color: midnightblue;

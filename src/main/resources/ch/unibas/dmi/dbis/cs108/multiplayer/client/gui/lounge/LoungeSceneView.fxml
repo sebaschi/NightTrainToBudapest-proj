@@ -6,14 +6,15 @@
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.text.TextFlow?>
 
 <AnchorPane fx:id="backGroundAnchorPane" pickOnBounds="false" stylesheets="@loungStyle.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge.LoungeSceneViewController">
    <children>
       <AnchorPane fx:id="backGroundAnimationPane" maxHeight="843.75" maxWidth="1500.0" />
-      <BorderPane fx:id="LoungeSceneBorderPane" layoutX="860.0" layoutY="440.0" pickOnBounds="false" stylesheets="@boarderPane.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <BorderPane fx:id="LoungeSceneBorderPane" layoutX="860.0" layoutY="440.0" pickOnBounds="false" prefHeight="843.75" prefWidth="1500.0" stylesheets="@boarderPane.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <right>
-            <ListView fx:id="LobbyListView" opacity="0.0" pickOnBounds="false" BorderPane.alignment="CENTER" />
+            <ListView fx:id="LobbyListView" pickOnBounds="false" BorderPane.alignment="CENTER" />
          </right>
          <top>
             <ToolBar fx:id="NTtBToolBar" pickOnBounds="false" prefHeight="30.0" BorderPane.alignment="CENTER">
@@ -46,7 +47,11 @@
             </AnchorPane>
          </center>
          <bottom>
-            <AnchorPane fx:id="ChatArea" pickOnBounds="false" prefHeight="83.0" prefWidth="578.0" BorderPane.alignment="CENTER" />
+            <TilePane alignment="CENTER" orientation="VERTICAL" prefColumns="1" prefRows="1" BorderPane.alignment="CENTER">
+               <children>
+                  <AnchorPane fx:id="ChatArea" pickOnBounds="false" prefHeight="83.0" prefWidth="578.0" />
+               </children>
+            </TilePane>
          </bottom>
       </BorderPane>
       <AnchorPane fx:id="gameDisplayAnchorPane" maxHeight="843.75" maxWidth="1500.0" pickOnBounds="false" />
