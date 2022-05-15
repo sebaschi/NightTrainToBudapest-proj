@@ -80,6 +80,7 @@
       <AnchorPane layoutX="10.0" layoutY="10.0" pickOnBounds="false" prefHeight="200.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <ImageView fx:id="foreGroundAnimationImageView1" fitHeight="843.75" fitWidth="1500.0" preserveRatio="true" />
+            <ImageView fx:id="backgroundCropView" fitHeight="843.75" fitWidth="1500.0" layoutX="10.0" layoutY="10.0" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
          </children>
       </AnchorPane>
    </children>

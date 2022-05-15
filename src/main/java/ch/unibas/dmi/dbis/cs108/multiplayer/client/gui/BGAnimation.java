@@ -9,20 +9,25 @@ import javafx.util.Duration;
 public class BGAnimation extends Transition {
   private ImageView bgView;
   private ImageView fgView;
+  private ImageView crop;
   private int index;
   private int lastIndex;
 
-  public BGAnimation(Duration duration, ImageView bgView, ImageView fgView) {
+  public BGAnimation(Duration duration, ImageView bgView, ImageView fgView, ImageView imageCrop) {
     index = 0;
     lastIndex = 1034;
     this.bgView = bgView;
     this.fgView = fgView;
+    this.crop = imageCrop;
     bgView.setFitHeight(1950);
     bgView.setFitWidth(6667.968);
     bgView.setImage(Sprites.getBg());
     fgView.setFitHeight(1950);
     fgView.setFitWidth(6667.968);
     fgView.setImage(Sprites.getFg());
+    imageCrop.setFitHeight(1950);
+    imageCrop.setFitWidth(6667.968);
+    imageCrop.setImage(Sprites.getCrop());
 
     setCycleDuration(duration);
     setInterpolator(Interpolator.DISCRETE);

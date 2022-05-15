@@ -33,6 +33,6 @@ public class SpritesNight {
   public static final Image[] wheels = SpritesDay.wheels;
   public static final Image[] bells = SpritesDay.bells;
   public static final Image fg = new Image(path + "Foreground_small.png");
-
+  public static final Image crop = SpritesDay.crop;
 
 }

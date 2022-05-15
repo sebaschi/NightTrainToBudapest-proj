@@ -20,6 +20,7 @@ public class Sprites {
   private static Image[] wheels = new Image[26];
   private static Image[] bells = new Image[17];
   private static Image fg;
+  private static Image crop;
 
   public static Image getBg() {
     return bg;
@@ -69,6 +70,10 @@ public class Sprites {
     return fg;
   }
 
+  public static Image getCrop() {
+    return crop;
+  }
+
   /**
    * Sets all Images of this class to the Day Version
    */
@@ -85,6 +90,7 @@ public class Sprites {
       wheels = SpritesDay.wheels;
       bells = SpritesDay.bells;
       fg = SpritesDay.fg;
+      crop = SpritesDay.crop;
     } catch (Exception e) {
       System.out.println(e.getMessage());
       e.printStackTrace();
@@ -114,6 +120,7 @@ public class Sprites {
     wheels = SpritesNight.wheels;
     bells = SpritesNight.bells;
     fg = SpritesNight.fg;
+    crop = SpritesNight.crop;
   }
 
   public static void updateNightRoomSprites(String[] roles, boolean[] kickedOff) {
