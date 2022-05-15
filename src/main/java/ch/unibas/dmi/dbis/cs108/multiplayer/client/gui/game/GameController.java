@@ -2,6 +2,7 @@ package ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game;
 
 import static javafx.scene.AccessibleRole.PARENT;
 
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.Sound;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ChatApp;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.GameStateModel;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.Sprites;
@@ -36,6 +37,9 @@ public class GameController implements Initializable {
 
   public static final Logger LOGGER = LogManager.getLogger(GameController.class);
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
+  static boolean justRangBell = false; //used to track if the bell has been rung recently
+  static final int minimumBellTime = 1000; //minimal time that has to pass between bells, in ms
+  static boolean playingDayNoises = true; //true if playing day noises, false if playing night noises
 
   private static ClientModel client;
 
@@ -135,8 +139,20 @@ public class GameController implements Initializable {
       public void run() {
         try{
           if(gameStateModel.getDayClone()) {
+            if (!playingDayNoises) {
+              Sound.startDaynoises();
+              Sound.musicday();
+              Sound.stopNightnoises();
+              playingDayNoises = true;
+            }
             Sprites.updateDayRoomSprites(gameStateModel.getPassengerTrainClone()[1], gameStateModel.getKickedOff());
           } else {
+            if (playingDayNoises) {
+              Sound.startNightnoises();
+              Sound.stopmusicday();
+              Sound.stopDaynoises();
+              playingDayNoises = false;
+            }
             Sprites.updateNightRoomSprites(gameStateModel.getPassengerTrainClone()[1], gameStateModel.getKickedOff());
           }
           /*room0ImageView.setImage(Sprites.getARoom(0));
@@ -518,6 +534,7 @@ public class GameController implements Initializable {
           if(!gameStateModel.getKickedOff()[0]) {
             Animation bell = new BellAnimation(noiseImage5, bells);
             bell.play();
+            ringBellSound();
           }
         } catch (Exception e) {
           e.printStackTrace();
@@ -539,6 +556,7 @@ public class GameController implements Initializable {
           if(!gameStateModel.getKickedOff()[1]) {
             Animation bell = new BellAnimation(noiseImage4, bells);
             bell.play();
+            ringBellSound();
           }
         } catch (Exception e) {
           e.printStackTrace();
@@ -559,6 +577,7 @@ public class GameController implements Initializable {
           if(!gameStateModel.getKickedOff()[2]) {
             Animation bell = new BellAnimation(noiseImage3, bells);
             bell.play();
+            ringBellSound();
           }
         } catch (Exception e) {
           e.printStackTrace();
@@ -579,6 +598,7 @@ public class GameController implements Initializable {
           if(!gameStateModel.getKickedOff()[3]) {
             Animation bell = new BellAnimation(noiseImage2, bells);
             bell.play();
+            ringBellSound();
           }
         } catch (Exception e) {
           e.printStackTrace();
@@ -599,6 +619,7 @@ public class GameController implements Initializable {
           if(!gameStateModel.getKickedOff()[4]) {
             Animation bell = new BellAnimation(noiseImage1, bells);
             bell.play();
+            ringBellSound();
           }
         } catch (Exception e) {
           e.printStackTrace();
@@ -619,6 +640,7 @@ public class GameController implements Initializable {
           if(!gameStateModel.getKickedOff()[5]) {
             Animation bell = new BellAnimation(noiseImage0, bells);
             bell.play();
+            ringBellSound();
           }
         } catch (Exception e) {
           e.printStackTrace();
@@ -657,5 +679,33 @@ public class GameController implements Initializable {
   public void initialize(URL location, ResourceBundle resources) {
     noiseButton.toFront();
     ChatApp.setGameController(this);
+  }
+
+  /**
+   * plays bell sound, but only if it hasn't been played recently, to avoid artefacts due to
+   * overlapping sounds
+   */
+  public static void ringBellSound() {
+    if (!justRangBell) {
+      justRangBell = true;
+      Sound.bell();
+      try {
+        System.out.println(justRangBell);
+        Thread.sleep(minimumBellTime);
+        new Thread(new Runnable() {
+          @Override
+          public void run() {
+            try {
+              Thread.sleep(minimumBellTime);
+            } catch (InterruptedException e) {
+              e.printStackTrace();
+            }
+            justRangBell = false;
+          }
+        }).start();
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
   }
 }
