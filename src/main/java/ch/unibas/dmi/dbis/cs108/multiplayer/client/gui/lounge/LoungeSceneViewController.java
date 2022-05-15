@@ -284,6 +284,7 @@ public class LoungeSceneViewController implements Initializable {
       @Override
       public void run() {
         try {
+          trainAnimationDayController.showFullWagon();
           buttonLobbyPane.setVisible(true);
           gameDisplayAnchorPane.getChildren().clear();
         } catch (Exception e) {

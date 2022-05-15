@@ -114,6 +114,7 @@ public class TrainAnimationDayController implements Initializable {
     return wagonFullImageView;
   }
 
+
   public void moveRoom0Up() {
     Platform.runLater(new Runnable() {
       @Override
