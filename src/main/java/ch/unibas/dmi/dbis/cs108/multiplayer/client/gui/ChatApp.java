@@ -4,6 +4,7 @@ import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ClientModel;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat.ChatController;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game.GameController;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge.ListOfLobbiesController;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge.LoungeSceneViewController;
 import java.net.URL;
 import java.util.Objects;
@@ -28,10 +29,13 @@ public class ChatApp extends Application {
   private GameController gameC;
   private static LoungeSceneViewController loungeSceneViewController;
   private LoungeSceneViewController lSVController;
+  private static ListOfLobbiesController listController;
+  private ListOfLobbiesController listOfLobbiesController;
 
   public Node chat;
   public Node game;
   public Node backgroundDay;
+  public Node lobbyList;
 
   public ChatApp() {
     super();
@@ -137,6 +141,22 @@ public class ChatApp extends Application {
     loungeSceneViewController = controller;
   }
 
+  public void setListOfLobbiesController(
+      ListOfLobbiesController listOfLobbiesController) {
+    this.listOfLobbiesController = listOfLobbiesController;
+  }
+
+  public static void setListController(ListOfLobbiesController controller) {
+    listController = controller;
+  }
+
+  public static ListOfLobbiesController getListController() {
+    return listController;
+  }
+
+  public ListOfLobbiesController getListOfLobbiesController() {
+    return listOfLobbiesController;
+  }
 
   /**
    * The main entry point for all JavaFX applications. The start method is called after the init
@@ -165,9 +185,11 @@ public class ChatApp extends Application {
       URL chatResource = ChatApp.class.getResource("chat/ChatView.fxml");
       URL gameResource = ChatApp.class.getResource("game/GameDayAll.fxml");
       URL bgDayResource = ChatApp.class.getResource("TrainAnimationViewDay.fxml");
+      URL listForLobbiesResource = ChatApp.class.getResource("lounge/ListOfLobbiesScrollPane.fxml");
       this.chat = FXMLLoader.load(Objects.requireNonNull(chatResource));
       this.game = FXMLLoader.load(Objects.requireNonNull(gameResource));
       this.backgroundDay = FXMLLoader.load(Objects.requireNonNull(bgDayResource));
+      this.lobbyList = FXMLLoader.load(Objects.requireNonNull(listForLobbiesResource));
       LOGGER.debug(bgDayResource);
     } catch (Exception e) {
       LOGGER.warn("There was an Exception while loading");
@@ -180,6 +202,8 @@ public class ChatApp extends Application {
           Objects.requireNonNull(loungeResource));
       this.setlSVController(loungeSceneViewController);
       lSVController.setChatApp(this);
+      listOfLobbiesController = listController;
+      listOfLobbiesController.setChatApp(this);
       // TODO bin chatController.getChatPaneRoot() border to root border for rezising
       Scene scene = new Scene(lounge);
       scene.setRoot(lounge);

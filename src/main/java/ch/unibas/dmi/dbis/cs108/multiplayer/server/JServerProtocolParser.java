@@ -115,7 +115,6 @@ public class JServerProtocolParser {
         break;
       case Protocol.startANewGame:
         h.startNewGame();
-        h.sendMsgToClientsInLobby(Protocol.printToGUI + "$" + GuiParameters.viewChangeToGame + "$");
         break;
       case Protocol.listGames:
         h.listGames();

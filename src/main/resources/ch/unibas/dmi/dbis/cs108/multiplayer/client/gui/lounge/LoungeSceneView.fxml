@@ -13,9 +13,6 @@
    <children>
       <AnchorPane fx:id="backGroundAnimationPane" maxHeight="843.75" maxWidth="1500.0" />
       <BorderPane fx:id="LoungeSceneBorderPane" layoutX="860.0" layoutY="440.0" pickOnBounds="false" prefHeight="843.75" prefWidth="1500.0" stylesheets="@boarderPane.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <right>
-            <ListView fx:id="LobbyListView" pickOnBounds="false" BorderPane.alignment="CENTER" />
-         </right>
          <top>
             <ToolBar fx:id="NTtBToolBar" pickOnBounds="false" prefHeight="30.0" BorderPane.alignment="CENTER">
               <items>
@@ -53,6 +50,14 @@
                </children>
             </TilePane>
          </bottom>
+         <right>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <ListView fx:id="LobbyListView" opacity="0.0" pickOnBounds="false" />
+                  <AnchorPane fx:id="listLobbyAnchorPane" />
+               </children>
+            </AnchorPane>
+         </right>
       </BorderPane>
       <AnchorPane fx:id="gameDisplayAnchorPane" maxHeight="843.75" maxWidth="1500.0" pickOnBounds="false" />
    </children>

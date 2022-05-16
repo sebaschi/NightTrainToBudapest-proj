@@ -10,6 +10,7 @@ import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ChatApp;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.Sprites;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat.ChatController;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game.GameController;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge.LobbyDisplayHandler;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge.LoungeApp;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge.LoungeSceneViewController;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.ClientPinger;
@@ -48,6 +49,7 @@ public class Client {
   private GameStateModel gameStateModel;
   private GameController gameController;
   private DayNightChangeListener dayNightChangeListener;
+  private LobbyDisplayHandler lobbyDisplayHandler;
 
   private GUI gui;
 
@@ -92,6 +94,7 @@ public class Client {
       this.gameController = new GameController(ChatApp.getClientModel(), gameStateModel);
       this.loungeApp = new LoungeApp(ChatApp.getClientModel());
       this.loungeSceneViewController = new LoungeSceneViewController();
+      this.lobbyDisplayHandler = new LobbyDisplayHandler();
       LoungeSceneViewController.setClient(ChatApp.getClientModel());
     } catch (IOException e) {
       e.printStackTrace();
@@ -370,10 +373,6 @@ public class Client {
             LOGGER.warn("Not a position given for noise " + e.getMessage());
           }
           break;
-        case GuiParameters.listOfLobbies:
-          updateListOfLobbies(data);
-          //TODO
-          break;
         case GuiParameters.VoteIsOver:
           chatApp.getGameController().setNoiseButtonInvisible();
           chatApp.getGameController().clearAllNoiseDisplay();
@@ -393,24 +392,19 @@ public class Client {
           gameStateModel.setGameOver(true);
           //TODO
           break;
-        case GuiParameters.addNewMemberToLobby:
-          addPlayerToLobby(data);
-          break;
-        case GuiParameters.newLobbyCreated:
-          makeNewLobby(data);
-          break;
         case GuiParameters.updateHighScore:
           chatApp.getLoungeSceneViewController().addHighScore(data);
           break;
         case GuiParameters.yourPosition:
           dayNightChangeListener.setPosition(Integer.parseInt(data));
           break;
-        case GuiParameters.updatePrintLobby:
-          chatApp.getLoungeSceneViewController().clearLobbyPrint();
-          chatApp.getLoungeSceneViewController().addLobbyPrint(data);
-          break;
-        case GuiParameters.removeLobby:
-          removeLobbyFromGui(data);
+        case GuiParameters.updateLobbyString:
+          if(!data.isEmpty()) {
+            lobbyDisplayHandler.updateLobbies(data);
+            ChatApp.getListController().updateList();
+          } else {
+            ChatApp.getListController().clearVBox();
+          }
           break;
         default:
           notificationTextDisplay(data);
