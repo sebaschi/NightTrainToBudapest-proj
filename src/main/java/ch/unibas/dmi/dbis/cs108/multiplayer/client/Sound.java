@@ -17,6 +17,9 @@ public class Sound {
   static URL bellURL = Sound.class.getResource("sounds/bell.wav");
   static AudioClip bell = new AudioClip(bellURL.toString());
 
+  static URL trainhornURL = Sound.class.getResource("sounds/trainhorn.wav");
+  static AudioClip trainhorn = new AudioClip(trainhornURL.toString());
+
   static URL daynoisesURL = Sound.class.getResource("sounds/daynoises.wav");
   static AudioClip daynoises = new AudioClip(daynoisesURL.toString());
 
@@ -102,6 +105,8 @@ public class Sound {
   public static void bell() {
     bell.play(defaultvolume - 0.5);
   }
+
+  public static void trainhorn() {trainhorn.play(defaultvolume); }
 
   public static void startDaynoises() {
     daynoises.setCycleCount(AudioClip.INDEFINITE);

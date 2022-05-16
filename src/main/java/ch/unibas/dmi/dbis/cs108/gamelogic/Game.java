@@ -122,6 +122,10 @@ public class Game implements Runnable {
 
     LOGGER.info(gameState.toGhostString());
     for (ClientHandler client : lobbyClients) {//begins filling the train with clients
+
+      //send train horn sound to client:
+      client.sendMsgToClient(Protocol.playSound + "$" + "TH");
+
       int index = order[i];
       if (passengerTrain[index].getIsGhost()) { //if there is a ghost
         GhostPlayer ghostPlayer = new GhostPlayer(passengerTrain[index].getPosition(),

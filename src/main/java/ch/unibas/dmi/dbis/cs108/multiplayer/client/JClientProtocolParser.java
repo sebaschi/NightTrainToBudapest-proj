@@ -105,9 +105,13 @@ public class JClientProtocolParser {
           case "HV":
             Sound.voteforhuman();
             break;
+          case "TH":
+            Sound.trainhorn();
+            break;
           default:
             LOGGER.warn("Invalid sound request");
         }
+        break;
       default:
         System.out.println("Received unknown command: " + msg);
     }
