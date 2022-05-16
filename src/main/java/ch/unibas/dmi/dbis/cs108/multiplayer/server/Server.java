@@ -32,6 +32,7 @@ public class Server {
     try {
       System.out.println("Port " + gamePort + " is open.");
       OgGhostHighScore.main(null);
+      new Thread(new LobbyUpdater()).start();
       while (!serverSocket.isClosed()) {
         Socket socket = serverSocket.accept();
         ClientHandler nextClient = new ClientHandler(socket, socket.getInetAddress());

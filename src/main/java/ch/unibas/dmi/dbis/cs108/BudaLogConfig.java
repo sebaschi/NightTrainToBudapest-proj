@@ -19,7 +19,7 @@ public class BudaLogConfig {
     LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
     Configuration config = ctx.getConfiguration();
     LoggerConfig loggerConfig = config.getLoggerConfig(LogManager.ROOT_LOGGER_NAME);
-    loggerConfig.setLevel(Level.WARN); // change level here
+    loggerConfig.setLevel(Level.INFO); // change level here
     ctx.updateLoggers();  // This causes all Loggers to refetch information from their LoggerConfig.
   }
 

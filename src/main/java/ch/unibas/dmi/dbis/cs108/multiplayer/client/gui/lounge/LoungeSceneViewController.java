@@ -49,6 +49,8 @@ public class LoungeSceneViewController implements Initializable {
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
 
   @FXML
+  private AnchorPane listLobbyAnchorPane;
+  @FXML
   private AnchorPane buttonPane;
   @FXML
   private AnchorPane buttonLobbyPane;
@@ -146,12 +148,14 @@ public class LoungeSceneViewController implements Initializable {
     LOGGER.debug("Lobby in initialize" + LobbyListView);
     addChatView();
     addBackgroundDay();
+    addListOfLobbiesView();
     LOGGER.debug("cApp = " + cApp);
     LOGGER.debug("chatApp = " + chatApp);
     TrainAnimationDayController.setcApp(cApp);
     ImageView bgAnimationView = new ImageView();
     bgAnimationView.setFitHeight(1950);
     bgAnimationView.setFitWidth(6667.968);
+
 
     LobbyListView.setItems(lobbies);
     LOGGER.debug("In Initialize 2 LobbyListView" + LobbyListView);
@@ -258,6 +262,22 @@ public class LoungeSceneViewController implements Initializable {
   }
 
   /**
+   * Adds the new LobbyListView
+   */
+  public void addListOfLobbiesView() {
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        try {
+          listLobbyAnchorPane.getChildren().add(chatApp.lobbyList);
+        } catch (Exception e) {
+          LOGGER.warn(e.getMessage());
+        }
+      }
+    });
+  }
+
+  /**
    * Adds the gameView to the existing LobbyView
    */
   public void addGameView() {
@@ -303,7 +323,6 @@ public class LoungeSceneViewController implements Initializable {
       public void run() {
         try {
           ChatArea.getChildren().add(chatApp.chat);
-          LOGGER.debug("¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦ ChatArea: " + ChatArea);
         } catch (Exception e) {
           LOGGER.debug("Not yet initialized: chatAnchorPane");
         }

@@ -65,13 +65,12 @@ public class JClientProtocolParser {
         c.changeUsername(msg.substring(6));
         break;
       case Protocol.printToGUI:
-        LOGGER.info("First line of printToGui case!");
         String substring = msg.substring(6);
-        LOGGER.debug("Following parameters where recieved: " + substring);
         int index = substring.indexOf("$");
         LOGGER.debug("Index of $: " + index);
         String parameter = "";
         String data = substring;
+        LOGGER.debug(data);
         try {
           parameter = substring.substring(0, index);
           data = substring.substring(index + 1);

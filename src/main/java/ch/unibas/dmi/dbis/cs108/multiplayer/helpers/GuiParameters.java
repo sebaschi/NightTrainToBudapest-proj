@@ -105,4 +105,9 @@ public class GuiParameters {
    * Tells the GUI at which position you are sitting {@code POSITION$integer}
    */
   public static final String yourPosition = "POSITION";
+
+  /**
+   * Tells gui to Update its lobbies from a String {@code ULS$id:admin:meber1:member2:...$id:admin:member1...}
+   */
+  public static final String updateLobbyString = "ULS";
 }

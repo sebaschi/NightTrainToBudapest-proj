@@ -59,6 +59,7 @@ public class Lobby {
    * @param admin the Client who called CRTGM
    */
   public Lobby(ClientHandler admin) {
+
     this.admin = admin;
     this.lobbyClients.add(admin);
     lobbies.add(this);
@@ -69,6 +70,7 @@ public class Lobby {
     this.lobbyID = helper;
     ClientHandler.broadcastAnnouncementToAll("New Lobby created by " + admin.getClientUserName() +
         ". This lobby's ID:  " + this.lobbyID);
+    System.out.println(lobbiesToString());
   }
 
   /**
@@ -258,6 +260,22 @@ public class Lobby {
      are theoretically still in this lobby. However, in the future we might implement
      removing the clients anyways.
      */
+  }
+
+  public static String lobbiesToString() {
+    StringBuilder lobbyStringBuilder = new StringBuilder();
+    for (Lobby lobby : lobbies) {
+      ClientHandler admin = lobby.getAdmin();
+      lobbyStringBuilder.append(lobby.getLobbyID()).append(":").append(admin.getClientUserName())
+          .append(":").append(lobby.getLobbyIsOpen());
+      for (ClientHandler client : lobby.getLobbyClients()) {
+        if (!client.equals(admin)) {
+          lobbyStringBuilder.append(":").append(client.getClientUserName());
+        }
+      }
+      lobbyStringBuilder.append("$");
+    }
+  return lobbyStringBuilder.toString();
   }
 
 }
