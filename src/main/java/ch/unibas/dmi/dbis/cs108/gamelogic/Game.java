@@ -172,6 +172,14 @@ public class Game implements Runnable {
         if (gameOverCheck.equals(ClientGameInfoHandler.gameOverGhostsWin) && getOgGhost().getIsPlayer()) {
           OgGhostHighScore.addOgGhostWinner(getOgGhost().getName());
         }
+
+        //send command to play game over sound:
+        if (gameOverCheck.equals(ClientGameInfoHandler.gameOverGhostsWin)) {
+          lobby.getAdmin().sendMsgToClientsInLobby(Protocol.playSound + "$" + "GW");
+        } else {
+          lobby.getAdmin().sendMsgToClientsInLobby(Protocol.playSound + "$" + "HW");
+        }
+
         lobby.getAdmin().broadcastAnnouncementToLobby(gameOverCheck);
         isOngoing = false;
         Timer.ghostAfterVoteTimer();

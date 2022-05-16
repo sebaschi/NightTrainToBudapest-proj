@@ -40,7 +40,7 @@ public class GameController implements Initializable {
   public static final Logger LOGGER = LogManager.getLogger(GameController.class);
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
   static boolean justRangBell = false; //used to track if the bell has been rung recently
-  static final int minimumBellTime = 1000; //minimal time that has to pass between bells, in ms
+  static final int minimumBellTime = 100; //minimal time that has to pass between bells, in ms
   static boolean playingDayNoises = true; //true if playing day noises, false if playing night noises
 
   private static ClientModel client;
