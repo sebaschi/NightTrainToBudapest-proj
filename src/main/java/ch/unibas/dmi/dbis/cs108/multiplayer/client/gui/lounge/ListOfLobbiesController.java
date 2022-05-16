@@ -51,10 +51,15 @@ public class ListOfLobbiesController implements Initializable {
 
 
   public void updateList() {
-    clearVBox();
-    for (LobbyModel lobby : LobbyDisplayHandler.getLobbies()) {
-      newTreeView(lobby.getId(), lobby.getAdmin(), chatApp.getcModel().getUsername(), lobby.getMembers());
-    }
+    new Thread(new Runnable() {
+      @Override
+      public void run() {
+        clearVBox();
+        for (LobbyModel lobby : LobbyDisplayHandler.getLobbies()) {
+          newTreeView(lobby.getId(), lobby.getAdmin(), chatApp.getcModel().getUsername(), lobby.getMembers());
+        }
+      }
+    }).start();
   }
 
   /**
