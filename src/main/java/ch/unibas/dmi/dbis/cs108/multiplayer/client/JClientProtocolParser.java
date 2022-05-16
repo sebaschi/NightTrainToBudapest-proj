@@ -89,6 +89,9 @@ public class JClientProtocolParser {
           LOGGER.warn(msg.substring(6));
         }
         break;
+      case Protocol.noiseNotificationProtocol:
+        Sound.ghost();
+        break;
       default:
         System.out.println("Received unknown command: " + msg);
     }

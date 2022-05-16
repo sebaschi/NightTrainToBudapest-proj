@@ -127,7 +127,7 @@ public class Sound {
         ghost = ghost04;
         break;
     }
-    ghost.play(defaultvolume, 0.0, playbackspeed, 0.0, 5);
+    ghost.play(defaultvolume - 0.3, 0.0, playbackspeed, 0.0, 5);
   }
 
 }

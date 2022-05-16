@@ -14,6 +14,7 @@ import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ClientModel;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
 import java.net.URL;
+import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.animation.Animation;
 import javafx.application.Platform;
@@ -533,6 +534,15 @@ public class GameController implements Initializable {
         try {
           if(!gameStateModel.getKickedOff()[0]) {
             Animation bell = new BellAnimation(noiseImage5, bells);
+            //wait until it's day:
+            while (!getGameStateModel().getDayClone()) {
+              Thread.sleep(100);
+            }
+            Thread.sleep(500);
+            //just so the alarm isn't rung exactly when the day starts, add random delay
+            Random random = new Random();
+            Thread.sleep(random.nextInt(1000));
+
             bell.play();
             ringBellSound();
           }
@@ -555,6 +565,14 @@ public class GameController implements Initializable {
         try {
           if(!gameStateModel.getKickedOff()[1]) {
             Animation bell = new BellAnimation(noiseImage4, bells);
+            //wait until it's day:
+            while (!getGameStateModel().getDayClone()) {
+              Thread.sleep(100);
+            }
+            Thread.sleep(500);
+            //just so the alarm isn't rung exactly when the day starts, add random delay
+            Random random = new Random();
+            Thread.sleep(random.nextInt(1000));
             bell.play();
             ringBellSound();
           }
@@ -576,6 +594,15 @@ public class GameController implements Initializable {
         try {
           if(!gameStateModel.getKickedOff()[2]) {
             Animation bell = new BellAnimation(noiseImage3, bells);
+            //wait until it's day:
+            while (!getGameStateModel().getDayClone()) {
+              Thread.sleep(100);
+            }
+            Thread.sleep(500);
+            //just so the alarm isn't rung exactly when the day starts, add random delay
+            Random random = new Random();
+            Thread.sleep(random.nextInt(1000));
+
             bell.play();
             ringBellSound();
           }
@@ -597,6 +624,15 @@ public class GameController implements Initializable {
         try {
           if(!gameStateModel.getKickedOff()[3]) {
             Animation bell = new BellAnimation(noiseImage2, bells);
+            //wait until it's day:
+            while (!getGameStateModel().getDayClone()) {
+              Thread.sleep(100);
+            }
+            Thread.sleep(500);
+            //just so the alarm isn't rung exactly when the day starts, add random delay
+            Random random = new Random();
+            Thread.sleep(random.nextInt(1000));
+
             bell.play();
             ringBellSound();
           }
@@ -618,6 +654,15 @@ public class GameController implements Initializable {
         try {
           if(!gameStateModel.getKickedOff()[4]) {
             Animation bell = new BellAnimation(noiseImage1, bells);
+            //wait until it's day:
+            while (!getGameStateModel().getDayClone()) {
+              Thread.sleep(100);
+            }
+            Thread.sleep(500);
+            //just so the alarm isn't rung exactly when the day starts, add random delay
+            Random random = new Random();
+            Thread.sleep(random.nextInt(1000));
+
             bell.play();
             ringBellSound();
           }
@@ -639,6 +684,14 @@ public class GameController implements Initializable {
         try {
           if(!gameStateModel.getKickedOff()[5]) {
             Animation bell = new BellAnimation(noiseImage0, bells);
+            //wait until it's day:
+            while (!getGameStateModel().getDayClone()) {
+              Thread.sleep(100);
+            }
+            Thread.sleep(500);
+            //just so the alarm isn't rung exactly when the day starts, add random delay
+            Random random = new Random();
+            Thread.sleep(random.nextInt(1000));
             bell.play();
             ringBellSound();
           }

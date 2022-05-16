@@ -22,7 +22,7 @@ public class Timer {
    * The length of time in seconds after the ghost vote during which the ghosts visually walk to /
    * from their victim and the timespan within which humans will hear a noise. After this, the day starts.
    */
-  public static final int ghostAfterVoteTime = 4;
+  public static final int ghostAfterVoteTime = 6;
   /**
    * The maximum length of the human vote in the day, in seconds
    */
@@ -80,6 +80,14 @@ public class Timer {
   public static void ghostAfterVoteTimer() {
     try {
       Thread.sleep(ghostAfterVoteTime *1000);
+    } catch (InterruptedException e) {
+      LOGGER.warn("Thread " + Thread.currentThread() + " was interrupted");
+    }
+  }
+
+  public static void humanAfterVoteTimer() {
+    try {
+      Thread.sleep(humanAfterVoteTime *1000);
     } catch (InterruptedException e) {
       LOGGER.warn("Thread " + Thread.currentThread() + " was interrupted");
     }

@@ -120,6 +120,8 @@ public class ServerGameInfoHandler {
       case ClientGameInfoHandler.noiseNotification + 3 + " time(s)":
       case ClientGameInfoHandler.noiseNotification + 4 + " time(s)":
       case ClientGameInfoHandler.noiseNotification + 5 + " time(s)":
+      case ClientGameInfoHandler.noiseNotification:
+        //todo: jonas: handle bell behaviour correctly.
         String outMsg = npc.getName() + ": " + noiseRandomizer();
         //TODO: add likelyhood
         if(!npc.getKickedOff()) {
@@ -148,6 +150,8 @@ public class ServerGameInfoHandler {
       case ClientGameInfoHandler.noiseNotification + 3 + " time(s)":
       case ClientGameInfoHandler.noiseNotification + 4 + " time(s)":
       case ClientGameInfoHandler.noiseNotification + 5 + " time(s)":
+      case ClientGameInfoHandler.noiseNotification:       //new case where times are not noted.
+        //todo: jonas: handle bell behaviour correctly.
         String outMsg = npc.getName() + ": " + noiseRandomizer();
         if(!npc.getKickedOff()) {
           game.getLobby().getAdmin().broadcastNpcChatMessageToLobby(outMsg);

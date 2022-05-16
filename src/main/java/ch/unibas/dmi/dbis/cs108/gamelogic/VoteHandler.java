@@ -95,7 +95,8 @@ public class VoteHandler {
     }
     for (int i = 0; i < passengers.length; i++) {
       if (noiseAmount[i] != 0) { // someone walked by this player
-        passengers[i].send(ClientGameInfoHandler.noiseNotification + noiseAmount[i] + " time(s)", game);
+        //passengers[i].send(ClientGameInfoHandler.noiseNotification + noiseAmount[i] + " time(s)", game);      old version, might be useful
+        passengers[i].send(ClientGameInfoHandler.noiseNotification, game);
       }
     }
 
@@ -171,7 +172,7 @@ public class VoteHandler {
             ClientGameInfoHandler.humansVotedFor + voteIndex + ClientGameInfoHandler.isAHuman, game);
       }
     }
-    Timer.ghostAfterVoteTimer();
+    Timer.humanAfterVoteTimer();
     if (passengers[voteIndex].getIsGhost()) { // if player is a ghost
       if (passengers[voteIndex].getIsOG()) { // if ghost is OG --> end game, humans win
         System.out.println(ClientGameInfoHandler.gameOverHumansWin);

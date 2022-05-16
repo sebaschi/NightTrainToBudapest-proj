@@ -363,3 +363,6 @@ Habe Highscore und Players in Lobbies auf die einfachst mögliche Art mit Textfl
 - Seraina: Animation von in-game-Hintergrund, GUI
 - Jonas: Sound design
 - Alex: Vorbereitung für Programmierung von unit tests mit Mockito
+
+16.5.2022 - Jonas
+Have been working on implementing all sound effects over the last couple of days

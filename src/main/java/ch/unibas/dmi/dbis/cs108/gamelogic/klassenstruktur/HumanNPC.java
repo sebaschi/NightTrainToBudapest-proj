@@ -32,7 +32,7 @@ public class HumanNPC extends Human {
 
   /**
    * Sends a msg to the ServerGameInfoHandler.humanNpcParser to decide what has to happen now, if
-   * the npc hasn't been kicked off 8(should never happen to a human though)
+   * the npc hasn't been kicked off (should never happen to a human though)
    *
    * @param msg  the message that is sent to this player.
    * @param game the game the HumanNPC lives on (in game.gameState.passengerTrain)

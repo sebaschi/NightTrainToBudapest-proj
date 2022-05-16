@@ -1,6 +1,8 @@
 package ch.unibas.dmi.dbis.cs108.gamelogic;
 
 
+import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
+
 /**
  * Handles all communication Client to Server concerning gamestate updates i.e. client a has voted
  * Maybe unnecessary, everything that is needed might already be implemented in ClientHandler.
@@ -16,7 +18,7 @@ public class ClientGameInfoHandler {
   //relevant for game logic:
   public static final String ghostVoteRequest = "Vote on who to ghostify!";
   public static final String humanVoteRequest = "Vote for a ghost to kick off!";
-  public static final String noiseNotification = "Someone passed by you ";
+  public static final String noiseNotification = Protocol.noiseNotificationProtocol;
   public static final String gameOverHumansWin = "Game over, humans win!";
   public static final String gameOverGhostsWin = "Game over, ghosts win!";
 

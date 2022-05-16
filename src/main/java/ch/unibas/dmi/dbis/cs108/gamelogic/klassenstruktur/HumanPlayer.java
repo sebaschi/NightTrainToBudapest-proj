@@ -1,6 +1,7 @@
 package ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
+import ch.unibas.dmi.dbis.cs108.gamelogic.ClientGameInfoHandler;
 import ch.unibas.dmi.dbis.cs108.gamelogic.ClientVoteData;
 import ch.unibas.dmi.dbis.cs108.gamelogic.Game;
 import ch.unibas.dmi.dbis.cs108.gamelogic.ServerGameInfoHandler;
@@ -47,6 +48,8 @@ public class HumanPlayer extends Human {
     String formattedMsg;
     if (msg.equals(GuiParameters.updateGameState)) {
       formattedMsg = Protocol.printToGUI + "$" + GuiParameters.updateGameState + game.getGameState().humanToString();
+    } else if (msg.equals(ClientGameInfoHandler.noiseNotification)) {
+      formattedMsg = Protocol.noiseNotificationProtocol;
     } else {
       formattedMsg = ServerGameInfoHandler.format(msg, this, game);
     }
