@@ -2,10 +2,12 @@ package ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge;
 
 import static javafx.scene.control.PopupControl.USE_COMPUTED_SIZE;
 
+import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.Client;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ChatApp;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ClientModel;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
+import ch.unibas.dmi.dbis.cs108.multiplayer.server.ClientHandler;
 import ch.unibas.dmi.dbis.cs108.multiplayer.server.Lobby;
 import ch.unibas.dmi.dbis.cs108.multiplayer.server.LobbyUpdater;
 import java.net.URL;
@@ -25,8 +27,13 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ListOfLobbiesController implements Initializable {
+  public static final Logger LOGGER = LogManager.getLogger(ListOfLobbiesController.class);
+  public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
+
 
   @FXML
   private ScrollPane backDropScrolePane;
@@ -74,11 +81,13 @@ public class ListOfLobbiesController implements Initializable {
       rootHBox.getChildren().add(adminLabel);
       rootHBox.getChildren().add(button);
       TreeItem<HBox> root = new TreeItem<HBox>(rootHBox);
+      root.setExpanded(true);
       for (String member : members) {
         HBox memberBox = new HBox();
         memberBox.setPrefWidth(195);
         memberBox.setMaxHeight(20);
-        Label memberLabel = new Label(member);
+        memberBox.setPrefHeight(USE_COMPUTED_SIZE);
+        Label memberLabel = new Label("- " + member);
         memberLabel.setTextFill(Color.WHITE);
         memberBox.getChildren().add(memberLabel);
         root.getChildren().add(new TreeItem<HBox>(memberBox));
@@ -86,7 +95,8 @@ public class ListOfLobbiesController implements Initializable {
       TreeView<HBox> treeView = new TreeView<>(root);
       treeView.setVisible(true);
       treeView.setPrefWidth(195);
-      treeView.setMaxHeight(USE_COMPUTED_SIZE);
+      treeView.setPrefHeight(USE_COMPUTED_SIZE);
+      treeView.setMaxHeight(80);
       Platform.runLater(new Runnable() {
         @Override
         public void run() {
@@ -106,6 +116,7 @@ public class ListOfLobbiesController implements Initializable {
     Platform.runLater(new Runnable() {
       @Override
       public void run() {
+        LOGGER.info("in clearVBox()");
         LobbyListVBox.getChildren().clear();
       }
     });
