@@ -41,6 +41,32 @@ public class Sound {
   static URL ghost04URL = Sound.class.getResource("sounds/ghost04.wav");
   static AudioClip ghost04 = new AudioClip(ghost04URL.toString());
 
+  static URL ghost05URL = Sound.class.getResource("sounds/ghost05.wav");
+  static AudioClip ghost05 = new AudioClip(ghost05URL.toString());
+
+  static URL ghost06URL = Sound.class.getResource("sounds/ghost06.wav");
+  static AudioClip ghost06 = new AudioClip(ghost06URL.toString());
+
+  static URL ghost07URL = Sound.class.getResource("sounds/ghost07.wav");
+  static AudioClip ghost07 = new AudioClip(ghost07URL.toString());
+
+  static URL ghost08URL = Sound.class.getResource("sounds/ghost08.wav");
+  static AudioClip ghost08 = new AudioClip(ghost08URL.toString());
+
+  static URL ghost09URL = Sound.class.getResource("sounds/ghost09.wav");
+  static AudioClip ghost09 = new AudioClip(ghost09URL.toString());
+
+  static URL ghost10URL = Sound.class.getResource("sounds/ghost10.wav");
+  static AudioClip ghost10 = new AudioClip(ghost10URL.toString());
+
+  static URL ghost11URL = Sound.class.getResource("sounds/ghost11.wav");
+  static AudioClip ghost11 = new AudioClip(ghost11URL.toString());
+
+  static URL ghost12URL = Sound.class.getResource("sounds/ghost12.wav");
+  static AudioClip ghost12 = new AudioClip(ghost12URL.toString());
+
+
+
   static URL musicdayURL = Sound.class.getResource("sounds/music_day.wav");
   static AudioClip musicday = new AudioClip(musicdayURL.toString());
 
@@ -120,7 +146,7 @@ public class Sound {
   public static void ghost() {
     //double playbackspeed = (Math.random() / 5.0) + 0.9;                 causes aliasing artefacts :/
     double playbackspeed = 1;
-    int ghostsoundnr = random.nextInt(4) + 1;
+    int ghostsoundnr = random.nextInt(12) + 1;
     System.out.println(ghostsoundnr);
     AudioClip ghost;
     switch (ghostsoundnr) {
@@ -133,11 +159,38 @@ public class Sound {
       case 3:
         ghost = ghost03;
         break;
-      default:
+      case 4:
         ghost = ghost04;
         break;
+      case 5:
+        ghost = ghost05;
+        break;
+      case 6:
+        ghost = ghost06;
+        break;
+      case 7:
+        ghost = ghost07;
+        break;
+      case 8:
+        ghost = ghost08;
+        break;
+      case 9:
+        ghost = ghost09;
+        break;
+      case 10:
+        ghost = ghost10;
+        break;
+      case 11:
+        ghost = ghost11;
+        break;
+      case 12:
+        ghost = ghost12;
+        break;
+      default:
+        ghost = ghost01;
+        break;
     }
-    ghost.play(0.06, 0.0, playbackspeed, 0.0, 5);
+    ghost.play(0.08, 0.0, playbackspeed, 0.0, 5);
   }
 
 }
