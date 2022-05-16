@@ -31,6 +31,9 @@ public class LobbyDisplayHandler {
   }
 
   public void updateLobbies(String data) {
+    new Thread(new Runnable() {
+      @Override
+      public void run() {
         try {
           for (LobbyModel model : lobbies) {
             model.setHasBeenVisited(false);
@@ -56,6 +59,8 @@ public class LobbyDisplayHandler {
           e.printStackTrace();
           LOGGER.info("empty list");
         }
+      }
+    }).start();
   }
 
   private void addLobbyFromString(int id, String admin, boolean isOpen, String[] oneLobby) {

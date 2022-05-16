@@ -378,9 +378,6 @@ public class Client {
           chatApp.getGameController().clearAllNoiseDisplay();
           dayNightChangeListener.setNoiseButtonInvisible(true);
           break;
-        case GuiParameters.getMembersInLobby:
-          updateLobbyMembers(data);
-          break;
         case GuiParameters.viewChangeToGame:
           chatApp.getLoungeSceneViewController().addGameView();
           gameStateModel.setGameOver(false);
@@ -417,42 +414,6 @@ public class Client {
     }
 
   }
-
-  private void removeLobbyFromGui(String data) {
-    loungeSceneViewController.removeLobbyFromView(data);
-    LOGGER.debug("Made it into removeLobbyFromGui()");
-  }
-
-  private void makeNewLobby(String data) {
-    String[] params = data.split(":");
-    loungeSceneViewController.newLobby(params[0], params[1]);
-    LOGGER.debug("makeNewLobby() seems to have finished");
-
-  }
-
-  private void addPlayerToLobby(String data) {
-    String[] params = data.split(":");
-    loungeSceneViewController.addPlayerToLobby(params[0], params[1]);
-    LOGGER.debug("addPlayerToLobby() seems to have finished");
-  }
-
-  private void updateLobbyMembers(String data) {
-    String[] dataArr = data.split(":");
-    String lobbyID = dataArr[0];
-    String adminName = dataArr[1];
-  }
-
-  private void updateListOfLobbies(String data) {
-    String[] arr = data.split(":");
-    ObservableList<SimpleStringProperty> list = new SimpleListProperty<>();
-    int n = arr.length;
-    for (int i = 0; i < n; i = i + 2) {
-      list.add(new SimpleStringProperty(arr[i]));
-      //ChatController.getClient().addLobbyToList(new SimpleStringProperty(arr[i]));
-    }
-    //TODO
-  }
-
 
   /**
    * Starts a new thread, thad adds a message to notificationText in the gameController, waits 3
