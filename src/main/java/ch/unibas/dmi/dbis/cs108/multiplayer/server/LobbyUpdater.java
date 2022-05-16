@@ -27,6 +27,9 @@ public class LobbyUpdater implements Runnable{
         if (!Lobby.lobbies.isEmpty()) {
           client.sendMsgToClient(
               Protocol.printToGUI + "$" + GuiParameters.updateLobbyString + "$" + lobbiesAsString);
+        } else{
+          client.sendMsgToClient(
+              Protocol.printToGUI + "$" + GuiParameters.updateLobbyString + "$");
         }
       }
     }

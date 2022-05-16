@@ -416,8 +416,12 @@ public class Client {
           removeLobbyFromGui(data);
           break;
         case GuiParameters.updateLobbyString:
-          lobbyDisplayHandler.updateLobbies(data);
-          ChatApp.getListController().updateList();
+          if(!data.isEmpty()) {
+            lobbyDisplayHandler.updateLobbies(data);
+            ChatApp.getListController().updateList();
+          } else {
+            ChatApp.getListController().clearVBox();
+          }
           break;
         default:
           notificationTextDisplay(data);

@@ -415,6 +415,7 @@ public class ClientHandler implements Runnable {
           Thread t = new Thread(game);
           t.start();
           l.addGameToRunningGames(game);
+          sendMsgToClientsInLobby(Protocol.printToGUI + "$" + GuiParameters.viewChangeToGame + "$");
         } else {
           sendAnnouncementToClient("Only the admin can start the game");
         }
