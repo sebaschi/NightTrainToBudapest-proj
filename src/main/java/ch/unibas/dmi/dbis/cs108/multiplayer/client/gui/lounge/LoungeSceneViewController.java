@@ -64,8 +64,6 @@ public class LoungeSceneViewController implements Initializable {
   @FXML
   private TextFlow highScore;
   @FXML
-  public TextFlow lobbyPrint;
-  @FXML
   private SplitPane chatSplitPane;
   @FXML
   public Button highScoreButton;
@@ -80,8 +78,6 @@ public class LoungeSceneViewController implements Initializable {
   @FXML
   private AnchorPane gameAnchorPane;
   @FXML
-  public ListView<LobbyListItem> LobbyListView;
-  @FXML
   private Button ChangeNameButton;
   @FXML
   private Button LeaveServerButton;
@@ -92,24 +88,15 @@ public class LoungeSceneViewController implements Initializable {
   @FXML
   private ToolBar NTtBToolBar;
 
-  public static ListView<LobbyListItem> lListView;
 
   public static ClientModel client;
   private static ChatApp chatApp;
   private ChatApp cApp;
   private static TrainAnimationDayController trainAnimationDayController;
 
-  ObservableList<ClientListItem> clients = FXCollections.observableArrayList();
-  ObservableList<LobbyListItem> lobbies = FXCollections.observableArrayList();
-
-  private ObservableMap<String, ObservableList<String>> lobbyToMemberssMap;
-  private HashMap<String, String> clientToLobbyMap;
-  private HashMap<String, LobbyListItem> lobbyIDtoLobbyMop;
 
   public LoungeSceneViewController() {
     super();
-    lobbyToMemberssMap = FXCollections.observableHashMap();
-    lobbyIDtoLobbyMop = new HashMap<>();
   }
 
   public void setChatApp(ChatApp chatApp) {
@@ -143,122 +130,20 @@ public class LoungeSceneViewController implements Initializable {
     ChangeNameButton.setOnAction(event -> changeName());
     LeaveServerButton.setOnAction(event -> leaveServer());
     newGameButton.setOnAction(event -> newGame());
-    LobbyListView.setVisible(true);
-    lListView = LobbyListView;
-    LOGGER.debug("Lobby in initialize" + LobbyListView);
     addChatView();
     addBackgroundDay();
     addListOfLobbiesView();
     LOGGER.debug("cApp = " + cApp);
     LOGGER.debug("chatApp = " + chatApp);
     TrainAnimationDayController.setcApp(cApp);
-    ImageView bgAnimationView = new ImageView();
-    bgAnimationView.setFitHeight(1950);
-    bgAnimationView.setFitWidth(6667.968);
-
-
-    LobbyListView.setItems(lobbies);
-    LOGGER.debug("In Initialize 2 LobbyListView" + LobbyListView);
-    LobbyListView.setCellFactory(param -> {
-      ListCell<LobbyListItem> cell = new ListCell<>() {
-        Label lobbyID = new Label();
-        Label adminName = new Label();
-        Label lobbyIsOpen = new Label();
-        Label noOfPlayersInLobby = new Label();
-        Button startOrJoin = new Button();
-        HBox head = new HBox(lobbyID, adminName, noOfPlayersInLobby, lobbyIsOpen, startOrJoin);
-        VBox playerList = new VBox();
-        TitledPane headParent = new TitledPane(head.toString(), playerList);
-
-        {
-          head.setAlignment(Pos.CENTER_LEFT);
-          head.setSpacing(5);
-                playerList.setAlignment(Pos.CENTER_LEFT);
-          headParent.setCollapsible(true);
-        }
-
-        /**
-         * The updateItem method should not be called by developers, but it is the
-         * best method for developers to override to allow for them to customise the
-         * visuals of the cell. To clarify, developers should never call this method
-         * in their code (they should leave it up to the UI control, such as the
-         * {@link ListView} control) to call this method. However, the purpose of
-         * having the updateItem method is so that developers, when specifying
-         * custom cell factories (again, like the ListView {@link
-         * ListView#cellFactoryProperty() cell factory}), the updateItem method can
-         * be overridden to allow for complete customisation of the cell.
-         *
-         * <p>It is <strong>very important</strong> that subclasses
-         * of Cell override the updateItem method properly, as failure to do so will
-         * lead to issues such as blank cells or cells with unexpected content
-         * appearing within them. Here is an example of how to properly override the
-         * updateItem method:
-         *
-         * <pre>
-         * protected void updateItem(T item, boolean empty) {
-         *     super.updateItem(item, empty);
-         *
-         *     if (empty || item == null) {
-         *         setText(null);
-         *         setGraphic(null);
-         *     } else {
-         *         setText(item.toString());
-         *     }
-         * }
-         * </pre>
-         *
-         * <p>Note in this code sample two important points:
-         * <ol>
-         *     <li>We call the super.updateItem(T, boolean) method. If this is not
-         *     done, the item and empty properties are not correctly set, and you are
-         *     likely to end up with graphical issues.</li>
-         *     <li>We test for the <code>empty</code> condition, and if true, we
-         *     set the text and graphic properties to null. If we do not do this,
-         *     it is almost guaranteed that end users will see graphical artifacts
-         *     in cells unexpectedly.</li>
-         * </ol>
-         *  @param item The new item for the cell.
-         *
-         * @param empty whether or not this cell represents data from the list. If
-         *              it is empty, then it does not represent any domain data, but
-         *              is a cell
-         */
-        @Override
-        protected void updateItem(LobbyListItem item, boolean empty) {
-          super.updateItem(item, empty);
-          if (empty) {
-            setText(null);
-            setGraphic((null));
-          } else {
-            LOGGER.debug("In ELSE part of LobbyView Update item()");
-            lobbyID.setText(item.getLobbyID());
-            adminName.setText(item.getAdminName());
-            startOrJoin.setOnAction(event -> {
-              if (item.isOwnedByClient()) {
-                startGame();
-              } else {
-                joinGame(item.lobbyIDProperty().getValue());
-              }
-            });
-            startOrJoin.setText(item.isOwnedByClient() ? "Start" : "Join");
-            lobbyID.setTextFill(Color.BLACK);
-            adminName.setTextFill(Color.BLACK);
-            startOrJoin.setTextFill(Color.BLACK);
-            setGraphic(head);
-          }
-        }
-      };
-      return cell;
-    });
     Platform.runLater(new Runnable() {
       @Override
       public void run() {
-        //TODO(SERAINA): bgAnimation?
+        ImageView bgAnimationView = new ImageView();
+        bgAnimationView.setFitHeight(1950);
+        bgAnimationView.setFitWidth(6667.968);
       }
     });
-    LOGGER.debug("In Initialize 3 LobbyListView" + LobbyListView);
-    LobbyListView.setPlaceholder(new Text("No open lobbies!"));
-    LobbyListView.setVisible(true);
   }
 
   /**
@@ -342,70 +227,6 @@ public class LoungeSceneViewController implements Initializable {
         }
       }
     });
-  }
-
-  /**
-   * Adds players to a lobby "NMEMB" {@link ch.unibas.dmi.dbis.cs108.multiplayer.helpers.GuiParameters}
-   *
-   * @param lobbyID the Id the Player belongs to
-   * @param player  the player to be added
-   */
-  public void addPlayerToLobby(String lobbyID, String player) {
-    LOGGER.debug("Lobby ID: " + lobbyID + " player: " + player);
-    Platform.runLater(new Runnable() {
-      @Override
-      public void run() {
-        Iterator<ClientListItem> itr = clients.iterator();
-        while (itr.hasNext()) {
-          ClientListItem cl = itr.next();
-          if (cl.getName().equals(player)) {
-            LobbyListItem li = lobbyIDtoLobbyMop.get(lobbyID);
-            li.getClientsInLobby().add(cl);
-          }
-        }
-
-      }
-    });
-  }
-
-  /**
-   * Used when a new lobby shall be added to the view. "NLOBBY" {@link
-   * ch.unibas.dmi.dbis.cs108.multiplayer.helpers.GuiParameters}
-   *
-   * @param lobbyID   the ID of the new lobby
-   * @param adminName the name of the Lobby admin
-   */
-  public void newLobby(String lobbyID, String adminName) {
-    LobbyListView = lListView;
-    LOGGER.debug("In newLobby()0  LobbyListView" + lListView);
-    LOGGER.debug("New lobby with ID " + lobbyID + " and admin " + adminName);
-    SimpleStringProperty id = new SimpleStringProperty(lobbyID);
-    SimpleStringProperty admin = new SimpleStringProperty((adminName));
-    LOGGER.debug("In newLobby()1  LobbyListView" + LobbyListView);
-    boolean ownedByClient = false;
-    if (adminName.equals(client.getUsername())) {
-      LOGGER.debug("Client is admin. Name: " + adminName);
-      ownedByClient = true;
-    } else {
-      LOGGER.debug("Different admin case. ADMIN Name: " + adminName);
-    }
-    LobbyListItem item = new LobbyListItem(id, admin, new SimpleBooleanProperty(ownedByClient),
-        new SimpleBooleanProperty(true), new SimpleIntegerProperty(0));
-    lobbyIDtoLobbyMop.put(lobbyID, item);
-    LOGGER.debug("In newLobby()2  LobbyListView" + LobbyListView);
-    Platform.runLater(new Runnable() {
-      @Override
-      public void run() {
-        lobbies.add(item);
-        LobbyListView.getItems().add(item);
-        LOGGER.debug("within newLobby() run() thread");
-        LOGGER.debug(item.toString());
-        LOGGER.debug("In newLobby() run() " + LobbyListView);
-      }
-    });
-    LOGGER.debug("newLobby() in LoungeSceneViewController seems to have reached end.");
-    LOGGER.debug(lobbies.toString());
-    LOGGER.debug("In newLobby()3  LobbyListView" + LobbyListView);
   }
 
   /**
@@ -507,61 +328,5 @@ public class LoungeSceneViewController implements Initializable {
     });
   }
 
-  /**
-   * Adds a String to the lobbyPrint TextFlow
-   *
-   * @param data the String to be added
-   */
-  public void addLobbyPrint(String data) {
-    String[] arguments = data.split("/n");
-    LOGGER.debug(arguments.length);
-    Platform.runLater(new Runnable() {
-      @Override
-      public void run() {
-        for (String argument : arguments) {
-          LOGGER.debug("HighScore " + argument);
-          Text text = new Text(argument + System.lineSeparator());
-          text.setFill(Color.BLACK);
-          lobbyPrint.getChildren().add(text);
-        }
-      }
-    });
-  }
-
-  /**
-   * Clears the lobbyPrint TextFlow
-   */
-  public void clearLobbyPrint() {
-    Platform.runLater(new Runnable() {
-      @Override
-      public void run() {
-        lobbyPrint.getChildren().clear();
-      }
-    });
-  }
-
-  /**
-   * Should remove the lobby from the lobby list view
-   *
-   * @param data to be removed
-   */
-  public void removeLobbyFromView(String data) {
-    Iterator<LobbyListItem> itr = lobbies.iterator();
-    while (itr.hasNext()) {
-      LobbyListItem item = itr.next();
-      if (item.getLobbyID().equals(data)) {
-        Platform.runLater(new Runnable() {
-          @Override
-          public void run() {
-            itr.remove();
-            LOGGER.debug(
-                "Made it into removeLobbyFromView if clause for lobby w/ ID: " + item.getLobbyID()
-                    + " for data passed: " + data);
-          }
-        });
-
-      }
-    }
-  }
 }
 
