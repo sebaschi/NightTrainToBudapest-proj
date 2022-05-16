@@ -2,6 +2,7 @@ package ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game;
 
 import static javafx.scene.AccessibleRole.PARENT;
 
+import ch.unibas.dmi.dbis.cs108.gamelogic.Timer;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.Sound;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ChatApp;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.GameStateModel;
@@ -534,17 +535,7 @@ public class GameController implements Initializable {
         try {
           if(!gameStateModel.getKickedOff()[0]) {
             Animation bell = new BellAnimation(noiseImage5, bells);
-            //wait until it's day:
-            while (!getGameStateModel().getDayClone()) {
-              Thread.sleep(100);
-            }
-            Thread.sleep(500);
-            //just so the alarm isn't rung exactly when the day starts, add random delay
-            Random random = new Random();
-            Thread.sleep(random.nextInt(1000));
-
-            bell.play();
-            ringBellSound();
+            waitForDayThenRingBell(bell);
           }
         } catch (Exception e) {
           e.printStackTrace();
@@ -565,16 +556,7 @@ public class GameController implements Initializable {
         try {
           if(!gameStateModel.getKickedOff()[1]) {
             Animation bell = new BellAnimation(noiseImage4, bells);
-            //wait until it's day:
-            while (!getGameStateModel().getDayClone()) {
-              Thread.sleep(100);
-            }
-            Thread.sleep(500);
-            //just so the alarm isn't rung exactly when the day starts, add random delay
-            Random random = new Random();
-            Thread.sleep(random.nextInt(1000));
-            bell.play();
-            ringBellSound();
+            waitForDayThenRingBell(bell);
           }
         } catch (Exception e) {
           e.printStackTrace();
@@ -594,17 +576,7 @@ public class GameController implements Initializable {
         try {
           if(!gameStateModel.getKickedOff()[2]) {
             Animation bell = new BellAnimation(noiseImage3, bells);
-            //wait until it's day:
-            while (!getGameStateModel().getDayClone()) {
-              Thread.sleep(100);
-            }
-            Thread.sleep(500);
-            //just so the alarm isn't rung exactly when the day starts, add random delay
-            Random random = new Random();
-            Thread.sleep(random.nextInt(1000));
-
-            bell.play();
-            ringBellSound();
+            waitForDayThenRingBell(bell);
           }
         } catch (Exception e) {
           e.printStackTrace();
@@ -624,17 +596,7 @@ public class GameController implements Initializable {
         try {
           if(!gameStateModel.getKickedOff()[3]) {
             Animation bell = new BellAnimation(noiseImage2, bells);
-            //wait until it's day:
-            while (!getGameStateModel().getDayClone()) {
-              Thread.sleep(100);
-            }
-            Thread.sleep(500);
-            //just so the alarm isn't rung exactly when the day starts, add random delay
-            Random random = new Random();
-            Thread.sleep(random.nextInt(1000));
-
-            bell.play();
-            ringBellSound();
+            waitForDayThenRingBell(bell);
           }
         } catch (Exception e) {
           e.printStackTrace();
@@ -654,17 +616,7 @@ public class GameController implements Initializable {
         try {
           if(!gameStateModel.getKickedOff()[4]) {
             Animation bell = new BellAnimation(noiseImage1, bells);
-            //wait until it's day:
-            while (!getGameStateModel().getDayClone()) {
-              Thread.sleep(100);
-            }
-            Thread.sleep(500);
-            //just so the alarm isn't rung exactly when the day starts, add random delay
-            Random random = new Random();
-            Thread.sleep(random.nextInt(1000));
-
-            bell.play();
-            ringBellSound();
+            waitForDayThenRingBell(bell);
           }
         } catch (Exception e) {
           e.printStackTrace();
@@ -684,16 +636,7 @@ public class GameController implements Initializable {
         try {
           if(!gameStateModel.getKickedOff()[5]) {
             Animation bell = new BellAnimation(noiseImage0, bells);
-            //wait until it's day:
-            while (!getGameStateModel().getDayClone()) {
-              Thread.sleep(100);
-            }
-            Thread.sleep(500);
-            //just so the alarm isn't rung exactly when the day starts, add random delay
-            Random random = new Random();
-            Thread.sleep(random.nextInt(1000));
-            bell.play();
-            ringBellSound();
+            waitForDayThenRingBell(bell);
           }
         } catch (Exception e) {
           e.printStackTrace();
@@ -732,6 +675,34 @@ public class GameController implements Initializable {
   public void initialize(URL location, ResourceBundle resources) {
     noiseButton.toFront();
     ChatApp.setGameController(this);
+  }
+
+  public static void waitForDayThenRingBell(Animation bell) {
+    new Thread(new Runnable() {
+      @Override
+      public void run() {
+        try {
+          //wait until it's day:
+          int timeoutCounter = 0;     //otherwise this thread can get stuck in a loop if player leaves server
+          if (!getGameStateModel().getDayClone()) { //used to ring bell immediately if it's already day
+            while (!getGameStateModel().getDayClone()
+                && timeoutCounter < Timer.ghostAfterVoteTime * 15) {
+              Thread.sleep(100);
+              timeoutCounter++;
+            }
+            //just so the alarm isn't rung exactly when the day starts, also add random delay
+            Thread.sleep(1000);
+            Random random = new Random();
+            Thread.sleep(random.nextInt(1000));
+          }
+
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+        bell.play();
+        ringBellSound();
+      }
+    }).start();
   }
 
   /**

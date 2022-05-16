@@ -16,13 +16,13 @@ public class Timer {
   /**
    * The maximum length of the ghost vote in the night, in seconds
    */
-  public static final int ghostVoteTime = 30;
+  public static final int ghostVoteTime = 40;
 
   /**
    * The length of time in seconds after the ghost vote during which the ghosts visually walk to /
    * from their victim and the timespan within which humans will hear a noise. After this, the day starts.
    */
-  public static final int ghostAfterVoteTime = 6;
+  public static final int ghostAfterVoteTime = 8;
   /**
    * The maximum length of the human vote in the day, in seconds
    */
@@ -32,7 +32,7 @@ public class Timer {
    * The length of time in seconds after the human vote, as the 'winner' of the vote is announced,
    * before the night begins
    */
-  public static final int humanAfterVoteTime = 5;
+  public static final int humanAfterVoteTime = 8;
 
   /**
    * The checking interval in seconds
