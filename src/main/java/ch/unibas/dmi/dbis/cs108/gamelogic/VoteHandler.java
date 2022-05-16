@@ -4,6 +4,7 @@ import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Passenger;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.GuiParameters;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
+import ch.unibas.dmi.dbis.cs108.multiplayer.server.ClientHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -170,6 +171,14 @@ public class VoteHandler {
       for (Passenger passenger : passengers) {
         passenger.send(
             ClientGameInfoHandler.humansVotedFor + voteIndex + ClientGameInfoHandler.isAHuman, game);
+      }
+
+      for (ClientHandler c: game.getLobby().getLobbyClients()) {    //send human vote sound to clients
+        c.sendMsgToClient(Protocol.playSound + "$" + "HV");
+      }
+    } else if (!passengers[voteIndex].getIsOG()) {
+      for (ClientHandler c: game.getLobby().getLobbyClients()) {    //send ghost vote sound to clients
+        c.sendMsgToClient(Protocol.playSound + "$" + "GV");
       }
     }
 

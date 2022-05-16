@@ -122,17 +122,27 @@ public class Sound {
   }
 
   public static void gameoverghosts() {
-    stopmusicday();
-    gameoverghosts.play(defaultvolume); }
+    waitForABitThenEndDayMusic();
+    voteforghost.stop();
+    voteforhuman.stop();
+    gameoverghosts.play(defaultvolume - 0.3); }
 
   public static void gameoverhumans() {
-    stopmusicday();
-    gameoverhumans.play(defaultvolume);
+    waitForABitThenEndDayMusic();
+    voteforghost.stop();
+    voteforhuman.stop();
+    gameoverhumans.play(defaultvolume - 0.1);
   }
 
-  public static void voteforghost() { voteforghost.play(defaultvolume); }
+  public static void voteforghost() {
+    waitForABitThenEndDayMusic();
+    voteforghost.play(defaultvolume - 0.4);
+  }
 
-  public static void voteforhuman() { voteforhuman.play(defaultvolume); }
+  public static void voteforhuman() {
+    waitForABitThenEndDayMusic();
+    voteforhuman.play(defaultvolume - 0.2);
+  }
 
   public static void musicday() {
     musicday.play(defaultvolume);
@@ -193,6 +203,23 @@ public class Sound {
     ghost.play(0.08, 0.0, playbackspeed, 0.0, 5);
   }
 
+  /**
+   * waits for a bit, then ends day music. :)
+   */
+  public static void waitForABitThenEndDayMusic() {
+    new Thread(new Runnable() {
+      @Override
+      public void run() {
+        try {
+          Thread.sleep(1820);
+          //the time it takes for the vote result sound to ramp up, so the music ends exactly on the "big reveal"
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
+        stopmusicday();
+      }
+    }).start();
+  }
 }
 
 
