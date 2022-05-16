@@ -373,10 +373,6 @@ public class Client {
             LOGGER.warn("Not a position given for noise " + e.getMessage());
           }
           break;
-        case GuiParameters.listOfLobbies:
-          updateListOfLobbies(data);
-          //TODO
-          break;
         case GuiParameters.VoteIsOver:
           chatApp.getGameController().setNoiseButtonInvisible();
           chatApp.getGameController().clearAllNoiseDisplay();
@@ -396,24 +392,11 @@ public class Client {
           gameStateModel.setGameOver(true);
           //TODO
           break;
-        case GuiParameters.addNewMemberToLobby:
-          addPlayerToLobby(data);
-          break;
-        case GuiParameters.newLobbyCreated:
-          makeNewLobby(data);
-          break;
         case GuiParameters.updateHighScore:
           chatApp.getLoungeSceneViewController().addHighScore(data);
           break;
         case GuiParameters.yourPosition:
           dayNightChangeListener.setPosition(Integer.parseInt(data));
-          break;
-        case GuiParameters.updatePrintLobby:
-          chatApp.getLoungeSceneViewController().clearLobbyPrint();
-          chatApp.getLoungeSceneViewController().addLobbyPrint(data);
-          break;
-        case GuiParameters.removeLobby:
-          removeLobbyFromGui(data);
           break;
         case GuiParameters.updateLobbyString:
           if(!data.isEmpty()) {

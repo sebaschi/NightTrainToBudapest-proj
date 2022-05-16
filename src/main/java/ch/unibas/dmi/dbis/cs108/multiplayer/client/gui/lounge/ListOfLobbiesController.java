@@ -116,7 +116,6 @@ public class ListOfLobbiesController implements Initializable {
     Platform.runLater(new Runnable() {
       @Override
       public void run() {
-        LOGGER.info("in clearVBox()");
         LobbyListVBox.getChildren().clear();
       }
     });
