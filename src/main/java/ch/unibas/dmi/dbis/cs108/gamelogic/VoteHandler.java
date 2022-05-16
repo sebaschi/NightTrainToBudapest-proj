@@ -172,7 +172,7 @@ public class VoteHandler {
             ClientGameInfoHandler.humansVotedFor + voteIndex + ClientGameInfoHandler.isAHuman, game);
       }
     }
-    Timer.humanAfterVoteTimer();
+
     if (passengers[voteIndex].getIsGhost()) { // if player is a ghost
       if (passengers[voteIndex].getIsOG()) { // if ghost is OG --> end game, humans win
         System.out.println(ClientGameInfoHandler.gameOverHumansWin);
@@ -200,6 +200,8 @@ public class VoteHandler {
         }
       }
     }
+    Timer.humanAfterVoteTimer();
+
     LOGGER.info(game.getGameState().toString());
     // set hasVoted to false for all passengers for future voting
     for (Passenger passenger : passengers) {

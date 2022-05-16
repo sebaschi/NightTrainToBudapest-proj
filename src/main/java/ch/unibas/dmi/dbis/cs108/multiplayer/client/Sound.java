@@ -95,7 +95,9 @@ public class Sound {
     nightnoises.stop();
   }
 
-  public static void gameoverghosts() { gameoverghosts.play(defaultvolume); }
+  public static void gameoverghosts() {
+    stopmusicday();
+    gameoverghosts.play(defaultvolume); }
 
   public static void gameoverhumans() {
     stopmusicday();
@@ -116,7 +118,8 @@ public class Sound {
   }
 
   public static void ghost() {
-    double playbackspeed = (Math.random() / 5.0) + 0.9;
+    //double playbackspeed = (Math.random() / 5.0) + 0.9;                 causes aliasing artefacts :/
+    double playbackspeed = 1;
     int ghostsoundnr = random.nextInt(4) + 1;
     System.out.println(ghostsoundnr);
     AudioClip ghost;
@@ -134,7 +137,7 @@ public class Sound {
         ghost = ghost04;
         break;
     }
-    ghost.play(0.1, 0.0, playbackspeed, 0.0, 5);
+    ghost.play(0.06, 0.0, playbackspeed, 0.0, 5);
   }
 
 }
