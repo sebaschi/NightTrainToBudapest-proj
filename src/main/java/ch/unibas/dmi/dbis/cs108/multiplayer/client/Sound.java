@@ -97,7 +97,14 @@ public class Sound {
 
   public static void gameoverghosts() { gameoverghosts.play(defaultvolume); }
 
-  public static void gameoverhumans() { gameoverhumans.play(defaultvolume); }
+  public static void gameoverhumans() {
+    stopmusicday();
+    gameoverhumans.play(defaultvolume);
+  }
+
+  public static void voteforghost() { voteforghost.play(defaultvolume); }
+
+  public static void voteforhuman() { voteforhuman.play(defaultvolume); }
 
   public static void musicday() {
     musicday.play(defaultvolume);
@@ -127,7 +134,7 @@ public class Sound {
         ghost = ghost04;
         break;
     }
-    ghost.play(defaultvolume - 0.3, 0.0, playbackspeed, 0.0, 5);
+    ghost.play(0.1, 0.0, playbackspeed, 0.0, 5);
   }
 
 }

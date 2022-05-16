@@ -5,7 +5,7 @@ import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game.GameController;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge.LoungeSceneViewController;
 
 /**
- * This class adds methods to listen if there is a change in the day&night state and calls methods accordingly
+ * This class adds methods to listen if there is a change in the day and night state and calls methods accordingly
  */
 public class DayNightChangeListener implements Runnable {
 
@@ -63,7 +63,7 @@ public class DayNightChangeListener implements Runnable {
         chatApp.getGameController().updateRoomLabels();
         gameStateModel.setRoleFromPosition(position);
         try {
-          Thread.sleep(100);
+          Thread.sleep(200);
         } catch (InterruptedException e) {
           e.printStackTrace();
         }
