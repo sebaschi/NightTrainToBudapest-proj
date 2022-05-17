@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 public class GhostNPC extends Ghost {
   public static final Logger LOGGER = LogManager.getLogger(GhostNPC.class);
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
+  public static final double probabilityToRingAlarmIfHeardNoise = 0.5;
 
   /**
    * Creates a new GhostNPC. Should be used at game start or if a HumanNPC is turned into a ghost.

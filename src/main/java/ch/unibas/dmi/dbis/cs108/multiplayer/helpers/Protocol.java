@@ -215,7 +215,7 @@ public class Protocol {
   /**
    * Used to tell the client to play a sound, namely the sounds for when humans have voted for a human (PLSND$HV),
    * when humans have voted for a ghost (PLSND$GV), when humans have won (i.e. have voted for the OG - PLSND$HW)
-   * or when ghosts have won (PLSND$GW)
+   * or when ghosts have won (PLSND$GW), or the train horn at the start of the game (PLSND$TH). Not used for ghost sounds.
    */
   public static final String playSound = "PLSND";
 

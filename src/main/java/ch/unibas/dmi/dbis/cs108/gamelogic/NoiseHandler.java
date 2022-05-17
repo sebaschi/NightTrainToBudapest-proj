@@ -24,11 +24,11 @@ public class NoiseHandler {
   public int[] noiseNotifier(Passenger predator, Passenger victim, int[] noiseAmount) {
     if (predator.getPosition() - victim.getPosition()
         > 0) { // if predator is to the right of victim
-      for (int i = predator.getPosition() - 1; i > victim.getPosition(); i--) {
+      for (int i = predator.getPosition() ; i > victim.getPosition(); i--) {        //-1
         noiseAmount[i]++;
       }
     } else { // if predator is to the left of victim
-      for (int i = predator.getPosition() + 1; i < victim.getPosition(); i++) {
+      for (int i = predator.getPosition(); i < victim.getPosition(); i++) {     //+1
         noiseAmount[i]++;
       }
     }

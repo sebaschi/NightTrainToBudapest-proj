@@ -26,7 +26,7 @@ public class Timer {
   /**
    * The maximum length of the human vote in the day, in seconds
    */
-  public static final int humanVoteTime = 60;
+  public static final int humanVoteTime = 63;
 
   /**
    * The length of time in seconds after the human vote, as the 'winner' of the vote is announced,
