@@ -3,6 +3,10 @@
   -fx-background-color: transparent;
 }
 
+.text-flow{
+  -fx-text-alignment: center;
+}
+
 #vBoxChatMessages{
   -fx-background-color: transparent;
 }

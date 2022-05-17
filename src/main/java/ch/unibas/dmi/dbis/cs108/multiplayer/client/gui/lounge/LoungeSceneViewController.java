@@ -35,8 +35,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
@@ -47,6 +49,10 @@ public class LoungeSceneViewController implements Initializable {
 
   public static final Logger LOGGER = LogManager.getLogger(LoungeSceneViewController.class);
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
+  @FXML
+  private AnchorPane highScorePane;
+  @FXML
+  private TilePane listTilePane;
   @FXML
   private AnchorPane gameDisplayAnchorPane;
   @FXML
@@ -309,7 +315,8 @@ public class LoungeSceneViewController implements Initializable {
         for (String argument : arguments) {
           LOGGER.debug("HighScore " + argument);
           Text text = new Text(argument + System.lineSeparator());
-          text.setFill(Color.BLACK);
+          text.setFill(Color.WHITE);
+          text.setFont(new Font("serif",15));
           highScore.getChildren().add(text);
         }
       }

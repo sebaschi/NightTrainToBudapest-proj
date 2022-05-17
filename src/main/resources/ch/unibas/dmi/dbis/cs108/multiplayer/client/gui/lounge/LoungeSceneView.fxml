@@ -22,22 +22,22 @@
             </ToolBar>
          </top>
          <left>
-            <AnchorPane prefHeight="316.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+            <AnchorPane prefWidth="200.0" BorderPane.alignment="CENTER" />
          </left>
          <bottom>
-            <TilePane alignment="CENTER" orientation="VERTICAL" prefColumns="1" prefRows="1" BorderPane.alignment="CENTER">
+            <TilePane alignment="TOP_CENTER" orientation="VERTICAL" prefColumns="1" prefRows="1" BorderPane.alignment="CENTER">
                <children>
-                  <AnchorPane fx:id="ChatArea" pickOnBounds="false" prefHeight="83.0" prefWidth="578.0" />
+                  <AnchorPane fx:id="ChatArea" pickOnBounds="false" prefWidth="578.0" />
                </children>
             </TilePane>
          </bottom>
          <right>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+            <AnchorPane prefWidth="200.0" BorderPane.alignment="CENTER" />
          </right>
          <center>
             <TilePane alignment="CENTER" orientation="VERTICAL" BorderPane.alignment="CENTER">
                <children>
-                  <BorderPane fx:id="allLobbyElementsBorderPane" prefHeight="600.0" prefWidth="500.0" stylesheets="@LobbiesBorderPane.css">
+                  <BorderPane fx:id="allLobbyElementsBorderPane" maxWidth="-Infinity" prefHeight="285.0" prefWidth="500.0" stylesheets="@LobbiesBorderPane.css">
                      <top>
                         <ToolBar fx:id="LobbyControlsToolBar" prefHeight="35.0" prefWidth="500.0" BorderPane.alignment="CENTER">
                           <items>
@@ -45,20 +45,21 @@
                           </items>
                         </ToolBar>
                      </top>
-                     <bottom>
-                        <TextFlow fx:id="highScore" pickOnBounds="false" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                           <children>
-                              <Label pickOnBounds="false" text="High Score:" />
-                           </children>
-                        </TextFlow>
-                     </bottom>
                      <center>
-                        <TilePane fx:id="listTilePane" alignment="TOP_CENTER" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                        <TilePane fx:id="listTilePane" alignment="TOP_CENTER" maxHeight="-Infinity" orientation="VERTICAL" prefHeight="250.0" prefWidth="500.0" BorderPane.alignment="CENTER">
                            <children>
-                              <AnchorPane fx:id="listLobbyAnchorPane" minHeight="450.0" minWidth="450.0" prefWidth="0.0" />
+                              <AnchorPane fx:id="listLobbyAnchorPane" minHeight="300.0" minWidth="450.0" prefWidth="0.0" />
                            </children>
                         </TilePane>
                      </center>
+                     <bottom>
+                        <AnchorPane fx:id="highScorePane" prefWidth="416.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <TextFlow fx:id="highScore" layoutX="88.0" layoutY="6.0" pickOnBounds="false" prefHeight="94.0" prefWidth="245.0" />
+                              <Label layoutX="14.0" layoutY="35.0" pickOnBounds="false" text="High Score:" AnchorPane.leftAnchor="10.0" />
+                           </children>
+                        </AnchorPane>
+                     </bottom>
                   </BorderPane>
                </children>
             </TilePane>

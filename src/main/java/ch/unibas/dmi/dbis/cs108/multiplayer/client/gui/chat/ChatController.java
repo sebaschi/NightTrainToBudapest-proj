@@ -22,12 +22,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -35,6 +38,15 @@ public class ChatController implements Initializable {
 
   public static final Logger LOGGER = LogManager.getLogger(ChatController.class);
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
+  @FXML
+  private AnchorPane whisperAnchor;
+  @FXML
+  private AnchorPane chatinputAnchor;
+
+  @FXML
+  private ScrollPane serverScrollPane;
+  @FXML
+  private VBox vBoxServer;
 
   @FXML
   private Group vboxGroup;
@@ -108,6 +120,20 @@ public class ChatController implements Initializable {
         vBoxChatMessages.setMaxHeight(newValue.doubleValue());
         ChatScrollPane.setMaxHeight(newValue.doubleValue() * 2);
         ChatScrollPane.setVvalue((Double) newValue);
+      }
+    });
+
+    vBoxServer.heightProperty().addListener(new ChangeListener<>() {
+      /**
+       * TODO: implement
+       * Adjust the height when new messages come in.
+       */
+      @Override
+      public void changed(ObservableValue<? extends Number> observable, Number oldValue,
+          Number newValue) {
+        vBoxServer.setMaxHeight(newValue.doubleValue());
+        serverScrollPane.setMaxHeight(newValue.doubleValue() * 2);
+        serverScrollPane.setVvalue((Double) newValue);
       }
     });
     /**
@@ -187,11 +213,12 @@ public class ChatController implements Initializable {
     l.setMaxHeight(Double.MAX_VALUE);
     if (msg.contains("whispers")) {
       l.setBackground(Background.fill(Color.TRANSPARENT));
-      l.setPrefWidth(1135);
+      l.setTextFill(Color.rgb(15,26,150));
+      l.setPrefWidth(680);
       l.setScaleShape(false);
     } else {
       l.setBackground(Background.fill(Color.TRANSPARENT));
-      l.setPrefWidth(1135);
+      l.setPrefWidth(680);
       l.setScaleShape(false);
     }
     l.setTextFill(Color.BLACK);
@@ -201,6 +228,29 @@ public class ChatController implements Initializable {
         vBoxChatMessages.getChildren().add(l);
       }
     });
+  }
+
+
+  public void addChatMsgToServerView(String msg) {
+    TextFlow textFlow = new TextFlow();
+    textFlow.setPrefWidth(420);
+    textFlow.setPrefHeight(Region.USE_COMPUTED_SIZE);
+    Text text = new Text(msg);
+    textFlow.getChildren().add(text);
+    try {
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        try {
+          vBoxServer.getChildren().add(textFlow);
+        } catch (Exception e) {
+          LOGGER.warn(e.getMessage());
+        }
+      }
+    });
+    } catch(Exception e) {
+      LOGGER.warn(e.getMessage());
+    }
   }
 
 }

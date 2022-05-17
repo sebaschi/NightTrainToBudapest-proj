@@ -28,7 +28,7 @@ public class ChatLabelConfigurator {
       l.setAlignment(Pos.CENTER_RIGHT);
       l.setWrapText(true);
       l.setMaxHeight(Double.MAX_VALUE);
-      l.setPrefWidth(1135);
+      l.setPrefWidth(680);
       l.setScaleShape(false);
     } else {
       //t = new Text(client.getUsername() + " (you): " + msg);
@@ -37,7 +37,7 @@ public class ChatLabelConfigurator {
       l.setAlignment(Pos.CENTER_RIGHT);
       l.setWrapText(true);
       l.setMaxHeight(Double.MAX_VALUE);
-      l.setPrefWidth(1135);
+      l.setPrefWidth(680);
       l.setScaleShape(false);
     }
     return l;

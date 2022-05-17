@@ -89,10 +89,10 @@ public class ListOfLobbiesController implements Initializable {
       HBox rootHBox = new HBox();
       rootHBox.setPrefWidth(195);
       rootHBox.setMaxHeight(20);
-      Label adminLabel = new Label(lobbyId + " " + admin);
+      Label adminLabel = new Label("  Lobby " + lobbyId + ": " + admin);
       adminLabel.setTextFill(Color.WHITE);
-      rootHBox.getChildren().add(adminLabel);
       rootHBox.getChildren().add(button);
+      rootHBox.getChildren().add(adminLabel);
       TreeItem<HBox> root = new TreeItem<HBox>(rootHBox);
       root.setExpanded(true);
       for (String member : members) {

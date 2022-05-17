@@ -430,7 +430,10 @@ public class Client {
   public void notificationTextDisplay(String data) {
     new Thread(() -> {
       try {
-        chatApp.getGameController().addMessageToNotificationText(data);
+        if (data.contains("Game over")) {
+          chatApp.getGameController().addMessageToNotificationText(data);
+        }
+        chatApp.getChatController().addChatMsgToServerView(data);
         Thread.sleep(5000);
         chatApp.getGameController().clearNotificationText();
       } catch (InterruptedException e) {

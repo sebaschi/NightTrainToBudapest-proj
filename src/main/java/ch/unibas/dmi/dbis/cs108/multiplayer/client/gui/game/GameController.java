@@ -381,8 +381,8 @@ public class GameController implements Initializable {
   public void addMessageToNotificationText(String msg) {
     LOGGER.trace("addMessage " + msg);
     Text notification = new Text(System.lineSeparator() + msg);
-    notification.setFill(Color.BLACK);
-    notification.setStyle("-fx-font: 50 arial;");
+    notification.setFill(Color.WHITE);
+    notification.setStyle("-fx-font: 50 serif;");
     try {
       Platform.runLater(new Runnable() {
         @Override

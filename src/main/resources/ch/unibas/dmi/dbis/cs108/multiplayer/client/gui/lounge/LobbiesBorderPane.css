@@ -15,7 +15,7 @@
   -fx-background-color: rgb(15,26,59,0.8);
 }
 
-#highScore{
+#highScorePane{
   -fx-background-color: rgb(15,26,59,0.8);
   -fx-text-fill: white;
   -fx-font-family: serif;
