@@ -42,7 +42,6 @@ public class JClientProtocolParser {
         System.out.println(msg.substring(6));
         if (!msg.substring(6).equals("Your vote was invalid")) {
           c.notificationTextDisplay(msg.substring(6));
-
         }
         break;
       case Protocol.printToClientChat:

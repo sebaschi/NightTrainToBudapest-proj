@@ -23,8 +23,8 @@ public class ClientGameInfoHandler {
   public static final String gameOverGhostsWin = "Game over, ghosts win!";
 
   //relevant for gui
-  public static final String itsNightTime = "Please wait, ghosts are active";
-  public static final String itsDayTime = "Please wait, humans are active";
+  public static final String itsNightTime = "Listen closely, ghosts are active...";
+  public static final String itsDayTime = "The humans are looking for you!";
 
   //just messages
 

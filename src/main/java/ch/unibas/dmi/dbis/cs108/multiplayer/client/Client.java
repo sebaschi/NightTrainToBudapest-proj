@@ -432,8 +432,9 @@ public class Client {
       try {
         if (data.contains("Game over")) {
           chatApp.getGameController().addMessageToNotificationText(data);
+        } else if (!data.contains("$") && !data.contains("nickname")) {
+          chatApp.getChatController().addChatMsgToServerView(data);
         }
-        chatApp.getChatController().addChatMsgToServerView(data);
         Thread.sleep(5000);
         chatApp.getGameController().clearNotificationText();
       } catch (InterruptedException e) {
