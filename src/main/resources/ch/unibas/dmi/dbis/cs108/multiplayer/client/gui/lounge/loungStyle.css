@@ -1,20 +1,7 @@
-
-#highScore{
-  -fx-background-color: midnightblue;
+*{
+  -fx-font-family: serif;
 }
 
-#LobbyListView{
-  -fx-background-color: transparent;
-}
-
-#lobbyPrint{
-  -fx-background-color: midnightblue;
-}
-
-#buttonPane{
-  -fx-background-color: midnightblue;
-  -fx-alignment: center;
-}
 
 .anchorPane{
   -fx-alignment: center;

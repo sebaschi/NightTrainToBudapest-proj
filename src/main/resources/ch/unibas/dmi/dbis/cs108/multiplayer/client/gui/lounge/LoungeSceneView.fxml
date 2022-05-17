@@ -37,9 +37,9 @@
          <center>
             <TilePane alignment="CENTER" orientation="VERTICAL" BorderPane.alignment="CENTER">
                <children>
-                  <BorderPane fx:id="allLobbyElementsBorderPane" prefHeight="600.0" prefWidth="500.0">
+                  <BorderPane fx:id="allLobbyElementsBorderPane" prefHeight="600.0" prefWidth="500.0" stylesheets="@LobbiesBorderPane.css">
                      <top>
-                        <ToolBar fx:id="LobbyControlsToolBar" prefHeight="37.0" prefWidth="500.0" BorderPane.alignment="CENTER">
+                        <ToolBar fx:id="LobbyControlsToolBar" prefHeight="35.0" prefWidth="500.0" BorderPane.alignment="CENTER">
                           <items>
                               <Button fx:id="newGameButton" mnemonicParsing="false" pickOnBounds="false" text="New Lobby" />
                           </items>
@@ -53,7 +53,11 @@
                         </TextFlow>
                      </bottom>
                      <center>
-                        <AnchorPane fx:id="listLobbyAnchorPane" prefWidth="0.0" BorderPane.alignment="CENTER" />
+                        <TilePane fx:id="listTilePane" alignment="TOP_CENTER" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <AnchorPane fx:id="listLobbyAnchorPane" minHeight="450.0" minWidth="450.0" prefWidth="0.0" />
+                           </children>
+                        </TilePane>
                      </center>
                   </BorderPane>
                </children>

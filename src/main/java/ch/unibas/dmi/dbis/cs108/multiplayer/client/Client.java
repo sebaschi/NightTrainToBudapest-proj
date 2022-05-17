@@ -10,6 +10,7 @@ import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ChatApp;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.Sprites;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat.ChatController;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game.GameController;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge.ListOfLobbiesController;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge.LobbyDisplayHandler;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge.LoungeApp;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge.LoungeSceneViewController;
@@ -382,12 +383,13 @@ public class Client {
           chatApp.getLoungeSceneViewController().addGameView();
           gameStateModel.setGameOver(false);
           dayNightChangeListener = new DayNightChangeListener(gameStateModel, chatApp, Integer.MAX_VALUE);
+          ListOfLobbiesController.setGameOngoing(true);
           new Thread(dayNightChangeListener).start();
           break;
         case GuiParameters.viewChangeToLobby:
           chatApp.getLoungeSceneViewController().removeGameView();
           gameStateModel.setGameOver(true);
-          //TODO
+          ListOfLobbiesController.setGameOngoing(false);
           break;
         case GuiParameters.updateHighScore:
           chatApp.getLoungeSceneViewController().addHighScore(data);
@@ -398,9 +400,13 @@ public class Client {
         case GuiParameters.updateLobbyString:
           if(!data.isEmpty()) {
             lobbyDisplayHandler.updateLobbies(data);
-            ChatApp.getListController().updateList();
+            if(!ListOfLobbiesController.isGameOngoing()) {
+              ChatApp.getListController().updateList();
+            }
           } else {
-            ChatApp.getListController().clearVBox();
+            if(!ListOfLobbiesController.isGameOngoing()) {
+              ChatApp.getListController().clearVBox();
+            }
           }
           break;
         default:

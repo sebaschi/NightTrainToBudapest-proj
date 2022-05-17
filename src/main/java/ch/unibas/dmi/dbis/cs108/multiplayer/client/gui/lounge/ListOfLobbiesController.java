@@ -44,11 +44,19 @@ public class ListOfLobbiesController implements Initializable {
 
   private ChatApp chatApp; //TODO: VeryImportant to set this one right!
   private HashSet<TreeView> treeViews = new HashSet<TreeView>();
+  private static boolean gameOngoing = false;
 
   public void setChatApp(ChatApp chatApp) {
     this.chatApp = chatApp;
   }
 
+  public static void setGameOngoing(boolean gameOngoing) {
+    ListOfLobbiesController.gameOngoing = gameOngoing;
+  }
+
+  public static boolean isGameOngoing() {
+    return gameOngoing;
+  }
 
   public void updateList() {
     new Thread(new Runnable() {
