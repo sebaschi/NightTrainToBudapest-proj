@@ -11,9 +11,18 @@ public class LobbyDisplayHandler {
 
 
   private static HashSet<LobbyModel> lobbies = new HashSet<>();
+  private static boolean threadRunning = false;
 
   public static HashSet<LobbyModel> getLobbies() {
     return lobbies;
+  }
+
+  public static void setThreadRunning(boolean threadRunning) {
+    LobbyDisplayHandler.threadRunning = threadRunning;
+  }
+
+  public static boolean isThreadRunning() {
+    return threadRunning;
   }
 
   /**
@@ -34,6 +43,14 @@ public class LobbyDisplayHandler {
     new Thread(new Runnable() {
       @Override
       public void run() {
+        while(isThreadRunning()) {
+          try {
+            Thread.sleep(20);
+          } catch (InterruptedException e) {
+            e.printStackTrace();
+          }
+        }
+        setThreadRunning(true);
         try {
           for (LobbyModel model : lobbies) {
             model.setHasBeenVisited(false);
@@ -58,8 +75,11 @@ public class LobbyDisplayHandler {
         } catch (Exception e) {
           e.printStackTrace();
           LOGGER.info("empty list");
+        } finally {
+          setThreadRunning(false);
         }
       }
+
     }).start();
   }
 
