@@ -64,7 +64,7 @@ public class ListOfLobbiesController implements Initializable {
       public void run() {
         clearVBox();
         for (LobbyModel lobby : LobbyDisplayHandler.getLobbies()) {
-          newTreeView(lobby.getId(), lobby.getAdmin(), chatApp.getcModel().getUsername(), lobby.getMembers());
+          newTreeView(lobby.getId(), lobby.getAdmin(), lobby.isLobbyIsOpen(), chatApp.getcModel().getUsername(), lobby.getMembers());
         }
       }
     }).start();
@@ -75,41 +75,56 @@ public class ListOfLobbiesController implements Initializable {
    * @param lobbyId the id of the lobby
    * @param admin the admin of the lobby
    * @param userName the username of the client
+   * @param isOpen the status if lobby is open or closed
    */
-  public void newTreeView(int lobbyId, String admin, String userName, HashSet<String> members) {
+  public void newTreeView(int lobbyId, String admin, boolean isOpen, String userName, HashSet<String> members) {
     try {
       Button button = new Button();
       if (admin.equals(userName)) { // the client of this user is the admin of this lobby
         button.setOnAction(event -> startGame());
         button.setText("Start");
-      } else {
+      } else if (isOpen){
         button.setOnAction(event -> joinALobby(lobbyId));
         button.setText("Join");
+      } else {
+        button.setVisible(false);
       }
       HBox rootHBox = new HBox();
-      rootHBox.setPrefWidth(195);
-      rootHBox.setMaxHeight(20);
-      Label adminLabel = new Label("  Lobby " + lobbyId + ": " + admin);
+      rootHBox.setPrefWidth(300);
+      rootHBox.setMaxHeight(37);
+      String statusLobby;
+      if (isOpen) {
+        statusLobby = " (open)";
+      } else {
+        statusLobby = " (closed)";
+      }
+      Label adminLabel = new Label("  Lobby " + lobbyId + ": " + admin + statusLobby);
       adminLabel.setTextFill(Color.WHITE);
-      rootHBox.getChildren().add(button);
+      try {
+        rootHBox.getChildren().add(button);
+      }  catch (Exception e) {
+        LOGGER.warn(e.getMessage());
+      }
       rootHBox.getChildren().add(adminLabel);
       TreeItem<HBox> root = new TreeItem<HBox>(rootHBox);
       root.setExpanded(true);
+      int i = 1;
       for (String member : members) {
         HBox memberBox = new HBox();
-        memberBox.setPrefWidth(195);
-        memberBox.setMaxHeight(20);
+        memberBox.setPrefWidth(300);
+        memberBox.setMaxHeight(37);
         memberBox.setPrefHeight(USE_COMPUTED_SIZE);
         Label memberLabel = new Label("- " + member);
         memberLabel.setTextFill(Color.WHITE);
         memberBox.getChildren().add(memberLabel);
         root.getChildren().add(new TreeItem<HBox>(memberBox));
+        i++;
       }
       TreeView<HBox> treeView = new TreeView<>(root);
       treeView.setVisible(true);
-      treeView.setPrefWidth(195);
-      treeView.setPrefHeight(USE_COMPUTED_SIZE);
-      treeView.setMaxHeight(80);
+      treeView.setPrefWidth(300);
+      treeView.setPrefHeight(i*37 + 10);
+      treeView.setMaxHeight(i*37 + 10);
       Platform.runLater(new Runnable() {
         @Override
         public void run() {
@@ -119,7 +134,7 @@ public class ListOfLobbiesController implements Initializable {
         }
       });
     } catch (Exception e) {
-      e.printStackTrace();
+      LOGGER.warn(e.getMessage());
     }
   }
 
