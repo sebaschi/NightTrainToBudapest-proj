@@ -52,6 +52,7 @@ public class GameState {
     for (int i = 0; i < nrOfPlayers; i++) {
       if (i == train.getPositionOfGhost()) {
         LOGGER.info("OG position: " + train.getOrderOfTrain()[i]);
+        System.out.println("Og-Ghost Position: " + train.getOrderOfTrain()[i]);
         Ghost g = new Ghost();
         g.setPosition(train.getOrderOfTrain()[i]);
         g.setGhost();

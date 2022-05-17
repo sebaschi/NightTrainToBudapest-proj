@@ -49,7 +49,7 @@ public class LobbyDisplayHandler {
             if (searchForLobbyId(id) == null) { //the lobby is new and has not been saved yet
               addLobbyFromString(id, admin, isOpen, oneLobby);
             } else { // the lobby exists but might need to be updated
-              updateExistingLobby(id, isOpen, oneLobby);
+              updateExistingLobby(id, admin, isOpen, oneLobby);
             }
           }
           //System.out.println("lobby size before removal: " + lobbies.size());
@@ -77,9 +77,12 @@ public class LobbyDisplayHandler {
     //System.out.println("lobby size: " + lobbies.size());
   }
 
-  private void updateExistingLobby(int id, boolean isOpen, String[] oneLobby) {
+  private void updateExistingLobby(int id, String admin,boolean isOpen, String[] oneLobby) {
     //System.out.println("update");
     LobbyModel oldLobby = searchForLobbyId(id);
+    if (!oldLobby.getAdmin().equals(admin)) {
+      oldLobby.setAdmin(admin);
+    }
     oldLobby.setHasBeenVisited(true);
     oldLobby.setLobbyIsOpen(isOpen);
     oldLobby.removeAllMembers();

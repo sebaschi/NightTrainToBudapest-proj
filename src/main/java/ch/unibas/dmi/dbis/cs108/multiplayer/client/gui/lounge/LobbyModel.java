@@ -8,7 +8,7 @@ import java.util.HashSet;
  */
 public class LobbyModel {
   private final int id;
-  private final String admin;
+  private String admin;
   private HashSet<String> members = new HashSet<String>(5);
   private boolean lobbyIsOpen = true;
   private boolean hasBeenVisited = false;
@@ -40,6 +40,10 @@ public class LobbyModel {
 
   public String getAdmin() {
     return admin;
+  }
+
+  public void setAdmin(String admin) {
+    this.admin = admin;
   }
 
   public void setHasBeenVisited(boolean hasBeenVisited) {

@@ -9,7 +9,7 @@
 
 .button:pressed{
   -fx-background-color: transparent;
-  -fx-border-color: transparent;
+  -fx-boarder-color: lightgrey;
 }
 
 #noiseButton{
@@ -25,6 +25,7 @@
 #roomButtonGroup{
   -fx-background-color: transparent;
 }
+
 
 
 .textField{

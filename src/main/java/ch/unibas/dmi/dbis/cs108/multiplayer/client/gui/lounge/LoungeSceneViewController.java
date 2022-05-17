@@ -47,50 +47,38 @@ public class LoungeSceneViewController implements Initializable {
 
   public static final Logger LOGGER = LogManager.getLogger(LoungeSceneViewController.class);
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
-
-  @FXML
-  private AnchorPane listLobbyAnchorPane;
-  @FXML
-  private AnchorPane buttonPane;
-  @FXML
-  private AnchorPane buttonLobbyPane;
-  @FXML
-  private AnchorPane backGroundAnimationPane;
-
-  @FXML
-  private AnchorPane backGroundAnchorPane;
   @FXML
   private AnchorPane gameDisplayAnchorPane;
   @FXML
+  private AnchorPane listLobbyAnchorPane;
+  @FXML
   private TextFlow highScore;
-  @FXML
-  private SplitPane chatSplitPane;
-  @FXML
-  public Button highScoreButton;
-  @FXML
-  private Button leaveLobbyButton;
-  @FXML
-  private Button lobbyPrintButton;
-  @FXML
-  private Button startGame;
   @FXML
   private Button newGameButton;
   @FXML
-  private AnchorPane gameAnchorPane;
+  private ToolBar LobbyControlsToolBar;
+  @FXML
+  private BorderPane allLobbyElementsBorderPane;
+  @FXML
+  private AnchorPane ChatArea;
   @FXML
   private Button ChangeNameButton;
   @FXML
+  private Button leaveLobbyButton;
+  @FXML
   private Button LeaveServerButton;
   @FXML
-  private AnchorPane ChatArea;
+  private AnchorPane backGroundAnchorPane;
+  @FXML
+  private AnchorPane backGroundAnimationPane;
   @FXML
   private BorderPane LoungeSceneBorderPane;
   @FXML
   private ToolBar NTtBToolBar;
 
-
   public static ClientModel client;
   private static ChatApp chatApp;
+
   private ChatApp cApp;
   private static TrainAnimationDayController trainAnimationDayController;
 
@@ -172,7 +160,7 @@ public class LoungeSceneViewController implements Initializable {
       public void run() {
         try {
           LOGGER.debug(" in GameView()" + chatApp);
-          buttonLobbyPane.setVisible(false);
+          allLobbyElementsBorderPane.setVisible(false);
           gameDisplayAnchorPane.getChildren().add(chatApp.game);
         } catch (Exception e) {
           LOGGER.debug("Not yet initialized");
@@ -190,7 +178,7 @@ public class LoungeSceneViewController implements Initializable {
       public void run() {
         try {
           trainAnimationDayController.showFullWagon();
-          buttonLobbyPane.setVisible(true);
+          allLobbyElementsBorderPane.setVisible(true);
           gameDisplayAnchorPane.getChildren().clear();
         } catch (Exception e) {
           LOGGER.debug("Not yet initialized");
