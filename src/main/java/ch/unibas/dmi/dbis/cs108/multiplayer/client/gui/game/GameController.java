@@ -25,6 +25,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -429,71 +430,30 @@ public class GameController implements Initializable {
     String[] roles = gameStateModel.getPassengerTrainClone()[1];
     boolean[] kickedOff = gameStateModel.getKickedOff();
     Text name0 = new Text(names[0]);
-    name0.setStyle("-fx-font: 25 arial;");
-    name0.setFill(Color.WHITE);
+    name0.setStyle("-fx-font: 15 serif;");
+    name0.setFill(Color.rgb(255,250,250,0.6));
+    name0.setEffect(new DropShadow(2.5, Color.BLACK));
     Text name1 = new Text(names[1]);
-    name1.setStyle("-fx-font: 25 arial;");
-    name1.setFill(Color.WHITE);
+    name1.setStyle("-fx-font: 15 serif;");
+    name1.setFill(Color.rgb(255,250,250,0.6));
+    name1.setEffect(new DropShadow(2.5, Color.BLACK));
     Text name2 = new Text(names[2]);
-    name2.setStyle("-fx-font: 25 arial;");
-    name2.setFill(Color.WHITE);
+    name2.setStyle("-fx-font: 15 serif;");
+    name2.setFill(Color.rgb(255,250,250,0.6));
+    name2.setEffect(new DropShadow(2.5, Color.BLACK));
     Text name3 = new Text(names[3]);
-    name3.setStyle("-fx-font: 25 arial;");
-    name3.setFill(Color.WHITE);
+    name3.setStyle("-fx-font: 15 serif;");
+    name3.setFill(Color.rgb(255,250,250,0.6));
+    name3.setEffect(new DropShadow(2.5, Color.BLACK));
     Text name4 = new Text(names[4]);
-    name4.setStyle("-fx-font: 25 arial;");
-    name4.setFill(Color.WHITE);
+    name4.setStyle("-fx-font: 15 serif;");
+    name4.setFill(Color.rgb(255,250,250,0.6));
+    name4.setEffect(new DropShadow(2.5, Color.BLACK));
     Text name5 = new Text(names[5]);
-    name5.setStyle("-fx-font: 25 arial;");
-    name5.setFill(Color.WHITE);
-    Text role0;
-    if (kickedOff[0]) {
-      role0 = new Text("\nkicked off");
-    } else {
-      role0 = new Text("\n" + roles[0]);
-    }
-    role0.setStyle("-fx-font: 25 arial;");
-    role0.setFill(Color.WHITE);
-    Text role1;
-    if (kickedOff[1]) {
-      role1 = new Text("\nkicked off");
-    } else {
-      role1 = new Text("\n" + roles[1]);
-    }
-    role1.setStyle("-fx-font: 25 arial;");
-    role1.setFill(Color.WHITE);
-    Text role2;
-    if (kickedOff[2]) {
-      role2 = new Text("\nkicked off");
-    } else {
-      role2 = new Text("\n" + roles[2]);
-    }
-    role2.setStyle("-fx-font: 25 arial;");
-    role2.setFill(Color.WHITE);
-    Text role3;
-    if (kickedOff[3]) {
-      role3 = new Text("\nkicked off");
-    } else {
-      role3 = new Text("\n" + roles[3]);
-    }
-    role3.setStyle("-fx-font: 25 arial;");
-    role3.setFill(Color.WHITE);
-    Text role4;
-    if (kickedOff[4]) {
-      role4 = new Text("\nkicked off");
-    } else {
-      role4 = new Text("\n" + roles[4]);
-    }
-    role4.setStyle("-fx-font: 25 arial;");
-    role4.setFill(Color.WHITE);
-    Text role5;
-    if (kickedOff[5]) {
-      role5 = new Text("\nkicked off");
-    } else {
-      role5 = new Text("\n" + roles[5]);
-    }
-    role5.setStyle("-fx-font: 25 arial;");
-    role5.setFill(Color.WHITE);
+    name5.setStyle("-fx-font: 15 serif;");
+    name5.setFill(Color.rgb(255,250,250,0.6));
+    name5.setEffect(new DropShadow(2.5, Color.BLACK));
+
 
     Platform.runLater(new Runnable() {
       @Override
@@ -501,22 +461,16 @@ public class GameController implements Initializable {
         try {
           lableRoom0.getChildren().clear();
           lableRoom0.getChildren().add(name0);
-          lableRoom0.getChildren().add(role0);
           lableRoom1.getChildren().clear();
           lableRoom1.getChildren().add(name1);
-          lableRoom1.getChildren().add(role1);
           lableRoom2.getChildren().clear();
           lableRoom2.getChildren().add(name2);
-          lableRoom2.getChildren().add(role2);
           lableRoom3.getChildren().clear();
           lableRoom3.getChildren().add(name3);
-          lableRoom3.getChildren().add(role3);
           lableRoom4.getChildren().clear();
           lableRoom4.getChildren().add(name4);
-          lableRoom4.getChildren().add(role4);
           lableRoom5.getChildren().clear();
           lableRoom5.getChildren().add(name5);
-          lableRoom5.getChildren().add(role5);
         } catch (Exception e) {
           LOGGER.trace("Not yet initialized");
         }

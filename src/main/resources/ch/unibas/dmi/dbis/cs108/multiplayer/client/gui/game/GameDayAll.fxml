@@ -49,7 +49,7 @@
       <ImageView fx:id="noiseImage5" fitHeight="843.75" fitWidth="1500.0" layoutX="-585.0" layoutY="-125.1" preserveRatio="true" />
       <Group fx:id="roomButtonGroupDay" layoutX="288.0" layoutY="220.0">
          <children>
-            <HBox fx:id="roomLables" alignment="CENTER" layoutY="82.0" prefHeight="62.0" prefWidth="747.0" rotate="12.2">
+            <HBox fx:id="roomLables" alignment="CENTER" layoutX="-11.0" layoutY="170.0" prefHeight="35.0" prefWidth="717.0" rotate="12.2">
                <children>
                   <TextFlow fx:id="lableRoom0" prefHeight="200.0" prefWidth="200.0" textAlignment="CENTER" />
                   <TextFlow fx:id="lableRoom1" prefHeight="200.0" prefWidth="200.0" textAlignment="CENTER" />
