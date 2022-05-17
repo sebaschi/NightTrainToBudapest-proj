@@ -13,12 +13,19 @@
 }
 
 #noiseButton{
-  -fx-background-color: midnightblue;
+  -fx-background-color: rgb(15,26,59);
+  -fx-background-image: url(bell.jpg);
+  -fx-background-size: 100%;
   -fx-text-fill: lightgrey;
 }
 
+#noiseButton:hover{
+  -fx-effect: innershadow(gaussian, lightsteelblue, 10, 0.5 , 2, 2);
+}
+
 #noiseButton:pressed{
-  -fx-background-color: midnightblue;
+  -fx-background-image: url(bellPressed.jpg);
+  -fx-background-size: 100%;
   -fx-text-fill: lightgrey;
 }
 

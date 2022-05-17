@@ -7,6 +7,13 @@
   -fx-text-alignment: center;
 }
 
+.separator *.line {
+  -fx-border-style: solid;
+  -fx-border-color: rgb(90,69,51);
+  -fx-background-color: rgb(90,69,51);
+  -fx-effect: none;
+}
+
 #vBoxChatMessages{
   -fx-background-color: transparent;
 }

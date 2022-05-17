@@ -22,7 +22,6 @@
             <Image url="@images/chatwindow.png" />
          </image>
       </ImageView>
-      <Separator layoutX="810.0" layoutY="95.0" orientation="VERTICAL" prefHeight="220.0" prefWidth="12.0" />
       <AnchorPane layoutX="115.0" layoutY="95.0" prefHeight="220.0" prefWidth="700.0">
          <children>
             <GridPane alignment="CENTER" maxWidth="-Infinity" pickOnBounds="false" prefWidth="700.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -115,5 +114,6 @@
             <VBox fx:id="vBoxServer" maxWidth="430.0" minWidth="-Infinity" prefHeight="154.0" prefWidth="430.0" spacing="2.0" />
          </content>
       </ScrollPane>
+      <Separator layoutX="810.0" layoutY="95.0" orientation="VERTICAL" prefHeight="220.0" prefWidth="7.0" />
    </children>
 </AnchorPane>
