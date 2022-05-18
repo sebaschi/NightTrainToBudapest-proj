@@ -1,7 +1,3 @@
-NOTE: Dies ist die .txt-Version des Diary, die .docx-Version ist im Ordner "documentation", allerdings unter dem namen "Protokoll" (Name hier geändert um Verwechslung mit client-server-Protokoll zu vermeiden).
-
-
-
 
 02.03.2022 – alle Gruppenmitglieder
 
@@ -359,13 +355,25 @@ wiedermal ein Problem das mit static gelöst werden konnte. Die ClientListe und 
 01.05.2022 - Seraina
 Habe Highscore und Players in Lobbies auf die einfachst mögliche Art mit Textflow implementiret, falls die ListViews bis morgen nicht funktionieren sollten.
 
+12.05.2022 - Seraina
+Habe begonnen das Gui umzubauen. Die Buttons des Games sind nun durchsichig und heben die Images der Räume dahinter an.
+Habe erste Animations erfolge gehabt: Die räder des Zuges bewegen sich.
+
 13.05.2022 - Seraina, Jonas, Alex
 - Seraina: Animation von in-game-Hintergrund, GUI
 - Jonas: Sound design
 - Alex: Vorbereitung für Programmierung von unit tests mit Mockito
 
+14.05-16.05.2022 - Seraina
+Habe das Gui umgebaut und versucht alles so effizient wie möglich zu implementieren. Es werden nun alle Sprites bei Laden der Application geladen, das dauert zwar ein
+Weilchen, dafür ist das Spiel selbst danach weniger holperig.
+Habe ein neues Konstrukt für die Lobby Liste erstellt, benutze nun TreeViews
+
 16.5.2022 - Jonas
 Have been working on implementing all sound effects over the last couple of days
+
+17.& 18.5.2022 - Seraina
+Ausbessern kleiner bugs der GUI und Erstellung des QA-Reports
 
 17. & 18.5.2022 - Jonas
 Working on outreach stuff and presentation.
