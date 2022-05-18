@@ -1,0 +1,199 @@
+GENERAL INFORMATION: _______________________________________________________________________________________________
+
+Protocol messages should always start with five characters (these are the Strings listed here).
+If additional information is necessary, it should be given after a dollar sign, as such: PRTCL$information.
+It should be noted that the server simply ignores the 6th character, however for clarity's sake it should always
+be a $. If more than one piece of information needs to be sent, the separate pieces of information should also be
+delimited with a dollar sign (see whisper for an example). In that case, it is very important that it is a $ and
+nothing else. Also, in such cases, we need to make sure the pieces of information between the $ do not contain $
+themselves (for example, usernames cannot contain $).
+
+____________________________________________________________________________________________________________________
+
+The five-character Strings that define protocol messages are all defined as String variables in the Protocol.java
+class. In this document, they are depicted as such:
+
+nameOfStringVariable = "EXMPL"
+EXMPL$information one$information two
+    Documentation of Protocol message
+
+So "EXMPL" is the actual protocol message being sent, however the code never implements this five-character String
+directly but instead accesses it via Protocol.nameOfStringVariable, so the actual protocol message can be changed
+later.
+
+The second line, if present, shows an example of how the Syntax of the protocol message works, if the protocol
+message is sent with additional arguments.
+
+Indented is the actual documentation, which explains what the protocol message does.
+
+
+BIDIRECTIONAL COMMANDS: ____________________________________________________________________________________________
+
+pingBack = "PINGB"
+    Ping-back message from client to server / server to client. To be sent upon receiving "CPING" / "SPING".
+    The other party then registers this in its ClientPinger / ServerPinger thread.
+
+
+CLIENT TO SERVER COMMANDS: _________________________________________________________________________________________
+
+chatMsgToAll = "CHATA"
+CHATA$Chat message
+    When the server receives this, it broadcasts a chat message to all clients. The message has to be given in the
+    protocol message after CHATA$, for example the protocol message CHATA$Hello everybody!, if sent from the user
+    named Poirot, will print Poirot: Hello everybody! to every connected client's chat console (note the absence
+    / presence of spaces).
+
+
+chatMsgToLobby = "CHATL"
+CHATL$Chat message
+    When the server receives this, it broadcasts a chat message to all clients in the same Lobby. The message has to be
+    given in the protocol message after CHATL$, for example the protocol message CHATL$Hello everybody!, if sent from
+    the user named Poirot, will print Poirot: Hello everybody! to the chat console of every client in the lobby (note
+    the absence / presence of spaces). If the client is not in a lobby, the chat message will be sent to everyone not
+    in a lobby.
+
+
+clientLogin = "LOGIN"
+LOGIN$username
+    The message sent by the client on login to set their name. For example, LOGIN$Poirot will use the
+    clientHandler.setUsernameOnLogin() method to set this client's username to Poirot, and broadcast the announcement:
+    "Poirot has joined the Server". Also, it will set this clientHandler's loggedIn boolean to true, which could be
+    used later to refuse access to users who haven't formally logged in using this command.
+
+
+nameChange = "NAMEC"
+NAMEC$new name
+    Client requests their name to be changed to whatever follows NAMEC$. For example, NAMEC$Poirot means the client
+    wants to change their name to Poirot. However, the server will first pass this name through
+    nameDuplicateChecker.checkName() to adjust it as needed (remove : and $ and add suffix in case of duplicate name.)
+
+
+pingFromClient = "CPING"
+    Client sends ping message to server. If the client doesn't recieve a pingback from the server, it shows a
+    disconnection message and sets clientPinger.isConnected to false.
+    As soon as a pingback message is received, isConnected is set to true again and a reconnection message is printed.
+
+
+clientQuitRequest = "QUITR"
+    The client requests to quit. Once the server receives this message, it will send a serverConfirmQuit message to the
+    client to confirm the quitting, then close the socket associated with that client and remove the clientHandler from
+    the list of clientHandlers.
+
+
+createNewLobby = "CRTLB"
+    Client sends this message when they want to create a new lobby (& automatically join it). Client issues this
+    command in ch.unibas.dmi.dbis.cs108.multiplayer.client.MessageFormatter using "/g". First a lobby Lobby is created
+    of which the requesting client is the admin of.
+
+
+listLobbies = "LISTL"
+    Represents a clients' request for a list of lobbies, plus what players are in them.
+
+
+listPlayersInLobby = "LISTP"
+    Represents a clients' request for a list of all players within the lobby.
+
+
+joinLobby = "JOINL"
+JOINL$int
+    Client requests to join the Lobby with the given number, for example,
+    JOINL$2 means the client wants to join lobby 2.
+
+leaveLobby = "LEAVL"
+    Client requests to leave whatever lobby they're in.
+
+
+whisper = "WHISP"
+WHISP$recipient's username$message
+    Whisper chat.
+
+
+startANewGame = "STGAM"
+    A Client (lobby admin) decides to start the game. The game is started in the lobby the message came from.
+    Only one game can be started per lobby at a time.
+
+
+listGames = "LISTG"
+    Client request to see a list of all games, ongoing and finished.
+
+
+votedFor = "CVOTE"
+CVOTE$position$vote
+    Client informs server that they have voted and delivers this vote in the form of "CVOTE$position$vote",
+    where position represents the voting client's position on the train as an integer (0 to 5) and
+    vote represents the client's vote as an integer (0 to 5). For example, "CVOTE$2$3" means
+    the player at position 2 is voting for the player at position 3.
+
+highScoreList = "HSCOR"
+    Client requests to be shown the high score list.
+
+
+sendMessageToAllClients = "STACL"
+STACL$message
+    The client requests that a message in STACL$msg is sent to all clients. Unlike e.g. chat commands,
+    this sends only the message without adding a specific Server message.
+
+
+
+SERVER TO CLIENT COMMANDS: _________________________________________________________________________________________
+
+pingFromServer = "SPING"
+    Server sends ping message to client. If the server doesn't recieve a pingback from the client, it shows a
+    disconnection message and sets serverPinger.isConnected to false.
+    As soon as a pingback message is received, isConnected is set to true again and a reconnection message is printed.
+
+
+printToClientConsole = "CONSM"
+CONSM$message
+    prints out incoming announcements into the user's announcement console. any string that follows CONSM$ is printed as is, so the
+    message that follows already has to be formatted the way it should be shown to the client.
+
+
+printToClientChat = "CHATM"
+CHATM$message
+    prints out incoming chat messages into the user's chat. any string that follows CHATM$ is printed as is, so the
+    message that follows already has to be formatted the way it should be shown to the client.
+
+
+serverConfirmQuit = "QUITC"
+    Server confirms the client's quit request, meaning that the client can now close its sockets and quit.
+
+
+serverRequestsGhostVote = "GVOTR"
+GVOTR$passenger position (int)$train information
+    The server requests the client (who should be a ghost) to vote on the victim.
+
+
+
+serverRequestsHumanVote = "HVOTR"
+HVOTR$passenger position (int)$train information
+    The server requests the client (who should be a human) to vote on who is a ghost / who should be kicked
+    off the train.
+
+
+changedUserName = "CHNAM"
+CHNAM$newname
+    Informs Client that their username has been changed.
+
+
+printToGUI = "PTGUI"
+PTGUI$parameters$msg
+    Sends all information that the gui of the client needs. The "parameter" tells the gui to do
+    different things depending on GuiParameters.java while the message "msg", contains a certain
+    information, e.g. who is where in the train, that depends on the parameter. See GuiParameters.java
+    for more detail.
+
+noiseNotificationProtocol = "NOISE"
+    Sent to a client to notify them that they heard a ghost noise, triggering the ghost SFX.
+
+
+playSound = "PLSND"
+PLSND$sound
+    Used to tell the client to play a sound, namely the sounds for when humans have voted for a human (PLSND$HV),
+    when humans have voted for a ghost (PLSND$GV), when humans have won (i.e. have voted for the OG - PLSND$HW)
+    or when ghosts have won (PLSND$GW), or the train horn at the start of the game (PLSND$TH). Not used for ghost sounds.
+
+positionOfClient = "POSOF"
+POSOF$position
+    Sends an information to client at which position in the train from the game (0 to 5) they sit,
+    as soon as the game starts.

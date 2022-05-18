@@ -13,7 +13,7 @@ import ch.unibas.dmi.dbis.cs108.multiplayer.server.Lobby;
 public class Protocol {
 
   //GENERAL PROTOCOL RULES:
-  /**
+  /*
    * Protocol messages should always start with five characters (these are the
    * Strings listed here). If additional information is necessary, it should be
    * given after a dollar sign, as such: {@code PRTCL$information}.
@@ -72,8 +72,8 @@ public class Protocol {
 
   /**
    * Client sends ping message to server. If the client doesn't recieve a pingback from the
-   * server, it shows a disconnection message and sets clientPinger.isConnected to false,
-   * which can be implemented somehow later. As soon as a pingback message is received,
+   * server, it shows a disconnection message and sets clientPinger.isConnected to false.
+   * As soon as a pingback message is received,
    * isConnected is set to true again and a reconnection message is printed.
    */
   public static final String pingFromClient = "CPING";
@@ -134,7 +134,10 @@ public class Protocol {
   public static final String listGames = "LISTG";
 
   /**
-   * Client informs server that they have voted and delivers this vote in the form of "CVOTE$position$vote"
+   * Client informs server that they have voted and delivers this vote in the form of {@code CVOTE$position$vote},
+   * where position represents the voting client's position on the train as an integer (0 to 5) and
+   * vote represents the client's vote as an integer (0 to 5). For example, {@code CVOTE$2$3} means
+   * the player at position 2 is voting for the player at position 3.
     */
   public static final String votedFor = "CVOTE";
 
@@ -144,8 +147,8 @@ public class Protocol {
   public static final String highScoreList = "HSCOR";
 
   /**
-   * The client requests that a message in {@code STACL$msg} is sent to all clients but only the message
-   * without a specific Server message to be added.
+   * The client requests that a message in {@code STACL$msg} is sent to all clients. Unlike e.g.
+   * chat commands, this sends only the message without adding a specific Server message.
    */
   public static final String sendMessageToAllClients = "STACL";
 
@@ -156,14 +159,14 @@ public class Protocol {
 
   /**
    * Server sends ping message to client. If the server doesn't recieve a pingback from the
-   * client, it shows a disconnection message and sets serverPinger.isConnected to false,
-   * which can be implemented somehow later. As soon as a pingback message is received,
+   * client, it shows a disconnection message and sets serverPinger.isConnected to false.
+   * As soon as a pingback message is received,
    * isConnected is set to true again and a reconnection message is printed.
    */
   public static final String pingFromServer = "SPING";
 
   /**
-   * prints out incoming announcements into the user's console. any string that
+   * prints out incoming announcements into the user's announcement console. any string that
    * follows CONSM$ is printed as is, so the message that follows already has to be formatted the
    * way it should be shown to the client.
    */
@@ -184,7 +187,8 @@ public class Protocol {
   public static final String serverConfirmQuit = "QUITC";
 
   /**
-   * The server requests the client (who should be a ghost) to vote on the victim. in the format GVOTR$string
+   * The server requests the client (who should be a ghost) to vote on the victim. in the format
+   * {@code GVOTR$passenger position (int)$train information}
    * the current train will be shown as a string to the client
    */
   public static final String serverRequestsGhostVote = "GVOTR";
@@ -201,9 +205,11 @@ public class Protocol {
   public static final String changedUserName = "CHNAM";
 
   /**
-   * Handles all information that the gui of the client needs. The Form is {@code PTGUI$parameters$msg}
-   * where the parameter tells the gui to do different things according to {@link GuiParameters} and the message
-   * contains a certain information i.e. who is where in the train
+   * Sends all information that the gui of the client needs. The Form is {@code PTGUI$parameters$msg}.
+   * The "parameter" tells the gui to do
+   * different things depending on {@link GuiParameters} while the message "msg", contains a certain
+   * information, e.g. who is where in the train, that depends on the parameter. See GuiParameters.java
+   * for more detail.
    */
   public static final String printToGUI = "PTGUI";
 
