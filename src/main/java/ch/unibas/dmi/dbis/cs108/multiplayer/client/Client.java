@@ -10,6 +10,7 @@ import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ChatApp;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.Sprites;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat.ChatController;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game.GameController;
+import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge.ListOfLobbiesController;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge.LobbyDisplayHandler;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge.LoungeApp;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge.LoungeSceneViewController;
@@ -373,34 +374,22 @@ public class Client {
             LOGGER.warn("Not a position given for noise " + e.getMessage());
           }
           break;
-        case GuiParameters.listOfLobbies:
-          updateListOfLobbies(data);
-          //TODO
-          break;
         case GuiParameters.VoteIsOver:
           chatApp.getGameController().setNoiseButtonInvisible();
           chatApp.getGameController().clearAllNoiseDisplay();
           dayNightChangeListener.setNoiseButtonInvisible(true);
           break;
-        case GuiParameters.getMembersInLobby:
-          updateLobbyMembers(data);
-          break;
         case GuiParameters.viewChangeToGame:
           chatApp.getLoungeSceneViewController().addGameView();
           gameStateModel.setGameOver(false);
           dayNightChangeListener = new DayNightChangeListener(gameStateModel, chatApp, Integer.MAX_VALUE);
+          ListOfLobbiesController.setGameOngoing(true);
           new Thread(dayNightChangeListener).start();
           break;
         case GuiParameters.viewChangeToLobby:
           chatApp.getLoungeSceneViewController().removeGameView();
           gameStateModel.setGameOver(true);
-          //TODO
-          break;
-        case GuiParameters.addNewMemberToLobby:
-          addPlayerToLobby(data);
-          break;
-        case GuiParameters.newLobbyCreated:
-          makeNewLobby(data);
+          ListOfLobbiesController.setGameOngoing(false);
           break;
         case GuiParameters.updateHighScore:
           chatApp.getLoungeSceneViewController().addHighScore(data);
@@ -408,16 +397,17 @@ public class Client {
         case GuiParameters.yourPosition:
           dayNightChangeListener.setPosition(Integer.parseInt(data));
           break;
-        case GuiParameters.updatePrintLobby:
-          chatApp.getLoungeSceneViewController().clearLobbyPrint();
-          chatApp.getLoungeSceneViewController().addLobbyPrint(data);
-          break;
-        case GuiParameters.removeLobby:
-          removeLobbyFromGui(data);
-          break;
         case GuiParameters.updateLobbyString:
-          lobbyDisplayHandler.updateLobbies(data);
-          ChatApp.getListController().updateList();
+          if(!data.isEmpty()) {
+            lobbyDisplayHandler.updateLobbies(data);
+            if(!ListOfLobbiesController.isGameOngoing()) {
+              ChatApp.getListController().updateList();
+            }
+          } else {
+            if(!ListOfLobbiesController.isGameOngoing()) {
+              ChatApp.getListController().clearVBox();
+            }
+          }
           break;
         default:
           notificationTextDisplay(data);
@@ -431,42 +421,6 @@ public class Client {
 
   }
 
-  private void removeLobbyFromGui(String data) {
-    loungeSceneViewController.removeLobbyFromView(data);
-    LOGGER.debug("Made it into removeLobbyFromGui()");
-  }
-
-  private void makeNewLobby(String data) {
-    String[] params = data.split(":");
-    loungeSceneViewController.newLobby(params[0], params[1]);
-    LOGGER.debug("makeNewLobby() seems to have finished");
-
-  }
-
-  private void addPlayerToLobby(String data) {
-    String[] params = data.split(":");
-    loungeSceneViewController.addPlayerToLobby(params[0], params[1]);
-    LOGGER.debug("addPlayerToLobby() seems to have finished");
-  }
-
-  private void updateLobbyMembers(String data) {
-    String[] dataArr = data.split(":");
-    String lobbyID = dataArr[0];
-    String adminName = dataArr[1];
-  }
-
-  private void updateListOfLobbies(String data) {
-    String[] arr = data.split(":");
-    ObservableList<SimpleStringProperty> list = new SimpleListProperty<>();
-    int n = arr.length;
-    for (int i = 0; i < n; i = i + 2) {
-      list.add(new SimpleStringProperty(arr[i]));
-      //ChatController.getClient().addLobbyToList(new SimpleStringProperty(arr[i]));
-    }
-    //TODO
-  }
-
-
   /**
    * Starts a new thread, thad adds a message to notificationText in the gameController, waits 3
    * seconds and deletes it again.
@@ -476,7 +430,11 @@ public class Client {
   public void notificationTextDisplay(String data) {
     new Thread(() -> {
       try {
-        chatApp.getGameController().addMessageToNotificationText(data);
+        if (data.contains("Game over")) {
+          chatApp.getGameController().addMessageToNotificationText(data);
+        } else if (!data.contains("$") && !data.contains("nickname")) {
+          chatApp.getChatController().addChatMsgToServerView(data);
+        }
         Thread.sleep(5000);
         chatApp.getGameController().clearNotificationText();
       } catch (InterruptedException e) {

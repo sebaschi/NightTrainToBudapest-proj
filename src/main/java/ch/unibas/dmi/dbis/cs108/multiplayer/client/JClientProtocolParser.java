@@ -91,6 +91,27 @@ public class JClientProtocolParser {
       case Protocol.noiseNotificationProtocol:
         Sound.ghost();
         break;
+      case Protocol.playSound:
+        switch (msg.substring(6)) {
+          case "GW":
+            Sound.gameoverghosts();
+            break;
+          case "HW":
+            Sound.gameoverhumans();
+            break;
+          case "GV":
+            Sound.voteforghost();
+            break;
+          case "HV":
+            Sound.voteforhuman();
+            break;
+          case "TH":
+            Sound.trainhorn();
+            break;
+          default:
+            LOGGER.warn("Invalid sound request");
+        }
+        break;
       default:
         System.out.println("Received unknown command: " + msg);
     }

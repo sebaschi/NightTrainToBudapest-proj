@@ -10,6 +10,7 @@ public class HumanNPC extends Human {
 
   public static final Logger LOGGER = LogManager.getLogger(HumanNPC.class);
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
+  public static final double probabilityToRingAlarmIfHeardNoise = 0.9;
 
   /**
    * Creates a new HumanNPC.

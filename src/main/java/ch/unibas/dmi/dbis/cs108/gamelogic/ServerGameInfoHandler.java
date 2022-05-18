@@ -121,14 +121,13 @@ public class ServerGameInfoHandler {
       case ClientGameInfoHandler.noiseNotification + 4 + " time(s)":
       case ClientGameInfoHandler.noiseNotification + 5 + " time(s)":
       case ClientGameInfoHandler.noiseNotification:
-        //todo: jonas: handle bell behaviour correctly.
-        String outMsg = npc.getName() + ": " + noiseRandomizer();
-        //TODO: add likelyhood
+
         if(!npc.getKickedOff()) {
-          game.getLobby().getAdmin().broadcastNpcChatMessageToLobby(outMsg);
-          game.getLobby().getAdmin().sendMsgToClientsInLobby(
-              Protocol.printToGUI + "$" + GuiParameters.noiseHeardAtPosition
-                  + "$" + npc.getPosition());
+          if (Math.random() < GhostNPC.probabilityToRingAlarmIfHeardNoise) {
+            game.getLobby().getAdmin().sendMsgToClientsInLobby(
+                    Protocol.printToGUI + "$" + GuiParameters.noiseHeardAtPosition
+                            + "$" + npc.getPosition());
+          }
         }
         break;
       case ClientGameInfoHandler.ghostVoteRequest:
@@ -151,13 +150,13 @@ public class ServerGameInfoHandler {
       case ClientGameInfoHandler.noiseNotification + 4 + " time(s)":
       case ClientGameInfoHandler.noiseNotification + 5 + " time(s)":
       case ClientGameInfoHandler.noiseNotification:       //new case where times are not noted.
-        //todo: jonas: handle bell behaviour correctly.
-        String outMsg = npc.getName() + ": " + noiseRandomizer();
         if(!npc.getKickedOff()) {
-          game.getLobby().getAdmin().broadcastNpcChatMessageToLobby(outMsg);
-          game.getLobby().getAdmin().sendMsgToClientsInLobby(
-              Protocol.printToGUI + "$" + GuiParameters.noiseHeardAtPosition
-                  + "$" + npc.getPosition());
+          if (Math.random() < HumanNPC.probabilityToRingAlarmIfHeardNoise) {
+            game.getLobby().getAdmin().sendMsgToClientsInLobby(
+                    Protocol.printToGUI + "$" + GuiParameters.noiseHeardAtPosition
+                            + "$" + npc.getPosition());
+          }
+
         }
         break;
       case ClientGameInfoHandler.humanVoteRequest:

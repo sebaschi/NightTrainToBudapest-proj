@@ -1,0 +1,41 @@
+*{
+  -fx-background-color: transparent;
+  -fx-text-fill: white;
+  -fx-font-family: serif;
+}
+
+
+.border-pane{
+  -fx-background-color: rgb(15,26,59,0.8);
+  -fx-border-color: rgb(204,186,138);
+  -fx-border-width: 10;
+}
+
+.tool-bar{
+  -fx-background-color: rgb(15,26,59,0.8);
+}
+
+#highScorePane{
+  -fx-background-color: rgb(15,26,59,0.8);
+  -fx-text-fill: white;
+  -fx-font-family: serif;
+}
+
+#listTilePane{
+  -fx-background-color: rgb(15,26,59,0.8)
+}
+
+.button{
+  -fx-background-color: rgb(204,186,138);
+  -fx-effect: innershadow(gaussian, rgb(142,121,89), 10, 0.5 , 2, 2);
+  -fx-text-fill: black;
+}
+
+.button:pressed{
+  -fx-background-color: rgb(90,69,51);
+  -fx-text-fill: rgb(197,177,131);
+}
+
+.button:hover{
+  -fx-effect: innershadow(gaussian, rgb(90,69,51), 10, 0.5 , 2, 2);
+}

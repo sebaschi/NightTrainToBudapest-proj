@@ -122,6 +122,10 @@ public class Game implements Runnable {
 
     LOGGER.info(gameState.toGhostString());
     for (ClientHandler client : lobbyClients) {//begins filling the train with clients
+
+      //send train horn sound to client:
+      client.sendMsgToClient(Protocol.playSound + "$" + "TH");
+
       int index = order[i];
       if (passengerTrain[index].getIsGhost()) { //if there is a ghost
         GhostPlayer ghostPlayer = new GhostPlayer(passengerTrain[index].getPosition(),
@@ -172,6 +176,14 @@ public class Game implements Runnable {
         if (gameOverCheck.equals(ClientGameInfoHandler.gameOverGhostsWin) && getOgGhost().getIsPlayer()) {
           OgGhostHighScore.addOgGhostWinner(getOgGhost().getName());
         }
+
+        //send command to play game over sound:
+        if (gameOverCheck.equals(ClientGameInfoHandler.gameOverGhostsWin)) {
+          lobby.getAdmin().sendMsgToClientsInLobby(Protocol.playSound + "$" + "GW");
+        } else {
+          lobby.getAdmin().sendMsgToClientsInLobby(Protocol.playSound + "$" + "HW");
+        }
+
         lobby.getAdmin().broadcastAnnouncementToLobby(gameOverCheck);
         isOngoing = false;
         Timer.ghostAfterVoteTimer();

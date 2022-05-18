@@ -2,6 +2,7 @@ package ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game;
 
 import static javafx.scene.AccessibleRole.PARENT;
 
+import ch.unibas.dmi.dbis.cs108.gamelogic.Timer;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.Sound;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.ChatApp;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.GameStateModel;
@@ -24,6 +25,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -39,7 +41,7 @@ public class GameController implements Initializable {
   public static final Logger LOGGER = LogManager.getLogger(GameController.class);
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
   static boolean justRangBell = false; //used to track if the bell has been rung recently
-  static final int minimumBellTime = 1000; //minimal time that has to pass between bells, in ms
+  static final int minimumBellTime = 100; //minimal time that has to pass between bells, in ms
   static boolean playingDayNoises = true; //true if playing day noises, false if playing night noises
 
   private static ClientModel client;
@@ -380,8 +382,8 @@ public class GameController implements Initializable {
   public void addMessageToNotificationText(String msg) {
     LOGGER.trace("addMessage " + msg);
     Text notification = new Text(System.lineSeparator() + msg);
-    notification.setFill(Color.BLACK);
-    notification.setStyle("-fx-font: 50 arial;");
+    notification.setFill(Color.WHITE);
+    notification.setStyle("-fx-font: 50 serif;");
     try {
       Platform.runLater(new Runnable() {
         @Override
@@ -428,71 +430,30 @@ public class GameController implements Initializable {
     String[] roles = gameStateModel.getPassengerTrainClone()[1];
     boolean[] kickedOff = gameStateModel.getKickedOff();
     Text name0 = new Text(names[0]);
-    name0.setStyle("-fx-font: 25 arial;");
-    name0.setFill(Color.WHITE);
+    name0.setStyle("-fx-font: 15 serif;");
+    name0.setFill(Color.rgb(255,250,250,0.6));
+    name0.setEffect(new DropShadow(2.5, Color.BLACK));
     Text name1 = new Text(names[1]);
-    name1.setStyle("-fx-font: 25 arial;");
-    name1.setFill(Color.WHITE);
+    name1.setStyle("-fx-font: 15 serif;");
+    name1.setFill(Color.rgb(255,250,250,0.6));
+    name1.setEffect(new DropShadow(2.5, Color.BLACK));
     Text name2 = new Text(names[2]);
-    name2.setStyle("-fx-font: 25 arial;");
-    name2.setFill(Color.WHITE);
+    name2.setStyle("-fx-font: 15 serif;");
+    name2.setFill(Color.rgb(255,250,250,0.6));
+    name2.setEffect(new DropShadow(2.5, Color.BLACK));
     Text name3 = new Text(names[3]);
-    name3.setStyle("-fx-font: 25 arial;");
-    name3.setFill(Color.WHITE);
+    name3.setStyle("-fx-font: 15 serif;");
+    name3.setFill(Color.rgb(255,250,250,0.6));
+    name3.setEffect(new DropShadow(2.5, Color.BLACK));
     Text name4 = new Text(names[4]);
-    name4.setStyle("-fx-font: 25 arial;");
-    name4.setFill(Color.WHITE);
+    name4.setStyle("-fx-font: 15 serif;");
+    name4.setFill(Color.rgb(255,250,250,0.6));
+    name4.setEffect(new DropShadow(2.5, Color.BLACK));
     Text name5 = new Text(names[5]);
-    name5.setStyle("-fx-font: 25 arial;");
-    name5.setFill(Color.WHITE);
-    Text role0;
-    if (kickedOff[0]) {
-      role0 = new Text("\nkicked off");
-    } else {
-      role0 = new Text("\n" + roles[0]);
-    }
-    role0.setStyle("-fx-font: 25 arial;");
-    role0.setFill(Color.WHITE);
-    Text role1;
-    if (kickedOff[1]) {
-      role1 = new Text("\nkicked off");
-    } else {
-      role1 = new Text("\n" + roles[1]);
-    }
-    role1.setStyle("-fx-font: 25 arial;");
-    role1.setFill(Color.WHITE);
-    Text role2;
-    if (kickedOff[2]) {
-      role2 = new Text("\nkicked off");
-    } else {
-      role2 = new Text("\n" + roles[2]);
-    }
-    role2.setStyle("-fx-font: 25 arial;");
-    role2.setFill(Color.WHITE);
-    Text role3;
-    if (kickedOff[3]) {
-      role3 = new Text("\nkicked off");
-    } else {
-      role3 = new Text("\n" + roles[3]);
-    }
-    role3.setStyle("-fx-font: 25 arial;");
-    role3.setFill(Color.WHITE);
-    Text role4;
-    if (kickedOff[4]) {
-      role4 = new Text("\nkicked off");
-    } else {
-      role4 = new Text("\n" + roles[4]);
-    }
-    role4.setStyle("-fx-font: 25 arial;");
-    role4.setFill(Color.WHITE);
-    Text role5;
-    if (kickedOff[5]) {
-      role5 = new Text("\nkicked off");
-    } else {
-      role5 = new Text("\n" + roles[5]);
-    }
-    role5.setStyle("-fx-font: 25 arial;");
-    role5.setFill(Color.WHITE);
+    name5.setStyle("-fx-font: 15 serif;");
+    name5.setFill(Color.rgb(255,250,250,0.6));
+    name5.setEffect(new DropShadow(2.5, Color.BLACK));
+
 
     Platform.runLater(new Runnable() {
       @Override
@@ -500,22 +461,16 @@ public class GameController implements Initializable {
         try {
           lableRoom0.getChildren().clear();
           lableRoom0.getChildren().add(name0);
-          lableRoom0.getChildren().add(role0);
           lableRoom1.getChildren().clear();
           lableRoom1.getChildren().add(name1);
-          lableRoom1.getChildren().add(role1);
           lableRoom2.getChildren().clear();
           lableRoom2.getChildren().add(name2);
-          lableRoom2.getChildren().add(role2);
           lableRoom3.getChildren().clear();
           lableRoom3.getChildren().add(name3);
-          lableRoom3.getChildren().add(role3);
           lableRoom4.getChildren().clear();
           lableRoom4.getChildren().add(name4);
-          lableRoom4.getChildren().add(role4);
           lableRoom5.getChildren().clear();
           lableRoom5.getChildren().add(name5);
-          lableRoom5.getChildren().add(role5);
         } catch (Exception e) {
           LOGGER.trace("Not yet initialized");
         }
@@ -534,17 +489,7 @@ public class GameController implements Initializable {
         try {
           if(!gameStateModel.getKickedOff()[0]) {
             Animation bell = new BellAnimation(noiseImage5, bells);
-            //wait until it's day:
-            while (!getGameStateModel().getDayClone()) {
-              Thread.sleep(100);
-            }
-            Thread.sleep(500);
-            //just so the alarm isn't rung exactly when the day starts, add random delay
-            Random random = new Random();
-            Thread.sleep(random.nextInt(1000));
-
-            bell.play();
-            ringBellSound();
+            waitForDayThenRingBell(bell);
           }
         } catch (Exception e) {
           e.printStackTrace();
@@ -565,16 +510,7 @@ public class GameController implements Initializable {
         try {
           if(!gameStateModel.getKickedOff()[1]) {
             Animation bell = new BellAnimation(noiseImage4, bells);
-            //wait until it's day:
-            while (!getGameStateModel().getDayClone()) {
-              Thread.sleep(100);
-            }
-            Thread.sleep(500);
-            //just so the alarm isn't rung exactly when the day starts, add random delay
-            Random random = new Random();
-            Thread.sleep(random.nextInt(1000));
-            bell.play();
-            ringBellSound();
+            waitForDayThenRingBell(bell);
           }
         } catch (Exception e) {
           e.printStackTrace();
@@ -594,17 +530,7 @@ public class GameController implements Initializable {
         try {
           if(!gameStateModel.getKickedOff()[2]) {
             Animation bell = new BellAnimation(noiseImage3, bells);
-            //wait until it's day:
-            while (!getGameStateModel().getDayClone()) {
-              Thread.sleep(100);
-            }
-            Thread.sleep(500);
-            //just so the alarm isn't rung exactly when the day starts, add random delay
-            Random random = new Random();
-            Thread.sleep(random.nextInt(1000));
-
-            bell.play();
-            ringBellSound();
+            waitForDayThenRingBell(bell);
           }
         } catch (Exception e) {
           e.printStackTrace();
@@ -624,17 +550,7 @@ public class GameController implements Initializable {
         try {
           if(!gameStateModel.getKickedOff()[3]) {
             Animation bell = new BellAnimation(noiseImage2, bells);
-            //wait until it's day:
-            while (!getGameStateModel().getDayClone()) {
-              Thread.sleep(100);
-            }
-            Thread.sleep(500);
-            //just so the alarm isn't rung exactly when the day starts, add random delay
-            Random random = new Random();
-            Thread.sleep(random.nextInt(1000));
-
-            bell.play();
-            ringBellSound();
+            waitForDayThenRingBell(bell);
           }
         } catch (Exception e) {
           e.printStackTrace();
@@ -654,17 +570,7 @@ public class GameController implements Initializable {
         try {
           if(!gameStateModel.getKickedOff()[4]) {
             Animation bell = new BellAnimation(noiseImage1, bells);
-            //wait until it's day:
-            while (!getGameStateModel().getDayClone()) {
-              Thread.sleep(100);
-            }
-            Thread.sleep(500);
-            //just so the alarm isn't rung exactly when the day starts, add random delay
-            Random random = new Random();
-            Thread.sleep(random.nextInt(1000));
-
-            bell.play();
-            ringBellSound();
+            waitForDayThenRingBell(bell);
           }
         } catch (Exception e) {
           e.printStackTrace();
@@ -684,16 +590,7 @@ public class GameController implements Initializable {
         try {
           if(!gameStateModel.getKickedOff()[5]) {
             Animation bell = new BellAnimation(noiseImage0, bells);
-            //wait until it's day:
-            while (!getGameStateModel().getDayClone()) {
-              Thread.sleep(100);
-            }
-            Thread.sleep(500);
-            //just so the alarm isn't rung exactly when the day starts, add random delay
-            Random random = new Random();
-            Thread.sleep(random.nextInt(1000));
-            bell.play();
-            ringBellSound();
+            waitForDayThenRingBell(bell);
           }
         } catch (Exception e) {
           e.printStackTrace();
@@ -732,6 +629,34 @@ public class GameController implements Initializable {
   public void initialize(URL location, ResourceBundle resources) {
     noiseButton.toFront();
     ChatApp.setGameController(this);
+  }
+
+  public static void waitForDayThenRingBell(Animation bell) {
+    new Thread(new Runnable() {
+      @Override
+      public void run() {
+        try {
+          //wait until it's day:
+          int timeoutCounter = 0;     //otherwise this thread can get stuck in a loop if player leaves server
+          if (!getGameStateModel().getDayClone()) { //used to ring bell immediately if it's already day
+            while (!getGameStateModel().getDayClone()
+                && timeoutCounter < Timer.ghostAfterVoteTime * 15) {
+              Thread.sleep(100);
+              timeoutCounter++;
+            }
+            //just so the alarm isn't rung exactly when the day starts, also add random delay
+            Thread.sleep(1000);
+            Random random = new Random();
+            Thread.sleep(random.nextInt(1000));
+          }
+
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+        bell.play();
+        ringBellSound();
+      }
+    }).start();
   }
 
   /**

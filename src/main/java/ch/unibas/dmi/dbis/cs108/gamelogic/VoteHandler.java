@@ -4,6 +4,7 @@ import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
 import ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur.Passenger;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.GuiParameters;
 import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
+import ch.unibas.dmi.dbis.cs108.multiplayer.server.ClientHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -88,7 +89,7 @@ public class VoteHandler {
     ghostification. */
     int[] noiseAmount = new int[6];
     for (int i = 0; i < passengers.length; i++) {
-      if (passengers[i].getIsGhost() && i != newGhostPosition) {
+      if (passengers[i].getIsGhost() && !passengers[i].getKickedOff() && i != newGhostPosition) {
         NoiseHandler n = new NoiseHandler();
         noiseAmount = n.noiseNotifier(passengers[i], g, noiseAmount);
       }
@@ -169,12 +170,24 @@ public class VoteHandler {
         .getIsGhost()) { // if player with most votes is human, notify everyone about it
       for (Passenger passenger : passengers) {
         passenger.send(
-            ClientGameInfoHandler.humansVotedFor + voteIndex + ClientGameInfoHandler.isAHuman, game);
+            ClientGameInfoHandler.humansVotedFor + passengers[voteIndex].getName() + ClientGameInfoHandler.isAHuman, game);
+      }
+
+      for (ClientHandler c: game.getLobby().getLobbyClients()) {    //send human vote sound to clients
+        c.sendMsgToClient(Protocol.playSound + "$" + "HV");
+      }
+    } else if (!passengers[voteIndex].getIsOG()) {
+      for (ClientHandler c: game.getLobby().getLobbyClients()) {    //send ghost vote sound to clients
+        c.sendMsgToClient(Protocol.playSound + "$" + "GV");
       }
     }
-    Timer.humanAfterVoteTimer();
+
     if (passengers[voteIndex].getIsGhost()) { // if player is a ghost
       if (passengers[voteIndex].getIsOG()) { // if ghost is OG --> end game, humans win
+        for (Passenger passenger : passengers) {
+          passenger.send(
+                  ClientGameInfoHandler.humansVotedFor + passengers[voteIndex].getName() + ", the Original Ghost!", game);
+        }
         System.out.println(ClientGameInfoHandler.gameOverHumansWin);
         return ClientGameInfoHandler.gameOverHumansWin;
       } else {
@@ -200,6 +213,8 @@ public class VoteHandler {
         }
       }
     }
+    Timer.humanAfterVoteTimer();
+
     LOGGER.info(game.getGameState().toString());
     // set hasVoted to false for all passengers for future voting
     for (Passenger passenger : passengers) {

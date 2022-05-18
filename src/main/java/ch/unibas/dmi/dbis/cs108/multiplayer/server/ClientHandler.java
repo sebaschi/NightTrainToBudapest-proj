@@ -129,10 +129,7 @@ public class ClientHandler implements Runnable {
     String helper = this.getClientUserName();
     String oldName = getClientUserName();
     this.clientUserName = nameDuplicateChecker.checkName(newName);
-    guiUpdateAll(Protocol.printToGUI + "$" + GuiParameters.nameChanged + "$" + oldName + ":"
-        + getClientUserName());
     sendMsgToClient(Protocol.changedUserName + "$" + newName);
-
     broadcastAnnouncementToAll(helper + " has changed their nickname to " + clientUserName);
     try {
       getLobby().getGame().getGameState().changeUsername(helper, newName);
@@ -250,12 +247,6 @@ public class ClientHandler implements Runnable {
     }
   }
 
-  public static void guiUpdateAll(String msg) {
-    System.out.println(msg);
-    for (ClientHandler client : connectedClients) {
-      client.sendMsgToClient(msg);
-    }
-  }
 
   /**
    * Broadcasts a non-chat Message to all clients in the same lobby. This can be used for server
@@ -415,6 +406,7 @@ public class ClientHandler implements Runnable {
           Thread t = new Thread(game);
           t.start();
           l.addGameToRunningGames(game);
+          sendMsgToClientsInLobby(Protocol.printToGUI + "$" + GuiParameters.viewChangeToGame + "$");
         } else {
           sendAnnouncementToClient("Only the admin can start the game");
         }
@@ -475,9 +467,6 @@ public class ClientHandler implements Runnable {
   public void createNewLobby() {
     if (Lobby.clientIsInLobby(this) == -1) {
       Lobby newGame = new Lobby(this);
-      guiUpdateAll(
-          Protocol.printToGUI + "$" + GuiParameters.newLobbyCreated + "$" + getLobby().getLobbyID()
-              + ":" + getClientUserName());
       LOGGER.debug("Lobby: " + getLobby().getLobbyID() + ". In method createNewLobby()");
     } else {
       sendAnnouncementToClient("You are already in lobby nr. " + Lobby.clientIsInLobby(this));
@@ -495,8 +484,6 @@ public class ClientHandler implements Runnable {
     if (l != null) {
       if (l.getLobbyIsOpen()) {
         l.addPlayer(this);
-        guiUpdateAll(Protocol.printToGUI + "$" + GuiParameters.addNewMemberToLobby + "$" + i + ":"
-            + getClientUserName());
       } else {
         sendAnnouncementToClient("The game in Lobby " + l.getLobbyID()
             + " has already started, or the lobby is already full.");
@@ -517,8 +504,6 @@ public class ClientHandler implements Runnable {
       l.removePlayer(this);
       Game game = l.getGame();
       if(l.getAdmin().equals(getClientUserName())){
-        //Lobby closed because admin left. Lobby must be removed from gui view
-        guiUpdateAll(Protocol.printToGUI+"$"+GuiParameters.removeLobby+"$"+l.getLobbyID());
       }else{
         //client just leaves lobby
       }

@@ -65,8 +65,6 @@ public class JServerProtocolParser {
         } catch (Exception e) {
           h.setUsernameOnLogin("U.N. Owen");
         }
-        h.guiUpdateAll(Protocol.printToGUI + "$" + GuiParameters.newPlayerOnServer + "$"
-            + h.getClientUserName());
         break;
       case Protocol.nameChange:
         h.changeUsername(msg.substring(6));
@@ -92,9 +90,6 @@ public class JServerProtocolParser {
         break;
       case Protocol.createNewLobby:
         h.createNewLobby();
-        h.guiUpdateAll(
-            Protocol.printToGUI + "$" + GuiParameters.newLobbyCreated + "$" + h.getLobby()
-                .getLobbyID() + ":" + h.getClientUserName());
         LOGGER.info("Here");
         break;
       case Protocol.listLobbies:
@@ -115,7 +110,6 @@ public class JServerProtocolParser {
         break;
       case Protocol.startANewGame:
         h.startNewGame();
-        h.sendMsgToClientsInLobby(Protocol.printToGUI + "$" + GuiParameters.viewChangeToGame + "$");
         break;
       case Protocol.listGames:
         h.listGames();

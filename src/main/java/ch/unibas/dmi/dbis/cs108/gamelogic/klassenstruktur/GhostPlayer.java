@@ -1,6 +1,7 @@
 package ch.unibas.dmi.dbis.cs108.gamelogic.klassenstruktur;
 
 import ch.unibas.dmi.dbis.cs108.BudaLogConfig;
+import ch.unibas.dmi.dbis.cs108.gamelogic.ClientGameInfoHandler;
 import ch.unibas.dmi.dbis.cs108.gamelogic.ClientVoteData;
 import ch.unibas.dmi.dbis.cs108.gamelogic.Game;
 import ch.unibas.dmi.dbis.cs108.gamelogic.ServerGameInfoHandler;
@@ -13,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 public class GhostPlayer extends Ghost {
   public static final Logger LOGGER = LogManager.getLogger(GhostPlayer.class);
   public static final BudaLogConfig l = new BudaLogConfig(LOGGER);
+
 
   /**
    * Creates a new GhostPlayer. Should be used at game start or if a HumanPlayer is turned into a
@@ -48,6 +50,8 @@ public class GhostPlayer extends Ghost {
     String formattedMsg;
     if (msg.equals(GuiParameters.updateGameState)) {
       formattedMsg = Protocol.printToGUI + "$" + GuiParameters.updateGameState + game.getGameState().toGhostString();
+    } else if (msg.equals(ClientGameInfoHandler.noiseNotification)) {
+      formattedMsg = Protocol.noiseNotificationProtocol;
     } else {
       formattedMsg = ServerGameInfoHandler.format(msg, this, game);
     }

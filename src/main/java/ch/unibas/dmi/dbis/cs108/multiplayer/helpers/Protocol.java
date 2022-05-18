@@ -213,6 +213,13 @@ public class Protocol {
   public static final String noiseNotificationProtocol = "NOISE";
 
   /**
+   * Used to tell the client to play a sound, namely the sounds for when humans have voted for a human (PLSND$HV),
+   * when humans have voted for a ghost (PLSND$GV), when humans have won (i.e. have voted for the OG - PLSND$HW)
+   * or when ghosts have won (PLSND$GW), or the train horn at the start of the game (PLSND$TH). Not used for ghost sounds.
+   */
+  public static final String playSound = "PLSND";
+
+  /**
    * Sends an information to client at which position in the train from the game (0 to 5) they sit, as soon as the game starts
    * {@code POSOF$position}
    */

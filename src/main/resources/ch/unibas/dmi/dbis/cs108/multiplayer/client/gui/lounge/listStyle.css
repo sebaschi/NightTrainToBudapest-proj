@@ -1,16 +1,5 @@
 *{
-  -fx-background-color: midnightblue;
-}
-
-.button{
-  -fx-text-fill: black;
-  -fx-background-color: lightGrey;
-}
-.button:hover{
-  -fx-effect: innershadow(gaussian, grey, 10, 0.2 , 2, 2);
-}
-.button:pressed{
-  -fx-background-color: grey;
+  -fx-background-color: transparent;
 }
 
 .tree-cell .tree-disclosure-node .arrow {

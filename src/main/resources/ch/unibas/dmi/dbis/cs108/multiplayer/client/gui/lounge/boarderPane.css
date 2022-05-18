@@ -4,22 +4,22 @@
 }
 
 #NTtBToolBar{
-  -fx-border-color: grey;
-  -fx-background-color: rgba(255,255,255,0.5);
+  -fx-background-color: rgb(15,26,59,0.8);
 }
 
 .button{
-  -fx-background-color: midnightblue;
-  -fx-text-fill: lightsteelblue;
+  -fx-background-color: rgb(204,186,138);
+  -fx-effect: innershadow(gaussian, rgb(142,121,89), 10, 0.5 , 2, 2);
+  -fx-text-fill: black;
 }
 
 .button:pressed{
-  -fx-background-color: lightsteelblue;
-  -fx-text-fill: midnightblue;
+  -fx-background-color: rgb(90,69,51);
+  -fx-text-fill: rgb(197,177,131);
 }
 
 .button:hover{
-  -fx-effect: innershadow(gaussian, lightsteelblue, 10, 0.5 , 2, 2);
+  -fx-effect: innershadow(gaussian, rgb(90,69,51), 10, 0.5 , 2, 2);
 }
 
 *{

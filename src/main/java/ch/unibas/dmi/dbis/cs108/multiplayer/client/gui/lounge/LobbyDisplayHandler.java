@@ -11,9 +11,18 @@ public class LobbyDisplayHandler {
 
 
   private static HashSet<LobbyModel> lobbies = new HashSet<>();
+  private static boolean threadRunning = false;
 
   public static HashSet<LobbyModel> getLobbies() {
     return lobbies;
+  }
+
+  public static void setThreadRunning(boolean threadRunning) {
+    LobbyDisplayHandler.threadRunning = threadRunning;
+  }
+
+  public static boolean isThreadRunning() {
+    return threadRunning;
   }
 
   /**
@@ -31,6 +40,17 @@ public class LobbyDisplayHandler {
   }
 
   public void updateLobbies(String data) {
+    new Thread(new Runnable() {
+      @Override
+      public void run() {
+        while(isThreadRunning()) {
+          try {
+            Thread.sleep(20);
+          } catch (InterruptedException e) {
+            e.printStackTrace();
+          }
+        }
+        setThreadRunning(true);
         try {
           for (LobbyModel model : lobbies) {
             model.setHasBeenVisited(false);
@@ -46,7 +66,7 @@ public class LobbyDisplayHandler {
             if (searchForLobbyId(id) == null) { //the lobby is new and has not been saved yet
               addLobbyFromString(id, admin, isOpen, oneLobby);
             } else { // the lobby exists but might need to be updated
-              updateExistingLobby(id, isOpen, oneLobby);
+              updateExistingLobby(id, admin, isOpen, oneLobby);
             }
           }
           //System.out.println("lobby size before removal: " + lobbies.size());
@@ -55,7 +75,12 @@ public class LobbyDisplayHandler {
         } catch (Exception e) {
           e.printStackTrace();
           LOGGER.info("empty list");
+        } finally {
+          setThreadRunning(false);
         }
+      }
+
+    }).start();
   }
 
   private void addLobbyFromString(int id, String admin, boolean isOpen, String[] oneLobby) {
@@ -72,9 +97,12 @@ public class LobbyDisplayHandler {
     //System.out.println("lobby size: " + lobbies.size());
   }
 
-  private void updateExistingLobby(int id, boolean isOpen, String[] oneLobby) {
+  private void updateExistingLobby(int id, String admin,boolean isOpen, String[] oneLobby) {
     //System.out.println("update");
     LobbyModel oldLobby = searchForLobbyId(id);
+    if (!oldLobby.getAdmin().equals(admin)) {
+      oldLobby.setAdmin(admin);
+    }
     oldLobby.setHasBeenVisited(true);
     oldLobby.setLobbyIsOpen(isOpen);
     oldLobby.removeAllMembers();
@@ -87,7 +115,7 @@ public class LobbyDisplayHandler {
     LobbyDisplayHandler handler = new LobbyDisplayHandler();
     String lobby = "1:Seraina:true:Alex:Jonas$2:Sebi:false:Maria:Claudia:Hansli$3:Vanessa:true:Lara:Flu";
     handler.updateLobbies(lobby);
-    System.out.println("lobby size in main:" + lobbies.size());
+    //System.out.println("lobby size in main:" + lobbies.size());
     for (LobbyModel model : lobbies) {
       //System.out.println(model);
       System.out.println("Lobby " + model.getId() + " " + model.isLobbyIsOpen() + " (" + model.getAdmin() + "):");
