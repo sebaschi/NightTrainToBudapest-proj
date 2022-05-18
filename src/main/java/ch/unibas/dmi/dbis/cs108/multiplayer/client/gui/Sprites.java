@@ -76,6 +76,8 @@ public class Sprites {
 
   /**
    * Sets all Images of this class to the Day Version
+   * @param roles a String containing s/h/g
+   * @param kickedOff a boolean containing true for every kicked off passenger
    */
   public static void setDaySprites(String[] roles, boolean[] kickedOff) {
     try {
@@ -106,7 +108,8 @@ public class Sprites {
    * Sets all Images of this class to the Night version, takes into account which room is a ghost
    * Room and which isn't
    *
-   * @param roles a String containing the roles of the Passengers (g/h/s) from left to
+   * @param roles a String array containing the roles of the Passengers (g/h/s) from left to right
+   * @param kickedOff a boolean  array containing the kickedOff value for each passenger
    */
   public static void setNightSprites(String[] roles, boolean[] kickedOff) {
     bg = SpritesNight.bg;
@@ -133,6 +136,7 @@ public class Sprites {
    * Returns a room Image from SpritesDay, corresponding to the position and the role of the passenger in that room
    * @param position the position of the room integer 0-5
    * @param suffix the role of the passenger eiter (h/s)
+   * @param kickedOff a boolean  array containing the kickedOff value for each passenger
    * @return the Image if parameters are passable otherwise null (ie position = 6)
    */
   public static Image getRoomDay(int position, String suffix, boolean[] kickedOff) {
@@ -176,6 +180,7 @@ public class Sprites {
    * Returns a room Image from SpritesNight, corresponding to the position and the role of the passenger in that room
    * @param position the position of the room integer 0-5
    * @param suffix the role of the passenger eiter (h/s/g)
+   * @param kickedOff a boolean array containing if passenger at position index is kicked off
    * @return the Image if parameters are passable otherwise null (ie position = 6)
    */
   public static Image getRoomNight(int position, String suffix, boolean[] kickedOff) {

@@ -76,6 +76,7 @@ public class ListOfLobbiesController implements Initializable {
    * @param admin the admin of the lobby
    * @param userName the username of the client
    * @param isOpen the status if lobby is open or closed
+   * @param members A hashset containing all non admin member of this lobby
    */
   public void newTreeView(int lobbyId, String admin, boolean isOpen, String userName, HashSet<String> members) {
     try {
