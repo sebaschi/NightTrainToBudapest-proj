@@ -115,7 +115,7 @@ public class LobbyDisplayHandler {
     LobbyDisplayHandler handler = new LobbyDisplayHandler();
     String lobby = "1:Seraina:true:Alex:Jonas$2:Sebi:false:Maria:Claudia:Hansli$3:Vanessa:true:Lara:Flu";
     handler.updateLobbies(lobby);
-    System.out.println("lobby size in main:" + lobbies.size());
+    //System.out.println("lobby size in main:" + lobbies.size());
     for (LobbyModel model : lobbies) {
       //System.out.println(model);
       System.out.println("Lobby " + model.getId() + " " + model.isLobbyIsOpen() + " (" + model.getAdmin() + "):");

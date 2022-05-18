@@ -168,6 +168,8 @@ public class LoungeSceneViewController implements Initializable {
           LOGGER.debug(" in GameView()" + chatApp);
           allLobbyElementsBorderPane.setVisible(false);
           gameDisplayAnchorPane.getChildren().add(chatApp.game);
+          chatApp.getGameController().clearAllNoiseDisplay();
+          chatApp.getGameController().clearNotificationText();
         } catch (Exception e) {
           LOGGER.debug("Not yet initialized");
         }
@@ -185,6 +187,8 @@ public class LoungeSceneViewController implements Initializable {
         try {
           trainAnimationDayController.showFullWagon();
           allLobbyElementsBorderPane.setVisible(true);
+          chatApp.getGameController().clearAllNoiseDisplay();
+          chatApp.getGameController().clearNotificationText();
           gameDisplayAnchorPane.getChildren().clear();
         } catch (Exception e) {
           LOGGER.debug("Not yet initialized");

@@ -91,7 +91,7 @@ public class ListOfLobbiesController implements Initializable {
       }
       HBox rootHBox = new HBox();
       rootHBox.setPrefWidth(300);
-      rootHBox.setMaxHeight(37);
+      rootHBox.setMaxHeight(45);
       String statusLobby;
       if (isOpen) {
         statusLobby = " (open)";
@@ -112,7 +112,7 @@ public class ListOfLobbiesController implements Initializable {
       for (String member : members) {
         HBox memberBox = new HBox();
         memberBox.setPrefWidth(300);
-        memberBox.setMaxHeight(37);
+        memberBox.setMaxHeight(45);
         memberBox.setPrefHeight(USE_COMPUTED_SIZE);
         Label memberLabel = new Label("- " + member);
         memberLabel.setTextFill(Color.WHITE);
@@ -123,8 +123,9 @@ public class ListOfLobbiesController implements Initializable {
       TreeView<HBox> treeView = new TreeView<>(root);
       treeView.setVisible(true);
       treeView.setPrefWidth(300);
-      treeView.setPrefHeight(i*37 + 10);
-      treeView.setMaxHeight(i*37 + 10);
+      treeView.setMinHeight(i*45 + 10);
+      treeView.setPrefHeight(i*45 + 10);
+      treeView.setMaxHeight(i*45 + 10);
       Platform.runLater(new Runnable() {
         @Override
         public void run() {

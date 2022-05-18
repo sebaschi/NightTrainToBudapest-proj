@@ -3,6 +3,12 @@
   -fx-font-size: 15;
 }
 
+#backGroundAnchorPane{
+  -fx-background-image: url(logo.jpg);
+  -fx-background-size: 100%;
+  -fx-background-position: center;
+  -fx-background-repeat: no-repeat;
+}
 
 .anchorPane{
   -fx-alignment: center;
