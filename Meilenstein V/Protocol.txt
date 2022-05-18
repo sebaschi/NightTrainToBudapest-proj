@@ -160,15 +160,17 @@ serverConfirmQuit = "QUITC"
 
 
 serverRequestsGhostVote = "GVOTR"
-GVOTR$passenger position (int)$train information
-    The server requests the client (who should be a ghost) to vote on the victim.
+GVOTR$passenger position (int)$
+    The server requests the client (who should be a ghost) to vote on the victim, it delivers the position of the passenger
+    representing the client in the game with it so the client knows its own position. The position can be 0-5
 
 
 
 serverRequestsHumanVote = "HVOTR"
-HVOTR$passenger position (int)$train information
+HVOTR$passenger position (int)$
     The server requests the client (who should be a human) to vote on who is a ghost / who should be kicked
-    off the train.
+    off the train, it delivers the position of the passenger
+    representing the client in the game with it so the client knows its own position. The position can be 0-5
 
 
 changedUserName = "CHNAM"

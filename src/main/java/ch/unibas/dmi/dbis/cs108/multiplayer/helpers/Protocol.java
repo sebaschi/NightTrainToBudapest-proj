@@ -187,15 +187,19 @@ public class Protocol {
   public static final String serverConfirmQuit = "QUITC";
 
   /**
-   * The server requests the client (who should be a ghost) to vote on the victim. in the format
-   * {@code GVOTR$passenger position (int)$train information}
-   * the current train will be shown as a string to the client
+   * The server requests the client (who should be a ghost) to vote on the victim in the format
+   * {@code GVOTR$passenger position (int)}
+   * It delivers the position of the passenger
+   * representing the client in the game with it so the client knows its own position. The position can be 0-5the current train will be shown as a string to the client
    */
   public static final String serverRequestsGhostVote = "GVOTR";
 
   /**
    * The server requests the client (who should be a human) to vote on who is a ghost /
    * who should be kicked off the train.
+   * {@code HVOTR$passenger position (int)}
+   * it delivers the position of the passenger
+   * representing the client in the game with it so the client knows its own position. The position can be 0-5
    */
   public static final String serverRequestsHumanVote = "HVOTR";
 
