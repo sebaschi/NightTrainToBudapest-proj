@@ -89,7 +89,7 @@ public class VoteHandler {
     ghostification. */
     int[] noiseAmount = new int[6];
     for (int i = 0; i < passengers.length; i++) {
-      if (passengers[i].getIsGhost() && i != newGhostPosition) {
+      if (passengers[i].getIsGhost() && !passengers[i].getKickedOff() && i != newGhostPosition) {
         NoiseHandler n = new NoiseHandler();
         noiseAmount = n.noiseNotifier(passengers[i], g, noiseAmount);
       }
@@ -170,7 +170,7 @@ public class VoteHandler {
         .getIsGhost()) { // if player with most votes is human, notify everyone about it
       for (Passenger passenger : passengers) {
         passenger.send(
-            ClientGameInfoHandler.humansVotedFor + voteIndex + ClientGameInfoHandler.isAHuman, game);
+            ClientGameInfoHandler.humansVotedFor + passengers[voteIndex].getName() + ClientGameInfoHandler.isAHuman, game);
       }
 
       for (ClientHandler c: game.getLobby().getLobbyClients()) {    //send human vote sound to clients
@@ -184,6 +184,10 @@ public class VoteHandler {
 
     if (passengers[voteIndex].getIsGhost()) { // if player is a ghost
       if (passengers[voteIndex].getIsOG()) { // if ghost is OG --> end game, humans win
+        for (Passenger passenger : passengers) {
+          passenger.send(
+                  ClientGameInfoHandler.humansVotedFor + passengers[voteIndex].getName() + ", the Original Ghost!", game);
+        }
         System.out.println(ClientGameInfoHandler.gameOverHumansWin);
         return ClientGameInfoHandler.gameOverHumansWin;
       } else {
