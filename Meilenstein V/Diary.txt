@@ -377,3 +377,6 @@ Ausbessern kleiner bugs der GUI und Erstellung des QA-Reports
 
 17. & 18.5.2022 - Jonas
 Working on outreach stuff and presentation.
+
+18.05.22 - Sebastian
+Wrote the Software Architecture outline document and added it to the Meilenstein V folder.
