@@ -205,7 +205,7 @@ public class Sound {
         ghost = ghost01;
         break;
     }
-    ghost.play(0.08, 0.0, playbackspeed, 0.0, 5);
+    ghost.play(0.1, 0.0, playbackspeed, 0.0, 5);
   }
 
   /**
