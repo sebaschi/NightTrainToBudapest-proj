@@ -6,14 +6,17 @@ import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.chat.ChatController;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.game.GameController;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge.ListOfLobbiesController;
 import ch.unibas.dmi.dbis.cs108.multiplayer.client.gui.lounge.LoungeSceneViewController;
+import ch.unibas.dmi.dbis.cs108.multiplayer.helpers.Protocol;
 import java.net.URL;
 import java.util.Objects;
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -208,6 +211,9 @@ public class ChatApp extends Application {
       Scene scene = new Scene(lounge);
       scene.setRoot(lounge);
       primaryStage.setScene(scene);
+      scene.getWindow().setOnCloseRequest((WindowEvent we) -> {
+        clientModel.getClient().sendMsgToServer(Protocol.clientQuitRequest);
+      });
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -217,7 +223,11 @@ public class ChatApp extends Application {
     primaryStage.setResizable(true);
     primaryStage.setMaximized(true);
     primaryStage.show();
-      }
+  }
+
+
+
+
 
   public static void main(String[] args) {
     launch(args);
