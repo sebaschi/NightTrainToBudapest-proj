@@ -29,10 +29,10 @@ public class ClientGameInfoHandler {
   //just messages
 
   public static final String youGotGhostyfied = "You are now a ghost!";
-  public static final String youGotKickedOff = "Bye bye - you've been kicked off";
-  public static final String humansVotedFor = "Humans voted for: ";
-  public static final String isAHuman = " but they're a human!";
-  public static final String gotKickedOff = " is a Ghost and got kicked off";
+  public static final String youGotKickedOff = "Bye bye - you've been kicked off.";
+  public static final String humansVotedFor = "Humans voted for ";
+  public static final String isAHuman = ", but they're a human!";
+  public static final String gotKickedOff = " is a Ghost and got kicked off.";
   public static final String gotGhostyfied = " is now also a ghost!";
 
 
