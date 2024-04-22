@@ -1,3 +1,6 @@
+This repo is a public _copy_ of the original project, which was hosted on a non-public university server.
+It's "raison d'être" is for me to be able to showcase my previous work.
+
 # Night Train to Budapest
 
 ## Overview
